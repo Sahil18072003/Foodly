@@ -36,3 +36,184 @@
     transform: rotate(360deg);
   }
 } */
+
+@import url('https://fonts.googleapis.com/css2?family=Istok+Web&family=K2D:wght@400&family=Kanit:wght@200&family=Rubik:wght@500&display=swap" rel="stylesheet');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  /* font-family: "Mona Sans"; */
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+@font-face {
+  font-family: "Mona Sans";
+  src: url("Mona-Sans.woff2") format("woff2 supports variations"),
+    url("Mona-Sans.woff2") format("woff2-variations");
+  font-weight: 800;
+  font-stretch: 75% 125%;
+}
+
+:root {
+  /* <------- Font-Size -------> */
+
+  --heading-text-size: 2.5rem;
+  --subHeading-text-size: 2rem;
+  --normal-content-text-size: 1rem;
+
+  /* <------- Font-family -------> */
+
+  /* --heading-text-family: "Rubik", sans-serif; */
+
+  --heading-text-family: "Mona Sans";
+  --subHeading-text-family: "K2D", sans-serif;
+  --normal-text-family: "Istok Web";
+  --content-text-family: "Kanit", sans-serif;
+
+  /* <------- Font-Color -------> */
+
+  --normal-black-text: black;
+  --dark-brown-text: #5e2b00;
+  --dark-yellow-text: #ff8d00;
+  --medium-yellow-text: #fea435;
+  --light-yellow-text: #ffb458;
+
+  /* <------- Bg  Color-------> */
+
+  --light-backGround-yellow: #fea638;
+}
+
+/* <---- Class For color ----> */
+.color-black {
+  color: var(--normal-black-text) !important;
+}
+
+.color-yellow {
+  color: var(--dark-yellow-text) !important;
+}
+
+.color-brown {
+  color: var(--dark-brown-text) !important;
+}
+
+/* <---- Class For font size ----> */
+
+.font-size-1rem {
+  font-size: var(--normal-content-text-size) !important;
+}
+
+/* <---- Class For font weight ----> */
+
+.font-weight-normal {
+  font-weight: normal !important;
+}
+
+.font-weight-600 {
+  font-weight: 600 !important;
+}
+
+/* <---- center element using flex ----> */
+
+.center-child-element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* <---- Same Background for Page (Paws image) ----> */
+body {
+  /* background: url("../src/assets/Landing-Page-Img/Landing-Page.png"),
+    188.153% 100% no-repeat; */
+  background-color: rgb(255 255 255 / 94%);
+  background-blend-mode: lighten;
+}
+
+/* white card for all pages  */
+.mycard {
+  border-radius: 25px;
+  background: #fff;
+  box-shadow: 0px 4px 42px 0px rgba(0, 0, 0, 0.25);
+  width: 80%;
+  height: auto;
+  padding: 3rem;
+  margin: 1rem auto 3rem auto !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media screen and (max-width: 550px) {
+  .mycard {
+    padding: 1rem;
+  }
+}
+
+/* If you wanna use only color and shadow properties  */
+.white-shadow-div {
+  border-radius: 25px;
+  background: #fff;
+  box-shadow: 0px 4px 42px 0px rgba(0, 0, 0, 0.25);
+}
+
+/* <------- CSS for override default Bootstrap style -----------> */
+
+.form-control:focus,
+.form-check-input:checked,
+.form-check-input:focus {
+  box-shadow: none;
+  border-color: #ced4da;
+}
+
+.navbar-nav .dropdown-menu {
+  position: absolute !important;
+}
+
+/* <------- CSS for input forms -----------> */
+
+.default-input-container {
+  display: flex;
+  /* align-items: baseline; */
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.full-flex {
+  flex: 1 1 0;
+}
+
+.half-flex {
+  flex: 0.5 1 0;
+}
+
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: none;
+  scrollbar-color: #fea435 #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #fea435;
+  border-radius: 10px;
+  border: 0px none #ffffff;
+}

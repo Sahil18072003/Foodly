@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -12,7 +11,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="shadow-md w-full  top-0 left-0 z-50 sticky">
+    <div className="shadow-md w-full top-0 left-0 z-50 sticky">
       <div className="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
         <div
           className="font-bold text-2xl cursor-pointer flex items-center font-[Poppins] 

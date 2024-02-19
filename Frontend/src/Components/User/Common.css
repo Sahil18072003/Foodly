@@ -1,0 +1,464 @@
+* {
+    padding: 0;
+    margin: 0;
+    color: black;
+}
+
+.label-text {
+    font-size: 1.1rem;
+    color: black;
+    /* font-weight: 700; */
+    position: relative;
+    top: 0.75rem;
+    left: 2%;
+    margin: 0 0 0 7px;
+    padding: 0.3px 5px;
+    background-color: white;
+    width: fit-content;
+}
+
+.login-page {
+    /* background: url("../../assets/Create-Signin/signin_bg.png"); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: fuchsia;
+}
+
+.forgot-page {
+    /* background: url("../../assets/Create-Signin/signin_bg.png"); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 90vh;
+    background-color: fuchsia;
+}
+
+.login-card {
+    background-color: white;
+    width: 80%;
+    height: 85%;
+    border-radius: 1.3rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    box-shadow: 7px 9px 18px 0px rgba(0, 0, 0, 0.25);
+}
+
+.forgot-card {
+    background-color: white;
+    width: 64%;
+    height: 80%;
+    border-radius: 1.3rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    box-shadow: 7px 9px 18px 0px rgba(0, 0, 0, 0.25);
+}
+
+.login-content,
+.login-img-left,
+.login-img {
+    width: 50%;
+    height: 100%;
+}
+
+.forgot-img,
+.forgot-img-right {
+    width: 50%;
+    height: 100%;
+}
+
+.login-content {
+    border-radius: 1.3rem 0 0 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.forgot-content {
+    border-radius: 1.3rem 0 0 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-img,
+.forgot-img {
+    border-radius: 0 1.3rem 1.3rem 0;
+    background-color: rgb(75, 218, 218);
+}
+
+.login-img-left,
+.forgot-img-right {
+    border-radius: 1.3rem 0 0 1.3rem;
+    background-color: rgb(75, 218, 218);
+}
+
+.input-field {
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    outline: none;
+    color: #777;
+    padding: 8px 12px;
+    line-height: 1.4;
+    transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.input-field:focus {
+    border-color: #4c51bf;
+    box-shadow: 0 0 0 2px rgba(76, 81, 191, 0.25);
+}
+
+.google-auth {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+    width: 100%;
+    padding: 0.3rem;
+    background: transparent;
+    border: 0.5px solid grey;
+    border-radius: 8px;
+    font-family: var(--subHeading-text-family);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.google-auth:hover {
+    border: 0.5px solid black;
+}
+
+.google-auth svg {
+    width: 1.5rem;
+    height: auto;
+}
+
+.btn-txt,
+#title {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#title {
+    font-size: 2rem;
+    text-align: center;
+    color: #ff7700;
+    font-weight: 800;
+}
+
+.option-stmt {
+    font-family: var(--normal-text-family);
+    font-size: 1rem;
+    color: grey;
+}
+
+.creds {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.forget-pass,
+.create-acc {
+    font-family: var(--subHeading-text-family);
+    font-size: 0.8rem;
+}
+
+.side-img-right {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 0 1.3rem 1.3rem 0;
+}
+
+.side-img-left {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 1.3rem 0 0 1.3rem;
+}
+
+/* slide life animation  */
+.slide-left {
+    -webkit-animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes slide-left {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    100% {
+        -webkit-transform: translateX(-100px);
+        transform: translateX(-100px);
+    }
+}
+
+@keyframes slide-left {
+    0% {
+        -webkit-transform: translateX(100px);
+        transform: translateX(100px);
+    }
+
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+/* slide right animation  */
+.slide-right {
+    -webkit-animation: slide-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation: slide-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes slide-right {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    100% {
+        -webkit-transform: translateX(100px);
+        transform: translateX(100px);
+    }
+}
+
+@keyframes slide-right {
+    0% {
+        -webkit-transform: translateX(-100px);
+        transform: translateX(-100px);
+    }
+
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .login-card {
+        flex-direction: row;
+        margin: 2rem;
+        gap: 1rem;
+    }
+
+    .forgot-card {
+        flex-direction: row;
+        margin: 2rem;
+        gap: 1rem;
+    }
+
+    .login-fields {
+        width: 80%;
+    }
+
+    .google-auth {
+        font-size: 0.9rem;
+    }
+
+    .google-auth svg {
+        width: 1rem;
+    }
+
+    #title {
+        font-size: 1.3rem;
+    }
+
+    .option-stmt {
+        font-size: 0.8rem;
+    }
+
+    .input-group label {
+        font-size: 0.9rem;
+    }
+
+    .input-group .ip-field {
+        font-size: 0.9rem;
+    }
+
+    .input-group #eye-pass {
+        position: absolute;
+        transform: translateX(-50%);
+        width: 1rem;
+        cursor: pointer;
+    }
+
+    #eye-pass {
+        display: none;
+    }
+
+    .input-group .ip-field:focus~label,
+    .input-group .ip-field:valid~label {
+        font-size: 0.7rem;
+    }
+
+    .input-group .ip-field:focus~#eye-pass,
+    .input-group .ip-field:valid~#eye-pass {
+        display: inline;
+    }
+
+    .input-group .ip-field:focus~label svg,
+    .input-group .ip-field:valid~label svg {
+        width: 0.7rem;
+    }
+
+    .input-group label svg {
+        width: 0.9em;
+    }
+
+    .forget-pass,
+    .create-acc {
+        font-size: 0.8rem;
+    }
+
+    .login-btn {
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .login-page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .forgot-page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .login-card {
+        flex-direction: column;
+        height: fit-content;
+        margin: 2rem;
+        gap: 1rem;
+    }
+
+    .forgot-card {
+        flex-direction: column;
+        height: fit-content;
+        margin: 2rem;
+        gap: 1rem;
+    }
+
+    .login-content,
+    .login-img-left,
+    .login-img {
+        width: 100%;
+        height: 50%;
+    }
+
+    .forgot-img,
+    .forgot-img-right {
+        width: 100%;
+        height: 50%;
+    }
+
+    .login-content {
+        border-radius: 1.3rem 1.3rem 0 0;
+        padding: 1rem;
+    }
+
+    .forgot-content {
+        border-radius: 1.3rem 1.3rem 0 0;
+        padding: 1rem;
+    }
+
+    .login-img {
+        border-radius: 0 0 1.3rem 1.3rem;
+    }
+
+    .forgot-img {
+        border-radius: 0 0 1.3rem 1.3rem;
+    }
+
+    .login-img-left {
+        border-radius: 1.3rem 1.3rem 0 0;
+    }
+
+    .forgot-img-right {
+        border-radius: 1.3rem 1.3rem 0 0;
+    }
+
+    .login-fields {
+        width: 80%;
+    }
+
+    .forgot-fields {
+        width: 80%;
+    }
+
+    .google-auth {
+        font-size: 0.9rem;
+    }
+
+    .google-auth svg {
+        width: 1rem;
+    }
+
+    #title {
+        font-size: 1.2rem;
+    }
+
+    .option-stmt {
+        font-size: 0.8rem;
+    }
+
+    .input-group label {
+        font-size: 0.9rem;
+    }
+
+    .input-group .ip-field {
+        font-size: 0.9rem;
+    }
+
+    .input-group .ip-field:focus~label,
+    .input-group .ip-field:valid~label {
+        font-size: 0.7rem;
+    }
+
+    .input-group .ip-field:focus~label svg,
+    .input-group .ip-field:valid~label svg {
+        width: 0.7rem;
+    }
+
+    .input-group label svg {
+        width: 0.9em;
+    }
+
+    .forget-pass,
+    .create-acc {
+        font-size: 0.8rem;
+    }
+
+    .login-btn {
+        font-size: 0.9rem;
+    }
+
+    .forgot-btn {
+        font-size: 0.9rem;
+    }
+
+    .side-img-right {
+        border-radius: 0 0 1.3rem 1.3rem;
+    }
+}

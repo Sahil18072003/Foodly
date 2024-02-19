@@ -71,12 +71,11 @@ const signup = async (req, res) => {
     const secPass = await bcrypt.hash(password, salt);
 
     const userData = await User.create({
-      username: username,
+      // username: username,
       email: email,
       phone: phone,
       password: secPass,
     });
-    console.log(userData);
 
     const data = {
       user: {
@@ -88,19 +87,43 @@ const signup = async (req, res) => {
       expiresIn: "0.5h",
     });
 
+    // Sending the response first
     res.status(200).json({
       msg: userData,
       token: await authToken,
       userId: userData._id.toString(),
     });
+
+    // Now, sending the email
+    var mailOptions = {
+      from: process.env.Email_id,
+      to: email, // Send email to the user's email address
+      subject: "Foodly Account Registered",
+      text: `Thank you for registering with our website.`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        // Handle email sending error
+        res.status(500).send("Internal Server error occured");
+        console.log(error);
+      } else {
+        // Handle email sent successfully
+        res.status(200).json({ msg: "Email Sent Succesfully" });
+        console.log("Email Sent Succesfully");
+      }
+    });
   } catch (error) {
+    // Handle any other errors
     console.log(error);
+    res.status(500).send("Internal Server error occurred");
   }
 };
 
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
     const userExists = await User.findOne({ email });
 
     if (!userExists) {
@@ -119,6 +142,8 @@ const login = async (req, res) => {
       const authToken = jwt.sign(data, process.env.JWT_SECRET_TOKEN, {
         expiresIn: "0.5h",
       });
+
+      console.log(authToken);
 
       res.status(200).json({
         msg: "Login Successfully",
@@ -214,8 +239,8 @@ const forgotPassword = async (req, res) => {
       var mailOptions = {
         from: process.env.Email_id,
         to: userEmail,
-        subject: "Reset Password OTP",
-        text: `One time OTP: ${otp}`,
+        subject: "Reset Password OTP for login into Our Website",
+        text: `Your one time otp is ${otp} valid for 5 minutes`,
       };
 
       transporter.sendMail(mailOptions, (error, info) => {
@@ -225,7 +250,7 @@ const forgotPassword = async (req, res) => {
         } else {
           res
             .status(200)
-            .json({ msg: "Email Sent Succesfully", userid, otp: otp });
+            .json({ msg: "Email Sent Succesfully", email, userid, otp: otp });
           console.log("Email Sent Succesfully");
         }
       });

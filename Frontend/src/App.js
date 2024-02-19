@@ -5,8 +5,8 @@ import { useLocation } from "react-router-dom";
 
 import Home from "./Components/Home/Home";
 import SignUp from "./Components/User/SignUp";
-import Login from "./Components/Login/Login";
-import Navbar from "./Components/Navbar";
+import Login from "./Components/User/Login";
+import Navbar from "./Components/Navbar/Navbar";
 import ForgotPassword from "./Components/User/ForgotPassword";
 import ConfirmOTP from "./Components/User/ConfirmOTP";
 import ChangePassword from "./Components/User/ChangePassword";
@@ -17,8 +17,8 @@ import ChangePassword from "./Components/User/ChangePassword";
 // import UpdateUser from "./Components/UpdateUser";
 // import AdminPage from "./Components/AdminPage";
 // import Premium from "./Components/Premium";
-import ContactUs from "./Components/Contact/ContactUs";
-import AboutUs from "./Components/About/AboutUs";
+import ContactUs from "./Components/ContactUs/ContactUs";
+import AboutUs from "./Components/AboutUs/AboutUs";
 import Footer from "./Components/Footer/Footer";
 
 function ScrollToTop() {
@@ -73,7 +73,27 @@ function App() {
           />
           <Route
             exact
-            path="/getotp/:email"
+            path="/getotp/:Eemail"
+            element={
+              <>
+                <Navbar />
+                <ConfirmOTP />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/getotp/:Eemail"
+            element={
+              <>
+                <Navbar />
+                <ConfirmOTP />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/getotp"
             element={
               <>
                 <Navbar />

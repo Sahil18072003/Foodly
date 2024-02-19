@@ -1,23 +1,17 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
-import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import jwt_decode from "jwt-decode";
+import { useForm } from "react-hook-form";
 import "./Common.css";
 
-function Signup() {
+const Login = () => {
   const host = "http://localhost:5000";
 
-  const [creditial, setCreditial] = useState({
-    // username: "",
-    email: "",
-    phone: "",
-    password: "",
-  });
+  const [creditial, setCreditial] = useState({ email: "", password: "" });
 
   const navigate = useNavigate();
 
@@ -28,22 +22,15 @@ function Signup() {
   } = useForm();
 
   const clickHandler = async (e) => {
-    if (
-      // creditial.username !== "" &&
-      creditial.email !== "" &&
-      creditial.phone !== "" &&
-      creditial.password !== ""
-    ) {
+    if (creditial.email !== "" && creditial.password !== "") {
       // Api call
-      const response = await fetch(`${host}/api/auth/signup`, {
+      const response = await fetch(`${host}/api/auth/login`, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          // username: creditial.username,
           email: creditial.email,
-          phone: creditial.phone,
           password: creditial.password,
         }), // body data type must match "Content-Type" header
       });
@@ -52,7 +39,7 @@ function Signup() {
 
       if (json.token) {
         localStorage.setItem("token", json.token);
-        toast.success("You are successfully signup with your email.", {
+        toast.success("You are successfully login with your email.", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -64,10 +51,10 @@ function Signup() {
           theme: "light",
         });
         setTimeout(() => {
-          navigate("/home");
+          navigate("/");
         }, 4000);
       } else {
-        toast.error("Your email has been already used...", {
+        toast.warning("Attention! Please provide correct information...", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -80,7 +67,7 @@ function Signup() {
         });
       }
     } else {
-      toast.error("Please fill all the required field...", {
+      toast.warning("Please fill all the field...", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -101,19 +88,12 @@ function Signup() {
   return (
     <section className="login-page">
       <div className="login-card">
-        <div className="login-img-left slide-right">
-          <img
-            alt="ecommerce"
-            className="side-img-left"
-            src="../images/AuthImages/Signup.png"
-          />
-        </div>
         <div className="login-content slide-left">
           <div className="py-8 px-16">
-            <div id="title">Create Your Account</div>
+            <div id="title">Login Into Your Account</div>
             <div className="w-full my-4 text-lg flex items-center justify-center">
               <GoogleOAuthProvider clientId="218028871541-fr431cpfp05060mborg1m4209vvttdg6.apps.googleusercontent.com">
-                <div className="text-lg flex justify-center border-none border-0">
+                <div className="w-full border-black-100 mx-auto text-lg flex justify-center">
                   <GoogleLogin
                     onSuccess={async (credentialResponse) => {
                       const decode = jwt_decode(credentialResponse.credential);
@@ -135,7 +115,6 @@ function Signup() {
                         }
                       );
 
-                      // console.log("result :", data);
                       data = await data.json();
                       if (!data) {
                         data = await fetch(
@@ -156,7 +135,6 @@ function Signup() {
                         data = await data.json();
                       }
 
-                      // console.log(data);
                       if (data.token) {
                         localStorage.setItem(
                           "user",
@@ -195,29 +173,9 @@ function Signup() {
             </p>
 
             <form onSubmit={handleSubmit(clickHandler)}>
-              {/* <div className="my-3">
-                <label htmlFor="username" className="label-text">
-                  Username :<span className="text-red-600 text-lg"> *</span>
-                </label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  className="input-field"
-                  value={creditial.username}
-                  {...register("username", {
-                    required: "Username is required",
-                  })}
-                  onChange={onChange}
-                  autoComplete="false"
-                />
-                <p className="text-sm text-red-500 absolute">
-                  {errors.username?.message}
-                </p>
-              </div> */}
-              <div className="mb-3">
+              <div className="my-3">
                 <label htmlFor="email" className="label-text">
-                  Email Address :
+                  Email Address:
                   <span className="text-red-600 text-lg"> *</span>
                 </label>
                 <input
@@ -240,35 +198,7 @@ function Signup() {
                   {errors.email?.message}
                 </p>
               </div>
-              <div className="mb-3">
-                <label htmlFor="phone" className="label-text">
-                  Contact Number :
-                  <span className="text-red-600 text-lg"> *</span>
-                </label>
-                <input
-                  type="phone"
-                  id="phone"
-                  name="phone"
-                  className="input-field"
-                  value={creditial.phone}
-                  {...register("phone", {
-                    required: "Phone number is required",
-                    pattern: {
-                      value: /^[6-9]{1}[0-9]{9}$/,
-                      message: "Phone number is not valid",
-                    },
-                    maxLength: {
-                      value: 10,
-                      message: "Max 10 characters for Phone number",
-                    },
-                  })}
-                  onChange={onChange}
-                  autoComplete="false"
-                />
-                <p className="text-sm text-red-500 absolute">
-                  {errors.phone?.message}
-                </p>
-              </div>
+
               <div className="mb-3">
                 <label htmlFor="password" className="label-text">
                   Password :<span className="text-red-600 text-lg"> *</span>
@@ -287,7 +217,7 @@ function Signup() {
                     },
                     maxLength: {
                       value: 10,
-                      message: "Max 10 characters for Password",
+                      message: "Max 4 characters for Password",
                     },
                   })}
                   onChange={onChange}
@@ -296,17 +226,27 @@ function Signup() {
                   {errors.password?.message}
                 </p>
               </div>
-              <div className="mt-9 flex justify-center drop-shadow-xl">
+
+              <div className="py-4 flex justify-center">
+                <Link to="/forgotpassword">
+                  <p className="text-blue-700 hover:text-blue-800 font-normal cursor-pointer">
+                    Forgot Password ?
+                  </p>
+                </Link>
+              </div>
+
+              <div className="flex justify-center drop-shadow-xl">
                 <button className="w-full text-black font-medium font-[Poppins] bg-orange-400 border-0 py-2 px-6 focus:outline-none hover:bg-orange-500 rounded text-lg">
-                  Sign Up
+                  Login
                 </button>
               </div>
             </form>
 
             <p className="mt-4 items-center flex justify-center">
-              Already register ?{" "}
-              <Link className="text-indigo-500 px-3" to={"/login"}>
-                Login here
+              {" "}
+              Don't have account ?{" "}
+              <Link className="text-indigo-500 px-2" to={"/signup"}>
+                Register here
               </Link>
             </p>
 
@@ -316,6 +256,13 @@ function Signup() {
               </Link>
             </p>
           </div>
+        </div>
+        <div className="login-img slide-right">
+          <img
+            alt="ecommerce"
+            className="side-img-right"
+            src="../images/AuthImages/Login.png"
+          />
         </div>
       </div>
 
@@ -333,6 +280,6 @@ function Signup() {
       />
     </section>
   );
-}
+};
 
-export default Signup;
+export default Login;
