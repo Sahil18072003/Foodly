@@ -1,9 +1,21 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  let [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const handleMouseEnter = () => {
+    setShowDropdown(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowDropdown(false);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -14,10 +26,10 @@ const Navbar = () => {
     <div className="shadow-md w-full top-0 left-0 z-50 sticky">
       <div className="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
         <div
-          className="font-bold text-2xl cursor-pointer flex items-center font-[Poppins] 
+          className="font-bold text-2xl cursor-pointer flex items-center
         text-gray-800"
         >
-          <span className="text-orange-400">FOODLY</span>
+          <span className="text-orange-400 title">FOODLY</span>
         </div>
 
         <div
@@ -32,57 +44,113 @@ const Navbar = () => {
             open ? "top-20 " : "top-[-490px]"
           }`}
         >
-          <li className="md:ml-8 text-xl md:my-0 my-7">
+          <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
             <Link
               to="/home"
-              className={`text-gray-800 hover:text-orange-400 duration-500 `}
+              className={`text-gray-800 hover:text-orange-400 duration-500`}
             >
               Home
             </Link>
           </li>
-          <li className="md:ml-8 text-xl md:my-0 my-7">
+          <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
             <Link
               to="/aboutus"
-              className={`text-gray-800 hover:text-gray-400 duration-500`}
+              className={`text-gray-800 hover:text-orange-400 duration-500`}
             >
               About
             </Link>
           </li>
-          <li className="md:ml-8 text-xl md:my-0 my-7">
+          <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
             <Link
               to="/contactus"
-              className={`text-gray-800 hover:text-gray-400 duration-500`}
+              className={`text-gray-800 hover:text-orange-400 duration-500`}
             >
               Contact
             </Link>
           </li>
 
-          {!localStorage.getItem("token") ? (
-            <form>
-              {/* <li className="md:ml-8 text-xl md:my-0 my-7">
-                <Link
-                  to="/signup"
-                  className={`text-gray-800  hover:text-gray-400 duration-500`}
+          {user ? (
+            <>
+              <span>
+                {" "}
+                {(() => {
+                  if (user === "65d326b322e19d815a45ac3d") {
+                    return (
+                      <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
+                        <Link
+                          className={`text-gray-800 hover:text-orange-400 duration-500`}
+                          to="/adminPage"
+                        >
+                          Admin
+                        </Link>
+                      </li>
+                    );
+                  }
+                })()}
+              </span>
+
+              <div
+                className="dropdown relative ml-8 mr-16 hover:border-blue-500"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                <img
+                  src={require(`../../assets/devlopers/User.png`)}
+                  alt=""
+                  width={44}
+                  height={44}
+                  className="rounded-full"
+                />
+                <div
+                  className="dropdown-menu absolute bg-white rounded-md shadow-md"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
                 >
-                  Signup
-                </Link>
-              </li> */}
-              <li className="md:ml-8 text-xl md:my-0 my-7">
+                  {showDropdown && (
+                    <>
+                      <li className="dropdown-item px-5 py-2 text-xl font-semibold md:my-0">
+                        <Link
+                          className={`text-gray-800 hover:text-orange-400 duration-500`}
+                          onClick={handleLogout}
+                          to="/profile"
+                        >
+                          Profile
+                        </Link>
+                      </li>
+                      <hr />
+                      <li className="dropdown-item px-5 py-2 text-xl font-semibold md:my-0">
+                        <Link
+                          className={`text-gray-800 hover:text-orange-400 duration-500`}
+                          onClick={handleLogout}
+                          to="/login"
+                        >
+                          Logout
+                        </Link>
+                      </li>
+                    </>
+                  )}
+                </div>
+              </div>
+            </>
+          ) : (
+            <span>
+              <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
                 <Link
+                  className={`text-gray-800 hover:text-orange-400 duration-500`}
                   to="/login"
-                  className="text-gray-800 hover:text-gray-400 duration-500"
                 >
-                  <i className="fa-solid fa-user pr-3"></i>login
+                  Login
                 </Link>
               </li>
-            </form>
-          ) : (
-            <button
-              className="text-gray-800 hover:text-gray-400 text-xl pl-5 duration-500"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
+              <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
+                <Link
+                  className={`text-gray-800 hover:text-orange-400 duration-500`}
+                  to="/signup"
+                >
+                  Sign Up
+                </Link>
+              </li>
+            </span>
           )}
         </ul>
       </div>

@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import { useEffect } from "react";
 
 function Home() {
-  return (
-    <div>Home Page</div>
-  )
+  useEffect(() => {
+    document.title = "Home | Foodly";
+  }, []);
+
+  return <div>Home Page</div>;
 }
 
-export default Home
+export default Home;

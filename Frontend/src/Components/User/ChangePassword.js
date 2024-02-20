@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
@@ -15,6 +15,10 @@ function ConfirmPassword() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    document.title = "ChangePassword | Foodly";
+  }, []);
 
   const clickHandler = async (e) => {
     if (creditial.password !== "" && creditial.cpassword !== "") {
@@ -42,7 +46,7 @@ function ConfirmPassword() {
             "Password change successfully. You may proceed for login...",
             {
               position: "top-right",
-              autoClose: 3000,
+              autoClose: 2000,
               hideProgressBar: false,
               closeOnClick: true,
               rtl: false,
@@ -54,11 +58,11 @@ function ConfirmPassword() {
           );
           setTimeout(() => {
             navigate("/login");
-          }, 3000);
+          }, 2000);
         } else {
           toast.error("Oops! Changing password is failed...", {
             position: "top-right",
-            autoClose: 3000,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             rtl: false,
@@ -71,7 +75,7 @@ function ConfirmPassword() {
       } else {
         toast.warning("Attention! Password didn't match...", {
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -84,7 +88,7 @@ function ConfirmPassword() {
     } else {
       toast.error("Error: Password must be filled...", {
         position: "top-right",
-        autoClose: 3000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,
@@ -132,8 +136,7 @@ function ConfirmPassword() {
                     },
                     maxLength: {
                       value: 10,
-                      message:
-                        "Max 10 characters for New password",
+                      message: "Max 10 characters for New password",
                     },
                   })}
                   onChange={onChange}
@@ -158,13 +161,11 @@ function ConfirmPassword() {
                     required: "Confirm Password is required",
                     minLength: {
                       value: 4,
-                      message:
-                        "Min 4 characters for Confirm password",
+                      message: "Min 4 characters for Confirm password",
                     },
                     maxLength: {
                       value: 10,
-                      message:
-                        "Max 10 characters for Confirm password",
+                      message: "Max 10 characters for Confirm password",
                     },
                   })}
                   onChange={onChange}
@@ -186,7 +187,7 @@ function ConfirmPassword() {
       </div>
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

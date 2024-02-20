@@ -21,6 +21,10 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    document.title = "Login | Foodly";
+  }, []);
+
   const clickHandler = async (e) => {
     if (creditial.email !== "" && creditial.password !== "") {
       // Api call
@@ -35,13 +39,16 @@ const Login = () => {
         }), // body data type must match "Content-Type" header
       });
 
-      const json = await response.json(); // parses JSON response into native JavaScript objects
+      // parses JSON response into native JavaScript objects
+      const json = await response.json();
 
       if (json.token) {
         localStorage.setItem("token", json.token);
+        localStorage.setItem("user", JSON.stringify(json.userId));
+
         toast.success("You are successfully login with your email.", {
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -56,7 +63,7 @@ const Login = () => {
       } else {
         toast.warning("Attention! Please provide correct information...", {
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -69,7 +76,7 @@ const Login = () => {
     } else {
       toast.warning("Please fill all the field...", {
         position: "top-right",
-        autoClose: 3000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,
@@ -151,7 +158,7 @@ const Login = () => {
                       console.log("Login Failed");
                       toast.error("Something went wrong...", {
                         position: "top-right",
-                        autoClose: 3000,
+                        autoClose: 2000,
                         hideProgressBar: false,
                         closeOnClick: true,
                         rtl: false,
@@ -187,7 +194,8 @@ const Login = () => {
                   {...register("email", {
                     required: "Email is required",
                     pattern: {
-                      value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                      value:
+                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g,
                       message: "Email is not valid",
                     },
                   })}
@@ -236,7 +244,7 @@ const Login = () => {
               </div>
 
               <div className="flex justify-center drop-shadow-xl">
-                <button className="w-full text-black font-medium font-[Poppins] bg-orange-400 border-0 py-2 px-6 focus:outline-none hover:bg-orange-500 rounded text-lg">
+                <button className="w-full text-black font-medium btn-txt bg-orange-400 border-0 py-2 px-6 focus:outline-none hover:bg-orange-500 rounded text-lg">
                   Login
                 </button>
               </div>
@@ -268,7 +276,7 @@ const Login = () => {
 
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

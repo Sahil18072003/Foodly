@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
@@ -15,6 +15,10 @@ function ForgotPassword() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    document.title = "ForgotPasswrd | Foodly";
+  }, []);
 
   const clickHandler = async (e) => {
     if (creditial.email !== "") {
@@ -36,7 +40,7 @@ function ForgotPassword() {
 
         toast.success("OTP has been sent to your email address.", {
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -51,7 +55,7 @@ function ForgotPassword() {
       } else {
         toast.warning("Attention! Please provide correct email id...", {
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -98,7 +102,7 @@ function ForgotPassword() {
                   {...register("email", {
                     required: "Email is required",
                     pattern: {
-                      value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g,
                       message: "Email is not valid email",
                     },
                   })}
@@ -121,7 +125,7 @@ function ForgotPassword() {
       </div>
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

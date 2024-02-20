@@ -10,13 +10,13 @@ import Navbar from "./Components/Navbar/Navbar";
 import ForgotPassword from "./Components/User/ForgotPassword";
 import ConfirmOTP from "./Components/User/ConfirmOTP";
 import ChangePassword from "./Components/User/ChangePassword";
+import Profile from "./Components/User/Profile";
+// import UpdateUser from "./Components/UpdateUser";
 // import ChatAdmin from "./Components/ChatAdmin";
 // import AddProperty from "./Components/addProperty";
 // import Explore from "./Components/explore";
-// import Profile from "./Components/profile";
-// import UpdateUser from "./Components/UpdateUser";
-// import AdminPage from "./Components/AdminPage";
 // import Premium from "./Components/Premium";
+import Admin from "./Components/Admin/Admin";
 import ContactUs from "./Components/ContactUs/ContactUs";
 import AboutUs from "./Components/AboutUs/AboutUs";
 import Footer from "./Components/Footer/Footer";
@@ -83,16 +83,6 @@ function App() {
           />
           <Route
             exact
-            path="/getotp/:Eemail"
-            element={
-              <>
-                <Navbar />
-                <ConfirmOTP />
-              </>
-            }
-          />
-          <Route
-            exact
             path="/getotp"
             element={
               <>
@@ -113,11 +103,32 @@ function App() {
           />
           <Route
             exact
+            path="/profile"
+            element={
+              <>
+                <Navbar />
+                <Profile />
+              </>
+            }
+          />
+          <Route
+            exact
             path="/contactus"
             element={
               <>
                 <Navbar />
                 <ContactUs />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/adminPage"
+            element={
+              <>
+                <Navbar />
+                <Admin />
                 <Footer />
               </>
             }

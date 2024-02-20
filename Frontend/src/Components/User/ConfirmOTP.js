@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
@@ -21,6 +21,10 @@ function Otp() {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    document.title = "ConfirmOTP | Foodly";
+  }, []);
+
   const clickHandler = async () => {
     if (creditial.otp !== "") {
       // Api call
@@ -42,7 +46,7 @@ function Otp() {
       } else {
         toast.warning("Attention! Please provide correct OTP...", {
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -55,7 +59,7 @@ function Otp() {
     } else {
       toast.error("Oops! OTP is no more valid...", {
         position: "top-right",
-        autoClose: 3000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,
@@ -86,7 +90,7 @@ function Otp() {
         localStorage.setItem("id", json.userid);
         toast.success("OTP has been sent to your email address.", {
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -98,7 +102,7 @@ function Otp() {
       } else {
         toast.warning("Attention! Please provide correct email id...", {
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -185,7 +189,7 @@ function Otp() {
       </div>
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

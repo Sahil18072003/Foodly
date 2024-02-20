@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./ContactUs.css";
 
 const ContactUs = () => {
   const host = "http://localhost:5000";
@@ -22,6 +23,10 @@ const ContactUs = () => {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    document.title = "ContactUs | Foodly";
+  }, []);
+
   const clickHandler = async (e) => {
     if (
       creditial.username !== "" &&
@@ -30,7 +35,7 @@ const ContactUs = () => {
       creditial.password !== ""
     ) {
       // Api call
-      const response = await fetch(`${host}/api/auth/signup`, {
+      const response = await fetch(`${host}/api/auth/userContant`, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +54,7 @@ const ContactUs = () => {
         localStorage.setItem("token", json.token);
         toast.success("You are successfully signup with your email.", {
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -64,7 +69,7 @@ const ContactUs = () => {
       } else {
         toast.error("Your email has been already used...", {
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -77,7 +82,7 @@ const ContactUs = () => {
     } else {
       toast.error("Please fill all the required field...", {
         position: "top-right",
-        autoClose: 3000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,
@@ -184,7 +189,8 @@ const ContactUs = () => {
                     {...register("email", {
                       required: "Email is required",
                       pattern: {
-                        value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                        value:
+                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g,
                         message: "Email is not valid",
                       },
                     })}
@@ -228,7 +234,7 @@ const ContactUs = () => {
                     Message : <span className="text-red-600 text-lg"> *</span>
                   </label>
                   <textarea
-                    rows="4"
+                    rows="3"
                     value={creditial.message}
                     {...register("message", {
                       required: "Message can't be empty",
@@ -243,14 +249,14 @@ const ContactUs = () => {
                 </div>
 
                 <div className="flex justify-center drop-shadow-xl">
-                  <button className="mt-5 w-full text-black font-medium bg-orange-400 border-0 py-2 px-6 focus:outline-none hover:bg-orange-500 rounded text-lg">
+                  <button className="w-full text-black font-medium btn-txt bg-orange-400 border-0 py-2 px-6 focus:outline-none hover:bg-orange-500 rounded text-lg">
                     Send Message
                   </button>
                 </div>
                 <ToastContainer
                   style={{ marginTop: "50px" }}
                   position="top-right"
-                  autoClose={5000}
+                  autoClose={2000}
                   hideProgressBar={false}
                   newestOnTop={false}
                   closeOnClick

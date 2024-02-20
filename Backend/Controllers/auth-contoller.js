@@ -50,6 +50,7 @@ const transporter = nodemailer.createTransport({
 
 const expireTime = "0.5h";
 
+// Home Page
 const home = async (req, res) => {
   try {
     res.status(200).send("This is a home page using controllers");
@@ -58,6 +59,7 @@ const home = async (req, res) => {
   }
 };
 
+// Signup Page
 const signup = async (req, res) => {
   try {
     const { username, email, phone, password } = req.body;
@@ -120,6 +122,7 @@ const signup = async (req, res) => {
   }
 };
 
+// Login Page
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -158,6 +161,7 @@ const login = async (req, res) => {
   }
 };
 
+// Google Check
 const googleCheck = async (req, res) => {
   try {
     let mail = req.body.email;
@@ -186,6 +190,7 @@ const googleCheck = async (req, res) => {
   }
 };
 
+// Google Login
 const googleLogin = async (req, res) => {
   try {
     let data = new User(req.body);
@@ -225,6 +230,7 @@ const googleLogin = async (req, res) => {
 //   }
 // };
 
+// Forgot Password
 const forgotPassword = async (req, res) => {
   try {
     const email = req.body.email;
@@ -318,6 +324,69 @@ const changePassword = async (req, res) => {
   }
 };
 
+// Contact Page
+const userContant = async (req, res) => {
+  try {
+    const { username, email, phone, password } = req.body;
+    const userExists = await User.findOne({ email });
+
+    if (userExists) {
+      return res.status(400).json({ msg: "Email Already Exists" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const secPass = await bcrypt.hash(password, salt);
+
+    const userData = await User.create({
+      // username: username,
+      email: email,
+      phone: phone,
+      password: secPass,
+    });
+
+    const data = {
+      user: {
+        id: userData.id,
+      },
+    };
+
+    const authToken = jwt.sign(data, process.env.JWT_SECRET_TOKEN, {
+      expiresIn: "0.5h",
+    });
+
+    // Sending the response first
+    res.status(200).json({
+      msg: userData,
+      token: await authToken,
+      userId: userData._id.toString(),
+    });
+
+    // Now, sending the email
+    var mailOptions = {
+      from: process.env.Email_id,
+      to: email, // Send email to the user's email address
+      subject: "Foodly Account Registered",
+      text: `Thank you for registering with our website.`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        // Handle email sending error
+        res.status(500).send("Internal Server error occured");
+        console.log(error);
+      } else {
+        // Handle email sent successfully
+        res.status(200).json({ msg: "Email Sent Succesfully" });
+        console.log("Email Sent Succesfully");
+      }
+    });
+  } catch (error) {
+    // Handle any other errors
+    console.log(error);
+    res.status(500).send("Internal Server error occurred");
+  }
+};
+
 module.exports = {
   home,
   signup,
@@ -327,4 +396,5 @@ module.exports = {
   forgotPassword,
   otpVerification,
   changePassword,
+  userContant,
 };

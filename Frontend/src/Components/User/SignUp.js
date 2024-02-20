@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -27,6 +27,10 @@ function Signup() {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    document.title = "SignUp | Foodly";
+  }, []);
+
   const clickHandler = async (e) => {
     if (
       // creditial.username !== "" &&
@@ -48,13 +52,16 @@ function Signup() {
         }), // body data type must match "Content-Type" header
       });
 
-      const json = await response.json(); // parses JSON response into native JavaScript objects
+      // parses JSON response into native JavaScript objects
+      const json = await response?.json();
 
       if (json.token) {
         localStorage.setItem("token", json.token);
+        localStorage.setItem("user", JSON.stringify(json.userId));
+
         toast.success("You are successfully signup with your email.", {
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -69,7 +76,7 @@ function Signup() {
       } else {
         toast.error("Your email has been already used...", {
           position: "top-right",
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -82,7 +89,7 @@ function Signup() {
     } else {
       toast.error("Please fill all the required field...", {
         position: "top-right",
-        autoClose: 3000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,
@@ -173,7 +180,7 @@ function Signup() {
                       console.log("Login Failed");
                       toast.error("Something went wrong...", {
                         position: "top-right",
-                        autoClose: 3000,
+                        autoClose: 2000,
                         hideProgressBar: false,
                         closeOnClick: true,
                         rtl: false,
@@ -229,7 +236,8 @@ function Signup() {
                   {...register("email", {
                     required: "Email is required",
                     pattern: {
-                      value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                      value:
+                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g,
                       message: "Email is not valid",
                     },
                   })}
@@ -297,7 +305,7 @@ function Signup() {
                 </p>
               </div>
               <div className="mt-9 flex justify-center drop-shadow-xl">
-                <button className="w-full text-black font-medium font-[Poppins] bg-orange-400 border-0 py-2 px-6 focus:outline-none hover:bg-orange-500 rounded text-lg">
+                <button className="w-full text-black font-medium btn-txt bg-orange-400 border-0 py-2 px-6 focus:outline-none hover:bg-orange-500 rounded text-lg">
                   Sign Up
                 </button>
               </div>
@@ -321,7 +329,7 @@ function Signup() {
 
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
