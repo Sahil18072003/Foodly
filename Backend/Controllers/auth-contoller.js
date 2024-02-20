@@ -1,9 +1,10 @@
-const User = require("../Models/User-model");
 const bcrypt = require("bcrypt");
 const fetchUser = require("../Middlewares/fetchUser");
 var jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const passport = require("passport");
+const User = require("../Models/User-model");
+const UserContact = require("../Models/Contact-model");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 passport.use(
@@ -143,10 +144,8 @@ const login = async (req, res) => {
       };
 
       const authToken = jwt.sign(data, process.env.JWT_SECRET_TOKEN, {
-        expiresIn: "0.5h",
+        expiresIn: "5m",
       });
-
-      console.log(authToken);
 
       res.status(200).json({
         msg: "Login Successfully",
@@ -273,9 +272,8 @@ const forgotPassword = async (req, res) => {
 const otpVerification = (req, res) => {
   try {
     const userotp = req.body.otp;
-    console.log(userotp);
     const genotp = req.header("otp");
-    console.log(genotp);
+
     if (userotp !== genotp) {
       return res.status(400).json({ msg: "Invalid OTP" });
     }
@@ -327,26 +325,20 @@ const changePassword = async (req, res) => {
 // Contact Page
 const userContant = async (req, res) => {
   try {
-    const { username, email, phone, password } = req.body;
-    const userExists = await User.findOne({ email });
+    const { username, email, phone, message } = req.body;
 
-    if (userExists) {
-      return res.status(400).json({ msg: "Email Already Exists" });
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const secPass = await bcrypt.hash(password, salt);
-
-    const userData = await User.create({
-      // username: username,
+    const usercontact = await UserContact.create({
+      username: username,
       email: email,
       phone: phone,
-      password: secPass,
+      message: message,
     });
+
+    console.log(usercontact);
 
     const data = {
       user: {
-        id: userData.id,
+        id: usercontact.id,
       },
     };
 
@@ -356,30 +348,47 @@ const userContant = async (req, res) => {
 
     // Sending the response first
     res.status(200).json({
-      msg: userData,
+      msg: usercontact,
       token: await authToken,
-      userId: userData._id.toString(),
+      userId: usercontact._id.toString(),
     });
+  } catch (error) {
+    // Handle any other errors
+    console.log(error);
+    res.status(500).send("Internal Server error occurred");
+  }
+};
 
-    // Now, sending the email
-    var mailOptions = {
-      from: process.env.Email_id,
-      to: email, // Send email to the user's email address
-      subject: "Foodly Account Registered",
-      text: `Thank you for registering with our website.`,
-    };
+const getUserContact = async (req, res) => {
+  try {
+  } catch (error) {
+    // Handle any other errors
+    console.log(error);
+    res.status(500).send("Internal Server error occurred");
+  }
+};
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        // Handle email sending error
-        res.status(500).send("Internal Server error occured");
-        console.log(error);
-      } else {
-        // Handle email sent successfully
-        res.status(200).json({ msg: "Email Sent Succesfully" });
-        console.log("Email Sent Succesfully");
+const updateUserProfile = async (req, res) => {
+  try {
+    // Update the user's profile information
+    let data = await User.updateOne(
+      { _id: req.params.id },
+      {
+        $set: req.body,
       }
-    });
+    );
+
+    // Check if the update was successful
+    if (data.nModified > 0) {
+      // Find the updated user data
+      let result = await User.findOne({ _id: req.params.id });
+
+      // Remove sensitive data from the user object
+      delete result.password;
+    } else {
+      // If no data was modified, return a message indicating the profile was not updated
+      res.status(400).json({ msg: "Profile not updated" });
+    }
   } catch (error) {
     // Handle any other errors
     console.log(error);
@@ -397,4 +406,6 @@ module.exports = {
   otpVerification,
   changePassword,
   userContant,
+  getUserContact,
+  updateUserProfile,
 };

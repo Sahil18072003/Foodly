@@ -13,8 +13,8 @@ import ChangePassword from "./Components/User/ChangePassword";
 import Profile from "./Components/User/Profile";
 // import UpdateUser from "./Components/UpdateUser";
 // import ChatAdmin from "./Components/ChatAdmin";
-// import AddProperty from "./Components/addProperty";
-// import Explore from "./Components/explore";
+import AddRestaurant from "./Components/AddRestaurant/AddRestaurant";
+import FindRestaurant from "./Components/FindRestaurant/FindRestaurant";
 // import Premium from "./Components/Premium";
 import Admin from "./Components/Admin/Admin";
 import ContactUs from "./Components/ContactUs/ContactUs";
@@ -103,17 +103,40 @@ function App() {
           />
           <Route
             exact
-            path="/profile"
+            path="/profile/:id"
             element={
               <>
                 <Navbar />
                 <Profile />
+                <Footer />
               </>
             }
           />
           <Route
             exact
-            path="/contactus"
+            path="/addrestaurant"
+            element={
+              <>
+                <Navbar />
+                <AddRestaurant />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/findrestaurant"
+            element={
+              <>
+                <Navbar />
+                <FindRestaurant />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/contactUs"
             element={
               <>
                 <Navbar />

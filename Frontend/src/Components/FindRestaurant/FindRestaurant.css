@@ -1,0 +1,62 @@
+.search_pets {
+  margin: 1rem auto;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.search-inputs {
+  width: 50%;
+}
+.tags {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 3rem;
+}
+.allPets {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 1rem auto;
+  gap: 2rem;
+  flex-wrap: wrap;
+  /* display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  border-radius: 25px;
+  grid-gap: 1rem;
+  margin: 1rem 3rem;
+  width: 95%; */
+}
+.pet-group {
+  width: 90%;
+  margin: auto;
+}
+
+@media screen and (max-width: 426px) {
+  .allPets {
+    grid-template-columns: 1fr;
+  }
+  .search_pets {
+    flex-direction: column;
+  }
+  .search-inputs {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 321px) {
+  .allPets {
+    grid-template-columns: 1fr;
+  }
+  .search_pets {
+    flex-direction: column;
+  }
+  .search-inputs {
+    width: 100%;
+  }
+}

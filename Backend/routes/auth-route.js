@@ -11,6 +11,8 @@ router.route("/otpVerification").post(authController.otpVerification);
 router.route("/changePassword").post(authController.changePassword);
 // router.route("/auth/google").get(authController.googleCheck);
 // router.route("/auth/google/").get(authController.googleLogin);
-router.route("/contactus").post(authController.userContant);
+router.route("/contactUs").post(authController.userContant);
+router.route("/adminPage").get(authController.getUserContact);
+router.route("/profile").put(authController.updateUserProfile);
 
 module.exports = router;

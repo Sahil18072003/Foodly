@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./ContactUs.css";
@@ -8,14 +8,16 @@ import "./ContactUs.css";
 const ContactUs = () => {
   const host = "http://localhost:5000";
 
+  let user = JSON.parse(localStorage.getItem("user"));
+
   const [creditial, setCreditial] = useState({
     username: "",
-    email: "",
-    phone: "",
+    email: user?.email,
+    phone: user?.phone,
     message: "",
   });
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const {
     register,
@@ -32,10 +34,10 @@ const ContactUs = () => {
       creditial.username !== "" &&
       creditial.email !== "" &&
       creditial.phone !== "" &&
-      creditial.password !== ""
+      creditial.message !== ""
     ) {
       // Api call
-      const response = await fetch(`${host}/api/auth/userContant`, {
+      const response = await fetch(`${host}/api/auth/contactUs`, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
           "Content-Type": "application/json",
@@ -44,15 +46,15 @@ const ContactUs = () => {
           username: creditial.username,
           email: creditial.email,
           phone: creditial.phone,
-          password: creditial.password,
+          message: creditial.message,
         }), // body data type must match "Content-Type" header
       });
 
-      const json = await response.json(); // parses JSON response into native JavaScript objects
+      // parses JSON response into native JavaScript objects
+      const json = await response.json();
 
       if (json.token) {
-        localStorage.setItem("token", json.token);
-        toast.success("You are successfully signup with your email.", {
+        toast.success("Your Message sent successfully!!", {
           position: "top-right",
           autoClose: 2000,
           hideProgressBar: false,
@@ -63,11 +65,8 @@ const ContactUs = () => {
           progress: undefined,
           theme: "light",
         });
-        setTimeout(() => {
-          navigate("/home");
-        }, 4000);
       } else {
-        toast.error("Your email has been already used...", {
+        toast.error("Error in sending message", {
           position: "top-right",
           autoClose: 2000,
           hideProgressBar: false,
@@ -80,7 +79,7 @@ const ContactUs = () => {
         });
       }
     } else {
-      toast.error("Please fill all the required field...", {
+      toast.error("Please fill all the required field..", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -249,12 +248,12 @@ const ContactUs = () => {
                 </div>
 
                 <div className="flex justify-center drop-shadow-xl">
-                  <button className="w-full text-black font-medium btn-txt bg-orange-400 border-0 py-2 px-6 focus:outline-none hover:bg-orange-500 rounded text-lg">
+                  <button className="w-full text-black font-medium btn-txt bg-orange-400 border-0 py-2 px-6 focus:outline-none hover:bg-orange-500 rounded text-lg mt-5">
                     Send Message
                   </button>
                 </div>
+
                 <ToastContainer
-                  style={{ marginTop: "50px" }}
                   position="top-right"
                   autoClose={2000}
                   hideProgressBar={false}

@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const connectDb = require("./database");
 const authRoute = require("./routes/auth-route");
+const restaurantRoute = require("./routes/restaurant-route");
 var cors = require("cors");
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
@@ -65,6 +66,8 @@ app.get(
 );
 
 app.use("/api/auth", authRoute);
+
+// app.use("/api/restaurant", restaurantRoute);
 
 connectDb().then(() => {
   app.listen(PORT, () => {
