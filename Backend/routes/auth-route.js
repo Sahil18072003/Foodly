@@ -13,6 +13,7 @@ router.route("/changePassword").post(authController.changePassword);
 // router.route("/auth/google/").get(authController.googleLogin);
 router.route("/contactUs").post(authController.userContant);
 router.route("/adminPage").get(authController.getUserContact);
-router.route("/profile").put(authController.updateUserProfile);
+router.route("/dashboard").post(authController.dashboard);
+router.route("/updateProfile").put(authController.updateUserProfile);
 
 module.exports = router;

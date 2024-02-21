@@ -151,6 +151,8 @@ const login = async (req, res) => {
         msg: "Login Successfully",
         token: await authToken,
         userId: userExists._id.toString(),
+        email: userExists.email,
+        phone: userExists.phone,
       });
     } else {
       res.status(401).json({ message: "Invalid email or password." });
@@ -359,6 +361,7 @@ const userContant = async (req, res) => {
   }
 };
 
+// Get User Conatact data in admin page
 const getUserContact = async (req, res) => {
   try {
   } catch (error) {
@@ -368,6 +371,12 @@ const getUserContact = async (req, res) => {
   }
 };
 
+const dashboard = async (req, res) => {
+  try {
+  } catch {}
+};
+
+// Update User Profile
 const updateUserProfile = async (req, res) => {
   try {
     // Update the user's profile information
@@ -407,5 +416,6 @@ module.exports = {
   changePassword,
   userContant,
   getUserContact,
+  dashboard,
   updateUserProfile,
 };

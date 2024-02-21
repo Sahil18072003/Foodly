@@ -45,7 +45,7 @@ const Login = () => {
 
       if (json.token) {
         localStorage.setItem("token", json.token);
-        localStorage.setItem("user", JSON.stringify(json.userId));
+        localStorage.setItem("user", JSON.stringify(json));
 
         toast.success("You are successfully login with your email.", {
           position: "top-right",

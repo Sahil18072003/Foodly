@@ -6,16 +6,15 @@ import { useLocation } from "react-router-dom";
 import Home from "./Components/Home/Home";
 import SignUp from "./Components/User/SignUp";
 import Login from "./Components/User/Login";
-import Navbar from "./Components/Navbar/Navbar";
 import ForgotPassword from "./Components/User/ForgotPassword";
 import ConfirmOTP from "./Components/User/ConfirmOTP";
 import ChangePassword from "./Components/User/ChangePassword";
-import Profile from "./Components/User/Profile";
-// import UpdateUser from "./Components/UpdateUser";
-// import ChatAdmin from "./Components/ChatAdmin";
+import Navbar from "./Components/Navbar/Navbar";
+import Dashborad from "./Components/Dashboard/Dashboard";
+import UpdateProfile from "./Components/UpdateProfile/UpdateProfile";
 import AddRestaurant from "./Components/AddRestaurant/AddRestaurant";
+import UpdateRestaurant from "./Components/UpdateRestaurant/UpdateRestaurant";
 import FindRestaurant from "./Components/FindRestaurant/FindRestaurant";
-// import Premium from "./Components/Premium";
 import Admin from "./Components/Admin/Admin";
 import ContactUs from "./Components/ContactUs/ContactUs";
 import AboutUs from "./Components/AboutUs/AboutUs";
@@ -73,7 +72,7 @@ function App() {
           />
           <Route
             exact
-            path="/getotp/:Eemail"
+            path="/getotp"
             element={
               <>
                 <Navbar />
@@ -83,7 +82,7 @@ function App() {
           />
           <Route
             exact
-            path="/getotp"
+            path="/getotp/:Eemail"
             element={
               <>
                 <Navbar />
@@ -103,18 +102,29 @@ function App() {
           />
           <Route
             exact
-            path="/profile/:id"
+            path="/dashboard"
             element={
               <>
                 <Navbar />
-                <Profile />
+                <Dashborad />
                 <Footer />
               </>
             }
           />
           <Route
             exact
-            path="/addrestaurant"
+            path="/dashboard/updateProfile"
+            element={
+              <>
+                <Navbar />
+                <UpdateProfile />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/addRestaurant"
             element={
               <>
                 <Navbar />
@@ -125,7 +135,18 @@ function App() {
           />
           <Route
             exact
-            path="/findrestaurant"
+            path="/dashboard/updateRestaurant"
+            element={
+              <>
+                <Navbar />
+                <UpdateRestaurant />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/findRestaurant"
             element={
               <>
                 <Navbar />

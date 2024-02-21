@@ -215,7 +215,7 @@ const Admin = () => {
               <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden hover:border-indigo-300 hover:shadow-xl hover:scale-105">
                 <img
                   class="p-4 w-full object-cover object-center"
-                  src="../../assets/Admin/AdminUser-2.jpg"
+                  src={require(`../../assets/Admin/AdminUser_2.jpg`)}
                   alt="blog"
                 />
                 <div class="p-6">

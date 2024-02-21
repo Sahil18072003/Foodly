@@ -4,21 +4,19 @@ import { useNavigate, useParams } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./Common.css";
+import "./UpdateProfile.css";
 
-const Profile = () => {
+const UpdateProfile = () => {
   const host = "http://localhost:5000";
 
-  const params = useParams();
-  var id = params.id;
-
-  let user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user")).userId;
+  console.log(user);
 
   const [creditial, setCreditial] = useState({
     firstname: "",
     lastname: "",
-    email: user.email,
-    phone: " ",
+    email: user?.email,
+    phone: user?.phone,
     address: "",
   });
 
@@ -43,11 +41,11 @@ const Profile = () => {
       creditial.address !== ""
     ) {
       // Api call
-      const response = await fetch(`${host}/api/auth/updateUserProfile/${id}`, {
+      const response = await fetch(`${host}/api/auth/updateUserProfile`, {
         method: "PUT", // *GET, POST, PUT, DELETE, etc.
         headers: {
           "Content-Type": "application/json",
-          authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+          // authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
         },
         body: JSON.stringify({
           username: creditial.firstname + creditial.lastname,
@@ -59,6 +57,7 @@ const Profile = () => {
 
       // parses JSON response into native JavaScript objects
       const json = await response.json();
+      console.log(json);
 
       if (json.token) {
         toast.success("Your Profile Updated successfully!!", {
@@ -256,4 +255,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UpdateProfile;
