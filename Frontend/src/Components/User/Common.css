@@ -18,7 +18,8 @@
 }
 
 .login-page {
-    /* background: url("../../assets/Create-Signin/signin_bg.png"); */
+    background: url("../../assets/Background/Bg_1.jpg");
+    background-size: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,7 +29,8 @@
 }
 
 .forgot-page {
-    /* background: url("../../assets/Create-Signin/signin_bg.png"); */
+    background: url("../../assets/Background/Bg_1.jpg");
+    background-size: 50%;
     display: flex;
     justify-content: center;
     align-items: center;

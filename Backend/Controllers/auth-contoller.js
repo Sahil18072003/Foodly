@@ -49,7 +49,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const expireTime = "0.5h";
+const expireTime = "10s";
 
 // Home Page
 const home = async (req, res) => {
@@ -87,7 +87,7 @@ const signup = async (req, res) => {
     };
 
     const authToken = jwt.sign(data, process.env.JWT_SECRET_TOKEN, {
-      expiresIn: "0.5h",
+      expiresIn: "10s",
     });
 
     // Sending the response first
@@ -144,7 +144,7 @@ const login = async (req, res) => {
       };
 
       const authToken = jwt.sign(data, process.env.JWT_SECRET_TOKEN, {
-        expiresIn: "5m",
+        expiresIn: 10,
       });
 
       res.status(200).json({
@@ -336,8 +336,6 @@ const userContant = async (req, res) => {
       message: message,
     });
 
-    console.log(usercontact);
-
     const data = {
       user: {
         id: usercontact.id,
@@ -364,13 +362,25 @@ const userContant = async (req, res) => {
 // Get User Conatact data in admin page
 const getUserContact = async (req, res) => {
   try {
+    // Attempt to find a user contact record
+    const data = await UserContact.find({});
+    // Check if data exists
+    if (data) {
+      // Send the data as a response
+      res.send(data);
+    } else {
+      // If no data found, send a custom error response
+      res.status(404).send("User contact record not found");
+    }
   } catch (error) {
-    // Handle any other errors
-    console.log(error);
+    // Log the error for debugging
+    console.error("Error fetching user contact:", error);
+    // Send an error response
     res.status(500).send("Internal Server error occurred");
   }
 };
 
+// dashboard activity
 const dashboard = async (req, res) => {
   try {
   } catch {}

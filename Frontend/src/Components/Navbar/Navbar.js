@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -22,11 +23,22 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.clear();
     navigate("/login");
+    toast.success("Y", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      rtl: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
 
   return (
     <div className="shadow-md w-full top-0 left-0 z-50 sticky">
-      <div className="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
+      <div className="md:flex items-center justify-between bg-white py-3 md:px-10 px-7">
         <div
           className="font-bold text-2xl cursor-pointer flex items-center
         text-gray-800"
@@ -46,7 +58,7 @@ const Navbar = () => {
             open ? "top-20 " : "top-[-490px]"
           }`}
         >
-          <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
+          <li className="md:ml-8 text-lg font-semibold md:my-0 my-7">
             <Link
               to="/home"
               className={`text-gray-800 hover:text-orange-400 duration-500`}
@@ -54,7 +66,7 @@ const Navbar = () => {
               Home
             </Link>
           </li>
-          <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
+          <li className="md:ml-8 text-lg font-semibold md:my-0 my-7">
             <Link
               to="/addrestaurant"
               className={`text-gray-800 hover:text-orange-400 duration-500`}
@@ -62,7 +74,7 @@ const Navbar = () => {
               Add Restaurant
             </Link>
           </li>
-          <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
+          <li className="md:ml-8 text-lg font-semibold md:my-0 my-7">
             <Link
               to="/findrestaurant"
               className={`text-gray-800 hover:text-orange-400 duration-500`}
@@ -78,7 +90,7 @@ const Navbar = () => {
                 {(() => {
                   if (user?.userId === "65d326b322e19d815a45ac3d") {
                     return (
-                      <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
+                      <li className="md:ml-8 text-lg font-semibold md:my-0 my-7">
                         <Link
                           className={`text-gray-800 hover:text-orange-400 duration-500`}
                           to="/adminPage"
@@ -93,7 +105,7 @@ const Navbar = () => {
 
               <div
                 className="dropdown relative ml-8 mr-16 hover:border-blue-500"
-                onMouseEnter={handleMouseEnter}
+                onClick={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
                 <img
@@ -105,12 +117,12 @@ const Navbar = () => {
                 />
                 <div
                   className="dropdown-menu absolute bg-white rounded-md shadow-md"
-                  onMouseEnter={handleMouseEnter}
+                  onClick={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
                 >
                   {showDropdown && (
                     <>
-                      <li className="dropdown-item px-5 py-2 text-xl font-semibold md:my-0">
+                      <li className="dropdown-item px-5 py-2 text-lg font-semibold md:my-0">
                         <Link
                           className={`text-gray-800 hover:text-orange-400 duration-500`}
                           to="/dashboard"
@@ -119,7 +131,7 @@ const Navbar = () => {
                         </Link>
                       </li>
                       <hr />
-                      <li className="dropdown-item px-5 py-2 text-xl font-semibold md:my-0">
+                      <li className="dropdown-item px-5 py-2 text-lg font-semibold md:my-0">
                         <Link
                           className={`text-gray-800 hover:text-orange-400 duration-500`}
                           onClick={handleLogout}
@@ -135,26 +147,32 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
-                <Link
-                  className={`text-gray-800 hover:text-orange-400 duration-500`}
-                  to="/login"
-                >
+              <li className="md:ml-8 text-md font-semibold md:my-0 my-7 bg-white-400 border-2 border-orange-400 px-3 py-2 rounded-md shadow-md hover:shadow-lg">
+                <Link className={`text-gray-800 duration-500`} to="/login">
                   Login
                 </Link>
               </li>
-              <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
-                <Link
-                  className={`text-gray-800 hover:text-orange-400 duration-500`}
-                  to="/signup"
-                >
-                  Sign Up
+              <li className="md:ml-8 text-md font-semibold md:my-0 my-7 bg-orange-400 px-3 py-2 rounded-md shadow-md hover:shadow-lg">
+                <Link className={`text-gray-800 duration-500`} to="/signup">
+                  SignUp
                 </Link>
               </li>
             </>
           )}
         </ul>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };
