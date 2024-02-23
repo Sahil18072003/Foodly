@@ -12,7 +12,11 @@ const Admin = () => {
   const [modalAdminContactUs, setModalAdminContactUs] = useState(false);
   const [userlist, setUserlist] = useState([]);
   // const [database, setdatabase] = useState([]);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
+
   const navigate = useNavigate();
+
   const openModal = () => {
     setModalAdminUser(true);
   };
@@ -37,6 +41,23 @@ const Admin = () => {
     setModalAdminContactUs(false);
   };
 
+  const openConfirmationModal = (userId) => {
+    setUserToDelete(userId);
+    setShowConfirmationModal(true);
+  };
+
+  const closeConfirmationModal = () => {
+    setShowConfirmationModal(false);
+    setUserToDelete(null);
+  };
+
+  const handleDeleteUser = (userId) => {
+    // Perform delete operation here
+    DeleteUser(userId);
+    // Close the confirmation modal
+    closeConfirmationModal();
+  };
+
   const handleAnswerButtonClick = (userEmail) => {
     const mailtoLink = `mailto:${userEmail}`;
     const mailLinkElement = document.createElement("a");
@@ -51,6 +72,7 @@ const Admin = () => {
     getMessages();
   }, []);
 
+  // for Admin Conatct Data
   const getMessages = async () => {
     const result = await fetch(`${host}/api/auth/adminPage`, {
       method: "GET",
@@ -62,10 +84,10 @@ const Admin = () => {
     setUserMessage(data);
   };
 
-  // Admin User Data
+  // for Admin User Data
   const getAllUsers = async () => {
-    const result = await fetch(`${host}/api/auth/getAll`, {
-      method: "get",
+    const result = await fetch(`${host}/api/auth/adminPage`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         // authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
@@ -87,19 +109,27 @@ const Admin = () => {
       setTimeout(() => {
         localStorage.clear();
         navigate("/login");
-      }, 7000);
+      }, 5000);
     } else {
       setUserlist(data);
-      console.log("myuserdata", data);
     }
   };
 
   const DeleteUser = async (id) => {
-    toast.success(
-      "Successfully deleted User, his Conversations, Comments and all its property...",
-      {
+    let deluser = await fetch(`${host}/api/auth/adminPage/${id}`, {
+      method: "DELETE", // Corrected spelling here
+      headers: {
+        // authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      },
+      parmas: id,
+    });
+
+    deluser = await deluser.json();
+
+    if (deluser) {
+      toast.success("Successfully deleted User...", {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,
@@ -107,37 +137,26 @@ const Admin = () => {
         draggable: true,
         progress: undefined,
         theme: "light",
-      }
-    );
-
-    // Deleting user
-    // let deluser = await fetch(`http://localhost:5000/delete-user/${id}`, {
-    //   method: "delete",
-    //   headers: {
-    //     // authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
-    //   },
-    // });
-    //   deluser = await deluser.json();
-    //   if (!data) {
-    //     toast.error("Your Token has expired... Login again", {
-    //       position: "top-right",
-    //       autoClose: 5000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       rtl: false,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "light",
-    //     });
-    //     setTimeout(() => {
-    //       localStorage.clear();
-    //       navigate("/login");
-    //     }, 7000);
-    //   } else {
-    //     console.log(deluser);
-    //     getAllUsers();
-    //   }
+      });
+    } else if (!deluser) {
+      toast.error("Your Token has expired... Login again", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setTimeout(() => {
+        localStorage.clear();
+        navigate("/login");
+      }, 4000);
+    } else {
+      getAllUsers();
+    }
   };
 
   return (
@@ -168,106 +187,136 @@ const Admin = () => {
             </button>
             {modalAdminUser && (
               <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                <div className="bg-white rounded-lg w-auto">
-                  <div className="mb-4 py-2 flex bg-orange-400 rounded">
+                <div className="bg-white rounded-lg lg:w-4/5 md:w-3/5 sm:w-3/5">
+                  <div className="py-3 flex bg-orange-400 rounded-t-lg">
                     <span className="text-2xl text-white flex px-12 justify-center font-medium flex-grow">
                       User Details{modalAdminUser}
                     </span>
                     <button
                       onClick={closeModal1}
-                      className="text-white font-bold text-xl px-3"
+                      className="text-white font-bold text-xl px-6"
                     >
                       ✕
                     </button>
                   </div>
-                  <div className="justify-center px-20 py-6">
-                    <div className="mb-4">
-                      <div className="sm:col-span-3 rounded-2xl ">
-                        <table className="table-fixed justify-center shadow-xl overflow-y-scroll  block h-[400px]">
-                          <thead className=" bg-indigo-400 rounded text-white shadow-md">
-                            <tr>
-                              <th className="border border-slate-300 p-2">
-                                Sr No.
-                              </th>
-                              <th className="border border-slate-300 p-2">
-                                Username
-                              </th>
-                              <th className="border border-slate-300 p-2">
-                                Image
-                              </th>
-                              <th className="border border-slate-300 p-2">
-                                Email
-                              </th>
-                              <th className="border border-slate-300 p-2">
-                                Phone
-                              </th>
-                              <th className="border border-slate-300 p-2">
-                                Address
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody className=" text-center px-5 mx-10">
-                            {userlist?.length > 0 ? (
-                              userlist?.map((userdetail, index) =>
-                                userdetail?._id !==
-                                "65d326b322e19d815a45ac3d" ? (
-                                  <tr key={index}>
-                                    <td className="border border-slate-300">
-                                      {index}
-                                    </td>
-                                    <td className="border border-slate-300 px-5">
-                                      {userdetail?.username}
-                                    </td>
-                                    <td className="border border-slate-300 ">
-                                      <img
-                                        // src={require(`../Images/${userdetail?.image}`)}
-                                        //   onerror="fallbackImage()"
-                                        alt=""
-                                        className="w-20 h-20"
-                                      />
-                                    </td>
-                                    <td className="border border-slate-300 px-5">
-                                      {userdetail?.email}
-                                    </td>
-                                    <td className="border border-slate-300 px-5">
-                                      {userdetail?.phone}
-                                    </td>
-                                    <td className="border border-slate-300 justify-center text-center">
-                                      <button
-                                        onClick={() =>
-                                          DeleteUser(userdetail._id)
-                                        }
-                                        className="bg-red-500 text-white font-semibold mx-5 mr-6 px-5 py-2 rounded hover:bg-indigo-700 "
-                                      >
-                                        Delete
-                                      </button>{" "}
-                                    </td>
-                                    <ToastContainer
-                                      position="top-right"
-                                      autoClose={5000}
-                                      hideProgressBar={false}
-                                      newestOnTop={false}
-                                      closeOnClick
-                                      rtl={false}
-                                      pauseOnFocusLoss
-                                      draggable
-                                      pauseOnHover
-                                      theme="light"
-                                    />
-                                  </tr>
-                                ) : null
-                              )
-                            ) : (
-                              <tr>
-                                <td>
-                                  <h1>No Users</h1>
+                  <div className="justify-center px-20 py-6 mb-4 sm:col-span-3 rounded-2xl">
+                    <table className="table-fixed justify-center shadow-xl overflow-y-scroll block h-[400px]">
+                      <thead className=" bg-indigo-400 rounded text-white shadow-md">
+                        <tr>
+                          <th className="border border-slate-300 p-2">
+                            Sr No.
+                          </th>
+                          <th className="border border-slate-300 p-2">
+                            Username
+                          </th>
+                          <th className="border border-slate-300 p-2">Image</th>
+                          <th className="border border-slate-300 p-2">Email</th>
+                          <th className="border border-slate-300 p-2">Phone</th>
+                          <th className="border border-slate-300 p-2">
+                            Address
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-center px-5 mx-10">
+                        {userlist?.length > 0 ? (
+                          userlist?.map((userdetail, index) =>
+                            userdetail?._id !== "65d326b322e19d815a45ac3d" ? (
+                              <tr key={index}>
+                                <td className="border border-slate-300">
+                                  {index}
                                 </td>
+                                <td className="border border-slate-300 px-5">
+                                  {userdetail?.username}
+                                </td>
+                                <td className="border border-slate-300 ">
+                                  <img
+                                    // src={require(`../Images/${userdetail?.image}`)}
+                                    //   onerror="fallbackImage()"
+                                    alt=""
+                                    className="w-20 h-20"
+                                  />
+                                </td>
+                                <td className="border border-slate-300 px-5">
+                                  {userdetail?.email}
+                                </td>
+                                <td className="border border-slate-300 px-5">
+                                  {userdetail?.phone}
+                                </td>
+                                <td className="border border-slate-300 px-5">
+                                  {userdetail?.address}
+                                </td>
+                                <td className="border border-slate-300 justify-center text-center">
+                                  <button
+                                    onClick={() =>
+                                      openConfirmationModal(userdetail._id)
+                                    }
+                                    className="bg-red-500 text-white font-semibold mx-5 mr-6 px-3 py-1 rounded hover:bg-indigo-700 "
+                                  >
+                                    Delete
+                                  </button>
+                                  {showConfirmationModal && (
+                                    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                                      <div className="bg-white rounded-lg lg:w-1/4 md:w-1/2 sm:w-1/2">
+                                        <div className="py-3 flex bg-orange-400 rounded-t-lg">
+                                          <span className="text-2xl text-white flex px-12 justify-center font-medium flex-grow">
+                                            Confirmation
+                                          </span>
+                                          <button
+                                            onClick={closeConfirmationModal}
+                                            className="text-white font-bold text-xl px-6"
+                                          >
+                                            ✕
+                                          </button>
+                                        </div>
+                                        <div className="p-6">
+                                          <p>
+                                            Are you sure you want to delete this user?
+                                          </p>
+                                          <div className="flex justify-end mt-4">
+                                            <button
+                                              onClick={() =>
+                                                handleDeleteUser(userToDelete)
+                                              }
+                                              className="bg-red-500 text-white font-semibold mx-2 px-4 py-2 rounded hover:bg-red-700"
+                                            >
+                                              Delete
+                                            </button>
+                                            <button
+                                              onClick={closeConfirmationModal}
+                                              className="bg-gray-300 text-gray-700 font-semibold mx-2 px-4 py-2 rounded hover:bg-gray-400"
+                                            >
+                                              Cancel
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )}
+                                </td>
+                                <ToastContainer
+                                  position="top-right"
+                                  autoClose={5000}
+                                  hideProgressBar={false}
+                                  newestOnTop={false}
+                                  closeOnClick
+                                  rtl={false}
+                                  pauseOnFocusLoss
+                                  draggable
+                                  pauseOnHover
+                                  theme="light"
+                                />
                               </tr>
-                            )}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+                            ) : null
+                          )
+                        ) : (
+                          <tr>
+                            <td>
+                              <h1>No Users</h1>
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>

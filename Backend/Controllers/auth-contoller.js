@@ -324,6 +324,37 @@ const changePassword = async (req, res) => {
   }
 };
 
+// Get User data in admin page
+const getUserDetails = async (req, res) => {
+  try {
+    // Attempt to find a user record
+    const data = await User.find(req.body);
+
+    // Check if data exists
+    if (data) {
+      // Send the data as a response
+      res.send(data);
+    } else {
+      // If no data found, send a custom error response
+      res.status(404).send("User record not found");
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal Server error occured");
+  }
+};
+
+// Delete User From Admin
+const deleteUser = async (req, res) => {
+  try {
+    const data = await User.deleteOne({ _id: req.params.id });
+    res.send(data);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal Server error occured");
+  }
+};
+
 // Contact Page
 const userContant = async (req, res) => {
   try {
@@ -426,6 +457,8 @@ module.exports = {
   changePassword,
   userContant,
   getUserContact,
+  getUserDetails,
+  deleteUser,
   dashboard,
   updateUserProfile,
 };

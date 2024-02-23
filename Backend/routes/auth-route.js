@@ -13,6 +13,8 @@ router.route("/changePassword").post(authController.changePassword);
 // router.route("/auth/google/").get(authController.googleLogin);
 router.route("/contactUs").post(authController.userContant);
 router.route("/adminPage").get(authController.getUserContact);
+router.route("/adminPage").post(authController.getUserDetails);
+router.route("/adminPage/:id").delete(authController.deleteUser);
 router.route("/dashboard").post(authController.dashboard);
 router.route("/updateProfile").put(authController.updateUserProfile);
 

@@ -179,6 +179,17 @@ function App() {
           />
           <Route
             exact
+            path="/adminPage/:id"
+            element={
+              <>
+                <Navbar />
+                <Admin />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            exact
             path="/aboutus"
             element={
               <>

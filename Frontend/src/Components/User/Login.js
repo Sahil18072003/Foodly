@@ -49,7 +49,7 @@ const Login = () => {
 
         toast.success("You are successfully login with your email.", {
           position: "top-right",
-          autoClose: 2000,
+          autoClose: 1500,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -60,7 +60,7 @@ const Login = () => {
         });
         setTimeout(() => {
           navigate("/");
-        }, 4000);
+        }, 2000);
       } else {
         toast.warning("Attention! Please provide correct information...", {
           position: "top-right",
