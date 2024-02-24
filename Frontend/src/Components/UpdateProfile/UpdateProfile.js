@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./UpdateProfile.css";
@@ -9,8 +8,10 @@ import "./UpdateProfile.css";
 const UpdateProfile = () => {
   const host = "http://localhost:5000";
 
-  const user = JSON.parse(localStorage.getItem("user")).userId;
-  console.log(user);
+  const params = useParams();
+  var id = params.id;
+
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const [creditial, setCreditial] = useState({
     firstname: "",
@@ -21,6 +22,10 @@ const UpdateProfile = () => {
   });
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "UpdateProfile | Foodly";
+  }, []);
 
   const {
     register,
@@ -41,25 +46,28 @@ const UpdateProfile = () => {
       creditial.address !== ""
     ) {
       // Api call
-      const response = await fetch(`${host}/api/auth/updateUserProfile`, {
-        method: "PUT", // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          "Content-Type": "application/json",
-          // authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
-        },
-        body: JSON.stringify({
-          username: creditial.firstname + creditial.lastname,
-          email: creditial.email,
-          phone: creditial.phone,
-          address: creditial.address,
-        }), // body data type must match "Content-Type" header
-      });
+      const response = await fetch(
+        `${host}/api/auth/dashboard/updateProfile/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            // authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+          },
+          body: JSON.stringify({
+            username: `${creditial.firstname} ${creditial.lastname}`,
+            email: creditial.email,
+            phone: creditial.phone,
+            address: creditial.address,
+          }),
+        }
+      );
 
       // parses JSON response into native JavaScript objects
       const json = await response.json();
       console.log(json);
 
-      if (json.token) {
+      if (json) {
         toast.success("Your Profile Updated successfully!!", {
           position: "top-right",
           autoClose: 2000,
@@ -229,8 +237,8 @@ const UpdateProfile = () => {
                 </p>
               </div>
 
-              <div className="flex justify-center drop-shadow-xl">
-                <button className="w-full text-black font-medium btn-txt bg-orange-400 border-0 py-2 px-6 focus:outline-none hover:bg-orange-500 rounded text-lg mt-5">
+              <div className="flex justify-center drop-shadow-xl pt-5">
+                <button className="w-full text-black font-medium btn-txt bg-orange-400 border-0 py-2 px-6 focus:outline-none hover:bg-orange-500 rounded text-lg">
                   Save
                 </button>
               </div>

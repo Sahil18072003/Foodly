@@ -419,25 +419,23 @@ const dashboard = async (req, res) => {
 
 // Update User Profile
 const updateUserProfile = async (req, res) => {
+  const { email } = req.body;
+
   try {
+    let existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      return res
+        .status(400)
+        .json({ message: "Error: user doesn't exist Please Signin First" });
+    }
+
     // Update the user's profile information
-    let data = await User.updateOne(
-      { _id: req.params.id },
-      {
-        $set: req.body,
-      }
-    );
-
-    // Check if the update was successful
-    if (data.nModified > 0) {
-      // Find the updated user data
-      let result = await User.findOne({ _id: req.params.id });
-
-      // Remove sensitive data from the user object
-      delete result.password;
+    let result = await User.updateOne({ email }, { $set: req.body });
+    if (result.acknowledged) {
+      let updatedUser = await User.findOne({ email });
+      return res.status(202).json({ updatedUser });
     } else {
-      // If no data was modified, return a message indicating the profile was not updated
-      res.status(400).json({ msg: "Profile not updated" });
+      return res.status(500).json({ message: "Can't update the user" });
     }
   } catch (error) {
     // Handle any other errors

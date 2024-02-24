@@ -1,7 +1,7 @@
-import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import "./App.css";
 
 import Home from "./Components/Home/Home";
 import SignUp from "./Components/User/SignUp";
@@ -18,6 +18,8 @@ import FindRestaurant from "./Components/FindRestaurant/FindRestaurant";
 import Admin from "./Components/Admin/Admin";
 import ContactUs from "./Components/ContactUs/ContactUs";
 import AboutUs from "./Components/AboutUs/AboutUs";
+import Policy from "./Components/Policy/Policy";
+import Terms from "./Components/Policy/Terms";
 import Footer from "./Components/Footer/Footer";
 
 function ScrollToTop() {
@@ -113,7 +115,7 @@ function App() {
           />
           <Route
             exact
-            path="/dashboard/updateProfile"
+            path="/dashboard/updateProfile/:id"
             element={
               <>
                 <Navbar />
@@ -195,6 +197,28 @@ function App() {
               <>
                 <Navbar />
                 <AboutUs />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/policy"
+            element={
+              <>
+                <Navbar />
+                <Policy />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/terms"
+            element={
+              <>
+                <Navbar />
+                <Terms />
                 <Footer />
               </>
             }

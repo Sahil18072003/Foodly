@@ -1,0 +1,16 @@
+.head-point {
+    color: var(--dark-yellow-text);
+    margin-top: 1rem;
+    text-decoration: solid;
+    font-size: 1.5rem;
+}
+
+.mycard {
+    align-items: flex-start;
+    margin: 1rem auto;
+}
+
+#back {
+    color: grey;
+    font-size: 1rem;
+}

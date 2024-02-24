@@ -4,6 +4,69 @@
     color: black;
 }
 
-.dashboard-page{
-    
+.dashboard-page {
+    align-content: center;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.profile-part {
+    background: url("../../assets/Background/Bg_5.jpg");
+    background-size: 50%;
+    width: 80%;
+    height: 150px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.profile-right {
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-img {
+    position: relative;
+    width: 10%;
+    height: 35%;
+    margin-left: 20px;
+    margin-top: 12px;
+    justify-content: center;
+    align-items: center;
+}
+
+#user-name {
+    color: white;
+}
+
+.btn-profile-txt {
+    width: auto;
+    color: black;
+    font-weight: 500;
+    right: 2%;
+    background-color: #ff9800;
+    padding: 2px 2px;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    justify-content: center;
+}
+
+.btn-profile-txt:hover {
+    background-color: #fb8c00;
+}
+
+.res-part {
+    background-color: white;
+    width: 80%;
+    height: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }

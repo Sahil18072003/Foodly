@@ -52,10 +52,14 @@ const Admin = () => {
   };
 
   const handleDeleteUser = (userId) => {
-    // Perform delete operation here
-    DeleteUser(userId);
-    // Close the confirmation modal
-    closeConfirmationModal();
+    try {
+      // Code to delete user from the database
+      DeleteUser(userId);
+      // Close the confirmation modal
+      closeConfirmationModal();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
   };
 
   const handleAnswerButtonClick = (userEmail) => {
@@ -126,7 +130,10 @@ const Admin = () => {
 
     deluser = await deluser.json();
 
-    if (deluser) {
+    if (deluser.ok) {
+      // Update userlist state after successful deletion
+      setUserlist(userlist.filter(user => user._id !== id));
+
       toast.success("Successfully deleted User...", {
         position: "top-right",
         autoClose: 2000,
@@ -257,20 +264,10 @@ const Admin = () => {
                                   {showConfirmationModal && (
                                     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                                       <div className="bg-white rounded-lg lg:w-1/4 md:w-1/2 sm:w-1/2">
-                                        <div className="py-3 flex bg-orange-400 rounded-t-lg">
-                                          <span className="text-2xl text-white flex px-12 justify-center font-medium flex-grow">
-                                            Confirmation
-                                          </span>
-                                          <button
-                                            onClick={closeConfirmationModal}
-                                            className="text-white font-bold text-xl px-6"
-                                          >
-                                            ✕
-                                          </button>
-                                        </div>
-                                        <div className="p-6">
+                                        <div className="py-7 px-6">
                                           <p>
-                                            Are you sure you want to delete this user?
+                                            Are you sure you want to delete this
+                                            user?
                                           </p>
                                           <div className="flex justify-end mt-4">
                                             <button

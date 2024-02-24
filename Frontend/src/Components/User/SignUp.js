@@ -13,7 +13,6 @@ function Signup() {
   const host = "http://localhost:5000";
 
   const [creditial, setCreditial] = useState({
-    // username: "",
     email: "",
     phone: "",
     password: "",
@@ -33,7 +32,6 @@ function Signup() {
 
   const clickHandler = async (e) => {
     if (
-      // creditial.username !== "" &&
       creditial.email !== "" &&
       creditial.phone !== "" &&
       creditial.password !== ""
@@ -45,7 +43,6 @@ function Signup() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          // username: creditial.username,
           email: creditial.email,
           phone: creditial.phone,
           password: creditial.password,
@@ -54,6 +51,7 @@ function Signup() {
 
       // parses JSON response into native JavaScript objects
       const json = await response?.json();
+      console.log(json);
 
       if (json.token) {
         localStorage.setItem("token", json.token);
@@ -71,6 +69,7 @@ function Signup() {
           theme: "light",
         });
         setTimeout(() => {
+          // navigate(`/dashboard/updateProfile/${json.userId}`);
           navigate("/home");
         }, 4000);
       } else {
@@ -202,26 +201,6 @@ function Signup() {
             </p>
 
             <form onSubmit={handleSubmit(clickHandler)}>
-              {/* <div className="my-3">
-                <label htmlFor="username" className="label-text">
-                  Username :<span className="text-red-600 text-lg"> *</span>
-                </label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  className="input-field"
-                  value={creditial.username}
-                  {...register("username", {
-                    required: "Username is required",
-                  })}
-                  onChange={onChange}
-                  autoComplete="false"
-                />
-                <p className="text-sm text-red-500 absolute">
-                  {errors.username?.message}
-                </p>
-              </div> */}
               <div className="mb-3">
                 <label htmlFor="email" className="label-text">
                   Email Address :
