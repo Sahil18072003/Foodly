@@ -1,24 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./UpdateProfile.css";
+import { cloudinary_api_key } from "../Data/Api";
+import axios from "axios";
 
 const UpdateProfile = () => {
   const host = "http://localhost:5000";
 
-  const params = useParams();
-  var id = params.id;
-
   const user = JSON.parse(localStorage.getItem("user"));
 
+  const DEFAULT_IMAGE =
+    "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg";
+
+  const defaultImage = DEFAULT_IMAGE;
+
   const [creditial, setCreditial] = useState({
+    profileImage: defaultImage,
     firstname: "",
     lastname: "",
-    email: user?.email,
-    phone: user?.phone,
-    address: "",
+    email: user?.email ? user?.email : "",
+    phone: user?.phone ? user?.phone : "",
+    address: user?.address ? user?.address : "",
   });
 
   const navigate = useNavigate();
@@ -33,12 +38,67 @@ const UpdateProfile = () => {
     formState: { errors },
   } = useForm();
 
-  useEffect(() => {
-    document.title = "Profile | Foodly";
-  }, []);
+  const goBack = () => {
+    navigate(`/dashboard`);
+  };
+
+  const profilePhotoWrapper = useRef(null);
+
+  const displayProfilePhoto = (file) => {
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        if (profilePhotoWrapper.current) {
+          profilePhotoWrapper.current.style.backgroundImage = `url(${reader.result})`;
+        }
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const setProfilePhoto = useMemo(
+    () => ({
+      backgroundImage:
+        creditial.profileImage !== ""
+          ? `url(${creditial.profileImage})`
+          : `url(${defaultImage})`,
+    }),
+    [creditial.profileImage]
+  );
+
+  /* Upload Profile photo to cloudinary */
+  const uploadImageToCloudinary = async (file, preset) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", preset);
+
+      const response = await axios.post(cloudinary_api_key, formData);
+
+      const uploadedImgData = {
+        statusText: response.statusText,
+        profileImage: response.data.secure_url,
+        publicId: response.data.public_id,
+      };
+
+      return uploadedImgData;
+    } catch (error) {
+      if (error.response.status === 400) {
+        toast(toast, "Image size too large", "error");
+      } else {
+        toast(toast, "Something went wrong. Try Again", "error");
+      }
+      console.log("Error in uploading profile photo to cloudinary : ", error);
+      return null;
+    }
+  };
 
   const clickHandler = async (e) => {
+    
     if (
+      // creditial.profileImage !== "" &&
       creditial.firstname !== "" &&
       creditial.lastname !== "" &&
       creditial.email !== "" &&
@@ -47,7 +107,7 @@ const UpdateProfile = () => {
     ) {
       // Api call
       const response = await fetch(
-        `${host}/api/auth/dashboard/updateProfile/${id}`,
+        `${host}/api/auth/dashboard/updateProfile/${user}`,
         {
           method: "PUT",
           headers: {
@@ -55,6 +115,7 @@ const UpdateProfile = () => {
             // authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
           body: JSON.stringify({
+            profileImage: creditial.profileImage,
             username: `${creditial.firstname} ${creditial.lastname}`,
             email: creditial.email,
             phone: creditial.phone,
@@ -65,7 +126,6 @@ const UpdateProfile = () => {
 
       // parses JSON response into native JavaScript objects
       const json = await response.json();
-      console.log(json);
 
       if (json) {
         toast.success("Your Profile Updated successfully!!", {
@@ -123,6 +183,37 @@ const UpdateProfile = () => {
               onSubmit={handleSubmit(clickHandler)}
               className="flex flex-col space-y-4"
             >
+              {/* <--- User Profile photo ---> */}
+              <div className="user-profile-photo-container">
+                <input
+                  type="file"
+                  id="profile-photo"
+                  name="profileImage"
+                  accept="image/*"
+                  onChange={(e) => {
+                    setCreditial("profileImageFile", e.target.files[0]);
+                    displayProfilePhoto(e.target.files[0]);
+                  }}
+                />
+                <label
+                  htmlFor="profile-photo"
+                  className="profile-photo-wrapper"
+                  style={setProfilePhoto}
+                >
+                  <div className="upload-img-div text-center">
+                    <div className="mb-2">
+                      <i className="fa fa-camera fa-2x"></i>
+                    </div>
+                    <div className="text-uppercase">
+                      Update
+                      <br />
+                      Profile Photo
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              {/* <--- User First Name ---> */}
               <div>
                 <label htmlFor="" className="label-text">
                   First Name : <span className="text-red-600 text-lg">*</span>
@@ -145,6 +236,7 @@ const UpdateProfile = () => {
                   {errors.firstname?.message}
                 </p>
               </div>
+              {/* <--- User Last Name ---> */}
               <div>
                 <label htmlFor="" className="label-text">
                   Last Name : <span className="text-red-600 text-lg">*</span>
@@ -167,6 +259,7 @@ const UpdateProfile = () => {
                   {errors.lastname?.message}
                 </p>
               </div>
+              {/* <--- User Email Address ---> */}
               <div className="mt-5">
                 <label htmlFor="" className="label-text">
                   Email Address :{" "}
@@ -185,12 +278,14 @@ const UpdateProfile = () => {
                   })}
                   onChange={onChange}
                   autoComplete="false"
+                  readOnly={user ? true : false}
                   className="input-field"
                 />
                 <p className="text-sm text-red-500 absolute">
                   {errors.email?.message}
                 </p>
               </div>
+              {/* <--- User Contact Number ---> */}
               <div>
                 <label htmlFor="" className="label-text">
                   Contact Number :{" "}
@@ -218,6 +313,7 @@ const UpdateProfile = () => {
                   {errors.phone?.message}
                 </p>
               </div>
+              {/* User Address */}
               <div className="mt-5">
                 <label htmlFor="" className="label-text">
                   Address : <span className="text-red-600 text-lg"> *</span>
@@ -238,9 +334,19 @@ const UpdateProfile = () => {
               </div>
 
               <div className="flex justify-center drop-shadow-xl pt-5">
-                <button className="w-full text-black font-medium btn-txt bg-orange-400 border-0 py-2 px-6 focus:outline-none hover:bg-orange-500 rounded text-lg">
-                  Save
-                </button>
+                <div className="inline-block border-2 border-orange-400">
+                  <button
+                    onClick={goBack}
+                    className="md:ml-8 text-md font-semibold md:my-0 bg-white-900 px-4 py-3 rounded-md shadow-md hover:shadow-lg"
+                  >
+                    Go Back
+                  </button>
+                </div>
+                <div className="inline-block mr-4">
+                  <button className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 px-6 py-3 rounded-md shadow-md hover:shadow-lg">
+                    Save
+                  </button>
+                </div>
               </div>
 
               <ToastContainer

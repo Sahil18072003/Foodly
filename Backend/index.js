@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
-const connectDb = require("./database");
+const connectDb = require("./Configuration/database");
+const CLODINARY_CONFIG = require("./Configuration/cloudinaryConfig");
 const authRoute = require("./routes/auth-route");
 const restaurantRoute = require("./routes/restaurant-route");
 var cors = require("cors");
@@ -13,6 +14,9 @@ const app = express();
 app.use(cors());
 
 const PORT = 5000;
+
+// Configure Cloudinary
+CLODINARY_CONFIG();
 
 app.use(express.json());
 

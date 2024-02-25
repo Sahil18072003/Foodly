@@ -1,0 +1,66 @@
+/* <-------- Profile photo CSS --------> */
+
+#profile-photo {
+    display: none;
+}
+
+.user-profile-photo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-photo-wrapper {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 1px solid black;
+    background-image: url("../../assets/Devlopers/User.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    overflow: hidden;
+    /* For update img icon */
+}
+
+
+.profile-photo-wrapper .user-profile-image {
+    object-fit: contain;
+    width: fit-content;
+    height: fit-content;
+}
+
+.profile-photo-wrapper .fa-user-circle {
+    font-size: 9.3rem;
+    /* 150px = 9.3 rem*/
+}
+
+.upload-img-div {
+    height: inherit;
+
+    border-radius: 50%;
+
+    background: #898181;
+    opacity: 0.9;
+
+    font-weight: 500;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    transition: all 0.5s;
+    transform: translateY(100%);
+    visibility: hidden;
+}
+
+.profile-photo-wrapper:hover .upload-img-div {
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#user-profile-cancel-btn {
+    min-width: 111px;
+}

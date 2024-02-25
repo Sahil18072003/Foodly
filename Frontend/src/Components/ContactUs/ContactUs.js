@@ -196,6 +196,7 @@ const ContactUs = () => {
                     onChange={onChange}
                     autoComplete="false"
                     className="input-field"
+                    readOnly={user ? true : false}
                   />
                   <p className="text-sm text-red-500 absolute">
                     {errors.email?.message}
@@ -223,6 +224,7 @@ const ContactUs = () => {
                     onChange={onChange}
                     autoComplete="false"
                     className="input-field"
+                    readOnly={user ? true : false}
                   />
                   <p className="text-sm text-red-500 absolute">
                     {errors.phone?.message}

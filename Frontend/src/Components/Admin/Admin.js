@@ -132,7 +132,7 @@ const Admin = () => {
 
     if (deluser.ok) {
       // Update userlist state after successful deletion
-      setUserlist(userlist.filter(user => user._id !== id));
+      setUserlist(userlist.filter((user) => user._id !== id));
 
       toast.success("Successfully deleted User...", {
         position: "top-right",
@@ -227,7 +227,7 @@ const Admin = () => {
                       <tbody className="text-center px-5 mx-10">
                         {userlist?.length > 0 ? (
                           userlist?.map((userdetail, index) =>
-                            userdetail?._id !== "65d326b322e19d815a45ac3d" ? (
+                            userdetail?._id !== "65dacb990022155a26808a13" ? (
                               <tr key={index}>
                                 <td className="border border-slate-300">
                                   {index}
@@ -308,7 +308,7 @@ const Admin = () => {
                         ) : (
                           <tr>
                             <td>
-                              <h1>No Users</h1>
+                              <h1>No Users available</h1>
                             </td>
                           </tr>
                         )}
@@ -390,8 +390,6 @@ const Admin = () => {
                               </div>
                             </div>
                           ))}
-                        {/* /* If userMessage is empty or undefined, render a
-                            placeholder or handle it as needed */}
                         {!userMessage && (
                           <p className="text-gray-500 text-center w-full mt-6">
                             No messages available

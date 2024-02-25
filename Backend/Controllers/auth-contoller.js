@@ -7,36 +7,36 @@ const User = require("../Models/User-model");
 const UserContact = require("../Models/Contact-model");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/",
-      userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
-    },
-    function (accessToken, refeshToken, profile, done) {
-      console.log("Sahil Dharaviya");
-      User.findOne({ googleId: profile.id })
-        .then((user) => {
-          if (!user) {
-            user = new User({
-              googleId: profile.id,
-            });
-            user
-              .save()
-              .then(() => done(null, user))
-              .catch((err) => done(err));
+// passport.use(
+//   new GoogleStrategy(
+//     {
+//       clientID: process.env.CLIENT_ID,
+//       clientSecret: process.env.CLIENT_SECRET,
+//       callbackURL: "http://localhost:3000/auth/google/",
+//       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
+//     },
+//     function (accessToken, refeshToken, profile, done) {
+//       console.log("Sahil Dharaviya");
+//       User.findOne({ googleId: profile.id })
+//         .then((user) => {
+//           if (!user) {
+//             user = new User({
+//               googleId: profile.id,
+//             });
+//             user
+//               .save()
+//               .then(() => done(null, user))
+//               .catch((err) => done(err));
 
-            //found user
-          } else {
-            done(null, user);
-          }
-        })
-        .catch((err) => done(err));
-    }
-  )
-);
+//             //found user
+//           } else {
+//             done(null, user);
+//           }
+//         })
+//         .catch((err) => done(err));
+//     }
+//   )
+// );
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -49,7 +49,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const expireTime = "10s";
+const expireTime = 10;
 
 // Home Page
 const home = async (req, res) => {
@@ -87,7 +87,7 @@ const signup = async (req, res) => {
     };
 
     const authToken = jwt.sign(data, process.env.JWT_SECRET_TOKEN, {
-      expiresIn: "10s",
+      expiresIn: "10",
     });
 
     // Sending the response first
@@ -253,7 +253,7 @@ const forgotPassword = async (req, res) => {
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           res.status(500).send("Internal Server error occured");
-          // console.log(error);
+          console.log(error);
         } else {
           res
             .status(200)
@@ -326,7 +326,14 @@ const changePassword = async (req, res) => {
 
 // Get User data in admin page
 const getUserDetails = async (req, res) => {
+  const { token } = req.body;
   try {
+    const user = jwt.verify(token, process.env.JWT_SECRET_TOKEN, (err, res) => {
+      if (err) {
+        return "token expired";
+      }
+      return res;
+    });
     // Attempt to find a user record
     const data = await User.find(req.body);
 
