@@ -18,8 +18,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  address: { type: String, require: true },
-  profileImage: { type: String },
+  address: {
+    type: String,
+    require: true,
+  },
+  profileImage: {
+    type: String,
+  },
   isAdmin: {
     type: Boolean,
     default: false,

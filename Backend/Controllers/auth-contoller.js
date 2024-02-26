@@ -2,41 +2,8 @@ const bcrypt = require("bcrypt");
 const fetchUser = require("../Middlewares/fetchUser");
 var jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-const passport = require("passport");
 const User = require("../Models/User-model");
 const UserContact = require("../Models/Contact-model");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-
-// passport.use(
-//   new GoogleStrategy(
-//     {
-//       clientID: process.env.CLIENT_ID,
-//       clientSecret: process.env.CLIENT_SECRET,
-//       callbackURL: "http://localhost:3000/auth/google/",
-//       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
-//     },
-//     function (accessToken, refeshToken, profile, done) {
-//       console.log("Sahil Dharaviya");
-//       User.findOne({ googleId: profile.id })
-//         .then((user) => {
-//           if (!user) {
-//             user = new User({
-//               googleId: profile.id,
-//             });
-//             user
-//               .save()
-//               .then(() => done(null, user))
-//               .catch((err) => done(err));
-
-//             //found user
-//           } else {
-//             done(null, user);
-//           }
-//         })
-//         .catch((err) => done(err));
-//     }
-//   )
-// );
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -48,8 +15,6 @@ const transporter = nodemailer.createTransport({
     pass: process.env.Email_password,
   },
 });
-
-const expireTime = 10;
 
 // Home Page
 const home = async (req, res) => {
@@ -63,7 +28,7 @@ const home = async (req, res) => {
 // Signup Page
 const signup = async (req, res) => {
   try {
-    const { username, email, phone, password } = req.body;
+    const { email, phone, password } = req.body;
     const userExists = await User.findOne({ email });
 
     if (userExists) {
@@ -74,7 +39,6 @@ const signup = async (req, res) => {
     const secPass = await bcrypt.hash(password, salt);
 
     const userData = await User.create({
-      // username: username,
       email: email,
       phone: phone,
       password: secPass,
@@ -161,75 +125,6 @@ const login = async (req, res) => {
     console.log(error);
   }
 };
-
-// Google Check
-const googleCheck = async (req, res) => {
-  try {
-    let mail = req.body.email;
-    let result = await User.findOne({ email: mail });
-    // console.log("gc", result);
-    if (result) {
-      // console.log("hi");
-      result = result.toObject();
-      jwt.sign(
-        { result },
-        fetchUser,
-        { expiresIn: expireTime },
-        (err, token) => {
-          if (err) {
-            res.send("Token Expired or something went wrong");
-          } else {
-            res.send({ result, token });
-          }
-        }
-      );
-    } else {
-      res.send(false);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// Google Login
-const googleLogin = async (req, res) => {
-  try {
-    let data = new User(req.body);
-    let result = await data.save();
-    result = result.toObject();
-    jwt.sign({ result }, fetchUser, { expiresIn: expireTime }, (err, token) => {
-      if (err) {
-        res.send("Token Expired or something went wrong");
-      } else {
-        res.send({ result, token });
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// const googleCheck = async (req, res) => {
-//   try {
-//     console.log("Google check");
-//     passport.authenticate("google", { scope: ["profile"] });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// const googleLogin = async (req, res) => {
-//   try {
-//     console.log("Google login");
-//     passport.authenticate("google", { failureRedirect: "/login" }),
-//       function (req, res) {
-//         // Successful authentication, redirect home.
-//         res.redirect("/");
-//       };
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 
 // Forgot Password
 const forgotPassword = async (req, res) => {
@@ -438,6 +333,7 @@ const updateUserProfile = async (req, res) => {
 
     // Update the user's profile information
     let result = await User.updateOne({ email }, { $set: req.body });
+
     if (result.acknowledged) {
       let updatedUser = await User.findOne({ email });
       return res.status(202).json({ updatedUser });
@@ -455,8 +351,8 @@ module.exports = {
   home,
   signup,
   login,
-  googleCheck,
-  googleLogin,
+  // googleCheck,
+  // googleLogin,
   forgotPassword,
   otpVerification,
   changePassword,

@@ -1,73 +1,98 @@
 require("dotenv").config();
+
 const express = require("express");
 const connectDb = require("./Configuration/database");
 const CLODINARY_CONFIG = require("./Configuration/cloudinaryConfig");
 const authRoute = require("./routes/auth-route");
 const restaurantRoute = require("./routes/restaurant-route");
-var cors = require("cors");
+const cors = require("cors");
 const passport = require("passport");
+const session = require("express-session");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./Models/User-model"); // Adjust the extension based on your file type
-
 const app = express();
 
 app.use(cors());
 
 const PORT = 5000;
 
-// Configure Cloudinary
 CLODINARY_CONFIG();
 
 app.use(express.json());
 
-// passport.use(
-//   new GoogleStrategy(
-//     {
-//       clientID:
-//         "773695330225-rj3orcufnett9df8hmenhkihptib1ogd.apps.googleusercontent.com",
-//       clientSecret: "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",
-//       callbackURL: "http://localhost:3000/auth/google/home",
-//       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
-//     },
-//     function (accessToken, refeshToken, profile, done) {
-//       console.log("Sahil Dharaviya");
-//       console.log(profile);
-//       User.findOne({ googleId: profile.id })
-//         .then((user) => {
-//           if (!user) {
-//             user = new User({
-//               googleId: profile.id,
-//             });
-//             user
-//               .save()
-//               .then(() => done(null, user))
-//               .catch((err) => done(err));
-
-//             //found user
-//           } else {
-//             done(null, user);
-//           }
-//         })
-//         .catch((err) => done(err));
-//     }
-//   )
+// app.use(
+//   session({
+//     secret: "ddbgdvmzxs",
+//     resave: false,
+//     saveUninitialized: true,
+//   })
 // );
 
 app.use(passport.initialize());
 
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile"] })
+// app.use(passport.session());
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: process.env.GOOGLE_CALLBACK_URL,
+      userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
+    },
+
+    function (accessToken, refeshToken, profile, done) {
+      console.log(profile);
+      User.findOne({ email: profile.emails[0].value })
+        .then((user) => {
+          if (!user) {
+            user = new User({
+              googleId: profile.id,
+              username: profile.displayName,
+              email: profile.emails[0].value,
+              image: profile.photos[0].value,
+              isVerified: true,
+            });
+
+            user
+              .save()
+              .then(() => done(null, user))
+              .catch((err) => done(err));
+
+            //found user
+          } else {
+            done(null, user);
+          }
+        })
+        .catch((err) => done(err));
+    }
+  )
 );
 
 app.get(
-  "/auth/google/home",
-  passport.authenticate("google", { failureRedirect: "/login" }),
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    session: false,
+  })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/login/failed",
+    session: false,
+  }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect("/home");
+    res.redirect(`${process.env.CLIENT_URL}/${req.user.token}`);
   }
 );
+
+app.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect(process.env.CLIENT_URL);
+});
 
 app.use("/api/auth", authRoute);
 

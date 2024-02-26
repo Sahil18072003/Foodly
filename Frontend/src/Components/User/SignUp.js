@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { backend_api_key } from "../Data/Api";
 import "./Common.css";
 
 function Signup() {
@@ -106,7 +102,7 @@ function Signup() {
   };
 
   const google = () => {
-    window.open(`${backend_api_key}/auth/google`, "_self");
+    window.open(`${host}/auth/google`, "_self");
   };
 
   return (
@@ -120,84 +116,8 @@ function Signup() {
           />
         </div>
         <div className="login-content slide-left">
-          <div className="py-8 px-16">
+          <div className="py-6 px-16">
             <div id="title">Create Your Account</div>
-            {/* <div className="w-full my-4 text-lg flex items-center justify-center">
-              <GoogleOAuthProvider clientId="218028871541-fr431cpfp05060mborg1m4209vvttdg6.apps.googleusercontent.com">
-                <div className="text-lg flex justify-center border-none border-0">
-                  <GoogleLogin
-                    onSuccess={async (credentialResponse) => {
-                      const decode = jwt_decode(credentialResponse.credential);
-
-                      let name = decode.name;
-                      let gmail = decode.email;
-
-                      let data = await fetch(
-                        "http://localhost:5000/google-check",
-                        {
-                          method: "post",
-                          body: JSON.stringify({
-                            username: name,
-                            email: gmail,
-                          }),
-                          headers: {
-                            "Content-Type": "application/json",
-                          },
-                        }
-                      );
-
-                      // console.log("result :", data);
-                      data = await data.json();
-                      if (!data) {
-                        data = await fetch(
-                          "http://localhost:5000/google-login",
-                          {
-                            method: "post",
-                            body: JSON.stringify({
-                              username: name,
-                              email: gmail,
-                              image: "avtar.png",
-                            }),
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                          }
-                        );
-
-                        data = await data.json();
-                      }
-
-                      // console.log(data);
-                      if (data.token) {
-                        localStorage.setItem(
-                          "user",
-                          JSON.stringify(data.result)
-                        );
-                        localStorage.setItem(
-                          "token",
-                          JSON.stringify(data.token)
-                        );
-                        navigate("/home");
-                      }
-                    }}
-                    onError={() => {
-                      console.log("Login Failed");
-                      toast.error("Something went wrong...", {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        rtl: false,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                      });
-                    }}
-                  />
-                </div>
-              </GoogleOAuthProvider>
-            </div> */}
             <button type="button" className="google-auth" onClick={google}>
               <svg
                 width="48"

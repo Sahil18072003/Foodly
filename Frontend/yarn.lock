@@ -1753,6 +1753,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@stencil/core@^4.0.3":
+  version "4.12.3"
+  resolved "https://registry.npmjs.org/@stencil/core/-/core-4.12.3.tgz"
+  integrity sha512-9XkE9i2aXPlApMNeq3tbVHKx0eAfDc7QGyIl6t5NMuQFTOGL5Xd1soF38d+hCIDpUoUUtY7jXWg+iFrlrMzQhg==
+
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   version "2.2.3"
   resolved "https://registry.npmjs.org/@surma/rollup-plugin-off-main-thread/-/rollup-plugin-off-main-thread-2.2.3.tgz"
@@ -5473,6 +5478,13 @@ internal-slot@^1.0.4, internal-slot@^1.0.5:
     get-intrinsic "^1.2.2"
     hasown "^2.0.0"
     side-channel "^1.0.4"
+
+ionicons@^7.2.2:
+  version "7.2.2"
+  resolved "https://registry.npmjs.org/ionicons/-/ionicons-7.2.2.tgz"
+  integrity sha512-I3iYIfc9Q9FRifWyFSwTAvbEABWlWY32i0sAVDDPGYnaIZVugkLCZFbEcrphW6ixVPg8tt1oLwalo/JJwbEqnA==
+  dependencies:
+    "@stencil/core" "^4.0.3"
 
 ipaddr.js@^2.0.1:
   version "2.1.0"

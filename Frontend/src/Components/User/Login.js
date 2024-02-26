@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { GoogleLogin } from "@react-oauth/google";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import jwt_decode from "jwt-decode";
 import { useForm } from "react-hook-form";
-import { backend_api_key } from "../Data/Api";
 import "./Common.css";
 
 const Login = () => {
@@ -94,7 +90,7 @@ const Login = () => {
   };
 
   const google = () => {
-    window.open(`${backend_api_key}/auth/google`, "_self");
+    window.open(`${host}/auth/google`, "_self");
   };
 
   return (
@@ -103,81 +99,6 @@ const Login = () => {
         <div className="login-content slide-left">
           <div className="py-8 px-16">
             <div id="title">Login Into Your Account</div>
-            {/*<div className="w-full my-4 text-lg flex items-center justify-center">
-              <GoogleOAuthProvider clientId="218028871541-fr431cpfp05060mborg1m4209vvttdg6.apps.googleusercontent.com">
-                <div className="w-full border-black-100 mx-auto text-lg flex justify-center">
-                  <GoogleLogin
-                    onSuccess={async (credentialResponse) => {
-                      const decode = jwt_decode(credentialResponse.credential);
-
-                      let name = decode.name;
-                      let gmail = decode.email;
-
-                      let data = await fetch(
-                        "http://localhost:5000/google-check",
-                        {
-                          method: "post",
-                          body: JSON.stringify({
-                            username: name,
-                            email: gmail,
-                          }),
-                          headers: {
-                            "Content-Type": "application/json",
-                          },
-                        }
-                      );
-
-                      data = await data.json();
-                      if (!data) {
-                        data = await fetch(
-                          "http://localhost:5000/google-login",
-                          {
-                            method: "post",
-                            body: JSON.stringify({
-                              username: name,
-                              email: gmail,
-                              image: "avtar.png",
-                            }),
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                          }
-                        );
-
-                        data = await data.json();
-                      }
-
-                      if (data.token) {
-                        localStorage.setItem(
-                          "user",
-                          JSON.stringify(data.result)
-                        );
-                        localStorage.setItem(
-                          "token",
-                          JSON.stringify(data.token)
-                        );
-                        navigate("/home");
-                      }
-                    }}
-                    onError={() => {
-                      console.log("Login Failed");
-                      toast.error("Something went wrong...", {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        rtl: false,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                      });
-                    }}
-                  />
-                </div>
-              </GoogleOAuthProvider>
-                  </div>*/}
-
             <button type="button" className="google-auth" onClick={google}>
               <svg
                 width="48"
@@ -213,7 +134,7 @@ const Login = () => {
             </p>
 
             <form onSubmit={handleSubmit(clickHandler)}>
-              <div className="my-3">
+              <div className="my-2">
                 <label htmlFor="email" className="label-text">
                   Email Address:
                   <span className="text-red-600 text-lg"> *</span>
@@ -241,7 +162,7 @@ const Login = () => {
               </div>
 
               <div className="mb-3">
-                <label htmlFor="password" className="label-text">
+                <label className="label-text">
                   Password :<span className="text-red-600 text-lg"> *</span>
                 </label>
                 <input

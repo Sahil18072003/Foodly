@@ -9,8 +9,6 @@ router.route("/login").post(authController.login);
 router.route("/forgotPassword").post(authController.forgotPassword);
 router.route("/otpVerification").post(authController.otpVerification);
 router.route("/changePassword").post(authController.changePassword);
-// router.route("/auth/google").get(authController.googleCheck);
-// router.route("/auth/google/").get(authController.googleLogin);
 router.route("/contactUs").post(authController.userContant);
 router.route("/adminPage").get(authController.getUserContact);
 router.route("/adminPage").post(authController.getUserDetails);

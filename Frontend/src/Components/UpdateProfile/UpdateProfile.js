@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./UpdateProfile.css";
-import { cloudinary_api_key } from "../Data/Api";
+// import { cloudinary_api_key } from "../Data/Api";
 import axios from "axios";
 
 const UpdateProfile = () => {
@@ -69,31 +69,31 @@ const UpdateProfile = () => {
   );
 
   /* Upload Profile photo to cloudinary */
-  const uploadImageToCloudinary = async (file, preset) => {
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", preset);
+  // const uploadImageToCloudinary = async (file, preset) => {
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("file", file);
+  //     formData.append("upload_preset", preset);
 
-      const response = await axios.post(cloudinary_api_key, formData);
+  //     const response = await axios.post(cloudinary_api_key, formData);
 
-      const uploadedImgData = {
-        statusText: response.statusText,
-        profileImage: response.data.secure_url,
-        publicId: response.data.public_id,
-      };
+  //     const uploadedImgData = {
+  //       statusText: response.statusText,
+  //       profileImage: response.data.secure_url,
+  //       publicId: response.data.public_id,
+  //     };
 
-      return uploadedImgData;
-    } catch (error) {
-      if (error.response.status === 400) {
-        toast(toast, "Image size too large", "error");
-      } else {
-        toast(toast, "Something went wrong. Try Again", "error");
-      }
-      console.log("Error in uploading profile photo to cloudinary : ", error);
-      return null;
-    }
-  };
+  //     return uploadedImgData;
+  //   } catch (error) {
+  //     if (error.response.status === 400) {
+  //       toast(toast, "Image size too large", "error");
+  //     } else {
+  //       toast(toast, "Something went wrong. Try Again", "error");
+  //     }
+  //     console.log("Error in uploading profile photo to cloudinary : ", error);
+  //     return null;
+  //   }
+  // };
 
   const clickHandler = async (e) => {
     

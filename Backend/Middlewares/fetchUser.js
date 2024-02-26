@@ -1,4 +1,6 @@
-const userSchema = require("../Models/User-model");
+require("dotenv").config();
+
+const User = require("../Models/User-model");
 var jwt = require("jsonwebtoken");
 
 const fetchuser = (req, res, next) => {
@@ -9,12 +11,25 @@ const fetchuser = (req, res, next) => {
     res.status(401).send({ error: "Please authentication using valid token." });
   }
   try {
-    const data = jwt.verify(token, JWT_SECRETE_TOKEN);
+    const data = jwt.verify(token, JWT_SECRETE_TOKEN, async (err, decode) => {
+      if (err) return res.status(403).json({ message: "Forbidden access" });
+
+      // Fetch user from the database, excluding the password
+      req.user = await User.findById(decode.userId).select("-password");
+
+      // Attach the token to the request object
+      req.token = token;
+
+      // Continue to the next middleware
+      next();
+    });
     // console.log(data);
     req.user = data.user;
     // console.log(req.user);
-    next();
   } catch (error) {
+    // console.log(error);
+
+    // Handle unauthorized access
     res.status(401).send({ error: "Please authentication using valid token." });
   }
 };

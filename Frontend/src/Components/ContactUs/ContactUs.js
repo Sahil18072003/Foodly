@@ -65,6 +65,7 @@ const ContactUs = () => {
           progress: undefined,
           theme: "light",
         });
+        setCreditial("");
       } else {
         toast.error("Error in sending message", {
           position: "top-right",
@@ -115,7 +116,7 @@ const ContactUs = () => {
               <div className="inline-flex space-x-2 items-center">
                 <ion-icon
                   name="call"
-                  className="text-teal-300 text-xl"
+                  className="text-white-900 text-xl"
                 ></ion-icon>
                 <span>Contact No.: +91 63535 49828</span>
               </div>
