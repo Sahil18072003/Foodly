@@ -125,7 +125,6 @@ const Admin = () => {
       headers: {
         // authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
       },
-      parmas: id,
     });
 
     deluser = await deluser.json();

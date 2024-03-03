@@ -5,7 +5,7 @@ import "./App.css";
 
 import Home from "./Components/Home/Home";
 import SignUp from "./Components/User/SignUp";
-import Login from "./Components/User/Login";
+import Login, { GoogleAuthCallback } from "./Components/User/Login";
 import ForgotPassword from "./Components/User/ForgotPassword";
 import ConfirmOTP from "./Components/User/ConfirmOTP";
 import ChangePassword from "./Components/User/ChangePassword";
@@ -62,6 +62,11 @@ function App() {
           />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<SignUp />} />
+          <Route
+            exact
+            path="/google/callback"
+            element={<GoogleAuthCallback />}
+          />
           <Route
             exact
             path="/forgotpassword"

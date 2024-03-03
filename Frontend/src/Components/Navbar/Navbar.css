@@ -9,3 +9,29 @@
     margin-top: 0;
     margin-bottom: 1.75rem;
 }
+
+.menu-item {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 7px 0;
+    padding: 8px 12px;
+    border: 2px solid orange;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.menu-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.menu-item a {
+    color: #333;
+    text-decoration: none;
+}
+
+.menu-item a:hover {
+    color: #333;
+    text-decoration: underline;
+}

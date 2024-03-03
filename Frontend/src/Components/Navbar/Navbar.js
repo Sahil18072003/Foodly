@@ -23,7 +23,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.clear();
     navigate("/login");
-    toast.success("Y", {
+    toast.success("You have been logged out successfully!", {
       position: "top-right",
       autoClose: 2000,
       hideProgressBar: false,
@@ -43,7 +43,14 @@ const Navbar = () => {
           className="font-bold text-2xl cursor-pointer flex items-center
         text-gray-800"
         >
-          <span className="text-orange-400 title">FOODLY</span>
+          <img
+            src={require(`../../assets/logo.png`)}
+            alt=""
+            className="mx-4 w-10 h-10 text-indigo-900 bg-white-500"
+          />
+          <Link to="/home">
+            <span className="text-orange-400 title">FOODLY</span>
+          </Link>
         </div>
 
         <div
@@ -54,8 +61,8 @@ const Navbar = () => {
         </div>
 
         <ul
-          className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
-            open ? "top-20 " : "top-[-490px]"
+          className={`md:flex md:items-center md:p-0 p-10 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto transition-all duration-500 ease-in ${
+            open ? "top-12 " : "top-[-490px]"
           }`}
         >
           <li className="md:ml-8 text-lg font-semibold md:my-0 my-7">
@@ -68,7 +75,7 @@ const Navbar = () => {
           </li>
           <li className="md:ml-8 text-lg font-semibold md:my-0 my-7">
             <Link
-              to="/addrestaurant"
+              to="/addRestaurant"
               className={`text-gray-800 hover:text-orange-400 duration-500`}
             >
               Add Restaurant
@@ -76,7 +83,7 @@ const Navbar = () => {
           </li>
           <li className="md:ml-8 text-lg font-semibold md:my-0 my-7">
             <Link
-              to="/findrestaurant"
+              to="/findRestaurant"
               className={`text-gray-800 hover:text-orange-400 duration-500`}
             >
               Find Restaurants
@@ -147,13 +154,13 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <li className="md:ml-8 text-md font-semibold md:my-0 my-7 bg-white-400 border-2 border-orange-400 px-3 py-2 rounded-md shadow-md hover:shadow-lg">
-                <Link className={`text-gray-800 duration-500`} to="/login">
+              <li class="md:ml-8 text-md font-semibold md:my-0 my-7 bg-white-400 border-2 border-orange-400 px-3 py-2 rounded-md shadow-md hover:shadow-lg">
+                <Link class="text-gray-800 duration-500" to="/login">
                   Login
                 </Link>
               </li>
-              <li className="md:ml-8 text-md font-semibold md:my-0 my-7 bg-orange-400 px-3 py-2 rounded-md shadow-md hover:shadow-lg">
-                <Link className={`text-gray-800 duration-500`} to="/signup">
+              <li class="md:ml-8 text-md font-semibold md:my-0 my-7 bg-orange-400 px-3 py-2 rounded-md shadow-md hover:shadow-lg">
+                <Link class="text-gray-800 duration-500" to="/signup">
                   SignUp
                 </Link>
               </li>

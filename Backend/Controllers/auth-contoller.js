@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-const fetchUser = require("../Middlewares/fetchUser");
 var jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const User = require("../Models/User-model");
@@ -51,7 +50,7 @@ const signup = async (req, res) => {
     };
 
     const authToken = jwt.sign(data, process.env.JWT_SECRET_TOKEN, {
-      expiresIn: "10",
+      expiresIn: "5m",
     });
 
     // Sending the response first
@@ -108,7 +107,7 @@ const login = async (req, res) => {
       };
 
       const authToken = jwt.sign(data, process.env.JWT_SECRET_TOKEN, {
-        expiresIn: 10,
+        expiresIn: "5m",
       });
 
       res.status(200).json({

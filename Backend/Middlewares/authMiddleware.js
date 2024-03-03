@@ -1,9 +1,9 @@
 require("dotenv").config();
 
 const User = require("../Models/User-model");
-var jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
-const fetchuser = (req, res, next) => {
+const verifyToken = (req, res, next) => {
   // Get the user from the JWT token and add id to req object
   const token = req.header("auth-token");
   //   console.log(token);
@@ -24,6 +24,7 @@ const fetchuser = (req, res, next) => {
       next();
     });
     // console.log(data);
+
     req.user = data.user;
     // console.log(req.user);
   } catch (error) {
@@ -34,4 +35,4 @@ const fetchuser = (req, res, next) => {
   }
 };
 
-module.exports = fetchuser;
+module.exports = verifyToken;

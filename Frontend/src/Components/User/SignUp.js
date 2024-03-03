@@ -40,15 +40,16 @@ function Signup() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          username: creditial.username,
           email: creditial.email,
           phone: creditial.phone,
           password: creditial.password,
+          profileImage: creditial.profileImage,
         }), // body data type must match "Content-Type" header
       });
 
       // parses JSON response into native JavaScript objects
       const json = await response?.json();
-      console.log(json);
 
       if (json.token) {
         localStorage.setItem("token", json.token);
@@ -56,7 +57,7 @@ function Signup() {
 
         toast.success("You are successfully signup with your email.", {
           position: "top-right",
-          autoClose: 2000,
+          autoClose: 1500,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -66,9 +67,8 @@ function Signup() {
           theme: "light",
         });
         setTimeout(() => {
-          // navigate(`/dashboard/updateProfile/${json.userId}`);
-          navigate("/home");
-        }, 4000);
+          navigate(`/home?user=${json.userId}`);
+        }, 2000);
       } else {
         toast.error("Your email has been already used...", {
           position: "top-right",

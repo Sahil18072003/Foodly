@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
@@ -55,7 +55,7 @@ const Login = () => {
           theme: "light",
         });
         setTimeout(() => {
-          navigate("/");
+          navigate(`/home?user=${json.userId}`);
         }, 2000);
       } else {
         toast.warning("Attention! Please provide correct information...", {
@@ -245,3 +245,24 @@ const Login = () => {
 };
 
 export default Login;
+
+export const GoogleAuthCallback = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Get the token and user ID from the URL query parameters
+    const { search } = location;
+    const params = new URLSearchParams(search);
+    const token = params.get("token");
+    const userId = params.get("userId");
+
+    // Store the token and user ID in the local storage
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", userId);
+
+    // Redirect to the desired page
+    window.location.href = "/"; // Redirect to the home page or any other desired route
+  }, [location]);
+
+  return null; // This component doesn't render anything
+};

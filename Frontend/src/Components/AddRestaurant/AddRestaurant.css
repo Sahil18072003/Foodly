@@ -1,0 +1,174 @@
+* {
+    padding: 0;
+    margin: 0;
+    color: black;
+}
+
+.add-res-page {
+    display: flex;
+    justify-content: center;
+    height: auto;
+}
+
+.res-back {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+}
+
+.res-sub-back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+
+.res-text {
+    font-size: 45px;
+    font-weight: 700;
+    color: white;
+    font-family: var(--subHeading-text-family);
+}
+
+.res-sub-text,
+.res-sub-textt {
+    font-weight: 200;
+    color: white;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-family: var(--subHeading-text-family);
+}
+
+.res-sub-textt {
+    margin-top: 10px;
+}
+
+.first {
+    background: url("../../assets/Restaurant/Bf.png");
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.first-content {
+    width: 50%;
+    margin: 5rem;
+}
+
+.mid {
+    background-color: rgb(222, 213, 213);
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.mid-content {
+    margin-top: -50px;
+    margin-bottom: 40px;
+    width: 50%;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.3rem;
+    background-color: white;
+    box-shadow: 40px;
+}
+
+.mid-table {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mid-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.mid-textt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.mid-right,
+.mid-left {
+    width: 50%;
+    height: 100%;
+}
+
+.mid-left ul,
+.mid-right ul {
+    list-style-type: none;
+}
+
+.mid-left li,
+.mid-right li {
+    font-weight: 200;
+    color: black;
+    margin: 2rem 3rem;
+    font-family: var(--subHeading-text-family);
+}
+
+.third {
+    background-color: white;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.third-content {
+    width: 55%;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 2rem;
+}
+
+.third-title {
+    font-size: 40px;
+    font-weight: 600;
+    color: black;
+    font-family: var(--subHeading-text-family);
+}
+
+.third-text {
+    font-size: 1rem;
+    font-weight: 100;
+    color: black;
+    margin: 0.6rem ;
+    font-family: var(--subHeading-text-family);
+}
+
+@media screen and (max-width: 1000px) {
+    .res-sub-back {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .res-sub-back {
+        width: 100%;
+    }
+
+    .res-text {
+        font-size: 30px;
+    }
+}
