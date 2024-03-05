@@ -2,31 +2,29 @@ const mongoose = require("mongoose");
 
 const restaurantSchema = new mongoose.Schema(
   {
-    username: {
+    restaurantName: {
       type: String,
       require: true,
     },
-    email: {
+    restaurantAddress: {
       type: String,
       require: true,
-      unique: true,
     },
-    phone: {
+    restaurantContact: {
       type: Number,
       require: true,
     },
-    password: {
+    landline: {
+      type: String,
+    },
+    ownerContact: {
       type: String,
       // require: true,
     },
-    address: {
-      type: String,
-      // require: true,
-    },
-    profileImage: {
+    ownerName: {
       type: String,
     },
-    isAdmin: {
+    ownerEmail: {
       type: Boolean,
       default: false,
     },

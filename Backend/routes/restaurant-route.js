@@ -1,8 +1,8 @@
-// const express = require("express");
-// const router = express.Router();
-// const restaurantController = require("../Controllers/restaurant-contoller");
+const express = require("express");
+const router = express.Router();
+const restaurantController = require("../Controllers/restaurant-contoller");
 
-// router.route("/addrestaurant").post(restaurantController.addRestaurant);
-// router.route("/findrestaurant").post(restaurantController.findRestaurant);
+router.route("/addRestaurant/addFrom").post(restaurantController.addRestaurant);
+router.route("/findRestaurant").post(restaurantController.findRestaurant);
 
-// module.exports = router;
+module.exports = router;

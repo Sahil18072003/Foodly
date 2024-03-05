@@ -13,6 +13,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import Dashborad from "./Components/Dashboard/Dashboard";
 import UpdateProfile from "./Components/UpdateProfile/UpdateProfile";
 import AddRestaurant from "./Components/AddRestaurant/AddRestaurant";
+import AddForm from "./Components/AddRestaurant/AddFrom";
 import UpdateRestaurant from "./Components/UpdateRestaurant/UpdateRestaurant";
 import FindRestaurant from "./Components/FindRestaurant/FindRestaurant";
 import Admin from "./Components/Admin/Admin";
@@ -125,7 +126,6 @@ function App() {
               <>
                 <Navbar />
                 <UpdateProfile />
-                <Footer />
               </>
             }
           />
@@ -142,12 +142,21 @@ function App() {
           />
           <Route
             exact
+            path="/addRestaurant/addForm"
+            element={
+              <>
+                <Navbar />
+                <AddForm />
+              </>
+            }
+          />
+          <Route
+            exact
             path="/dashboard/updateRestaurant"
             element={
               <>
                 <Navbar />
                 <UpdateRestaurant />
-                <Footer />
               </>
             }
           />
