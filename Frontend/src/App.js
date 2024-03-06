@@ -13,7 +13,9 @@ import Navbar from "./Components/Navbar/Navbar";
 import Dashborad from "./Components/Dashboard/Dashboard";
 import UpdateProfile from "./Components/UpdateProfile/UpdateProfile";
 import AddRestaurant from "./Components/AddRestaurant/AddRestaurant";
-import AddForm from "./Components/AddRestaurant/AddFrom";
+import AddForm1 from "./Components/AddRestaurant/AddFrom1";
+import AddForm2 from "./Components/AddRestaurant/AddFrom2";
+import AddForm3 from "./Components/AddRestaurant/AddFrom3";
 import UpdateRestaurant from "./Components/UpdateRestaurant/UpdateRestaurant";
 import FindRestaurant from "./Components/FindRestaurant/FindRestaurant";
 import Admin from "./Components/Admin/Admin";
@@ -142,11 +144,31 @@ function App() {
           />
           <Route
             exact
-            path="/addRestaurant/addForm"
+            path="/addRestaurant/addForm/1"
             element={
               <>
                 <Navbar />
-                <AddForm />
+                <AddForm1 />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/addRestaurant/addForm/2"
+            element={
+              <>
+                <Navbar />
+                <AddForm2 />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/addRestaurant/addForm/3"
+            element={
+              <>
+                <Navbar />
+                <AddForm3 />
               </>
             }
           />

@@ -2,31 +2,34 @@ const mongoose = require("mongoose");
 
 const restaurantSchema = new mongoose.Schema(
   {
-    restaurantName: {
+    resname: {
       type: String,
       require: true,
     },
-    restaurantAddress: {
+    resadd: {
       type: String,
       require: true,
     },
-    restaurantContact: {
+    rescontact: {
       type: Number,
       require: true,
     },
-    landline: {
-      type: String,
+    reslandline: {
+      type: Number,
+      require: true,
     },
-    ownerContact: {
-      type: String,
-      // require: true,
+    ownercontact: {
+      type: Number,
+      require: true,
     },
-    ownerName: {
+    ownername: {
       type: String,
+      require: true,
     },
-    ownerEmail: {
-      type: Boolean,
-      default: false,
+    owneremail: {
+      type: String,
+      require: true,
+      unique: true,
     },
   },
   {
@@ -34,6 +37,6 @@ const restaurantSchema = new mongoose.Schema(
   }
 );
 
-const User = new mongoose.model("User", userSchema);
+const Restaurant = new mongoose.model("Restaurant", restaurantSchema);
 
-module.exports = User;
+module.exports = Restaurant;

@@ -154,16 +154,16 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <li class="md:ml-8 text-md font-semibold md:my-0 my-7 bg-white-400 border-2 border-orange-400 px-3 py-2 rounded-md shadow-md hover:shadow-lg">
-                <Link class="text-gray-800 duration-500" to="/login">
+              <div className="md:ml-8 text-md font-semibold md:my-0 my-7 bg-white-400 border-2 border-orange-400 px-3 py-2 rounded-md shadow-md hover:shadow-lg">
+                <Link className="text-gray-800 duration-500" to="/login">
                   Login
                 </Link>
-              </li>
-              <li class="md:ml-8 text-md font-semibold md:my-0 my-7 bg-orange-400 px-3 py-2 rounded-md shadow-md hover:shadow-lg">
-                <Link class="text-gray-800 duration-500" to="/signup">
+              </div>
+              <div className="md:ml-8 text-md font-semibold md:my-0 my-7 bg-orange-400 px-3 py-2 rounded-md shadow-md hover:shadow-lg">
+                <Link className="text-gray-800 duration-500" to="/signup">
                   SignUp
                 </Link>
-              </li>
+              </div>
             </>
           )}
         </ul>

@@ -4,6 +4,7 @@ const express = require("express");
 const connectDb = require("./Configuration/database");
 const jwt = require("jsonwebtoken");
 const authRoute = require("./routes/auth-route");
+const restaurantRoute = require("./routes/restaurant-route")
 const cors = require("cors");
 const passport = require("passport");
 const session = require("express-session");
@@ -104,6 +105,8 @@ app.get("/logout", (req, res) => {
 });
 
 app.use("/api/auth", authRoute);
+
+app.use("/api/res", restaurantRoute);
 
 connectDb().then(() => {
   app.listen(PORT, () => {
