@@ -33,6 +33,53 @@ function AddForm1() {
     formState: { errors },
   } = useForm();
 
+  const contactVerify = async () => {
+    if (creditial.rescontact !== "") {
+      // Api call
+      const response = await fetch(`${host}/api/res/`, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rescontact: creditial.rescontact }), // body data type must match "Content-Type" header
+      });
+
+      const json = await response.json(); // parses JSON response into native JavaScript objects
+
+      if (json.userid) {
+        localStorage.setItem("res", json.email);
+        localStorage.setItem("resotp", json.resotp);
+        // localStorage.setItem("id", json.userid);
+
+        toast.success("OTP has been sent to your phone number.", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else {
+        toast.warning("Attention! Please provide correct contact number...", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    } else {
+      console.log("Incorrect contact number");
+    }
+  };
+
   const clickHandler = async (e) => {
     if (
       creditial.resname !== "" &&
@@ -62,6 +109,7 @@ function AddForm1() {
 
       // parses JSON response into native JavaScript objects
       const json = await response?.json();
+      console.log(json);
 
       if (json) {
         toast.success("Restaurant Information Submmitted Successfully.", {
@@ -185,11 +233,11 @@ function AddForm1() {
                 </div>
                 <div className="px-3 py-1">
                   <label htmlFor="resname" className="label-text">
-                    Restaurant Name:
+                    Restaurant Name :
                     <span className="text-red-600 text-lg"> *</span>
                   </label>
                   <input
-                    type="resname"
+                    type="text"
                     id="resname"
                     name="resname"
                     className="input-field"
@@ -206,11 +254,12 @@ function AddForm1() {
                 </div>
                 <div className="px-3 py-3">
                   <label htmlFor="resadd" className="label-text">
-                    Restaurant Address:
+                    Restaurant Address :
                     <span className="text-red-600 text-lg"> *</span>
                   </label>
-                  <input
-                    type="resadd"
+                  <textarea
+                    rows="3"
+                    type="textarea"
                     id="resadd"
                     name="resadd"
                     className="input-field"
@@ -242,11 +291,11 @@ function AddForm1() {
                 <div className="flex flex-column px-3 py-1">
                   <div className="w-4/5 pb-4">
                     <label htmlFor="rescontact" className="label-text">
-                      Restaurant Contact:
+                      Restaurant Contact :
                       <span className="text-red-600 text-lg"> *</span>
                     </label>
                     <input
-                      type="rescontact"
+                      type="contact"
                       id="rescontact"
                       name="rescontact"
                       className="input-field"
@@ -273,7 +322,7 @@ function AddForm1() {
                   <div className="w-1/5 text-md font-semibold ml-6 mt-7 mb-4 bg-orange-400 border-2 border-orange-400 rounded shadow-md hover:shadow-lg">
                     <Link
                       className="text-white-800 duration-500 text-middle"
-                      to="/login"
+                      onClick={contactVerify}
                     >
                       <div className="px-8 pt-2 pb-1">Verify</div>
                     </Link>
@@ -284,15 +333,16 @@ function AddForm1() {
                   or want to share landline number
                   <span className="w-1/5 border-b-2 border-gray-200"></span>
                 </p>
+
                 {/* Restaurant Landline: */}
                 <div className="flex flex-column px-3 pt-1">
                   <div className="w-4/5">
                     <label htmlFor="reslandline" className="label-text">
-                      Restaurant Landline:
+                      Restaurant Landline :
                       <span className="text-red-600 text-lg"> *</span>
                     </label>
                     <input
-                      type="reslandline"
+                      type="contact"
                       id="reslandline"
                       name="reslandline"
                       className="input-field"
@@ -340,11 +390,11 @@ function AddForm1() {
                 <div className="flex flex-column px-3 py-1">
                   <div className="w-4/5">
                     <label htmlFor="ownercontact" className="label-text">
-                      Restaurant Owner Contact:
+                      Restaurant Owner Contact :
                       <span className="text-red-600 text-lg"> *</span>
                     </label>
                     <input
-                      type="ownercontact"
+                      type="contact"
                       id="ownercontact"
                       name="ownercontact"
                       className="input-field"
@@ -380,11 +430,11 @@ function AddForm1() {
                 </div>
                 <div className="px-3 py-1">
                   <label htmlFor="ownername" className="label-text">
-                    Restaurant Owner Full Name:
+                    Restaurant Owner Full Name :
                     <span className="text-red-600 text-lg"> *</span>
                   </label>
                   <input
-                    type="ownername"
+                    type="text"
                     id="ownername"
                     name="ownername"
                     className="input-field"
@@ -406,11 +456,11 @@ function AddForm1() {
                 </div>
                 <div className="px-3 py-3">
                   <label htmlFor="owneremail" className="label-text">
-                    Restaurant Owner Email Address:
+                    Restaurant Owner Email Address :
                     <span className="text-red-600 text-lg"> *</span>
                   </label>
                   <input
-                    type="owneremail"
+                    type="email"
                     id="owneremail"
                     name="owneremail"
                     className="input-field"
@@ -432,31 +482,28 @@ function AddForm1() {
                 </div>
               </div>
 
-              <div className="flex justify-center drop-shadow-xl">
-                <button className="w-full text-black font-medium btn-txt bg-orange-400 border-0 py-2 px-6 focus:outline-none hover:bg-orange-500 rounded text-lg">
-                  Submit
-                </button>
+              <div className="add-footer">
+                <div className="md:flex md:p-0 absolute md:static w-full md:w-auto transition-all duration-500 ease-in align-middle justify-center items-center gap-20">
+                  <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
+                    <Link
+                      className="text-white-900 duration-500"
+                      to="/addRestaurant"
+                    >
+                      Back
+                    </Link>
+                  </div>
+
+                  <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
+                    <Link
+                      className="text-gray-800 duration-500"
+                      to="/addRestaurant/addForm/2"
+                    >
+                      Next
+                    </Link>
+                  </div>
+                </div>
               </div>
             </form>
-          </div>
-        </div>
-      </div>
-
-      <div className="add-footer">
-        <div className="md:flex md:p-0 absolute md:static w-full md:w-auto transition-all duration-500 ease-in align-middle justify-center items-center gap-20">
-          <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
-            <Link className="text-white-900 duration-500" to="/addRestaurant">
-              Back
-            </Link>
-          </div>
-
-          <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
-            <Link
-              className="text-gray-800 duration-500"
-              to="/addRestaurant/addForm/2"
-            >
-              Next
-            </Link>
           </div>
         </div>
       </div>

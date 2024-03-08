@@ -7,7 +7,9 @@ import "./Common.css";
 
 function ConfirmPassword() {
   const host = "http://localhost:5000";
+
   const [creditial, setCreditial] = useState({ password: "", cpassword: "" });
+  
   const navigate = useNavigate();
 
   const {
@@ -40,7 +42,6 @@ function ConfirmPassword() {
 
         if (json) {
           // localStorage.setItem('token', json.token)
-          // localStorage.removeItem("id");
           localStorage.clear();
           toast.success(
             "Password change successfully. You may proceed for login...",

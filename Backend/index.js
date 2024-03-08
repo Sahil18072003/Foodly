@@ -89,11 +89,15 @@ app.get(
     // Successful authentication
     const token = req.user.token;
     const userId = req.user.user._id;
+    console.log(userId);
 
     // Redirect to the client-side route that handles storing the user ID
     res.redirect(`${process.env.CLIENT_URL}?user=${userId}`);
+    // return res.status(200).json({ msg: "Login successfully done", token, user: userId });
   }
 );
+
+
 
 app.get("/login/success", verifyToken, (req, res) => {
   res.status(200).json({ message: "User authenticated", user: req.user });

@@ -6,11 +6,11 @@ import "./Navbar.css";
 const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
 
   const [showDropdown, setShowDropdown] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleMouseEnter = () => {
     setShowDropdown(true);

@@ -180,7 +180,7 @@ const ContactUs = () => {
                 </div>
                 <div className="mt-5">
                   <label htmlFor="" className="label-text">
-                    Your Email Address :{" "}
+                    Your Email Address :
                     <span className="text-red-600 text-lg"> *</span>
                   </label>
                   <input

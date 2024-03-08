@@ -7,7 +7,9 @@ import "./Common.css";
 
 function ForgotPassword() {
   const host = "http://localhost:5000";
+
   const [creditial, setCreditial] = useState({ email: "" });
+
   const navigate = useNavigate();
 
   const {
@@ -102,7 +104,8 @@ function ForgotPassword() {
                   {...register("email", {
                     required: "Email is required",
                     pattern: {
-                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g,
+                      value:
+                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/g,
                       message: "Email is not valid email",
                     },
                   })}

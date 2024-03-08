@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, fa1, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
+import { fa1, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
 import "./AddForm.css";
 
 function AddForm2() {
@@ -457,7 +457,10 @@ function AddForm2() {
           </li>
 
           <li className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
-            <Link className="text-gray-800 duration-500" to="/addRestaurant/addForm/3">
+            <Link
+              className="text-gray-800 duration-500"
+              to="/addRestaurant/addForm/3"
+            >
               Next
             </Link>
           </li>

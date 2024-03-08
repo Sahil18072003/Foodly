@@ -29,8 +29,8 @@ const restaurantSchema = new mongoose.Schema(
     owneremail: {
       type: String,
       require: true,
-      unique: true,
     },
+    
   },
   {
     timestamps: true,

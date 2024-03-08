@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
@@ -23,6 +23,49 @@ const Login = () => {
   }, []);
 
   const clickHandler = async (e) => {
+    // if (creditial.email == "" && creditial.password == "") {
+    //   const response = await fetch(`${host}/auth/google/callback`, {
+    //     method: "GET", //*GET, POST, PUT, DELETE, etc.
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       email: creditial.email,
+    //     }),
+    //   });
+
+    //   // parses JSON response into native JavaScript objects
+    //   const json = await response.json();
+
+    //   if (json.token) {
+    //     localStorage.setItem("token", json.token);
+    //     localStorage.setItem("user", JSON.stringify(json));
+
+    //     toast.success("You are successfully login with your email.", {
+    //       position: "top-right",
+    //       autoClose: 1500,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       rtl: false,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //       theme: "light",
+    //     });
+    //   } else {
+    //     toast.warning("Attention! Please provide correct information...", {
+    //       position: "top-right",
+    //       autoClose: 2000,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       rtl: false,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //       theme: "light",
+    //     });
+    //   }
+    // } else
     if (creditial.email !== "" && creditial.password !== "") {
       // Api call
       const response = await fetch(`${host}/api/auth/login`, {
@@ -136,7 +179,7 @@ const Login = () => {
             <form onSubmit={handleSubmit(clickHandler)}>
               <div className="my-2">
                 <label htmlFor="email" className="label-text">
-                  Email Address:
+                  Email Address :
                   <span className="text-red-600 text-lg"> *</span>
                 </label>
                 <input
@@ -149,7 +192,7 @@ const Login = () => {
                     required: "Email is required",
                     pattern: {
                       value:
-                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g,
+                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/g,
                       message: "Email is not valid",
                     },
                   })}
@@ -245,24 +288,3 @@ const Login = () => {
 };
 
 export default Login;
-
-export const GoogleAuthCallback = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    // Get the token and user ID from the URL query parameters
-    const { search } = location;
-    const params = new URLSearchParams(search);
-    const token = params.get("token");
-    const userId = params.get("userId");
-
-    // Store the token and user ID in the local storage
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", userId);
-
-    // Redirect to the desired page
-    window.location.href = "/"; // Redirect to the home page or any other desired route
-  }, [location]);
-
-  return null; // This component doesn't render anything
-};

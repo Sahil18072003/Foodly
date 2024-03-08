@@ -1,4 +1,8 @@
 const Restaurant = require("./../Models/Restaurant-model");
+const client = require("twilio")(
+  process.env.ACCOUNT_SID,
+  process.env.AUTH_TOKEN
+);
 
 const addRestaurant1 = async (req, res) => {
   try {
@@ -22,9 +26,17 @@ const addRestaurant1 = async (req, res) => {
       owneremail,
     });
 
-    console.log(restaurantData);
+    let otp = Math.floor(100000 + Math.random() * 900000);
 
-    res.status(200).send({ msg: "Form successfully submitted", restaurantData });
+    await client.messages.create({
+      body: `Your otp is ${otp}`,
+      messagingServiceSid: process.env.ACCOUNT_SID,
+      to: restaurantData.rescontact,
+    });
+
+    res
+      .status(200)
+      .send({ msg: "Form successfully submitted", restaurantData });
   } catch (error) {
     console.log("Error:", error);
     res.status(500).send({ error: "Internal server error" });
