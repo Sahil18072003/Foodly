@@ -8,6 +8,8 @@
 .add-res-page {
     display: flex;
     min-height: 100vh;
+    /* background: url("../../assets/Background/Bg_3.jpg"); */
+    background-size: 80%;
 }
 
 .add-res-content {
@@ -91,7 +93,7 @@
     box-shadow: 0 4px 8px 0 rgba(77, 76, 76, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.label-text {
+.res-label-text {
     font-size: 1.1rem;
     color: black;
     /* font-weight: 700; */
@@ -104,7 +106,7 @@
     width: fit-content;
 }
 
-.input-field {
+.res-input-field {
     width: 100%;
     background-color: #ffffff;
     border-radius: 4px;
@@ -116,7 +118,7 @@
     transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 
-.input-field:focus {
+.res-input-field:focus {
     border-color: #4c51bf;
     box-shadow: 0 0 0 2px rgba(76, 81, 191, 0.25);
 }

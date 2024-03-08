@@ -47,7 +47,8 @@
 }
 
 .first {
-    background: url("../../assets/Restaurant/Bf.png");
+    background: url("../../assets/Background/Bgz_6.png");
+    background-size: 100%;
     width: 100%;
     height: auto;
     display: flex;
@@ -58,7 +59,7 @@
 
 .first-content {
     width: 50%;
-    margin: 5rem;
+    margin: 4rem;
 }
 
 .mid {
@@ -161,7 +162,8 @@
 }
 
 .forth {
-    background: url("../../assets/Restaurant/Bf.png");
+    background: url("../../assets/Background/Bg_2.jpg");
+    background-size: 100%;
     width: 100%;
     height: auto;
     display: flex;
@@ -182,7 +184,7 @@
     font-weight: 600;
     justify-content: center;
     text-align: center;
-    color: white;
+    color: black;
     font-family: var(--subHeading-text-family);
 }
 

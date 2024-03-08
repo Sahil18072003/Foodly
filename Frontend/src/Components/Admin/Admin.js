@@ -7,12 +7,19 @@ const Admin = () => {
   const host = "http://localhost:5000";
 
   const [modalAdminUser, setModalAdminUser] = useState(false);
+
   const [userMessage, setUserMessage] = useState([]);
+
   // const [modalAdminProperty, setModalAdminProperty] = useState(false);
+
   const [modalAdminContactUs, setModalAdminContactUs] = useState(false);
+
   const [userlist, setUserlist] = useState([]);
+
   // const [database, setdatabase] = useState([]);
+
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  
   const [userToDelete, setUserToDelete] = useState(null);
 
   const navigate = useNavigate();

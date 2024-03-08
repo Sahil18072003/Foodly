@@ -86,7 +86,7 @@ function AddRestaurant() {
           <div className="third">
             <div className="third-content">
               <div className="third-title">
-                Why should you partner with Zomato?
+                Why should you partner with Foodly?
               </div>
               <div className="third-text">
                 Foodly enables you to get 60% more revenue, 10x new customers
@@ -102,7 +102,7 @@ function AddRestaurant() {
                   />
                   <div className="w-2/3 h-full mt-3">
                     <div className="text-sky-600 text-xl align-middle">
-                      1000+ cities
+                      500+ cities
                     </div>
                     <div className="h-1/2 align-middle">in India</div>
                   </div>
@@ -115,7 +115,7 @@ function AddRestaurant() {
                   />
                   <div className="w-2/3 h-full mt-3">
                     <div className="text-sky-600 text-xl align-middle">
-                      3 lakh+
+                      1 lakh+
                     </div>
                     <div className="h-1/2 align-middle">
                       restaurant listings
@@ -130,7 +130,7 @@ function AddRestaurant() {
                   />
                   <div className="w-2/3 h-full mt-3">
                     <div className="text-sky-600 text-xl align-middle">
-                      5.0 crore+
+                      1.0 crore+
                     </div>
                     <div className="h-1/2 align-middle">monthly orders</div>
                   </div>

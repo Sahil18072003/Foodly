@@ -19,8 +19,8 @@ const UpdateProfile = () => {
 
   const [creditial, setCreditial] = useState({
     profileImage: defaultImage,
-    firstname: "",
-    lastname: "",
+    firstname: user?.username ? user?.username : "",
+    lastname: user?.username ? user?.username : "",
     email: user?.email ? user?.email : "",
     phone: user?.phone ? user?.phone : "",
     address: user?.address ? user?.address : "",
@@ -96,7 +96,6 @@ const UpdateProfile = () => {
   // };
 
   const clickHandler = async (e) => {
-    
     if (
       // creditial.profileImage !== "" &&
       creditial.firstname !== "" &&
@@ -130,7 +129,7 @@ const UpdateProfile = () => {
       if (json) {
         toast.success("Your Profile Updated successfully!!", {
           position: "top-right",
-          autoClose: 2000,
+          autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -139,6 +138,9 @@ const UpdateProfile = () => {
           progress: undefined,
           theme: "light",
         });
+        setTimeout(() => {
+          navigate(`/dashboard`);
+        }, 2000);
       } else {
         toast.error("Error in Update Profile", {
           position: "top-right",

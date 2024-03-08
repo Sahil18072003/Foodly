@@ -21,6 +21,12 @@ function AddForm1() {
     owneremail: "",
   });
 
+  const [showOtpModal, setShowOtpModal] = useState(false);
+
+  const [otpCode, setOtpCode] = useState("");
+
+  const [otpError, setOtpError] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,18 +39,22 @@ function AddForm1() {
     formState: { errors },
   } = useForm();
 
-  const contactVerify = async () => {
+  const openOtpModal = async () => {
     if (creditial.rescontact !== "") {
       // Api call
-      const response = await fetch(`${host}/api/res/`, {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ rescontact: creditial.rescontact }), // body data type must match "Content-Type" header
-      });
+      const response = await fetch(
+        `${host}/api/res/addRestaurant/addFrom/sendOtp`,
+        {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ rescontact: creditial.rescontact }), // body data type must match "Content-Type" header
+        }
+      );
 
       const json = await response.json(); // parses JSON response into native JavaScript objects
+      console.log(json);
 
       if (json.userid) {
         localStorage.setItem("res", json.email);
@@ -62,6 +72,9 @@ function AddForm1() {
           progress: undefined,
           theme: "light",
         });
+        setTimeout(() => {
+          setShowOtpModal(true);
+        }, 2000);
       } else {
         toast.warning("Attention! Please provide correct contact number...", {
           position: "top-right",
@@ -78,6 +91,29 @@ function AddForm1() {
     } else {
       console.log("Incorrect contact number");
     }
+  };
+
+  const closeOtpModal = () => {
+    setShowOtpModal(false);
+    setOtpCode("");
+    setOtpError("");
+  };
+
+  const otpSubmit = () => {
+    // Here you can handle OTP verification logic
+    // For now, I'll just check if the entered OTP is '123456'
+    if (otpCode === "123456") {
+      // Perform necessary actions after successful OTP verification
+      console.log("OTP Verified!");
+      closeOtpModal();
+    } else {
+      setOtpError("Invalid OTP. Please try again.");
+    }
+  };
+
+  const handleOtpChange = (e) => {
+    setOtpCode(e.target.value);
+    setOtpError("");
   };
 
   const clickHandler = async (e) => {
@@ -124,7 +160,7 @@ function AddForm1() {
           theme: "light",
         });
         setTimeout(() => {
-          navigate(`/addRestaurant/addForm/2?resId=${json._id}`);
+          navigate(`/addRestaurant/addForm/2`);
         }, 2000);
       } else {
         toast.error("Your email has been already used...", {
@@ -232,7 +268,7 @@ function AddForm1() {
                   <div className="text-sm">Name, Address and Location</div>
                 </div>
                 <div className="px-3 py-1">
-                  <label htmlFor="resname" className="label-text">
+                  <label htmlFor="resname" className="res-label-text">
                     Restaurant Name :
                     <span className="text-red-600 text-lg"> *</span>
                   </label>
@@ -240,10 +276,15 @@ function AddForm1() {
                     type="text"
                     id="resname"
                     name="resname"
-                    className="input-field"
+                    className="res-input-field"
                     value={creditial.resname}
                     {...register("resname", {
                       required: "Restaurant Name is required",
+                      pattern: {
+                        value: /^[A-Za-z]+(?: [A-Za-z]+)?$/,
+                        message:
+                          "Only alphabetic characters are allowed in Name",
+                      },
                     })}
                     onChange={onChange}
                     autoComplete="false"
@@ -252,8 +293,8 @@ function AddForm1() {
                     {errors.resname?.message}
                   </p>
                 </div>
-                <div className="px-3 py-3">
-                  <label htmlFor="resadd" className="label-text">
+                <div className="px-3 pt-3 pb-6">
+                  <label htmlFor="resadd" className="res-label-text">
                     Restaurant Address :
                     <span className="text-red-600 text-lg"> *</span>
                   </label>
@@ -262,7 +303,7 @@ function AddForm1() {
                     type="textarea"
                     id="resadd"
                     name="resadd"
-                    className="input-field"
+                    className="res-input-field"
                     value={creditial.resadd}
                     {...register("resadd", {
                       required: "Restaurant Address is required",
@@ -290,7 +331,7 @@ function AddForm1() {
                 {/* Restaurant Contact: */}
                 <div className="flex flex-column px-3 py-1">
                   <div className="w-4/5 pb-4">
-                    <label htmlFor="rescontact" className="label-text">
+                    <label htmlFor="rescontact" className="res-label-text">
                       Restaurant Contact :
                       <span className="text-red-600 text-lg"> *</span>
                     </label>
@@ -298,7 +339,7 @@ function AddForm1() {
                       type="contact"
                       id="rescontact"
                       name="rescontact"
-                      className="input-field"
+                      className="res-input-field"
                       value={creditial.rescontact}
                       {...register("rescontact", {
                         required: "Restaurant Contact Number is required",
@@ -319,61 +360,78 @@ function AddForm1() {
                       {errors.rescontact?.message}
                     </p>
                   </div>
-                  <div className="w-1/5 text-md font-semibold ml-6 mt-7 mb-4 bg-orange-400 border-2 border-orange-400 rounded shadow-md hover:shadow-lg">
-                    <Link
+                  <div className="w-1/5 text-md font-semibold ml-6 mt-7 mb-4 bg-orange-400 hover:bg-orange-500 border-2 border-orange-400 rounded shadow-md hover:shadow-lg">
+                    <div
                       className="text-white-800 duration-500 text-middle"
-                      onClick={contactVerify}
+                      onClick={openOtpModal}
                     >
                       <div className="px-8 pt-2 pb-1">Verify</div>
-                    </Link>
+                    </div>
+                    {showOtpModal && (
+                      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                        <div className="bg-white rounded-lg lg:w-1/4 md:w-1/2 sm:w-1/2">
+                          <div className="py-7 px-6">
+                            <input
+                              type="text"
+                              placeholder="Enter OTP"
+                              value={otpCode}
+                              onChange={handleOtpChange}
+                              className="input-field mb-2"
+                            />
+                            <p className="text-red-500 text-sm mb-4">
+                              {otpError}
+                            </p>
+                            <div className="flex justify-end">
+                              <button
+                                onClick={otpSubmit}
+                                className="text-black font-semibold mx-2 px-4 py-2 rounded bg-orange-400 hover:bg-orange-500"
+                              >
+                                Submit
+                              </button>
+                              <button
+                                onClick={closeOtpModal}
+                                className="text-gray-700 font-semibold mx-2 px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
-                <p className="flex align-middle items-center justify-between">
-                  <span className="w-1/5 border-b-2 border-gray-200"></span>
-                  or want to share landline number
-                  <span className="w-1/5 border-b-2 border-gray-200"></span>
-                </p>
 
                 {/* Restaurant Landline: */}
-                <div className="flex flex-column px-3 pt-1">
-                  <div className="w-4/5">
-                    <label htmlFor="reslandline" className="label-text">
-                      Restaurant Landline :
-                      <span className="text-red-600 text-lg"> *</span>
-                    </label>
-                    <input
-                      type="contact"
-                      id="reslandline"
-                      name="reslandline"
-                      className="input-field"
-                      value={creditial.reslandline}
-                      {...register("reslandline", {
-                        required: "Restaurant Landline Number is required",
-                        pattern: {
-                          value: /^[6-9]{1}[0-9]{9}$/,
-                          message: "Restaurant Landline Number is not valid",
-                        },
-                        maxLength: {
-                          value: 10,
-                          message:
-                            "Max 10 characters for Restaurant Landline Number",
-                        },
-                      })}
-                      onChange={onChange}
-                      autoComplete="false"
-                    />
-                    <p className="text-sm text-red-500 absolute">
-                      {errors.reslandline?.message}
-                    </p>
-                  </div>
-                  <div className="w-1/5 text-md font-semibold ml-6 mt-7 mb-4 bg-orange-400 border-2 border-orange-400 rounded shadow-md hover:shadow-lg">
-                    <Link
-                      className="text-white-800 duration-500 text-middle"
-                      to="/login"
-                    >
-                      <div className="px-8 pt-2 pb-1">Verify</div>
-                    </Link>
-                  </div>
+                <div className="px-3 pt-3 pb-6">
+                  <label htmlFor="reslandline" className="label-text">
+                    Restaurant Landline :
+                    <span className="text-red-600 text-lg"> *</span>
+                  </label>
+                  <input
+                    type="contact"
+                    id="reslandline"
+                    name="reslandline"
+                    className="input-field"
+                    value={creditial.reslandline}
+                    {...register("reslandline", {
+                      required: "Restaurant Landline Number is required",
+                      pattern: {
+                        value: /^[6-9]{1}[0-9]{9}$/,
+                        message: "Restaurant Landline Number is not valid",
+                      },
+                      maxLength: {
+                        value: 10,
+                        message:
+                          "Max 10 characters for Restaurant Landline Number",
+                      },
+                    })}
+                    onChange={onChange}
+                    autoComplete="false"
+                  />
+                  <p className="text-sm text-red-500 absolute">
+                    {errors.reslandline?.message}
+                  </p>
                 </div>
               </div>
 
@@ -442,7 +500,7 @@ function AddForm1() {
                     {...register("ownername", {
                       required: "Restaurant Owner Name is required",
                       pattern: {
-                        value: /^[A-Za-z]+$/,
+                        value: /^[A-Za-z]+(?: [A-Za-z]+)?$/,
                         message:
                           "Only alphabetic characters are allowed in Name",
                       },
@@ -454,7 +512,7 @@ function AddForm1() {
                     {errors.ownername?.message}
                   </p>
                 </div>
-                <div className="px-3 py-3">
+                <div className="px-3 pt-3 pb-6">
                   <label htmlFor="owneremail" className="label-text">
                     Restaurant Owner Email Address :
                     <span className="text-red-600 text-lg"> *</span>
@@ -484,7 +542,7 @@ function AddForm1() {
 
               <div className="add-footer">
                 <div className="md:flex md:p-0 absolute md:static w-full md:w-auto transition-all duration-500 ease-in align-middle justify-center items-center gap-20">
-                  <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
+                  <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 hover:bg-orange-500 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
                     <Link
                       className="text-white-900 duration-500"
                       to="/addRestaurant"
@@ -493,13 +551,8 @@ function AddForm1() {
                     </Link>
                   </div>
 
-                  <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
-                    <Link
-                      className="text-gray-800 duration-500"
-                      to="/addRestaurant/addForm/2"
-                    >
-                      Next
-                    </Link>
+                  <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 hover:bg-orange-500 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
+                    <button className="text-gray-800 duration-500">Next</button>
                   </div>
                 </div>
               </div>
