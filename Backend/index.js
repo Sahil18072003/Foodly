@@ -4,7 +4,7 @@ const express = require("express");
 const connectDb = require("./Configuration/database");
 const jwt = require("jsonwebtoken");
 const authRoute = require("./routes/auth-route");
-const restaurantRoute = require("./routes/restaurant-route")
+const restaurantRoute = require("./routes/restaurant-route");
 const cors = require("cors");
 const passport = require("passport");
 const session = require("express-session");
@@ -89,7 +89,9 @@ app.get(
     // Successful authentication
     const token = req.user.token;
     const userId = req.user.user._id;
+
     console.log(userId);
+    console.log(token);
 
     // Redirect to the client-side route that handles storing the user ID
     res.redirect(`${process.env.CLIENT_URL}?user=${userId}`);
@@ -97,10 +99,8 @@ app.get(
   }
 );
 
-
-
-app.get("/login/success", verifyToken, (req, res) => {
-  res.status(200).json({ message: "User authenticated", user: req.user });
+app.get("auth/home", (req, res, next) => {
+  res.status(200).json({ message: "User authenticated", user:  req.user.user._id });
 });
 
 app.get("/logout", (req, res) => {

@@ -49,17 +49,15 @@ function AddForm1() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ rescontact: creditial.rescontact }), // body data type must match "Content-Type" header
+          body: JSON.stringify({ rescontact: "+91" + creditial.rescontact }), // body data type must match "Content-Type" header
         }
       );
 
       const json = await response.json(); // parses JSON response into native JavaScript objects
       console.log(json);
 
-      if (json.userid) {
-        localStorage.setItem("res", json.email);
-        localStorage.setItem("resotp", json.resotp);
-        // localStorage.setItem("id", json.userid);
+      if (json.resContact) {
+        localStorage.setItem("resContact", json.resContact);
 
         toast.success("OTP has been sent to your phone number.", {
           position: "top-right",
@@ -99,15 +97,49 @@ function AddForm1() {
     setOtpError("");
   };
 
-  const otpSubmit = () => {
-    // Here you can handle OTP verification logic
-    // For now, I'll just check if the entered OTP is '123456'
-    if (otpCode === "123456") {
-      // Perform necessary actions after successful OTP verification
-      console.log("OTP Verified!");
-      closeOtpModal();
+  const otpSubmit = async () => {
+    if (creditial.otpCode == "") {
+      const response = await fetch(
+        `${host}/api/res/addRestaurant/addFrom/checkOtp`,
+        {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ rescontact: creditial.rescontact }), // body data type must match "Content-Type" header
+        }
+      );
+
+      const json = await response.json();
+
+      if (json.genotp) {
+        localStorage.removeItem("resContact");
+        closeOtpModal();
+      } else {
+        toast.warning("Attention! Please provide correct OTP...", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     } else {
-      setOtpError("Invalid OTP. Please try again.");
+      toast.error("Oops! OTP is no more valid...", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -145,7 +177,6 @@ function AddForm1() {
 
       // parses JSON response into native JavaScript objects
       const json = await response?.json();
-      console.log(json);
 
       if (json) {
         toast.success("Restaurant Information Submmitted Successfully.", {
@@ -343,12 +374,12 @@ function AddForm1() {
                       value={creditial.rescontact}
                       {...register("rescontact", {
                         required: "Restaurant Contact Number is required",
-                        pattern: {
-                          value: /^[6-9]{1}[0-9]{9}$/,
-                          message: "Restaurant Contact Number is not valid",
-                        },
+                        // pattern: {
+                        //   value: /^[6-9]{1}[0-9]{9}$/,
+                        //   message: "Restaurant Contact Number is not valid",
+                        // },
                         maxLength: {
-                          value: 10,
+                          value: 14,
                           message:
                             "Max 10 characters for Restaurant Contact Number",
                         },
@@ -404,7 +435,7 @@ function AddForm1() {
 
                 {/* Restaurant Landline: */}
                 <div className="px-3 pt-3 pb-6">
-                  <label htmlFor="reslandline" className="label-text">
+                  <label htmlFor="reslandline" className="res-label-text">
                     Restaurant Landline :
                     <span className="text-red-600 text-lg"> *</span>
                   </label>
@@ -412,18 +443,18 @@ function AddForm1() {
                     type="contact"
                     id="reslandline"
                     name="reslandline"
-                    className="input-field"
+                    className="res-input-field"
                     value={creditial.reslandline}
                     {...register("reslandline", {
                       required: "Restaurant Landline Number is required",
-                      pattern: {
-                        value: /^[6-9]{1}[0-9]{9}$/,
-                        message: "Restaurant Landline Number is not valid",
-                      },
+                      // pattern: {
+                      //   value: /^[6-9]{1}[0-9]{9}$/,
+                      //   message: "Restaurant Landline Number is not valid",
+                      // },
                       maxLength: {
-                        value: 10,
+                        value: 16,
                         message:
-                          "Max 10 characters for Restaurant Landline Number",
+                          "Max 12 characters for Restaurant Landline Number",
                       },
                     })}
                     onChange={onChange}
@@ -447,7 +478,7 @@ function AddForm1() {
                 </div>
                 <div className="flex flex-column px-3 py-1">
                   <div className="w-4/5">
-                    <label htmlFor="ownercontact" className="label-text">
+                    <label htmlFor="ownercontact" className="res-label-text">
                       Restaurant Owner Contact :
                       <span className="text-red-600 text-lg"> *</span>
                     </label>
@@ -455,17 +486,17 @@ function AddForm1() {
                       type="contact"
                       id="ownercontact"
                       name="ownercontact"
-                      className="input-field"
+                      className="res-input-field"
                       value={creditial.ownercontact}
                       {...register("ownercontact", {
                         required: "Restaurant Owner Contact Number is required",
-                        pattern: {
-                          value: /^[6-9]{1}[0-9]{9}$/,
-                          message:
-                            "Restaurant Owner Contact Number is not valid",
-                        },
+                        // pattern: {
+                        //   value: /^[6-9]{1}[0-9]{9}$/,
+                        //   message:
+                        //     "Restaurant Owner Contact Number is not valid",
+                        // },
                         maxLength: {
-                          value: 10,
+                          value: 14,
                           message:
                             "Max 10 characters for Restaurant Owner Contact Number",
                         },

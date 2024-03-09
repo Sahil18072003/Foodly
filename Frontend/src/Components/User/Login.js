@@ -23,50 +23,49 @@ const Login = () => {
   }, []);
 
   const clickHandler = async (e) => {
-    // if (creditial.email == "" && creditial.password == "") {
-    //   const response = await fetch(`${host}/auth/google/callback`, {
-    //     method: "GET", //*GET, POST, PUT, DELETE, etc.
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       email: creditial.email,
-    //     }),
-    //   });
+    if (creditial.email == "" && creditial.password == "") {
+      const response = await fetch(`${host}/auth/google/callback`, {
+        method: "GET", //*GET, POST, PUT, DELETE, etc.
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: creditial.email,
+        }),
+      });
 
-    //   // parses JSON response into native JavaScript objects
-    //   const json = await response.json();
+      // parses JSON response into native JavaScript objects
+      const json = await response.json();
 
-    //   if (json.token) {
-    //     localStorage.setItem("token", json.token);
-    //     localStorage.setItem("user", JSON.stringify(json));
+      if (json.token) {
+        localStorage.setItem("token", json.token);
+        localStorage.setItem("user", JSON.stringify(json));
 
-    //     toast.success("You are successfully login with your email.", {
-    //       position: "top-right",
-    //       autoClose: 1500,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       rtl: false,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "light",
-    //     });
-    //   } else {
-    //     toast.warning("Attention! Please provide correct information...", {
-    //       position: "top-right",
-    //       autoClose: 2000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       rtl: false,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "light",
-    //     });
-    //   }
-    // } else
-    if (creditial.email !== "" && creditial.password !== "") {
+        toast.success("You are successfully login with your email.", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else {
+        toast.warning("Attention! Please provide correct information...", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    } else if (creditial.email !== "" && creditial.password !== "") {
       // Api call
       const response = await fetch(`${host}/api/auth/login`, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.

@@ -17,9 +17,9 @@ router.route("/contactUs").post(authController.userContant);
 router.route("/adminPage").get(authController.getUserContact);
 router.route("/adminPage").post(authController.getUserDetails);
 router.route("/adminPage/:id").delete(authController.deleteUser);
-router.route("/dashboard").post(verifyToken, authController.dashboard);
+router.route("/dashboard").post(authController.dashboard);
 router
   .route("/dashboard/updateProfile/:id")
-  .put(verifyToken, authController.updateUserProfile);
+  .put(authController.updateUserProfile);
 
 module.exports = router;

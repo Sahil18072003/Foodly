@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const verifyToken = (req, res, next) => {
   // Get the user from the JWT token and add id to req object
-  const token = req.header("auth-token");
+  const token = req.header("token");
   //   console.log(token);
   if (!token) {
     res.status(401).send({ error: "Please authentication using valid token." });

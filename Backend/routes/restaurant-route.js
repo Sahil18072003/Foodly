@@ -8,6 +8,9 @@ router
 router
   .route("/addRestaurant/addFrom/sendOtp")
   .post(restaurantController.sendOtp);
+router
+  .route("/addRestaurant/addFrom/checkOtp")
+  .post(restaurantController.checkOtp);
 // router.route("/addRestaurant/addFrom/2").post(restaurantController.addRestaurant2);
 // router.route("/addRestaurant/addFrom/3").post(restaurantController.addRestaurant3);
 // router.route("/findRestaurant").post(restaurantController.findRestaurant);

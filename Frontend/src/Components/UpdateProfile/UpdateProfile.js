@@ -114,7 +114,7 @@ const UpdateProfile = () => {
             // authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
           body: JSON.stringify({
-            profileImage: creditial.profileImage,
+            // profileImage: creditial.profileImage,
             username: `${creditial.firstname} ${creditial.lastname}`,
             email: creditial.email,
             phone: creditial.phone,
@@ -125,6 +125,7 @@ const UpdateProfile = () => {
 
       // parses JSON response into native JavaScript objects
       const json = await response.json();
+      console.log(json);
 
       if (json) {
         toast.success("Your Profile Updated successfully!!", {

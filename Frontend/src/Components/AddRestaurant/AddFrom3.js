@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, fa1, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
+import { fa1, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
 import "./AddForm.css";
 
 function AddForm3() {
@@ -73,93 +73,88 @@ function AddForm3() {
         <div className="add-right">
           <div className="add-third-part">
             <div className="text-5xl">Upload images</div>
-            {/* seventh part */}
-            <div className="add-right-seven pb-3 rounded-lg">
-              <div className="w-4/5 py-2 px-6">
-                <div className="text-2xl">Menu images</div>
+            {/* First part */}
+            <div className="add-right-first p-4 rounded-lg">
+              <div className="p-3">
+                <div className="text-2xl font-semibold">Menu images</div>
                 <div className="text-sm">
                   Your menu will be directly visible to customers on Zomato
                 </div>
               </div>
-              <div className="flex flex-column">
-                <div className="w-4/5 py-4 px-6">
-                  <label htmlFor="email" className="label-text">
-                    Restaurant Owner Contact:
-                    <span className="text-red-600 text-lg"> *</span>
-                  </label>
-                  <input
-                    type="reslandline"
-                    id="reslandline"
-                    name="reslandline"
-                    className="input-field"
-                    // value={creditial.email}
-                    // {...register("email", {
-                    //   required: "Email is required",
-                    //   pattern: {
-                    //     value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g,
-                    //     message: "Email is not valid",
-                    //   },
-                    // })}
-                    // onChange={onChange}
-                    autoComplete="false"
-                  />
-                  <p className="text-sm text-red-500 absolute">
-                    {/* {errors.email?.message} */}
-                  </p>
-                </div>
-                <div className="w-1/5 text-md font-semibold mt-11 mb-4 mr-6 bg-orange-400 border-2 border-orange-400 px-5 py-2 rounded-md shadow-md hover:shadow-lg">
-                  <Link
-                    className="text-white-800 duration-500 text-middle"
-                    to="/login"
-                  >
-                    <span className="ml-5">Verify</span>
-                  </Link>
-                </div>
+              <div className="px-3 pt-3 pb-6">
+                <input
+                  rows="6"
+                  type="file"
+                  id="menuimg"
+                  name="menuimg"
+                  className="res-input-field"
+                  // value={creditial.resadd}
+                  // {...register("resadd", {
+                  //   required: "Restaurant Address is required",
+                  // })}
+                  // onChange={onChange}
+                  autoComplete="false"
+                />
+                <p className="text-sm text-red-500 absolute">
+                  {/* {errors.resadd?.message} */}
+                </p>
               </div>
             </div>
 
-            {/* eight part */}
-            <div className="add-right-eight pb-3 rounded-lg">
-              <div className="w-4/5 py-2 px-6">
-                <div className="text-2xl">Menu images</div>
+            {/* Second part */}
+            <div className="add-right-first p-4 rounded-lg">
+              <div className="p-3">
+                <div className="text-2xl font-semibold">Restaurant images</div>
                 <div className="text-sm">
-                  Your menu will be directly visible to customers on Zomato
+                  Please upload atleast one facade shot (picture of the
+                  restaurant front)
                 </div>
               </div>
-              <div className="flex flex-column">
-                <div className="w-4/5 py-4 px-6">
-                  <label htmlFor="email" className="label-text">
-                    Restaurant Owner Contact:
-                    <span className="text-red-600 text-lg"> *</span>
-                  </label>
-                  <input
-                    type="reslandline"
-                    id="reslandline"
-                    name="reslandline"
-                    className="input-field"
-                    // value={creditial.email}
-                    // {...register("email", {
-                    //   required: "Email is required",
-                    //   pattern: {
-                    //     value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g,
-                    //     message: "Email is not valid",
-                    //   },
-                    // })}
-                    // onChange={onChange}
-                    autoComplete="false"
-                  />
-                  <p className="text-sm text-red-500 absolute">
-                    {/* {errors.email?.message} */}
-                  </p>
+              <div className="px-3 pt-3 pb-6">
+                <input
+                  rows="6"
+                  type="file"
+                  id="resadd"
+                  name="resadd"
+                  className="res-input-field"
+                  // value={creditial.resadd}
+                  // {...register("resadd", {
+                  //   required: "Restaurant Address is required",
+                  // })}
+                  // onChange={onChange}
+                  autoComplete="false"
+                />
+                <p className="text-sm text-red-500 absolute">
+                  {/* {errors.resadd?.message} */}
+                </p>
+              </div>
+            </div>
+
+            {/* Third part */}
+            <div className="add-right-first p-4 rounded-lg">
+              <div className="p-3">
+                <div className="text-2xl font-semibold">Food images</div>
+                <div className="text-sm">
+                  Please do not put images of raw ingredients
                 </div>
-                <div className="w-1/5 text-md font-semibold mt-11 mb-4 mr-6 bg-orange-400 border-2 border-orange-400 px-5 py-2 rounded-md shadow-md hover:shadow-lg">
-                  <Link
-                    className="text-white-800 duration-500 text-middle"
-                    to="/login"
-                  >
-                    <span className="ml-5">Verify</span>
-                  </Link>
-                </div>
+              </div>
+              <div className="px-3 pt-3 pb-6">
+                <input
+                  rows="6"
+                  type="file"
+                  id="foodimg"
+                  name="foodimg"
+                  className="res-input-field"
+                  // value={creditial.resadd}
+                  // {...register("resadd", {
+                  //   required: "Restaurant Address is required",
+                  // })}
+                  // onChange={onChange}
+                  autoComplete="false"
+                />
+                <p className="text-sm text-red-500 absolute">
+                  {/* {errors.resadd?.message} */}
+                </p>
               </div>
             </div>
           </div>

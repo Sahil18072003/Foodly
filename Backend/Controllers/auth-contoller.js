@@ -333,6 +333,8 @@ const updateUserProfile = async (req, res) => {
     // Update the user's profile information
     let result = await User.updateOne({ email }, { $set: req.body });
 
+    console.log(result);
+
     if (result.acknowledged) {
       let updatedUser = await User.findOne({ email });
       return res.status(202).json({ updatedUser });

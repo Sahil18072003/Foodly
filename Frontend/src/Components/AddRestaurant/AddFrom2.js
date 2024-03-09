@@ -532,7 +532,7 @@ function AddForm2() {
       <div className="add-footer">
         <div className="md:flex md:p-0 absolute md:static w-full md:w-auto transition-all duration-500 ease-in align-middle justify-center items-center gap-20">
           <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 hover:bg-orange-500 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
-            <Link className="text-white-900 duration-500" to="/addRestaurant">
+            <Link className="text-white-900 duration-500" to="/addRestaurant/addForm/1">
               Back
             </Link>
           </div>
