@@ -106,6 +106,18 @@
     width: fit-content;
 }
 
+.res-pincode-label-text {
+    font-size: 1.1rem;
+    color: black;
+    position: relative;
+    top: 0.80rem;
+    left: 2%;
+    margin: 0 0 0 7px;
+    padding: 0.3px 5px;
+    background-color: white;
+    width: fit-content;
+}
+
 .res-input-field {
     width: 100%;
     background-color: #ffffff;
@@ -118,7 +130,8 @@
     transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 
-.res-input-field:focus {
+.res-input-field:focus,
+.res-pincode-label-text:focus {
     border-color: #4c51bf;
     box-shadow: 0 0 0 2px rgba(76, 81, 191, 0.25);
 }

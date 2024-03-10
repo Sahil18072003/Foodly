@@ -10,6 +10,18 @@ const restaurantSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    respincode: {
+      type: Number,
+      require: true,
+    },
+    resstate: {
+      type: String,
+      require: true,
+    },
+    rescity: {
+      type: String,
+      require: true,
+    },
     rescontact: {
       type: Number,
       require: true,
@@ -28,6 +40,22 @@ const restaurantSchema = new mongoose.Schema(
     },
     owneremail: {
       type: String,
+      require: true,
+    },
+    rescategory: {
+      type: String,
+      require: true,
+    },
+    restype: {
+      type: String,
+      require: true,
+    },
+    rescuisinetype: {
+      type: String,
+      require: true,
+    },
+    restime: {
+      type: TimeRanges,
       require: true,
     },
   },

@@ -16,77 +16,7 @@ function AddForm2() {
     formState: { errors },
   } = useForm();
 
-  const clickHandler = async (e) => {
-    //   if (
-    //     creditial.resname !== "" &&
-    //     creditial.resadd !== "" &&
-    //     creditial.rescontact !== "" &&
-    //     creditial.reslandline !== "" &&
-    //     creditial.ownercontact !== "" &&
-    //     creditial.ownername !== "" &&
-    //     creditial.owneremail !== ""
-    //   ) {
-    //     // Api call
-    //     const response = await fetch(`${host}/api/res/addRestaurant/addFrom/1`, {
-    //       method: "POST", // *GET, POST, PUT, DELETE, etc.
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         resname: creditial.resname,
-    //         resadd: creditial.resadd,
-    //         rescontact: creditial.rescontact,
-    //         reslandline: creditial.reslandline,
-    //         ownercontact: creditial.ownercontact,
-    //         ownername: creditial.ownername,
-    //         owneremail: creditial.owneremail,
-    //       }), // body data type must match "Content-Type" header
-    //     });
-    //     // parses JSON response into native JavaScript objects
-    //     const json = await response?.json();
-    //     console.log(json);
-    //     if (json) {
-    //       toast.success("Restaurant Information Submmitted Successfully.", {
-    //         position: "top-right",
-    //         autoClose: 1500,
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         rtl: false,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "light",
-    //       });
-    //       setTimeout(() => {
-    //         navigate(`/addRestaurant/addForm/2`);
-    //       }, 2000);
-    //     } else {
-    //       toast.error("Your email has been already used...", {
-    //         position: "top-right",
-    //         autoClose: 2000,
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         rtl: false,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "light",
-    //       });
-    //     }
-    //   } else {
-    //     toast.error("Please fill all the required field...", {
-    //       position: "top-right",
-    //       autoClose: 2000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       rtl: false,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "light",
-    //     });
-    //   }
-  };
+  const clickHandler = async (e) => {};
 
   return (
     <div className="add-res-page">
@@ -168,10 +98,16 @@ function AddForm2() {
                     <div className="flex flex-cloumn gap-3">
                       <input
                         type="radio"
-                        name="type"
+                        name="rescategory"
                         id="both"
                         value="Both, delivery and dine-in available"
-                        checked
+                        {...register("rescategory", {
+                          required: {
+                            value: true,
+                            message: "Restaurant type is required",
+                          },
+                        })}
+                        defaultChecked
                       />
                       <label htmlFor="both" className="text-lg">
                         Both, delivery and dine-in available
@@ -187,9 +123,15 @@ function AddForm2() {
                     <div className="flex flex-cloumn gap-3">
                       <input
                         type="radio"
-                        name="type"
+                        name="rescategory"
                         id="dine"
                         value="Dine-in only"
+                        {...register("rescategory", {
+                          required: {
+                            value: true,
+                            message: "Restaurant type is required",
+                          },
+                        })}
                       />
                       <label htmlFor="dine" className="text-lg">
                         Dine-in only
@@ -203,9 +145,15 @@ function AddForm2() {
                     <div className="flex flex-cloumn gap-3">
                       <input
                         type="radio"
-                        name="type"
+                        name="rescategory"
                         id="delivery"
                         value="Delivery only"
+                        {...register("rescategory", {
+                          required: {
+                            value: true,
+                            message: "Restaurant type is required",
+                          },
+                        })}
                       />
                       <label htmlFor="delivery" className="text-lg">
                         Delivery only
@@ -216,6 +164,9 @@ function AddForm2() {
                       dine-in (like delivery kitchens)
                     </div>
                   </div>
+                  <p className="text-sm text-red-500">
+                    {errors.rescategory?.message}
+                  </p>
                 </div>
                 <div className="p-3">
                   <div className="text-lg">
@@ -532,7 +483,10 @@ function AddForm2() {
       <div className="add-footer">
         <div className="md:flex md:p-0 absolute md:static w-full md:w-auto transition-all duration-500 ease-in align-middle justify-center items-center gap-20">
           <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 hover:bg-orange-500 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
-            <Link className="text-white-900 duration-500" to="/addRestaurant/addForm/1">
+            <Link
+              className="text-white-900 duration-500"
+              to="/addRestaurant/addForm/1"
+            >
               Back
             </Link>
           </div>

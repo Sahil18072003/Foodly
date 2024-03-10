@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fa1, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
+import stateData from "./../../json/State_City.json";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,12 +15,31 @@ function AddForm1() {
   const [creditial, setCreditial] = useState({
     resname: "",
     resadd: "",
+    respincode: "",
+    resstate: "",
+    rescity: "",
     rescontact: "",
     reslandline: "",
     ownercontact: "",
     ownername: "",
     owneremail: "",
   });
+
+  const [city, setCity] = useState([]);
+
+  const handleState = (e) => {
+    const getState = e.target.value;
+
+    const getCities = stateData.find(
+      (stateData) => stateData.name === getState
+    );
+
+    setCity(getCities);
+  };
+
+  const handleCity = (e) => {
+    const getCity = e.target.value;
+  };
 
   const [showOtpModal, setShowOtpModal] = useState(false);
 
@@ -49,7 +69,7 @@ function AddForm1() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ rescontact: "+91" + creditial.rescontact }), // body data type must match "Content-Type" header
+          body: JSON.stringify({ rescontact: creditial.rescontact }), // body data type must match "Content-Type" header
         }
       );
 
@@ -98,7 +118,7 @@ function AddForm1() {
   };
 
   const otpSubmit = async () => {
-    if (creditial.otpCode == "") {
+    if (creditial.otpCode === "") {
       const response = await fetch(
         `${host}/api/res/addRestaurant/addFrom/checkOtp`,
         {
@@ -149,9 +169,17 @@ function AddForm1() {
   };
 
   const clickHandler = async (e) => {
+    let state = document.getElementById("resstate").value;
+    let city = document.getElementById("rescity").value;
+
+    console.log(state, city);
+
     if (
       creditial.resname !== "" &&
       creditial.resadd !== "" &&
+      creditial.respincode !== "" &&
+      state !== "" &&
+      city !== "" &&
       creditial.rescontact !== "" &&
       creditial.reslandline !== "" &&
       creditial.ownercontact !== "" &&
@@ -167,6 +195,9 @@ function AddForm1() {
         body: JSON.stringify({
           resname: creditial.resname,
           resadd: creditial.resadd,
+          respincode: creditial.respincode,
+          resstate: state,
+          rescity: city,
           rescontact: creditial.rescontact,
           reslandline: creditial.reslandline,
           ownercontact: creditial.ownercontact,
@@ -298,9 +329,9 @@ function AddForm1() {
                   </div>
                   <div className="text-sm">Name, Address and Location</div>
                 </div>
-                <div className="px-3 py-1">
+                <div className="px-3 pb-4">
                   <label htmlFor="resname" className="res-label-text">
-                    Restaurant Name :
+                    Restaurant Name
                     <span className="text-red-600 text-lg"> *</span>
                   </label>
                   <input
@@ -324,13 +355,13 @@ function AddForm1() {
                     {errors.resname?.message}
                   </p>
                 </div>
-                <div className="px-3 pt-3 pb-6">
+                <div className="px-3 pb-4">
                   <label htmlFor="resadd" className="res-label-text">
                     Restaurant Address :
                     <span className="text-red-600 text-lg"> *</span>
                   </label>
                   <textarea
-                    rows="3"
+                    rows="2"
                     type="textarea"
                     id="resadd"
                     name="resadd"
@@ -345,6 +376,99 @@ function AddForm1() {
                   <p className="text-sm text-red-500 absolute">
                     {errors.resadd?.message}
                   </p>
+                </div>
+                <div className="px-3 pt-3">
+                  <div className="text-xl font-lg">
+                    Restaurant address details
+                  </div>
+                  <div className="text-sm">
+                    Address details are basis the restaurant location mentioned
+                    above
+                  </div>
+                </div>
+                <div className="flex flex-column px-3 gap-6">
+                  <div className="w-1/2 pb-2 pt-9">
+                    <select
+                      name="country"
+                      id="country"
+                      className="p-2 border-2 border-gray-300 rounded w-full"
+                      disabled
+                    >
+                      <option className="p-3">India</option>
+                    </select>
+                  </div>
+                  <div className="w-1/2 py-2">
+                    <label
+                      htmlFor="respincode"
+                      className="res-pincode-label-text"
+                    >
+                      Pincode :<span className="text-red-600 text-lg"> *</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="respincode"
+                      name="respincode"
+                      className="res-input-field"
+                      value={creditial.respincode}
+                      {...register("respincode", {
+                        required: "Pincode is required",
+                        pattern: {
+                          value: /^(^\d{6}$)|(^[1-9][0-9]{2}\s?[0-9]{3}$)/,
+                          message:
+                            "Pincode must be 6 digits (Ex: 123456 or 123 456).",
+                        },
+                      })}
+                      onChange={onChange}
+                      autoComplete="false"
+                    />
+                    <p className="text-sm text-red-500 absolute">
+                      {errors.respincode?.message}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-column px-3 pb-3 pt-6 gap-6">
+                  <div className="w-1/2 py-2">
+                    <select
+                      id="resstate"
+                      name="resstate"
+                      className="p-2 border-2 border-gray-300 rounded w-full"
+                      {...register("resstate", {
+                        required: "State is required",
+                      })}
+                      onChange={(e) => handleState(e)}
+                    >
+                      <option value="">Select State</option>
+                      {stateData &&
+                        stateData.map((getstate) => (
+                          <option value={getstate.name} className="p-3">
+                            <div>{getstate.name}</div>
+                          </option>
+                        ))}
+                    </select>
+                    <p className="text-sm text-red-500">
+                      {errors.resstate?.message}
+                    </p>
+                  </div>
+                  <div className="w-1/2 py-2">
+                    <select
+                      id="rescity"
+                      name="rescity"
+                      className="p-2 border-2 border-gray-300 rounded w-full"
+                      {...register("rescity", {
+                        required: "City is required",
+                      })}
+                      onChange={(e) => handleCity(e)}
+                    >
+                      <option value="">Select City</option>
+                      {city.cities &&
+                        city.cities.map((getcity) => (
+                          <option value={getcity}>{getcity}</option>
+                        ))}
+                    </select>
+                    <p className="text-sm text-red-500">
+                      {errors.rescity?.message}
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -392,12 +516,12 @@ function AddForm1() {
                     </p>
                   </div>
                   <div className="w-1/5 text-md font-semibold ml-6 mt-7 mb-4 bg-orange-400 hover:bg-orange-500 border-2 border-orange-400 rounded shadow-md hover:shadow-lg">
-                    <div
+                    <button
                       className="text-white-800 duration-500 text-middle"
                       onClick={openOtpModal}
                     >
                       <div className="px-8 pt-2 pb-1">Verify</div>
-                    </div>
+                    </button>
                     {showOtpModal && (
                       <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                         <div className="bg-white rounded-lg lg:w-1/4 md:w-1/2 sm:w-1/2">
