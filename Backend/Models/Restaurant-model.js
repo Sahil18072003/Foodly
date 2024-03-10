@@ -46,16 +46,36 @@ const restaurantSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    restype: {
-      type: String,
+    restypes: {
+      type: Array,
       require: true,
     },
     rescuisinetype: {
+      type: Array,
+      require: true,
+    },
+    openingtime: {
       type: String,
       require: true,
     },
-    restime: {
-      type: TimeRanges,
+    closingtime: {
+      type: String,
+      require: true,
+    },
+    resdays: {
+      type: Array,
+      require: true,
+    },
+    menuimg: {
+      type: Array,
+      require: true,
+    },
+    resimg: {
+      type: Array,
+      require: true,
+    },
+    foodimg: {
+      type: Array,
       require: true,
     },
   },

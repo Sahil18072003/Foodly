@@ -11,8 +11,12 @@ router
 router
   .route("/addRestaurant/addFrom/checkOtp")
   .post(restaurantController.checkOtp);
-// router.route("/addRestaurant/addFrom/2").post(restaurantController.addRestaurant2);
-// router.route("/addRestaurant/addFrom/3").post(restaurantController.addRestaurant3);
+router
+  .route("/addRestaurant/addFrom/2/:id")
+  .post(restaurantController.addRestaurant2);
+router
+  .route("/addRestaurant/addFrom/3/:id")
+  .post(restaurantController.addRestaurant3);
 // router.route("/findRestaurant").post(restaurantController.findRestaurant);
 
 module.exports = router;

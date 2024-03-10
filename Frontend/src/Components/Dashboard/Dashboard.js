@@ -8,7 +8,7 @@ function Dashboard() {
   const navigate = useNavigate();
 
   const userUpdate = () => {
-    navigate(`/dashboard/updateProfile/${user?.userId}`);
+    navigate(`/dashboard/updateProfile/${user?._id}`);
   };
 
   useEffect(() => {

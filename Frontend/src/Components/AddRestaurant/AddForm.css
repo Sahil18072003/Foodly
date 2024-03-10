@@ -43,20 +43,31 @@
     box-shadow: 0 4px 8px 0 rgba(78, 78, 78, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.add-left-mid {
+    height: auto;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(78, 78, 78, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 .add-left-first,
+.add-left-mid,
 .add-left-second {
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
 }
 
 .add-left-first .flex,
+.add-left-mid .flex,
 .add-left-second .flex {
     margin-bottom: 0.5rem;
 }
 
+.add-left-mid {
+    margin-top: 5%;
+}
+
 .add-left-second {
-    margin-top: 20%;
+    margin-top: 5%;
     height: auto;
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(77, 76, 76, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

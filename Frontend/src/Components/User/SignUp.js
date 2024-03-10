@@ -53,7 +53,7 @@ function Signup() {
 
       if (json.token) {
         localStorage.setItem("token", json.token);
-        localStorage.setItem("user", JSON.stringify(json.userId));
+        localStorage.setItem("user", JSON.stringify(json.user));
 
         toast.success("You are successfully signup with your email.", {
           position: "top-right",
@@ -66,8 +66,9 @@ function Signup() {
           progress: undefined,
           theme: "light",
         });
+
         setTimeout(() => {
-          navigate(`/home?user=${json.userId}`);
+          navigate(`/home?user=${json.user._id}`);
         }, 2000);
       } else {
         toast.error("Your email has been already used...", {

@@ -1,13 +1,96 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fa1, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./AddForm.css";
 
 function AddForm3() {
+  const host = "http://localhost:5000";
+
+  const restaurant = JSON.parse(localStorage.getItem("restaurant"));
+
   useEffect(() => {
     document.title = "Add Form | Foodly";
   }, []);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const navigate = useNavigate();
+
+  const clickHandler = async (e) => {
+    if (menuimg.length > 0 && resimg.length > 0 && foodimg.length > 0) {
+      // API call
+      const response = await fetch(
+        `${host}/api/res/addRestaurant/addFrom/3/${restaurant?._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            _id: restaurant?._id,
+            menuimg: menuimg,
+            resimg: resimg,
+            foodimg: foodimg,
+          }),
+        }
+      );
+
+      const json = await response?.json();
+
+      if (json) {
+        toast.success(
+          "Restaurant, Menu & Food images Submitted Successfully.",
+          {
+            position: "top-right",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            rtl: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          }
+        );
+        setTimeout(() => {
+          navigate(`/addRestaurant/addForm/3?resId=${json.restaurant?._id}`);
+        }, 2000);
+      } else {
+        toast.error("Error in Restaurant, Menu & Food images Submission", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    } else {
+      toast.error("Please fill all the required fields...", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
 
   return (
     <div className="add-res-page">
@@ -49,19 +132,17 @@ function AddForm3() {
               </Link>
             </button>
             <button className="pt-2 pb-1 border-2 border-gray-900">
-              <Link to="/addRestaurant/addForm/3">
-                <div className="flex flex-column">
-                  <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-1">
-                    <FontAwesomeIcon icon={fa3} />
-                  </div>
-                  <div className="w-5/6">
-                    <div className="add-left-text">Upload Images</div>
-                    <div className="add-left-sub-text">
-                      Menu, restaurant, food images
-                    </div>
+              <div className="flex flex-column">
+                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-1">
+                  <FontAwesomeIcon icon={fa3} />
+                </div>
+                <div className="w-5/6">
+                  <div className="add-left-text">Upload Images</div>
+                  <div className="add-left-sub-text">
+                    Menu, restaurant, food images
                   </div>
                 </div>
-              </Link>
+              </div>
             </button>
           </div>
           <div className="add-left-second p-4 rounded-lg">

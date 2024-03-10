@@ -12,17 +12,19 @@ import "./AddForm.css";
 function AddForm1() {
   const host = "http://localhost:5000";
 
+  const restaurant = JSON.parse(localStorage.getItem("restaurant"));
+
   const [creditial, setCreditial] = useState({
-    resname: "",
-    resadd: "",
-    respincode: "",
-    resstate: "",
-    rescity: "",
-    rescontact: "",
-    reslandline: "",
-    ownercontact: "",
-    ownername: "",
-    owneremail: "",
+    resname: restaurant?.resname ? restaurant.resname : "",
+    resadd: restaurant?.resadd ? restaurant.resadd : "",
+    respincode: restaurant?.respincode ? restaurant.respincode : "",
+    resstate: restaurant?.resstate ? restaurant.resnsresstate : "",
+    rescity: restaurant?.rescity ? restaurant.resnamecirescity : "",
+    rescontact: restaurant?.rescontact ? restaurant.rescontact : "",
+    reslandline: restaurant?.reslandline ? restaurant.reslandline : "",
+    ownercontact: restaurant?.ownercontact ? restaurant.ownercontact : "",
+    ownername: restaurant?.ownername ? restaurant.owneremail : "",
+    owneremail: restaurant?.owneremail ? restaurant.owneremail : "",
   });
 
   const [city, setCity] = useState([]);
@@ -35,10 +37,6 @@ function AddForm1() {
     );
 
     setCity(getCities);
-  };
-
-  const handleCity = (e) => {
-    const getCity = e.target.value;
   };
 
   const [showOtpModal, setShowOtpModal] = useState(false);
@@ -168,11 +166,23 @@ function AddForm1() {
     setOtpError("");
   };
 
+  const nextFrom = () => {
+    toast.info("Please click on Next to go to the next page", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      rtl: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
   const clickHandler = async (e) => {
     let state = document.getElementById("resstate").value;
     let city = document.getElementById("rescity").value;
-
-    console.log(state, city);
 
     if (
       creditial.resname !== "" &&
@@ -210,6 +220,8 @@ function AddForm1() {
       const json = await response?.json();
 
       if (json) {
+        localStorage.setItem("restaurant", JSON.stringify(json.restaurant));
+
         toast.success("Restaurant Information Submmitted Successfully.", {
           position: "top-right",
           autoClose: 1500,
@@ -221,8 +233,9 @@ function AddForm1() {
           progress: undefined,
           theme: "light",
         });
+
         setTimeout(() => {
-          navigate(`/addRestaurant/addForm/2`);
+          navigate(`/addRestaurant/addForm/2?resId=${json.restaurant._id}`);
         }, 2000);
       } else {
         toast.error("Your email has been already used...", {
@@ -266,49 +279,49 @@ function AddForm1() {
             </div>
             <hr />
             <button className="py-2 border-2 border-gray-900">
-              <Link to="/addRestaurant/addForm/1">
-                <div className="flex flex-column">
-                  <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
-                    <FontAwesomeIcon icon={fa1} />
-                  </div>
-                  <div className="w-5/6 p-1">
-                    <div className="add-left-text">Restaurant Information</div>
-                    <div className="add-left-sub-text">
-                      Restaurant name, address, contact no., owner details
-                    </div>
+              <div className="flex flex-column">
+                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
+                  <FontAwesomeIcon icon={fa1} />
+                </div>
+                <div className="w-5/6 p-1">
+                  <div className="add-left-text">Restaurant Information</div>
+                  <div className="add-left-sub-text">
+                    Restaurant name, address, contact no., owner details
                   </div>
                 </div>
-              </Link>
+              </div>
             </button>
-            <button className="py-2 border-2 border-gray-900">
-              <Link to="/addRestaurant/addForm/2">
-                <div className="flex flex-column">
-                  <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
-                    <FontAwesomeIcon icon={fa2} />
-                  </div>
-                  <div className="w-5/6 p-1">
-                    <div className="add-left-text">Restaurant Type & Time</div>
-                    <div className="add-left-sub-text">
-                      Establishment & cuisine type, opening hours
-                    </div>
+            <button
+              className="py-2 border-2 border-gray-900"
+              onClick={!restaurant ? nextFrom : undefined}
+            >
+              <div className="flex flex-column">
+                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
+                  <FontAwesomeIcon icon={fa2} />
+                </div>
+                <div className="w-5/6 p-1">
+                  <div className="add-left-text">Restaurant Type & Time</div>
+                  <div className="add-left-sub-text">
+                    Establishment & cuisine type, opening hours
                   </div>
                 </div>
-              </Link>
+              </div>
             </button>
-            <button className="pt-2 pb-1 border-2 border-gray-900">
-              <Link to="/addRestaurant/addForm/3">
-                <div className="flex flex-column">
-                  <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-1">
-                    <FontAwesomeIcon icon={fa3} />
-                  </div>
-                  <div className="w-5/6">
-                    <div className="add-left-text">Upload Images</div>
-                    <div className="add-left-sub-text">
-                      Menu, restaurant, food images
-                    </div>
+            <button
+              className="pt-2 pb-1 border-2 border-gray-900"
+              onClick={!restaurant ? nextFrom : undefined}
+            >
+              <div className="flex flex-column">
+                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-1">
+                  <FontAwesomeIcon icon={fa3} />
+                </div>
+                <div className="w-5/6">
+                  <div className="add-left-text">Upload Images</div>
+                  <div className="add-left-sub-text">
+                    Menu, restaurant, food images
                   </div>
                 </div>
-              </Link>
+              </div>
             </button>
           </div>
           <div className="add-left-second p-4 rounded-lg">
@@ -457,7 +470,6 @@ function AddForm1() {
                       {...register("rescity", {
                         required: "City is required",
                       })}
-                      onChange={(e) => handleCity(e)}
                     >
                       <option value="">Select City</option>
                       {city.cities &&
@@ -498,12 +510,12 @@ function AddForm1() {
                       value={creditial.rescontact}
                       {...register("rescontact", {
                         required: "Restaurant Contact Number is required",
-                        // pattern: {
-                        //   value: /^[6-9]{1}[0-9]{9}$/,
-                        //   message: "Restaurant Contact Number is not valid",
-                        // },
+                        pattern: {
+                          value: /^[6-9]{1}[0-9]{9}$/,
+                          message: "Restaurant Contact Number is not valid",
+                        },
                         maxLength: {
-                          value: 14,
+                          value: 10,
                           message:
                             "Max 10 characters for Restaurant Contact Number",
                         },
@@ -571,12 +583,12 @@ function AddForm1() {
                     value={creditial.reslandline}
                     {...register("reslandline", {
                       required: "Restaurant Landline Number is required",
-                      // pattern: {
-                      //   value: /^[6-9]{1}[0-9]{9}$/,
-                      //   message: "Restaurant Landline Number is not valid",
-                      // },
+                      pattern: {
+                        value: /^[0-9]{12}$/,
+                        message: "Restaurant Landline Number is not valid",
+                      },
                       maxLength: {
-                        value: 16,
+                        value: 12,
                         message:
                           "Max 12 characters for Restaurant Landline Number",
                       },
@@ -614,13 +626,13 @@ function AddForm1() {
                       value={creditial.ownercontact}
                       {...register("ownercontact", {
                         required: "Restaurant Owner Contact Number is required",
-                        // pattern: {
-                        //   value: /^[6-9]{1}[0-9]{9}$/,
-                        //   message:
-                        //     "Restaurant Owner Contact Number is not valid",
-                        // },
+                        pattern: {
+                          value: /^[6-9]{1}[0-9]{9}$/,
+                          message:
+                            "Restaurant Owner Contact Number is not valid",
+                        },
                         maxLength: {
-                          value: 14,
+                          value: 10,
                           message:
                             "Max 10 characters for Restaurant Owner Contact Number",
                         },

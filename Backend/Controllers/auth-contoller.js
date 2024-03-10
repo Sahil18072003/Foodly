@@ -28,6 +28,7 @@ const home = async (req, res) => {
 const signup = async (req, res) => {
   try {
     const { email, phone, password } = req.body;
+
     const userExists = await User.findOne({ email });
 
     if (userExists) {
@@ -35,6 +36,7 @@ const signup = async (req, res) => {
     }
 
     const salt = await bcrypt.genSalt(10);
+
     const secPass = await bcrypt.hash(password, salt);
 
     const userData = await User.create({
@@ -55,9 +57,9 @@ const signup = async (req, res) => {
 
     // Sending the response first
     res.status(200).json({
-      msg: userData,
+      msg: "Signup Successfully",
       token: await authToken,
-      userId: userData._id.toString(),
+      user: userData,
     });
 
     // Now, sending the email
@@ -113,9 +115,7 @@ const login = async (req, res) => {
       res.status(200).json({
         msg: "Login Successfully",
         token: await authToken,
-        userId: userExists._id.toString(),
-        email: userExists.email,
-        phone: userExists.phone,
+        user: userExists,
       });
     } else {
       res.status(401).json({ message: "Invalid email or password." });
@@ -332,8 +332,6 @@ const updateUserProfile = async (req, res) => {
 
     // Update the user's profile information
     let result = await User.updateOne({ email }, { $set: req.body });
-
-    console.log(result);
 
     if (result.acknowledged) {
       let updatedUser = await User.findOne({ email });

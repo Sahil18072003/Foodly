@@ -1,11 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fa1, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./AddForm.css";
 
 function AddForm2() {
+  const host = "http://localhost:5000";
+
+  const restaurant = JSON.parse(localStorage.getItem("restaurant"));
+
+  // State variables to hold the opening and closing time values
+  const [openingTime, setOpeningTime] = useState("");
+  const [closingTime, setClosingTime] = useState("");
+
+  // Function to handle changes in opening time input
+  const handleOpeningTimeChange = (e) => {
+    setOpeningTime(e.target.value);
+  };
+
+  // Function to handle changes in closing time input
+  const handleClosingTimeChange = (e) => {
+    setClosingTime(e.target.value);
+  };
+
   useEffect(() => {
     document.title = "Add Form | Foodly";
   }, []);
@@ -16,7 +37,139 @@ function AddForm2() {
     formState: { errors },
   } = useForm();
 
-  const clickHandler = async (e) => {};
+  const navigate = useNavigate();
+
+  const nextFrom = () => {
+    toast.info("Please click on Next to go to the next page", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      rtl: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
+  const clickHandler = async (e) => {
+    // Get all radio with name "rescategory"
+    const rescategory = document.querySelector(
+      'input[name="rescategory"]:checked'
+    )?.value;
+
+    const selectedTypes = []; // Array to store selected types
+
+    // Get all checkboxes with name "restype"
+    const typecheckboxes = document.querySelectorAll(
+      'input[name="restype"]:checked'
+    );
+
+    // Iterate over each checked checkbox and push its value to selectedTypes array
+    typecheckboxes.forEach((checkbox) => {
+      selectedTypes.push(checkbox.value);
+    });
+
+    const selectedCuisineTypes = []; // Array to store selected types
+
+    // Get all checkboxes with name "rescuisinetype"
+    const typecuisinecheckboxes = document.querySelectorAll(
+      'input[name="rescuisinetype"]:checked'
+    );
+
+    // Iterate over each checked checkbox and push its value to selectedCuisineTypes array
+    typecuisinecheckboxes.forEach((checkbox) => {
+      selectedCuisineTypes.push(checkbox.value);
+    });
+
+    const selectedDays = []; // Array to store selected types
+
+    // Get all checkboxes with name "resdays"
+    const dayscheckboxes = document.querySelectorAll(
+      'input[name="resdays"]:checked'
+    );
+
+    // Iterate over each checked checkbox and push its value to selectedDays array
+    dayscheckboxes.forEach((checkbox) => {
+      selectedDays.push(checkbox.value);
+    });
+
+    if (
+      rescategory !== "" &&
+      selectedTypes.length > 0 &&
+      selectedCuisineTypes.length > 0 &&
+      openingTime !== "" &&
+      closingTime !== "" &&
+      selectedDays.length > 0
+    ) {
+      // API call
+      const response = await fetch(
+        `${host}/api/res/addRestaurant/addFrom/2/${restaurant?._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            _id: restaurant?._id,
+            rescategory: rescategory,
+            restypes: selectedTypes,
+            rescuisinetype: selectedCuisineTypes,
+            openingtime: openingTime,
+            closingtime: closingTime,
+            resdays: selectedDays,
+          }),
+        }
+      );
+
+      const json = await response?.json();
+
+      if (
+        json.updatedRestaurant?.openingtime &&
+        json.updatedRestaurant?.closingtime
+      ) {
+        toast.success("Restaurant Type & Time Submitted Successfully.", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setTimeout(() => {
+          navigate(`/addRestaurant/addForm/3?resId=${restaurant._id}`);
+        }, 2000);
+      } else {
+        toast.error("Error in Restaurant Type & Time Submission", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    } else {
+      toast.error("Please fill all the required fields...", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
 
   return (
     <div className="add-res-page">
@@ -43,35 +196,39 @@ function AddForm2() {
               </Link>
             </button>
             <button className="py-2 border-2 border-gray-900">
-              <Link to="/addRestaurant/addForm/2">
-                <div className="flex flex-column">
-                  <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
-                    <FontAwesomeIcon icon={fa2} />
-                  </div>
-                  <div className="w-5/6 p-1">
-                    <div className="add-left-text">Restaurant Type & Time</div>
-                    <div className="add-left-sub-text">
-                      Establishment & cuisine type, opening hours
-                    </div>
+              <div className="flex flex-column">
+                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
+                  <FontAwesomeIcon icon={fa2} />
+                </div>
+                <div className="w-5/6 p-1">
+                  <div className="add-left-text">Restaurant Type & Time</div>
+                  <div className="add-left-sub-text">
+                    Establishment & cuisine type, opening hours
                   </div>
                 </div>
-              </Link>
+              </div>
             </button>
-            <button className="pt-2 pb-1 border-2 border-gray-900">
-              <Link to="/addRestaurant/addForm/3">
-                <div className="flex flex-column">
-                  <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-1">
-                    <FontAwesomeIcon icon={fa3} />
-                  </div>
-                  <div className="w-5/6">
-                    <div className="add-left-text">Upload Images</div>
-                    <div className="add-left-sub-text">
-                      Menu, restaurant, food images
-                    </div>
+            <button
+              className="pt-2 pb-1 border-2 border-gray-900"
+              onClick={!restaurant ? nextFrom : undefined}
+            >
+              <div className="flex flex-column">
+                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-1">
+                  <FontAwesomeIcon icon={fa3} />
+                </div>
+                <div className="w-5/6">
+                  <div className="add-left-text">Upload Images</div>
+                  <div className="add-left-sub-text">
+                    Menu, restaurant, food images
                   </div>
                 </div>
-              </Link>
+              </div>
             </button>
+          </div>
+          <div className="add-left-mid py-4 px-4 rounded-lg">
+            <div className="font-semibold text-base">
+              Your Restaurant Id : {restaurant?._id}
+            </div>
           </div>
           <div className="add-left-second p-4 rounded-lg">
             <span className="font-bold text-lg">
@@ -177,27 +334,27 @@ function AddForm2() {
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Bakery"
+                          name="restype"
+                          value="Bakery"
                         />
-                        <label>Bakery</label>
+                        <label htmlFor="restype">Bakery</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
                           id="html"
-                          name="fav_language"
-                          value="HTML"
+                          name="restype"
+                          value="Casual Dining"
                         />
                         <label>Casual Dining</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Quick Bites"
+                          name="restype"
+                          value="Quick Bites"
                         />
                         <label>Quick Bites</label>
                       </div>
@@ -206,27 +363,27 @@ function AddForm2() {
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Beverage Shop"
+                          name="restype"
+                          value="Beverage Shop"
                         />
                         <label>Beverage Shop</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Dessert Parlour"
+                          name="restype"
+                          value="Dessert Parlour"
                         />
                         <label>Dessert Parlour</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Sweet Shop"
+                          name="restype"
+                          value="Sweet Shop"
                         />
                         <label>Sweet Shop</label>
                       </div>
@@ -235,27 +392,27 @@ function AddForm2() {
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Cafe"
+                          name="restype"
+                          value="Cafe"
                         />
                         <label>Cafe</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Food Court"
+                          name="restype"
+                          value="Food Court"
                         />
                         <label>Food Court</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Club"
+                          name="restype"
+                          value="Club"
                         />
                         <label>Club</label>
                       </div>
@@ -278,27 +435,27 @@ function AddForm2() {
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Beverages"
+                          name="rescuisinetype"
+                          value="Beverages"
                         />
                         <label>Beverages</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Desserts"
+                          name="rescuisinetype"
+                          value="Desserts"
                         />
                         <label>Desserts</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="South Indian"
+                          name="rescuisinetype"
+                          value="South Indian"
                         />
                         <label>South Indian</label>
                       </div>
@@ -307,27 +464,27 @@ function AddForm2() {
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Biryani"
+                          name="rescuisinetype"
+                          value="Biryani"
                         />
                         <label>Biryani</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Fast Food"
+                          name="rescuisinetype"
+                          value="Fast Food"
                         />
                         <label>Fast Food</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Street Food"
+                          name="rescuisinetype"
+                          value="Street Food"
                         />
                         <label>Street Food</label>
                       </div>
@@ -336,27 +493,27 @@ function AddForm2() {
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Chinese"
+                          name="rescuisinetype"
+                          value="Chinese"
                         />
                         <label>Chinese</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="North Indian"
+                          name="rescuisinetype"
+                          value="North Indian"
                         />
                         <label>North Indian</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Coffee"
+                          name="rescuisinetype"
+                          value="Coffee"
                         />
                         <label>Coffee</label>
                       </div>
@@ -376,24 +533,62 @@ function AddForm2() {
                   </div>
                 </div>
                 <div className="p-1 flex flex-column gap-2">
-                  <div className="p-2">
-                    <div className="p-2">Opens at</div>
-                    <div className="border-2 border-gray-300 rounded py-4 px-16"></div>
+                  <div className="p-2 flex flex-row justify-center items-center">
+                    <div className="justify-center items-center">
+                      <div className="p-2">Opens at</div>
+                      <input
+                        type="time"
+                        id="openingtime"
+                        name="openingtime"
+                        className="border-2 border-gray-300 rounded py-2 px-4"
+                        {...register("openingtime", {
+                          required: {
+                            value: true,
+                            message: "Restaurant opening time is required",
+                          },
+                        })}
+                        value={openingTime}
+                        onChange={handleOpeningTimeChange}
+                      />
+                      <p className="text-sm text-red-500">
+                        {errors.openingtime?.message}
+                      </p>
+                    </div>
                   </div>
-                  <div className="p-2">
-                    <div className="h-1/2"></div>
-                    <div className="h-1/2 py-4 px-8">to</div>
+                  <div className="p-2 flex flex-column justify-center items-center">
+                    <div className="h-full pb-8 pt-12 px-8 justify-center items-center">
+                      to
+                    </div>
                   </div>
-                  <div className="p-2">
-                    <div className="p-2">Closes at</div>
-                    <div className="border-2 border-gray-300 rounded py-4 px-16"></div>
+                  <div className="p-2 flex flex-column justify-center items-center">
+                    <div className="justify-center items-center">
+                      <div className="p-2">Closes at</div>
+                      <input
+                        type="time"
+                        id="closingtime"
+                        name="closingtime"
+                        className="border-2 border-gray-300 rounded py-2 px-4"
+                        {...register("closingtime", {
+                          required: {
+                            value: true,
+                            message: "Restaurant closing time is required",
+                          },
+                        })}
+                        value={closingTime}
+                        onChange={handleClosingTimeChange}
+                      />
+                      <p className="text-sm text-red-500">
+                        {errors.closingtime?.message}
+                      </p>
+                    </div>
                   </div>
                 </div>
+
                 <div className="p-2">
                   <div className="">
                     <div className="text-xl">Mark open days</div>
                     <div className="text-xs">
-                      Don’t forget to uncheck your off-day
+                      Don't forget to uncheck your off-day
                     </div>
                   </div>
                   <div className="pt-4 flex flex-column">
@@ -401,9 +596,9 @@ function AddForm2() {
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Monday"
+                          name="resdays"
+                          value="Monday"
                           defaultChecked
                         />
                         <label>Monday</label>
@@ -411,9 +606,9 @@ function AddForm2() {
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Tuesday"
+                          name="resdays"
+                          value="Tuesday"
                           defaultChecked
                         />
                         <label>Tuesday</label>
@@ -421,9 +616,9 @@ function AddForm2() {
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Wednesday"
+                          name="resdays"
+                          value="Wednesday"
                           defaultChecked
                         />
                         <label>Wednesday</label>
@@ -433,9 +628,9 @@ function AddForm2() {
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Thursday"
+                          name="resdays"
+                          value="Thursday"
                           defaultChecked
                         />
                         <label>Thursday</label>
@@ -443,9 +638,9 @@ function AddForm2() {
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Friday"
+                          name="resdays"
+                          value="Friday"
                           defaultChecked
                         />
                         <label>Friday</label>
@@ -453,9 +648,9 @@ function AddForm2() {
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Saturday"
+                          name="resdays"
+                          value="Saturday"
                           defaultChecked
                         />
                         <label>Saturday</label>
@@ -465,9 +660,9 @@ function AddForm2() {
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
-                          name="fav_language"
-                          value="HTML"
+                          id="Sunday"
+                          name="resdays"
+                          value="Sunday"
                           defaultChecked
                         />
                         <label>Sunday</label>
@@ -476,23 +671,24 @@ function AddForm2() {
                   </div>
                 </div>
               </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div className="add-footer">
-        <div className="md:flex md:p-0 absolute md:static w-full md:w-auto transition-all duration-500 ease-in align-middle justify-center items-center gap-20">
-          <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 hover:bg-orange-500 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
-            <Link
-              className="text-white-900 duration-500"
-              to="/addRestaurant/addForm/1"
-            >
-              Back
-            </Link>
-          </div>
 
-          <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 hover:bg-orange-500 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
-            <button className="text-gray-800 duration-500">Next</button>
+              <div className="add-footer">
+                <div className="md:flex md:p-0 absolute md:static w-full md:w-auto transition-all duration-500 ease-in align-middle justify-center items-center gap-20">
+                  <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 hover:bg-orange-500 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
+                    <Link
+                      className="text-white-900 duration-500"
+                      to="/addRestaurant/addForm/1"
+                    >
+                      Back
+                    </Link>
+                  </div>
+
+                  <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 hover:bg-orange-500 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
+                    <button className="text-gray-800 duration-500">Next</button>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>

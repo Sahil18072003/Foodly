@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const host = "http://localhost:5000";
+  // const host = "http://localhost:5000";
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -38,16 +38,16 @@ const Navbar = () => {
     });
   };
 
-  const fachadata = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/auth/home`, {
-        method: "GET",
-      });
-      console.log(response);
-    } catch (error) {}
-  };
+  // const fachadata = async () => {
+  //   try {
+  //     const response = await fetch(`http://localhost:5000/auth/home`, {
+  //       method: "GET",
+  //     });
+  //     console.log(response);
+  //   } catch (error) {}
+  // };
 
-  fachadata();
+  // fachadata();
 
   return (
     <div className="shadow-md w-full top-0 left-0 sticky">
