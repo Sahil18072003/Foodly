@@ -1,12 +1,34 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./AddRestaurant.css";
 
 function AddRestaurant() {
+  const navigate = useNavigate();
+
   useEffect(() => {
-    document.title = "Add Restaurant | Foodly";
+    const auth = localStorage.getItem("user");
+    if (!auth) {
+      toast.warn("Login Required", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setTimeout(() => {
+        navigate(`/login`);
+      }, 1000);
+    } else {
+      document.title = "Add Restaurant | Foodly";
+    }
   }, []);
 
   return (
@@ -219,6 +241,19 @@ function AddRestaurant() {
           </div>
         </div>
       </div>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

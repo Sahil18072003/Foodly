@@ -1,17 +1,5 @@
-/**
- * This module configures Cloudinary with API credentials for image and video storage.
- * @module cloudinaryConfig
- */
+import { v2 as cloudinary } from "cloudinary";
 
-const cloudinary = require("cloudinary").v2;
-
-/**
- * Configures Cloudinary with API credentials.
- * @async
- * @function
- * @name cloudinaryConfig
- * @throws {Error} Throws an error if configuration fails.
- */
 var cloudinaryConfig = async function () {
   try {
     // Set up Cloudinary configuration
@@ -27,4 +15,4 @@ var cloudinaryConfig = async function () {
 };
 
 // Export the configured Cloudinary module
-module.exports = cloudinaryConfig;
+export default cloudinaryConfig;

@@ -100,7 +100,9 @@ app.get(
 );
 
 app.get("auth/home", (req, res, next) => {
-  res.status(200).json({ message: "User authenticated", user:  req.user.user._id });
+  res
+    .status(200)
+    .json({ message: "User authenticated", user: req.user.user._id });
 });
 
 app.get("/logout", (req, res) => {

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fa1, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
@@ -124,11 +123,9 @@ function AddForm2() {
       );
 
       const json = await response?.json();
+      console.log(json);
 
-      if (
-        json.updatedRestaurant?.openingtime &&
-        json.updatedRestaurant?.closingtime
-      ) {
+      if (json) {
         toast.success("Restaurant Type & Time Submitted Successfully.", {
           position: "top-right",
           autoClose: 1500,
@@ -141,7 +138,9 @@ function AddForm2() {
           theme: "light",
         });
         setTimeout(() => {
-          navigate(`/addRestaurant/addForm/3?resId=${restaurant._id}`);
+          navigate(
+            `/addRestaurant/addForm/3?resId=${json.updatedRestaurant._id}`
+          );
         }, 2000);
       } else {
         toast.error("Error in Restaurant Type & Time Submission", {
@@ -338,16 +337,16 @@ function AddForm2() {
                           name="restype"
                           value="Bakery"
                         />
-                        <label htmlFor="restype">Bakery</label>
+                        <label htmlFor="Bakery">Bakery</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
                           type="checkbox"
-                          id="html"
+                          id="Casual Dining"
                           name="restype"
                           value="Casual Dining"
                         />
-                        <label>Casual Dining</label>
+                        <label htmlFor="Casual Dining">Casual Dining</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
@@ -356,7 +355,7 @@ function AddForm2() {
                           name="restype"
                           value="Quick Bites"
                         />
-                        <label>Quick Bites</label>
+                        <label htmlFor="Quick Bites">Quick Bites</label>
                       </div>
                     </div>
                     <div className="w-1/3">
@@ -367,7 +366,7 @@ function AddForm2() {
                           name="restype"
                           value="Beverage Shop"
                         />
-                        <label>Beverage Shop</label>
+                        <label htmlFor="Beverage Shop">Beverage Shop</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
@@ -376,7 +375,7 @@ function AddForm2() {
                           name="restype"
                           value="Dessert Parlour"
                         />
-                        <label>Dessert Parlour</label>
+                        <label htmlFor="Dessert Parlour">Dessert Parlour</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
@@ -385,7 +384,7 @@ function AddForm2() {
                           name="restype"
                           value="Sweet Shop"
                         />
-                        <label>Sweet Shop</label>
+                        <label htmlFor="Sweet Shop">Sweet Shop</label>
                       </div>
                     </div>
                     <div className="w-1/3">
@@ -396,7 +395,7 @@ function AddForm2() {
                           name="restype"
                           value="Cafe"
                         />
-                        <label>Cafe</label>
+                        <label htmlFor="Cafe">Cafe</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
@@ -405,7 +404,7 @@ function AddForm2() {
                           name="restype"
                           value="Food Court"
                         />
-                        <label>Food Court</label>
+                        <label htmlFor="Food Court">Food Court</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
@@ -414,7 +413,7 @@ function AddForm2() {
                           name="restype"
                           value="Club"
                         />
-                        <label>Club</label>
+                        <label htmlFor="Club">Club</label>
                       </div>
                     </div>
                   </div>
@@ -439,7 +438,7 @@ function AddForm2() {
                           name="rescuisinetype"
                           value="Beverages"
                         />
-                        <label>Beverages</label>
+                        <label htmlFor="Beverages">Beverages</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
@@ -448,7 +447,7 @@ function AddForm2() {
                           name="rescuisinetype"
                           value="Desserts"
                         />
-                        <label>Desserts</label>
+                        <label htmlFor="Desserts">Desserts</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
@@ -457,7 +456,7 @@ function AddForm2() {
                           name="rescuisinetype"
                           value="South Indian"
                         />
-                        <label>South Indian</label>
+                        <label htmlFor="South Indian">South Indian</label>
                       </div>
                     </div>
                     <div className="w-1/3">
@@ -468,7 +467,7 @@ function AddForm2() {
                           name="rescuisinetype"
                           value="Biryani"
                         />
-                        <label>Biryani</label>
+                        <label htmlFor="Biryani">Biryani</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
@@ -477,7 +476,7 @@ function AddForm2() {
                           name="rescuisinetype"
                           value="Fast Food"
                         />
-                        <label>Fast Food</label>
+                        <label htmlFor="Fast Food">Fast Food</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
@@ -486,7 +485,7 @@ function AddForm2() {
                           name="rescuisinetype"
                           value="Street Food"
                         />
-                        <label>Street Food</label>
+                        <label htmlFor="Street Food">Street Food</label>
                       </div>
                     </div>
                     <div className="w-1/3">
@@ -497,7 +496,7 @@ function AddForm2() {
                           name="rescuisinetype"
                           value="Chinese"
                         />
-                        <label>Chinese</label>
+                        <label htmlFor="Chinese">Chinese</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
@@ -506,7 +505,7 @@ function AddForm2() {
                           name="rescuisinetype"
                           value="North Indian"
                         />
-                        <label>North Indian</label>
+                        <label htmlFor="North Indian">North Indian</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
@@ -515,7 +514,7 @@ function AddForm2() {
                           name="rescuisinetype"
                           value="Coffee"
                         />
-                        <label>Coffee</label>
+                        <label htmlFor="Coffee">Coffee</label>
                       </div>
                     </div>
                   </div>
@@ -601,7 +600,7 @@ function AddForm2() {
                           value="Monday"
                           defaultChecked
                         />
-                        <label>Monday</label>
+                        <label htmlFor="Monday">Monday</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
@@ -611,7 +610,7 @@ function AddForm2() {
                           value="Tuesday"
                           defaultChecked
                         />
-                        <label>Tuesday</label>
+                        <label htmlFor="Tuesday">Tuesday</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
@@ -621,7 +620,7 @@ function AddForm2() {
                           value="Wednesday"
                           defaultChecked
                         />
-                        <label>Wednesday</label>
+                        <label htmlFor="Wednesday">Wednesday</label>
                       </div>
                     </div>
                     <div className="w-1/3">
@@ -633,7 +632,7 @@ function AddForm2() {
                           value="Thursday"
                           defaultChecked
                         />
-                        <label>Thursday</label>
+                        <label htmlFor="Thursday">Thursday</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
@@ -643,7 +642,7 @@ function AddForm2() {
                           value="Friday"
                           defaultChecked
                         />
-                        <label>Friday</label>
+                        <label htmlFor="Friday">Friday</label>
                       </div>
                       <div className="flex flex-row gap-3 p-2">
                         <input
@@ -653,7 +652,7 @@ function AddForm2() {
                           value="Saturday"
                           defaultChecked
                         />
-                        <label>Saturday</label>
+                        <label htmlFor="Saturday">Saturday</label>
                       </div>
                     </div>
                     <div className="w-1/3">
@@ -665,13 +664,14 @@ function AddForm2() {
                           value="Sunday"
                           defaultChecked
                         />
-                        <label>Sunday</label>
+                        <label htmlFor="Sunday">Sunday</label>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
+              
+              {/* footer */}
               <div className="add-footer">
                 <div className="md:flex md:p-0 absolute md:static w-full md:w-auto transition-all duration-500 ease-in align-middle justify-center items-center gap-20">
                   <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 hover:bg-orange-500 px-10 py-2 rounded-md shadow-md hover:shadow-lg">

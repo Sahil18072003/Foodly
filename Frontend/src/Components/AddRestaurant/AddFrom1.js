@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fa1, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
 import stateData from "./../../json/State_City.json";
@@ -15,16 +14,26 @@ function AddForm1() {
   const restaurant = JSON.parse(localStorage.getItem("restaurant"));
 
   const [creditial, setCreditial] = useState({
-    resname: restaurant?.resname ? restaurant.resname : "",
-    resadd: restaurant?.resadd ? restaurant.resadd : "",
-    respincode: restaurant?.respincode ? restaurant.respincode : "",
-    resstate: restaurant?.resstate ? restaurant.resnsresstate : "",
-    rescity: restaurant?.rescity ? restaurant.resnamecirescity : "",
-    rescontact: restaurant?.rescontact ? restaurant.rescontact : "",
-    reslandline: restaurant?.reslandline ? restaurant.reslandline : "",
-    ownercontact: restaurant?.ownercontact ? restaurant.ownercontact : "",
-    ownername: restaurant?.ownername ? restaurant.owneremail : "",
-    owneremail: restaurant?.owneremail ? restaurant.owneremail : "",
+    // resname: restaurant?.resname ? restaurant.resname : "",
+    // resadd: restaurant?.resadd ? restaurant.resadd : "",
+    // respincode: restaurant?.respincode ? restaurant.respincode : "",
+    // resstate: restaurant?.resstate ? restaurant.resnsresstate : "",
+    // rescity: restaurant?.rescity ? restaurant.resnamecirescity : "",
+    // rescontact: restaurant?.rescontact ? restaurant.rescontact : "",
+    // reslandline: restaurant?.reslandline ? restaurant.reslandline : "",
+    // ownercontact: restaurant?.ownercontact ? restaurant.ownercontact : "",
+    // ownername: restaurant?.ownername ? restaurant.ownername : "",
+    // owneremail: restaurant?.owneremail ? restaurant.owneremail : "",
+    resname: "",
+    resadd: "",
+    respincode: "",
+    resstate: "",
+    rescity: "",
+    rescontact: "",
+    reslandline: "",
+    ownercontact: "",
+    ownername: "",
+    owneremail: "",
   });
 
   const [city, setCity] = useState([]);
@@ -293,7 +302,8 @@ function AddForm1() {
             </button>
             <button
               className="py-2 border-2 border-gray-900"
-              onClick={!restaurant ? nextFrom : undefined}
+              // onClick={!restaurant ? nextFrom : undefined}
+              onClick={nextFrom}
             >
               <div className="flex flex-column">
                 <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
@@ -309,7 +319,8 @@ function AddForm1() {
             </button>
             <button
               className="pt-2 pb-1 border-2 border-gray-900"
-              onClick={!restaurant ? nextFrom : undefined}
+              // onClick={!restaurant ? nextFrom : undefined}
+              onClick={nextFrom}
             >
               <div className="flex flex-column">
                 <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-1">
@@ -707,6 +718,7 @@ function AddForm1() {
                 </div>
               </div>
 
+              {/* footer */}
               <div className="add-footer">
                 <div className="md:flex md:p-0 absolute md:static w-full md:w-auto transition-all duration-500 ease-in align-middle justify-center items-center gap-20">
                   <div className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 hover:bg-orange-500 px-10 py-2 rounded-md shadow-md hover:shadow-lg">

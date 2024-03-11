@@ -1,19 +1,8 @@
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
-const nodemailer = require("nodemailer");
+const transporter = require("../Configuration/nodemailerConfig");
 const User = require("../Models/User-model");
 const UserContact = require("../Models/Contact-model");
-
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  auth: {
-    // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-    user: process.env.Email_id,
-    pass: process.env.Email_password,
-  },
-});
 
 // Home Page
 const home = async (req, res) => {
