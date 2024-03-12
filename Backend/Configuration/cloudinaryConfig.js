@@ -1,4 +1,4 @@
-import { v2 as cloudinary } from "cloudinary";
+const cloudinary = require("cloudinary").v2;
 
 var cloudinaryConfig = async function () {
   try {
@@ -15,4 +15,4 @@ var cloudinaryConfig = async function () {
 };
 
 // Export the configured Cloudinary module
-export default cloudinaryConfig;
+module.exports = cloudinaryConfig;

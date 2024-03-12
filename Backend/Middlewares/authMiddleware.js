@@ -1,21 +1,22 @@
 require("dotenv").config();
-
 const User = require("../Models/User-model");
 const jwt = require("jsonwebtoken");
 
 const verifyToken = (req, res, next) => {
-  // Get the user from the JWT token and add id to req object
-  const token = req.header("token");
-  //   console.log(token);
-  if (!token) {
-    res.status(401).send({ error: "Please authentication using valid token." });
-  }
   try {
-    const data = jwt.verify(token, JWT_SECRETE_TOKEN, async (err, decode) => {
+    // Extract the JWT token from the Authorization header (Bearer token)
+    const token = req.headers.authorization.split(" ")[1];
+    console.log(token);
+
+    // Check if the token is present
+    if (!token) return res.status(401).json({ message: "Unauthorized access" });
+
+    // Verify the token and retrieve user information from the database
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
       if (err) return res.status(403).json({ message: "Forbidden access" });
 
       // Fetch user from the database, excluding the password
-      req.user = await User.findById(decode.userId).select("-password");
+      req.user = await User.findById(decoded.userId).select("-password");
 
       // Attach the token to the request object
       req.token = token;
@@ -23,15 +24,11 @@ const verifyToken = (req, res, next) => {
       // Continue to the next middleware
       next();
     });
-    // console.log(data);
-
-    req.user = data.user;
-    // console.log(req.user);
-  } catch (error) {
-    // console.log(error);
+  } catch (err) {
+    console.log(err);
 
     // Handle unauthorized access
-    res.status(401).send({ error: "Please authentication using valid token." });
+    return res.status(401).json({ message: "Unauthorized access" });
   }
 };
 

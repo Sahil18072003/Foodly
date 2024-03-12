@@ -1,25 +1,56 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const authController = require("../Controllers/auth-contoller");
-const verifyToken = require("./../Middlewares/authMiddleware");
+const passport = require("passport");
+const verifyToken = require("../Middlewares/authMiddleware");
 
-router.route("/").get(authController.home);
-router.route("/home").get(authController.home);
-router.route("/signup").post(authController.signup);
-router.route("/login").post(authController.login);
-// router.route("/google/callback").get(verifyToken);
-router.route("/forgotPassword").post(authController.forgotPassword);
-router.route("/otpVerification").post(authController.otpVerification);
-router.route("/changePassword").post(authController.changePassword);
-router.route("/contactUs").post(authController.userContant);
+router.get("/login/failed", (req, res) => {
+  res.status(401).json({ message: "Login Failed" });
+});
 
-// Routes protected by verifyToken middleware
-router.route("/adminPage").get(authController.getUserContact);
-router.route("/adminPage").post(authController.getUserDetails);
-router.route("/adminPage/:id").delete(authController.deleteUser);
-router.route("/dashboard").post(authController.dashboard);
-router
-  .route("/dashboard/updateProfile/:id")
-  .put(authController.updateUserProfile);
+router.get("/login/success", verifyToken, async (req, res) => {
+  try {
+    if (req.user) {
+      // let user = await User.findById(req.user.userId);
 
+      res.status(200).json({
+        message: "Successfully Logged In",
+        user: req.user,
+        token: req.token,
+      });
+    } else {
+      res.status(403).json({ message: "Not Authorized" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["email", "profile"],
+    session: false,
+  })
+);
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/login/failed",
+    session: false,
+  }),
+
+  (req, res) => {
+    console.log(req.user);
+    res.redirect(`${process.env.CLIENT_URL}?userId=${req.user.user._id}`);
+  }
+);
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect(process.env.CLIENT_URL);
+});
+
+// Export the router for use in other modules
 module.exports = router;

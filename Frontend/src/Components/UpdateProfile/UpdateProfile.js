@@ -19,8 +19,8 @@ const UpdateProfile = () => {
 
   const [creditial, setCreditial] = useState({
     profileImage: defaultImage,
-    firstname: user?.username ? user?.username : "",
-    lastname: user?.username ? user?.username : "",
+    firstname: user?.firstname ? user?.firstname : "",
+    lastname: user?.lastname ? user?.lastname : "",
     email: user?.email ? user?.email : "",
     phone: user?.phone ? user?.phone : "",
     address: user?.address ? user?.address : "",
@@ -115,7 +115,8 @@ const UpdateProfile = () => {
           },
           body: JSON.stringify({
             // profileImage: creditial.profileImage,
-            username: `${creditial.firstname} ${creditial.lastname}`,
+            firstname: creditial.firstname,
+            lastname: creditial.lastname,
             email: creditial.email,
             phone: creditial.phone,
             address: creditial.address,
