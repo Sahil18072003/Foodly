@@ -41,7 +41,7 @@ const signup = async (req, res) => {
     };
 
     const authToken = jwt.sign(data, process.env.JWT_SECRET_TOKEN, {
-      expiresIn: "5m",
+      expiresIn: "10m",
     });
 
     // Sending the response first
@@ -98,7 +98,7 @@ const login = async (req, res) => {
       };
 
       const authToken = jwt.sign(data, process.env.JWT_SECRET_TOKEN, {
-        expiresIn: "5m",
+        expiresIn: "10m",
       });
 
       res.status(200).json({
@@ -314,9 +314,7 @@ const updateUserProfile = async (req, res) => {
   try {
     let existingUser = await User.findOne({ email });
     if (!existingUser) {
-      return res
-        .status(400)
-        .json({ message: "Error: user doesn't exist Please Signin First" });
+      return res.status(400).json({ message: "User doesn't exist" });
     }
 
     // Update the user's profile information
@@ -326,7 +324,7 @@ const updateUserProfile = async (req, res) => {
       let updatedUser = await User.findOne({ email });
       return res.status(202).json({ updatedUser });
     } else {
-      return res.status(500).json({ message: "Can't update the user" });
+      return res.status(500).json({ message: "Failed to update user" });
     }
   } catch (error) {
     // Handle any other errors

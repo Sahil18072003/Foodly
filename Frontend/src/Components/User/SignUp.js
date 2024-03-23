@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -51,12 +52,9 @@ function Signup() {
       const json = await response?.json();
 
       if (json.token) {
-        localStorage.setItem("token", json.token);
-        localStorage.setItem("user", JSON.stringify(json.user));
-
         toast.success("You are successfully signup with your email.", {
           position: "top-right",
-          autoClose: 1500,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -67,7 +65,7 @@ function Signup() {
         });
 
         setTimeout(() => {
-          navigate(`/home?user=${json.user._id}`);
+          navigate("/login");
         }, 2000);
       } else {
         toast.error("Your email has been already used...", {
@@ -81,11 +79,15 @@ function Signup() {
           progress: undefined,
           theme: "light",
         });
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
       }
     } else {
       toast.error("Please fill all the required field...", {
         position: "top-right",
-        autoClose: 2000,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,

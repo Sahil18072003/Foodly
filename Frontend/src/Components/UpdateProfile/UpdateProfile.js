@@ -1,24 +1,18 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./UpdateProfile.css";
-// import { cloudinary_api_key } from "../Data/Api";
-import axios from "axios";
 
 const UpdateProfile = () => {
   const host = "http://localhost:5000";
 
   const user = JSON.parse(localStorage.getItem("user"));
-
-  const DEFAULT_IMAGE =
-    "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg";
-
-  const defaultImage = DEFAULT_IMAGE;
+  const token = localStorage.getItem("token");
 
   const [creditial, setCreditial] = useState({
-    profileImage: defaultImage,
+    // profileImage: defaultImage,
     firstname: user?.firstname ? user?.firstname : "",
     lastname: user?.lastname ? user?.lastname : "",
     email: user?.email ? user?.email : "",
@@ -42,59 +36,6 @@ const UpdateProfile = () => {
     navigate(`/dashboard`);
   };
 
-  const profilePhotoWrapper = useRef(null);
-
-  const displayProfilePhoto = (file) => {
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        if (profilePhotoWrapper.current) {
-          profilePhotoWrapper.current.style.backgroundImage = `url(${reader.result})`;
-        }
-      };
-
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const setProfilePhoto = useMemo(
-    () => ({
-      backgroundImage:
-        creditial.profileImage !== ""
-          ? `url(${creditial.profileImage})`
-          : `url(${defaultImage})`,
-    }),
-    [creditial.profileImage]
-  );
-
-  /* Upload Profile photo to cloudinary */
-  // const uploadImageToCloudinary = async (file, preset) => {
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append("file", file);
-  //     formData.append("upload_preset", preset);
-
-  //     const response = await axios.post(cloudinary_api_key, formData);
-
-  //     const uploadedImgData = {
-  //       statusText: response.statusText,
-  //       profileImage: response.data.secure_url,
-  //       publicId: response.data.public_id,
-  //     };
-
-  //     return uploadedImgData;
-  //   } catch (error) {
-  //     if (error.response.status === 400) {
-  //       toast(toast, "Image size too large", "error");
-  //     } else {
-  //       toast(toast, "Something went wrong. Try Again", "error");
-  //     }
-  //     console.log("Error in uploading profile photo to cloudinary : ", error);
-  //     return null;
-  //   }
-  // };
-
   const clickHandler = async (e) => {
     if (
       // creditial.profileImage !== "" &&
@@ -111,7 +52,7 @@ const UpdateProfile = () => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            // authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             // profileImage: creditial.profileImage,
@@ -126,12 +67,27 @@ const UpdateProfile = () => {
 
       // parses JSON response into native JavaScript objects
       const json = await response.json();
-      console.log(json);
+      console.log(json.message);
 
-      if (json) {
+      if (json.message === "Token expired") {
+        toast.error("Your Token has expired... Login again", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setTimeout(() => {
+          navigate(`/login`);
+        }, 2000);
+      } else {
         toast.success("Your Profile Updated successfully!!", {
           position: "top-right",
-          autoClose: 1000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -143,18 +99,6 @@ const UpdateProfile = () => {
         setTimeout(() => {
           navigate(`/dashboard`);
         }, 2000);
-      } else {
-        toast.error("Error in Update Profile", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          rtl: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
       }
     } else {
       toast.error("Please fill all the required field..", {
@@ -195,14 +139,14 @@ const UpdateProfile = () => {
                   name="profileImage"
                   accept="image/*"
                   onChange={(e) => {
-                    setCreditial("profileImageFile", e.target.files[0]);
-                    displayProfilePhoto(e.target.files[0]);
+                    // setCreditial("profileImageFile", e.target.files[0]);
+                    // displayProfilePhoto(e.target.files[0]);
                   }}
                 />
                 <label
                   htmlFor="profile-photo"
                   className="profile-photo-wrapper"
-                  style={setProfilePhoto}
+                  // style={setProfilePhoto}
                 >
                   <div className="upload-img-div text-center">
                     <div className="mb-2">

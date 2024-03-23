@@ -50,7 +50,7 @@ const Navbar = () => {
   // fachadata();
 
   return (
-    <div className="shadow-md w-full top-0 left-0 sticky">
+    <div className="shadow-md w-full top-0 left-0 navbar">
       <div className="md:flex items-center justify-between bg-white py-3 md:px-10 px-7">
         <div
           className="font-bold text-2xl cursor-pointer flex items-center

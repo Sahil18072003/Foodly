@@ -280,8 +280,8 @@ function AddForm1() {
 
   return (
     <div className="add-res-page">
-      <div className="add-res-content">
-        <div className="add-left">
+      <div className="relative add-res-content ">
+        <div className="sticky top-5 add-left ">
           <div className="add-left-first py-4 px-4 rounded-lg">
             <div className="font-bold text-lg">
               1. Create your restaurant page
