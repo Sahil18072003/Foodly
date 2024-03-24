@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fa1, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, fa3 } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -110,34 +110,34 @@ function AddForm3() {
             </div>
             <hr />
             <button className="py-2 border-2 border-gray-900">
-              <Link to="/addRestaurant/addForm/1">
-                <div className="flex flex-column">
-                  <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
-                    <FontAwesomeIcon icon={fa1} />
-                  </div>
-                  <div className="w-5/6 p-1">
-                    <div className="add-left-text">Restaurant Information</div>
-                    <div className="add-left-sub-text">
-                      Restaurant name, address, contact no., owner details
-                    </div>
+              {/* <Link to="/addRestaurant/addForm/1"> */}
+              <div className="flex flex-column">
+                <div className="w-1/6 border-2 border-gray-900 rounded-full pt-2 pb-1 py-1 my-4">
+                  <FontAwesomeIcon icon={faCircleCheck} className="w-6 h-6" />
+                </div>
+                <div className="w-5/6 p-1">
+                  <div className="add-left-text">Restaurant Information</div>
+                  <div className="add-left-sub-text">
+                    Restaurant name, address, contact no., owner details
                   </div>
                 </div>
-              </Link>
+              </div>
+              {/* </Link> */}
             </button>
             <button className="py-2 border-2 border-gray-900">
-              <Link to="/addRestaurant/addForm/2">
-                <div className="flex flex-column">
-                  <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
-                    <FontAwesomeIcon icon={fa2} />
-                  </div>
-                  <div className="w-5/6 p-1">
-                    <div className="add-left-text">Restaurant Type & Time</div>
-                    <div className="add-left-sub-text">
-                      Establishment & cuisine type, opening hours
-                    </div>
+              {/* <Link to="/addRestaurant/addForm/2"> */}
+              <div className="flex flex-column">
+                <div className="w-1/6 border-2 border-gray-900 rounded-full pt-2 pb-1 py-1 my-4">
+                  <FontAwesomeIcon icon={faCircleCheck} className="w-6 h-6" />
+                </div>
+                <div className="w-5/6 p-1">
+                  <div className="add-left-text">Restaurant Type & Time</div>
+                  <div className="add-left-sub-text">
+                    Establishment & cuisine type, opening hours
                   </div>
                 </div>
-              </Link>
+              </div>
+              {/* </Link> */}
             </button>
             <button className="pt-2 pb-1 border-2 border-gray-900">
               <div className="flex flex-column">

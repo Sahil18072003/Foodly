@@ -38,22 +38,11 @@ const Navbar = () => {
     });
   };
 
-  // const fachadata = async () => {
-  //   try {
-  //     const response = await fetch(`http://localhost:5000/auth/home`, {
-  //       method: "GET",
-  //     });
-  //     console.log(response);
-  //   } catch (error) {}
-  // };
-
-  // fachadata();
-
   return (
     <div className="shadow-md w-full top-0 left-0 navbar">
-      <div className="md:flex items-center justify-between bg-white py-3 md:px-10 px-7">
+      <div className="md:flex items-center justify-between bg-white py-5 md:px-10 px-7">
         <div
-          className="font-bold text-2xl cursor-pointer flex items-center
+          className="font-bold text-3xl cursor-pointer flex items-center
         text-gray-800"
         >
           <img
@@ -78,7 +67,7 @@ const Navbar = () => {
             open ? "top-12 " : "top-[-490px]"
           }`}
         >
-          <li className="md:ml-8 text-lg font-semibold md:my-0 my-7">
+          <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
             <Link
               to="/home"
               className={`text-gray-800 hover:text-orange-400 duration-500`}
@@ -86,7 +75,7 @@ const Navbar = () => {
               Home
             </Link>
           </li>
-          <li className="md:ml-8 text-lg font-semibold md:my-0 my-7">
+          <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
             <Link
               to="/addRestaurant"
               className={`text-gray-800 hover:text-orange-400 duration-500`}
@@ -94,7 +83,7 @@ const Navbar = () => {
               Add Restaurant
             </Link>
           </li>
-          <li className="md:ml-8 text-lg font-semibold md:my-0 my-7">
+          <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
             <Link
               to="/findRestaurant"
               className={`text-gray-800 hover:text-orange-400 duration-500`}
@@ -110,7 +99,7 @@ const Navbar = () => {
                 {(() => {
                   if (user?.userId === "65dacb990022155a26808a13") {
                     return (
-                      <li className="md:ml-8 text-lg font-semibold md:my-0 my-7">
+                      <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
                         <Link
                           className={`text-gray-800 hover:text-orange-400 duration-500`}
                           to="/adminPage"
@@ -142,7 +131,7 @@ const Navbar = () => {
                 >
                   {showDropdown && (
                     <>
-                      <li className="dropdown-item px-5 py-2 text-lg font-semibold md:my-0">
+                      <li className="dropdown-item px-5 py-2 text-xl font-semibold md:my-0">
                         <Link
                           className={`text-gray-800 hover:text-orange-400 duration-500`}
                           to="/dashboard"
@@ -151,7 +140,7 @@ const Navbar = () => {
                         </Link>
                       </li>
                       <hr />
-                      <li className="dropdown-item px-5 py-2 text-lg font-semibold md:my-0">
+                      <li className="dropdown-item px-5 py-2 text-xl font-semibold md:my-0">
                         <Link
                           className={`text-gray-800 hover:text-orange-400 duration-500`}
                           onClick={handleLogout}
@@ -167,16 +156,20 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <div className="md:ml-8 text-md font-semibold md:my-0 my-7 bg-white-400 border-2 border-orange-400 px-3 py-2 rounded-md shadow-md hover:shadow-lg">
-                <Link className="text-gray-800 duration-500" to="/login">
+              <Link
+                className="ml-8 text-gray-800 duration-500 border-2 border-orange-400 md:my-0 bg-white-400 rounded-md shadow-md hover:shadow-lg"
+                to="/login"
+              >
+                <button className="text-lg font-semibold md:my-0 my-6 bg-white-400 px-3 py-2">
                   Login
-                </Link>
-              </div>
-              <div className="md:ml-8 text-md font-semibold md:my-0 my-7 bg-orange-400 px-3 py-2 rounded-md shadow-md hover:shadow-lg">
-                <Link className="text-gray-800 duration-500" to="/signup">
+                </button>
+              </Link>
+
+              <Link className="text-gray-800 duration-500" to="/signup">
+                <button className="md:ml-8 text-lg font-semibold md:my-0 my-7 bg-orange-400 px-3 py-2 rounded-md shadow-md hover:shadow-lg">
                   SignUp
-                </Link>
-              </div>
+                </button>
+              </Link>
             </>
           )}
         </ul>

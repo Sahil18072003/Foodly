@@ -8,7 +8,7 @@ router.get("/login/failed", (req, res) => {
   res.status(401).json({ message: "Login Failed" });
 });
 
-router.get("/login/success", verifyToken, async (req, res) => {
+router.get("/login/success", async (req, res) => {
   try {
     if (req.user) {
       // let user = await User.findById(req.user.userId);

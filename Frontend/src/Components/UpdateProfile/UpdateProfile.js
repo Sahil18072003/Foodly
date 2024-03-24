@@ -82,6 +82,7 @@ const UpdateProfile = () => {
           theme: "light",
         });
         setTimeout(() => {
+          localStorage.clear();
           navigate(`/login`);
         }, 2000);
       } else {

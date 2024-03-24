@@ -45,20 +45,20 @@ function AddRestaurant() {
                 select cities.
               </div>
               <ul className="md:flex mt-2 md:p-0 p-10 absolute md:static w-full md:w-auto transition-all duration-500 ease-in">
-                <li className="md:ml-8 text-md font-semibold md:my-0 my-7 bg-orange-400 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
-                  <Link
-                    className="text-white-900 duration-500"
-                    to="/addRestaurant/addForm/1"
-                  >
+                <Link
+                  className="text-white-900 duration-500"
+                  to="/addRestaurant/addForm/1"
+                >
+                  <li className="md:ml-8 text-md font-semibold md:my-0 my-7 bg-orange-400 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
                     Register your Restaurant
-                  </Link>
-                </li>
+                  </li>
+                </Link>
 
-                <li className="md:ml-8 text-md font-semibold md:my-0 my-7 bg-orange-400 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
-                  <Link className="text-gray-800 duration-500" to="/dashboard">
+                <Link className="text-gray-800 duration-500" to="/dashboard">
+                  <li className="md:ml-8 text-md font-semibold md:my-0 my-7 bg-orange-400 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
                     View your existing Restaurant
-                  </Link>
-                </li>
+                  </li>
+                </Link>
               </ul>
               <div className="res-sub-textt">
                 Need help? Contact +91 63535 49828

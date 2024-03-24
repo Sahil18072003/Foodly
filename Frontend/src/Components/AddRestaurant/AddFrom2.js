@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fa1, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -37,6 +37,20 @@ function AddForm2() {
   } = useForm();
 
   const navigate = useNavigate();
+
+  const backFrom = () => {
+    toast.info("You can not go to the back page", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      rtl: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
 
   const nextFrom = () => {
     toast.info("Please click on Next to go to the next page", {
@@ -179,20 +193,23 @@ function AddForm2() {
               1. Create your restaurant page
             </div>
             <hr />
-            <button className="py-2 border-2 border-gray-900">
-              <Link to="/addRestaurant/addForm/1">
-                <div className="flex flex-column">
-                  <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
-                    <FontAwesomeIcon icon={fa1} />
-                  </div>
-                  <div className="w-5/6 p-1">
-                    <div className="add-left-text">Restaurant Information</div>
-                    <div className="add-left-sub-text">
-                      Restaurant name, address, contact no., owner details
-                    </div>
+            <button
+              className="py-2 border-2 border-gray-900"
+              onClick={backFrom}
+            >
+              {/* <Link to="/addRestaurant/addForm/1"> */}
+              <div className="flex flex-column">
+                <div className="w-1/6 border-2 border-gray-900 bg-green-00 rounded-full pt-2 pb-1 py-1 my-4">
+                  <FontAwesomeIcon icon={faCircleCheck} className="w-6 h-6" />
+                </div>
+                <div className="w-5/6 p-1">
+                  <div className="add-left-text">Restaurant Information</div>
+                  <div className="add-left-sub-text">
+                    Restaurant name, address, contact no., owner details
                   </div>
                 </div>
-              </Link>
+              </div>
+              {/* </Link> */}
             </button>
             <button className="py-2 border-2 border-gray-900">
               <div className="flex flex-column">
@@ -209,7 +226,7 @@ function AddForm2() {
             </button>
             <button
               className="pt-2 pb-1 border-2 border-gray-900"
-              onClick={!restaurant ? nextFrom : undefined}
+              onClick={nextFrom}
             >
               <div className="flex flex-column">
                 <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-1">
@@ -670,7 +687,7 @@ function AddForm2() {
                   </div>
                 </div>
               </div>
-              
+
               {/* footer */}
               <div className="add-footer">
                 <div className="md:flex md:p-0 absolute md:static w-full md:w-auto transition-all duration-500 ease-in align-middle justify-center items-center gap-20">
