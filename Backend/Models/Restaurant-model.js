@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const restaurantSchema = new mongoose.Schema(
   {
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
     resname: {
       type: String,
       require: true,

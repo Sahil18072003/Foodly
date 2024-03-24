@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Toast from "./../Functions/Toast";
+import axios from "axios";
 import "./UpdateProfile.css";
 
 const UpdateProfile = () => {
@@ -12,13 +14,15 @@ const UpdateProfile = () => {
   const token = localStorage.getItem("token");
 
   const [creditial, setCreditial] = useState({
-    // profileImage: defaultImage,
+    profileImage: user?.profileImage ? user.profileImage : "",
     firstname: user?.firstname ? user?.firstname : "",
     lastname: user?.lastname ? user?.lastname : "",
     email: user?.email ? user?.email : "",
     phone: user?.phone ? user?.phone : "",
     address: user?.address ? user?.address : "",
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -36,9 +40,36 @@ const UpdateProfile = () => {
     navigate(`/dashboard`);
   };
 
+  /* Upload Profile photo to cloudinary */
+  const uploadImageToCloudinary = async (file, preset) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("User_img", preset);
+
+      const response = await axios.post(formData);
+
+      const uploadedImgData = {
+        statusText: response.statusText,
+        profileImage: response.data.secure_url,
+        publicId: response.data.public_id,
+      };
+
+      return uploadedImgData;
+    } catch (error) {
+      if (error.response.status === 400) {
+        Toast(toast, "Image size too large", "error");
+      } else {
+        Toast(toast, "Something went wrong. Try Again", "error");
+      }
+      console.log("Error in uploading profile photo to cloudinary : ", error);
+      return null;
+    }
+  };
+
   const clickHandler = async (e) => {
     if (
-      // creditial.profileImage !== "" &&
+      creditial.profileImage !== "" &&
       creditial.firstname !== "" &&
       creditial.lastname !== "" &&
       creditial.email !== "" &&
@@ -140,7 +171,7 @@ const UpdateProfile = () => {
                   name="profileImage"
                   accept="image/*"
                   onChange={(e) => {
-                    // setCreditial("profileImageFile", e.target.files[0]);
+                    setCreditial("profileImageFile", e.target.files[0]);
                     // displayProfilePhoto(e.target.files[0]);
                   }}
                 />
