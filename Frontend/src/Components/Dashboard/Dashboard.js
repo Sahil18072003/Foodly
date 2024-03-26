@@ -12,7 +12,7 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    document.title = "UpdateProfile | Foodly";
+    document.title = "Dashboard | Foodly";
   }, []);
 
   return (

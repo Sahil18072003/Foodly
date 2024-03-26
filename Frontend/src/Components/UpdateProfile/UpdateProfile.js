@@ -40,8 +40,7 @@ const UpdateProfile = () => {
 
   /* <---- Handling profile photo ----> */
   const DEFAULT_IMAGE =
-    "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg";
-
+    "https://res.cloudinary.com/ddaat3aev/image/upload/v1711439531/UserImages/xqkerjqqiwtacmx1q9zu.png";
   const defaultImage = DEFAULT_IMAGE;
 
   const setProfilePhoto = useMemo(
@@ -190,28 +189,27 @@ const UpdateProfile = () => {
   };
 
   return (
-    <div className="antialiased bg-white-100 mx-5">
+    <div className="update-profile-page bg-white-100">
       <div className="flex w-full min-h-screen justify-center items-center">
         <div
-          className="mt-10 mb-20 flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0 bg-teal-500 w-full max-w-4xl p-8 
-                    md:p-12 rounded-xl shadow-lg text-white overflow-hidden"
+          className="mt-10 mb-20 flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0 bg-teal-500 w-full max-w-4xl p-16
+                     rounded-xl shadow-lg text-white overflow-hidden"
         >
-          <div className="relative bg-white rounded-xl shadow-lg p-8 text-gray-600 md:w-70">
+          <div className="w-full relative bg-white rounded-xl shadow-lg px-32 py-8 text-gray-600 md:w-70">
             <form
               onSubmit={handleSubmit(clickHandler)}
               className="flex flex-col space-y-4"
             >
               {/* <--- User Profile photo ---> */}
               <div>
-                <div className="user-profile-photo-container border-2 border-gray-900">
+                <div className="user-profile-photo-container mb-2">
                   <input
                     type="file"
-                    id="profil_mage"
+                    id="profile-photo"
                     name="profileImage"
-                    className="border-2 border-gray-900 user-profile-photo-input"
                     accept="image/*"
                     {...register("profileImage", {
-                      required: "Restaurant Menu is required",
+                      required: "Profile Image is required",
                     })}
                     onChange={(e) => {
                       displayProfilePhoto(e.target.files[0]);
@@ -223,7 +221,7 @@ const UpdateProfile = () => {
                   />
 
                   <label
-                    htmlFor="profileImage"
+                    htmlFor="profile-photo"
                     className="profile-photo-wrapper"
                     ref={profilePhotoWrapper}
                     style={setProfilePhoto}
@@ -241,7 +239,7 @@ const UpdateProfile = () => {
                     </div>
                   </label>
 
-                  <p className="text-sm text-red-500 absolute">
+                  <p className="text-sm text-red-500 absolute mt-48">
                     {errors.profileImage?.message}
                   </p>
                 </div>
@@ -356,7 +354,7 @@ const UpdateProfile = () => {
                   rows="3"
                   value={creditial.address}
                   {...register("address", {
-                    required: "Address is required",
+                    required: "Your Address is required",
                   })}
                   onChange={onChange}
                   autoComplete="false"
@@ -367,17 +365,12 @@ const UpdateProfile = () => {
                 </p>
               </div>
 
-              <div className="flex justify-center drop-shadow-xl pt-5">
-                <div className="inline-block border-2 border-orange-400">
-                  <button
-                    onClick={goBack}
-                    className="md:ml-8 text-md font-semibold md:my-0 bg-white-900 px-4 py-3 rounded-md shadow-md hover:shadow-lg"
-                  >
-                    Go Back
-                  </button>
+              <div className="flex justify-center drop-shadow-xl pt-8">
+                <div className="text-md font-semibold md:my-0 px-6 py-3 border-2 border-orange-400 rounded-md shadow-md hover:shadow-lg">
+                  <button onClick={goBack}>Go Back</button>
                 </div>
-                <div className="inline-block mr-4">
-                  <button className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 px-6 py-3 rounded-md shadow-md hover:shadow-lg">
+                <div className="inline-block px-8">
+                  <button className="text-md font-semibold md:my-0 bg-orange-400 px-8 py-3 rounded-md shadow-md hover:shadow-lg">
                     Save
                   </button>
                 </div>

@@ -47,7 +47,7 @@ function AddRestaurant() {
               <div className="md:flex mt-2 md:p-0 p-5 rounded-md shadow-md absolute md:static w-full md:w-auto transition-all duration-500 ease-in">
                 <div className="w-1/2 p-2 text-md text-center font-semibold md:my-0 rounded-md shadow-md hover:shadow-lg">
                   <Link
-                    className="w-1/2 text-md text-center font-semibold md:my-0 px-10 py-2 bg-orange-400 rounded-md shadow-md hover:shadow-lg"
+                    className="w-1/2 text-md text-center font-semibold md:my-0 px-10 py-2 bg-orange-400 hover:bg-orange-500 rounded-md shadow-md hover:shadow-lg"
                     to="/addRestaurant/addForm/1"
                   >
                     Register your Restaurant
@@ -56,8 +56,8 @@ function AddRestaurant() {
 
                 <div className="w-1/2 p-2 text-md text-center font-semibold md:my-0 rounded-md shadow-md hover:shadow-lg">
                   <Link
-                    className="w-1/2 text-md text-center font-semibold md:my-0 px-10 py-2 bg-orange-400 rounded-md shadow-md hover:shadow-lg"
-                    to="/addRestaurant/addForm/1"
+                    className="w-1/2 text-md text-center font-semibold md:my-0 px-10 py-2 bg-orange-400 hover:bg-orange-500 rounded-md shadow-md hover:shadow-lg"
+                    to="/dashboard"
                   >
                     View your existing Restaurant
                   </Link>
