@@ -14,15 +14,13 @@ const UpdateProfile = () => {
   const token = localStorage.getItem("token");
 
   const [creditial, setCreditial] = useState({
-    profileImage: user?.profileImage ? user.profileImage : "",
+    profileImage: user?.profileImage ? user?.profileImage : "",
     firstname: user?.firstname ? user?.firstname : "",
     lastname: user?.lastname ? user?.lastname : "",
     email: user?.email ? user?.email : "",
     phone: user?.phone ? user?.phone : "",
     address: user?.address ? user?.address : "",
   });
-
-  console.log(creditial.profileImage);
 
   const navigate = useNavigate();
 
@@ -40,12 +38,44 @@ const UpdateProfile = () => {
     navigate(`/dashboard`);
   };
 
+  /* <---- Handling profile photo ----> */
+  const DEFAULT_IMAGE =
+    "https://static.vecteezy.com/system/resources/previews/008/442/086/non_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg";
+
+  const defaultImage = DEFAULT_IMAGE;
+
+  const setProfilePhoto = useMemo(
+    () => ({
+      backgroundImage:
+        creditial.profileImage && creditial.profileImage.length !== 0
+          ? `url(${creditial.profileImage})`
+          : `url(${defaultImage})`,
+    }),
+    [creditial.profileImage, defaultImage]
+  );
+
+  const profilePhotoWrapper = useRef(null);
+
+  const displayProfilePhoto = (file) => {
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        if (profilePhotoWrapper.current) {
+          profilePhotoWrapper.current.style.backgroundImage = `url(${reader.result})`;
+        }
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
   /* Upload Profile photo to cloudinary */
-  const uploadImageToCloudinary = async (file) => {
+  const uploadImageToCloudinary = async (file, preset) => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("upload_preset", "User_img");
+      formData.append("upload_preset", preset);
 
       const response = await axios.post(
         "https://api.cloudinary.com/v1_1/ddaat3aev/image/upload",
@@ -58,7 +88,9 @@ const UpdateProfile = () => {
         publicId: response.data.public_id,
       };
 
-      return uploadedImgData;
+      console.log(uploadedImgData);
+
+      return uploadedImgData.profileImage;
     } catch (error) {
       if (error.response.status === 400) {
         Toast(toast, "Image size too large", "error");
@@ -72,7 +104,8 @@ const UpdateProfile = () => {
 
   const clickHandler = async (e) => {
     const profileImageUrl = await uploadImageToCloudinary(
-      creditial.profileImage
+      creditial.profileImage,
+      "user_profile_photo"
     );
     if (
       profileImageUrl !== "" &&
@@ -92,7 +125,7 @@ const UpdateProfile = () => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            profileImage: creditial.profileImage,
+            profileImage: profileImageUrl,
             firstname: creditial.firstname,
             lastname: creditial.lastname,
             email: creditial.email,
@@ -163,31 +196,55 @@ const UpdateProfile = () => {
           className="mt-10 mb-20 flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0 bg-teal-500 w-full max-w-4xl p-8 
                     md:p-12 rounded-xl shadow-lg text-white overflow-hidden"
         >
-          <div className="relative z-10 bg-white rounded-xl shadow-lg p-8 text-gray-600 md:w-70">
+          <div className="relative bg-white rounded-xl shadow-lg p-8 text-gray-600 md:w-70">
             <form
               onSubmit={handleSubmit(clickHandler)}
               className="flex flex-col space-y-4"
             >
               {/* <--- User Profile photo ---> */}
               <div>
-                <label htmlFor="" className="label-text">
-                  Your Img : <span className="text-red-600 text-lg">*</span>
-                </label>
-                <input
-                  type="file"
-                  id="profileImage"
-                  name="profileImage"
-                  accept="image/*"
-                  className="res-input-field"
-                  {...register("profileImage", {
-                    required: "Restaurant Menu is required",
-                  })}
-                  onChange={onChange}
-                  autoComplete="false"
-                />
-                <p className="text-sm text-red-500 absolute">
-                  {errors.profileImage?.message}
-                </p>
+                <div className="user-profile-photo-container border-2 border-gray-900">
+                  <input
+                    type="file"
+                    id="profil_mage"
+                    name="profileImage"
+                    className="border-2 border-gray-900 user-profile-photo-input"
+                    accept="image/*"
+                    {...register("profileImage", {
+                      required: "Restaurant Menu is required",
+                    })}
+                    onChange={(e) => {
+                      displayProfilePhoto(e.target.files[0]);
+                      setCreditial({
+                        ...creditial,
+                        profileImage: e.target.files[0],
+                      });
+                    }}
+                  />
+
+                  <label
+                    htmlFor="profileImage"
+                    className="profile-photo-wrapper"
+                    ref={profilePhotoWrapper}
+                    style={setProfilePhoto}
+                  >
+                    <div className="upload-img-div text-center">
+                      <div className="mb-2">
+                        <i className="fa fa-camera fa-2x"></i>
+                      </div>
+
+                      <div className="text-uppercase">
+                        Update
+                        <br />
+                        Profile Photo
+                      </div>
+                    </div>
+                  </label>
+
+                  <p className="text-sm text-red-500 absolute">
+                    {errors.profileImage?.message}
+                  </p>
+                </div>
               </div>
 
               {/* <--- User First Name ---> */}

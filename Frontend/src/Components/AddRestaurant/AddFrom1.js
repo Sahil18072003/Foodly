@@ -331,7 +331,7 @@ function AddForm1() {
         </div>
         <div className="add-right">
           <div className="add-first-part">
-            <div className="text-5xl font-bold text-center bg-white-700">
+            <div className="text-5xl font-bold text-center">
               Restaurant Information
             </div>
             <form onSubmit={handleSubmit(clickHandler)}>

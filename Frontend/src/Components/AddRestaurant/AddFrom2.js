@@ -254,7 +254,9 @@ function AddForm2() {
         </div>
         <div className="add-right">
           <div className="add-second-part">
-            <div className="text-5xl">Restaurant Type & Timings</div>
+            <div className="text-5xl font-bold text-center">
+              Restaurant Type & Timings
+            </div>
             <form onSubmit={handleSubmit(clickHandler)}>
               {/* forth part */}
               <div className="add-right-forth p-4 rounded-lg">

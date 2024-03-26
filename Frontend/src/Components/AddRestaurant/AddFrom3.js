@@ -166,7 +166,7 @@ function AddForm3() {
         </div>
         <div className="add-right">
           <div className="add-third-part">
-            <div className="text-5xl">Upload images</div>
+            <div className="text-5xl font-bold text-center">Upload images</div>
             <form onSubmit={handleSubmit(clickHandler)}>
               {/* First part */}
               <div className="add-right-first p-4 rounded-lg">

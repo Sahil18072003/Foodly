@@ -40,9 +40,11 @@
 
 .add-left {
     position: sticky;
-    top: 10rem;
+    top: 85px;
+    z-index: 10;
     width: 30%;
     padding: 8px;
+    height: fit-content;
 }
 
 .add-left-first {

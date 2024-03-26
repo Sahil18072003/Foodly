@@ -45,14 +45,14 @@
   box-sizing: border-box;
 }
 
-html,
+/* html,
 body {
   margin: 0 !important;
   padding: 0 !important;
-  /* font-family: "Mona Sans"; */
+  font-family: "Mona Sans";
   overflow-x: hidden;
   scroll-behavior: smooth;
-}
+} */
 
 @font-face {
   font-family: "Mona Sans";
@@ -130,8 +130,6 @@ body {
 
 /* <---- Same Background for Page (Paws image) ----> */
 body {
-  /* background: url("../src/assets/Landing-Page-Img/Landing-Page.png"),
-    188.153% 100% no-repeat; */
   background-color: rgb(255 255 255 / 94%);
   background-blend-mode: lighten;
 }

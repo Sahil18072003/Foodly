@@ -39,7 +39,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="shadow-md w-full left-0 navbar">
+    <div className="shadow-md left-0 navbar sticky top-0">
       <div className="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
         <div
           className="font-bold text-3xl cursor-pointer flex items-center
@@ -117,13 +117,23 @@ const Navbar = () => {
                 onClick={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
-                <img
-                  src={require(`../../assets/Devlopers/User.png`)}
-                  alt=""
-                  width={44}
-                  height={44}
-                  className="rounded-full"
-                />
+                {user && user.profileImage ? (
+                  <img
+                    src={user.profileImage}
+                    alt="Profile"
+                    width={44}
+                    height={44}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <img
+                    src={require(`./../../assets/Devlopers/User.png`)}
+                    alt="Default Profile"
+                    width={44}
+                    height={44}
+                    className="rounded-full"
+                  />
+                )}
                 <div
                   className="dropdown-menu absolute bg-white rounded-md shadow-md"
                   onClick={handleMouseEnter}
