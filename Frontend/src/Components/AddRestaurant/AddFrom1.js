@@ -270,8 +270,8 @@ function AddForm1() {
 
   return (
     <div className="add-res-page">
-      <div className="relative add-res-content ">
-        <div className="sticky top-5 add-left ">
+      <div className="add-res-content">
+        <div className="add-left">
           <div className="add-left-first py-4 px-4 rounded-lg">
             <div className="font-bold text-lg">
               1. Create your restaurant page
@@ -331,7 +331,9 @@ function AddForm1() {
         </div>
         <div className="add-right">
           <div className="add-first-part">
-            <div className="text-5xl">Restaurant Information</div>
+            <div className="text-5xl font-bold text-center bg-white-700">
+              Restaurant Information
+            </div>
             <form onSubmit={handleSubmit(clickHandler)}>
               {/* first part */}
               <div className="add-right-first p-4 rounded-lg">

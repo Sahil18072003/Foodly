@@ -44,22 +44,25 @@ function AddRestaurant() {
                 And get ads worth INR 1500. Valid for new restaurant partners in
                 select cities.
               </div>
-              <ul className="md:flex mt-2 md:p-0 p-10 absolute md:static w-full md:w-auto transition-all duration-500 ease-in">
-                <Link
-                  className="text-white-900 duration-500"
-                  to="/addRestaurant/addForm/1"
-                >
-                  <li className="md:ml-8 text-md font-semibold md:my-0 my-7 bg-orange-400 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
+              <div className="md:flex mt-2 md:p-0 p-5 rounded-md shadow-md absolute md:static w-full md:w-auto transition-all duration-500 ease-in">
+                <div className="w-1/2 p-2 text-md text-center font-semibold md:my-0 rounded-md shadow-md hover:shadow-lg">
+                  <Link
+                    className="w-1/2 text-md text-center font-semibold md:my-0 px-10 py-2 bg-orange-400 rounded-md shadow-md hover:shadow-lg"
+                    to="/addRestaurant/addForm/1"
+                  >
                     Register your Restaurant
-                  </li>
-                </Link>
+                  </Link>
+                </div>
 
-                <Link className="text-gray-800 duration-500" to="/dashboard">
-                  <li className="md:ml-8 text-md font-semibold md:my-0 my-7 bg-orange-400 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
+                <div className="w-1/2 p-2 text-md text-center font-semibold md:my-0 rounded-md shadow-md hover:shadow-lg">
+                  <Link
+                    className="w-1/2 text-md text-center font-semibold md:my-0 px-10 py-2 bg-orange-400 rounded-md shadow-md hover:shadow-lg"
+                    to="/addRestaurant/addForm/1"
+                  >
                     View your existing Restaurant
-                  </li>
-                </Link>
-              </ul>
+                  </Link>
+                </div>
+              </div>
               <div className="res-sub-textt">
                 Need help? Contact +91 63535 49828
               </div>

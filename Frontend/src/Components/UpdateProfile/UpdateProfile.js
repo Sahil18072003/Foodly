@@ -22,7 +22,7 @@ const UpdateProfile = () => {
     address: user?.address ? user?.address : "",
   });
 
-  const [isLoading, setIsLoading] = useState(false);
+  console.log(creditial.profileImage);
 
   const navigate = useNavigate();
 
@@ -41,13 +41,16 @@ const UpdateProfile = () => {
   };
 
   /* Upload Profile photo to cloudinary */
-  const uploadImageToCloudinary = async (file, preset) => {
+  const uploadImageToCloudinary = async (file) => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("User_img", preset);
+      formData.append("upload_preset", "User_img");
 
-      const response = await axios.post(formData);
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/ddaat3aev/image/upload",
+        formData
+      );
 
       const uploadedImgData = {
         statusText: response.statusText,
@@ -68,8 +71,11 @@ const UpdateProfile = () => {
   };
 
   const clickHandler = async (e) => {
+    const profileImageUrl = await uploadImageToCloudinary(
+      creditial.profileImage
+    );
     if (
-      creditial.profileImage !== "" &&
+      profileImageUrl !== "" &&
       creditial.firstname !== "" &&
       creditial.lastname !== "" &&
       creditial.email !== "" &&
@@ -86,7 +92,7 @@ const UpdateProfile = () => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            // profileImage: creditial.profileImage,
+            profileImage: creditial.profileImage,
             firstname: creditial.firstname,
             lastname: creditial.lastname,
             email: creditial.email,
@@ -98,7 +104,6 @@ const UpdateProfile = () => {
 
       // parses JSON response into native JavaScript objects
       const json = await response.json();
-      console.log(json.message);
 
       if (json.message === "Token expired") {
         toast.error("Your Token has expired... Login again", {
@@ -164,33 +169,25 @@ const UpdateProfile = () => {
               className="flex flex-col space-y-4"
             >
               {/* <--- User Profile photo ---> */}
-              <div className="user-profile-photo-container">
+              <div>
+                <label htmlFor="" className="label-text">
+                  Your Img : <span className="text-red-600 text-lg">*</span>
+                </label>
                 <input
                   type="file"
-                  id="profile-photo"
+                  id="profileImage"
                   name="profileImage"
                   accept="image/*"
-                  onChange={(e) => {
-                    setCreditial("profileImageFile", e.target.files[0]);
-                    // displayProfilePhoto(e.target.files[0]);
-                  }}
+                  className="res-input-field"
+                  {...register("profileImage", {
+                    required: "Restaurant Menu is required",
+                  })}
+                  onChange={onChange}
+                  autoComplete="false"
                 />
-                <label
-                  htmlFor="profile-photo"
-                  className="profile-photo-wrapper"
-                  // style={setProfilePhoto}
-                >
-                  <div className="upload-img-div text-center">
-                    <div className="mb-2">
-                      <i className="fa fa-camera fa-2x"></i>
-                    </div>
-                    <div className="text-uppercase">
-                      Update
-                      <br />
-                      Profile Photo
-                    </div>
-                  </div>
-                </label>
+                <p className="text-sm text-red-500 absolute">
+                  {errors.profileImage?.message}
+                </p>
               </div>
 
               {/* <--- User First Name ---> */}
