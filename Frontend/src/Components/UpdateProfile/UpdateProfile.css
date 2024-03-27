@@ -2,10 +2,11 @@
 .update-profile-page {
   position: sticky;
   top: 0;
-  background: url("../../assets/Background/Bg_10.jpg");
+  background: url("../../assets/Background/Bg_11.jpg");
+  background-blend-mode: lighten;
   background-position: fixed;
   background-size: 50%;
-  /* background-clip: border-box; */
+  background-clip: border-box;
 }
 
 #profile-photo {
@@ -33,13 +34,12 @@
   height: 150px;
   border-radius: 50%;
   border: 1px solid black;
-  background-image: url("../../assets/Devlopers/User.png");
+  /* background-image: url("../../assets/Devlopers/User.png"); */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
   overflow: hidden;
-  /* For update img icon */
 }
 
 

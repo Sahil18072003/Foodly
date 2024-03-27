@@ -366,7 +366,7 @@ const UpdateProfile = () => {
               </div>
 
               <div className="flex justify-center drop-shadow-xl pt-8">
-                <div className="text-md font-semibold md:my-0 px-6 py-3 border-2 border-orange-400 rounded-md shadow-md hover:shadow-lg">
+                <div className="text-md font-semibold md:my-0 px-6 py-2 border-2 border-orange-400 rounded-md shadow-md hover:shadow-lg">
                   <button onClick={goBack}>Go Back</button>
                 </div>
                 <div className="inline-block px-8">

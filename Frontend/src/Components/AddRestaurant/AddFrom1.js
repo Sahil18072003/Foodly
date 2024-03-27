@@ -369,7 +369,7 @@ function AddForm1() {
                     {errors.resname?.message}
                   </p>
                 </div>
-                <div className="px-3 pb-4">
+                <div className="px-3 pt-2 pb-4">
                   <label htmlFor="resadd" className="res-label-text">
                     Restaurant Address :
                     <span className="text-red-600 text-lg"> *</span>
@@ -680,7 +680,7 @@ function AddForm1() {
                     {errors.ownername?.message}
                   </p>
                 </div>
-                <div className="px-3 pt-3 pb-6">
+                <div className="px-3 pt-4 pb-6">
                   <label htmlFor="owneremail" className="label-text">
                     Restaurant Owner Email Address :
                     <span className="text-red-600 text-lg"> *</span>

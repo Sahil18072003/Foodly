@@ -42,6 +42,10 @@ const restaurantSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    // ownerid: {
+    //   type: String,
+    //   require: true,
+    // },
     owneremail: {
       type: String,
       require: true,
