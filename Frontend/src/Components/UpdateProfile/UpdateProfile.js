@@ -189,207 +189,206 @@ const UpdateProfile = () => {
   };
 
   return (
-    <div className="update-profile-page bg-white-100">
-      <div className="flex w-full min-h-screen justify-center items-center">
-        <div
-          className="mt-10 mb-20 flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0 bg-teal-500 w-full max-w-4xl p-16
+    <div className="update-profile-page flex w-full min-h-screen justify-center items-center">
+      <div
+        className="mt-10 mb-20 flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0 bg-teal-500 w-full max-w-4xl p-16
                      rounded-xl shadow-lg text-white overflow-hidden"
-        >
-          <div className="w-full relative bg-white rounded-xl shadow-lg px-32 py-8 text-gray-600 md:w-70">
-            <form
-              onSubmit={handleSubmit(clickHandler)}
-              className="flex flex-col space-y-4"
-            >
-              {/* <--- User Profile photo ---> */}
-              <div>
-                <div className="user-profile-photo-container mb-2">
-                  <input
-                    type="file"
-                    id="profile-photo"
-                    name="profileImage"
-                    accept="image/*"
-                    {...register("profileImage", {
-                      required: "Profile Image is required",
-                    })}
-                    onChange={(e) => {
-                      displayProfilePhoto(e.target.files[0]);
-                      setCreditial({
-                        ...creditial,
-                        profileImage: e.target.files[0],
-                      });
-                    }}
-                  />
+      >
+        <div className="w-full relative bg-white rounded-xl shadow-lg px-32 py-8 text-gray-600 md:w-70">
+          <form
+            onSubmit={handleSubmit(clickHandler)}
+            className="flex flex-col space-y-4"
+          >
+            {/* <--- User Profile photo ---> */}
+            <div>
+              <div className="user-profile-photo-container mb-2">
+                <input
+                  type="file"
+                  id="profile-photo"
+                  name="profileImage"
+                  accept="image/*"
+                  {...register("profileImage", {
+                    required: "Profile Image is required",
+                  })}
+                  onChange={(e) => {
+                    displayProfilePhoto(e.target.files[0]);
+                    setCreditial({
+                      ...creditial,
+                      profileImage: e.target.files[0],
+                    });
+                  }}
+                />
 
-                  <label
-                    htmlFor="profile-photo"
-                    className="profile-photo-wrapper"
-                    ref={profilePhotoWrapper}
-                    style={setProfilePhoto}
-                  >
-                    <div className="upload-img-div text-center">
-                      <div className="mb-2">
-                        <i className="fa fa-camera fa-2x"></i>
-                      </div>
-
-                      <div className="text-uppercase">
-                        Update
-                        <br />
-                        Profile Photo
-                      </div>
+                <label
+                  htmlFor="profile-photo"
+                  className="profile-photo-wrapper"
+                  ref={profilePhotoWrapper}
+                  style={setProfilePhoto}
+                >
+                  <div className="upload-img-div text-center">
+                    <div className="mb-2">
+                      <i className="fa fa-camera fa-2x"></i>
                     </div>
-                  </label>
 
-                  <p className="text-sm text-red-500 absolute mt-48">
-                    {errors.profileImage?.message}
-                  </p>
-                </div>
-              </div>
+                    <div className="text-uppercase">
+                      Update
+                      <br />
+                      Profile Photo
+                    </div>
+                  </div>
+                </label>
 
-              {/* <--- User First Name ---> */}
-              <div>
-                <label htmlFor="" className="label-text">
-                  First Name : <span className="text-red-600 text-lg">*</span>
-                </label>
-                <input
-                  type="text"
-                  value={creditial.firstname}
-                  {...register("firstname", {
-                    required: "Your Firstname is required",
-                    pattern: {
-                      value: /^[A-Za-z]+$/,
-                      message: "Only alphabets are allowed in Firstname",
-                    },
-                  })}
-                  onChange={onChange}
-                  autoComplete="false"
-                  className="input-field"
-                />
-                <p className="text-sm text-red-500 absolute">
-                  {errors.firstname?.message}
+                <p className="text-sm text-red-500 absolute mt-48">
+                  {errors.profileImage?.message}
                 </p>
               </div>
-              {/* <--- User Last Name ---> */}
-              <div>
-                <label htmlFor="" className="label-text">
-                  Last Name : <span className="text-red-600 text-lg">*</span>
-                </label>
-                <input
-                  type="text"
-                  value={creditial.lastname}
-                  {...register("lastname", {
-                    required: "Your Lastname is required",
-                    pattern: {
-                      value: /^[A-Za-z]+$/,
-                      message: "Only alphabets are allowed in Lastname",
-                    },
-                  })}
-                  onChange={onChange}
-                  autoComplete="false"
-                  className="input-field"
-                />
-                <p className="text-sm text-red-500 absolute">
-                  {errors.lastname?.message}
-                </p>
-              </div>
-              {/* <--- User Email Address ---> */}
-              <div className="mt-5">
-                <label htmlFor="" className="label-text">
-                  Email Address :{" "}
-                  <span className="text-red-600 text-lg"> *</span>
-                </label>
-                <input
-                  type="email"
-                  value={creditial.email}
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value:
-                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g,
-                      message: "Email is not valid",
-                    },
-                  })}
-                  onChange={onChange}
-                  autoComplete="false"
-                  readOnly={user ? true : false}
-                  className="input-field"
-                />
-                <p className="text-sm text-red-500 absolute">
-                  {errors.email?.message}
-                </p>
-              </div>
-              {/* <--- User Contact Number ---> */}
-              <div>
-                <label htmlFor="" className="label-text">
-                  Contact Number :{" "}
-                  <span className="text-red-600 text-lg">*</span>
-                </label>
-                <input
-                  type="text"
-                  value={creditial.phone}
-                  {...register("phone", {
-                    required: "Phone number is required",
-                    pattern: {
-                      value: /^[6-9]{1}[0-9]{9}$/,
-                      message: "Phone number is not valid",
-                    },
-                    maxLength: {
-                      value: 10,
-                      message: "Max 10 characters for Phone number",
-                    },
-                  })}
-                  onChange={onChange}
-                  autoComplete="false"
-                  className="input-field"
-                />
-                <p className="text-sm text-red-500 absolute">
-                  {errors.phone?.message}
-                </p>
-              </div>
-              {/* User Address */}
-              <div className="mt-5">
-                <label htmlFor="" className="label-text">
-                  Address : <span className="text-red-600 text-lg"> *</span>
-                </label>
-                <textarea
-                  rows="3"
-                  value={creditial.address}
-                  {...register("address", {
-                    required: "Your Address is required",
-                  })}
-                  onChange={onChange}
-                  autoComplete="false"
-                  className="input-field"
-                ></textarea>
-                <p className="text-sm text-red-500 absolute">
-                  {errors.address?.message}
-                </p>
-              </div>
+            </div>
 
-              <div className="flex justify-center drop-shadow-xl pt-8">
-                <div className="text-md font-semibold md:my-0 px-6 py-2 border-2 border-orange-400 rounded-md shadow-md hover:shadow-lg">
-                  <button onClick={goBack}>Go Back</button>
-                </div>
-                <div className="inline-block px-8">
-                  <button className="text-md font-semibold md:my-0 bg-orange-400 px-8 py-3 rounded-md shadow-md hover:shadow-lg">
-                    Save
-                  </button>
-                </div>
-              </div>
-
-              <ToastContainer
-                position="top-right"
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
+            {/* <--- User First Name ---> */}
+            <div>
+              <label htmlFor="" className="label-text">
+                First Name : <span className="text-red-600 text-lg">*</span>
+              </label>
+              <input
+                type="text"
+                value={creditial.firstname}
+                {...register("firstname", {
+                  required: "Your Firstname is required",
+                  pattern: {
+                    value: /^[A-Za-z]+$/,
+                    message: "Only alphabets are allowed in Firstname",
+                  },
+                })}
+                onChange={onChange}
+                autoComplete="false"
+                className="input-field"
               />
-            </form>
-          </div>
+              <p className="text-sm text-red-500 absolute">
+                {errors.firstname?.message}
+              </p>
+            </div>
+
+            {/* <--- User Last Name ---> */}
+            <div>
+              <label htmlFor="" className="label-text">
+                Last Name : <span className="text-red-600 text-lg">*</span>
+              </label>
+              <input
+                type="text"
+                value={creditial.lastname}
+                {...register("lastname", {
+                  required: "Your Lastname is required",
+                  pattern: {
+                    value: /^[A-Za-z]+$/,
+                    message: "Only alphabets are allowed in Lastname",
+                  },
+                })}
+                onChange={onChange}
+                autoComplete="false"
+                className="input-field"
+              />
+              <p className="text-sm text-red-500 absolute">
+                {errors.lastname?.message}
+              </p>
+            </div>
+
+            {/* <--- User Email Address ---> */}
+            <div className="mt-5">
+              <label htmlFor="" className="label-text">
+                Email Address : <span className="text-red-600 text-lg"> *</span>
+              </label>
+              <input
+                type="email"
+                value={creditial.email}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g,
+                    message: "Email is not valid",
+                  },
+                })}
+                onChange={onChange}
+                autoComplete="false"
+                readOnly={user ? true : false}
+                className="input-field"
+              />
+              <p className="text-sm text-red-500 absolute">
+                {errors.email?.message}
+              </p>
+            </div>
+
+            {/* <--- User Contact Number ---> */}
+            <div>
+              <label htmlFor="" className="label-text">
+                Contact Number : <span className="text-red-600 text-lg">*</span>
+              </label>
+              <input
+                type="text"
+                value={creditial.phone}
+                {...register("phone", {
+                  required: "Phone number is required",
+                  pattern: {
+                    value: /^[6-9]{1}[0-9]{9}$/,
+                    message: "Phone number is not valid",
+                  },
+                  maxLength: {
+                    value: 10,
+                    message: "Max 10 characters for Phone number",
+                  },
+                })}
+                onChange={onChange}
+                autoComplete="false"
+                className="input-field"
+              />
+              <p className="text-sm text-red-500 absolute">
+                {errors.phone?.message}
+              </p>
+            </div>
+
+            {/* User Address */}
+            <div className="mt-5">
+              <label htmlFor="" className="label-text">
+                Address : <span className="text-red-600 text-lg"> *</span>
+              </label>
+              <textarea
+                rows="3"
+                value={creditial.address}
+                {...register("address", {
+                  required: "Your Address is required",
+                })}
+                onChange={onChange}
+                autoComplete="false"
+                className="input-field"
+              ></textarea>
+              <p className="text-sm text-red-500 absolute">
+                {errors.address?.message}
+              </p>
+            </div>
+
+            <div className="flex justify-center drop-shadow-xl pt-8">
+              <div className="text-md font-semibold md:my-0 px-6 py-2 border-2 border-orange-400 rounded-md shadow-md hover:shadow-lg">
+                <button onClick={goBack}>Go Back</button>
+              </div>
+              <div className="inline-block px-8">
+                <button className="text-md font-semibold md:my-0 bg-orange-400 px-8 py-3 rounded-md shadow-md hover:shadow-lg">
+                  Save
+                </button>
+              </div>
+            </div>
+
+            <ToastContainer
+              position="top-right"
+              autoClose={2000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+          </form>
         </div>
       </div>
     </div>

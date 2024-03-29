@@ -1,12 +1,9 @@
 /* <-------- Profile photo CSS --------> */
 .update-profile-page {
-  position: sticky;
-  top: 0;
+  display: flex;
+  min-height: 70vh;
   background: url("../../assets/Background/Bg_11.jpg");
-  background-blend-mode: lighten;
-  background-position: fixed;
-  background-size: 50%;
-  background-clip: border-box;
+  background-size: 40%;
 }
 
 #profile-photo {

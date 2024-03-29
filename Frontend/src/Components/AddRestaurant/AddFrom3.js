@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, fa3 } from "@fortawesome/free-solid-svg-icons";
@@ -169,50 +169,58 @@ function AddForm3() {
             <div className="text-5xl font-bold text-center">Upload images</div>
             <form onSubmit={handleSubmit(clickHandler)}>
               {/* First part */}
-              <div className="add-right-first p-4 rounded-lg">
-                <div className="p-3">
-                  <div className="text-2xl font-semibold">Menu images</div>
-                  <div className="text-sm">
-                    Your menu will be directly visible to customers on Zomato
-                  </div>
+              <div className="add-menu-first rounded-lg">
+                <div className="text-2xl font-semibold">Menu images</div>
+                <div className="text-sm">
+                  Your menu will be directly visible to customers on Zomato
                 </div>
-                <div className="px-3 pt-3 pb-6">
+
+                <div className="menu-img">
                   <input
-                    rows="6"
                     type="file"
                     id="menuimg"
                     name="menuimg"
-                    className="res-input-field"
-                    // value={creditial.menuimg}
+                    accept="image/*"
+                    value={creditial.menuimg}
                     {...register("menuimg", {
                       required: "Restaurant Menu is required",
                     })}
-                    onChange={onChange}
-                    autoComplete="false"
+                    onChange={(e) => {
+                      setCreditial({
+                        ...creditial,
+                        profileImage: e.target.files[0],
+                      });
+                    }}
                   />
-                  <p className="text-sm text-red-500 absolute">
-                    {errors.menuimg?.message}
-                  </p>
+
+                  <label htmlFor="menuimg" className="menu-warrper">
+                    <div className="text-center sub-menu-img">
+                      <div className="mb-2">
+                        <i className="fa fa-camera fa-2x"></i>
+                      </div>
+                      <div className="text-uppercase">Add Photos</div>
+                    </div>
+                  </label>
                 </div>
+
+                <p className="text-sm text-red-500 absolute">
+                  {errors.menuimg?.message}
+                </p>
               </div>
 
               {/* Second part */}
-              <div className="add-right-first p-4 rounded-lg">
-                <div className="p-3">
-                  <div className="text-2xl font-semibold">
-                    Restaurant images
-                  </div>
-                  <div className="text-sm">
-                    Please upload atleast one facade shot (picture of the
-                    restaurant front)
-                  </div>
+              <div className="add-res-first rounded-lg">
+                <div className="text-2xl font-semibold">Restaurant images</div>
+                <div className="text-sm">
+                  Please upload atleast one facade shot (picture of the
+                  restaurant front)
                 </div>
-                <div className="px-3 pt-3 pb-6">
+
+                <div className="res-img">
                   <input
                     type="file"
                     id="resimg"
                     name="resimg"
-                    className="res-input-field"
                     value={creditial.resimg}
                     {...register("resimg", {
                       required: "Restaurant image is required",
@@ -220,26 +228,34 @@ function AddForm3() {
                     onChange={onChange}
                     autoComplete="false"
                   />
-                  <p className="text-sm text-red-500 absolute">
-                    {errors.resimg?.message}
-                  </p>
+
+                  <label htmlFor="resimg" className="res-warrper">
+                    <div className="text-center sub-res-img">
+                      <div className="mb-2">
+                        <i className="fa fa-camera fa-2x"></i>
+                      </div>
+                      <div className="text-uppercase">Add Photos</div>
+                    </div>
+                  </label>
                 </div>
+
+                <p className="text-sm text-red-500 absolute">
+                  {errors.resimg?.message}
+                </p>
               </div>
 
               {/* Third part */}
-              <div className="add-right-first p-4 rounded-lg">
-                <div className="p-3">
-                  <div className="text-2xl font-semibold">Food images</div>
-                  <div className="text-sm">
-                    Please do not put images of raw ingredients
-                  </div>
+              <div className="add-food-first rounded-lg">
+                <div className="text-2xl font-semibold">Food images</div>
+                <div className="text-sm">
+                  Please do not put images of raw ingredients
                 </div>
-                <div className="px-3 pt-3 pb-6">
+
+                <div className="food-img">
                   <input
                     type="file"
                     id="foodimg"
                     name="foodimg"
-                    className="res-input-field"
                     value={creditial.foodimg}
                     {...register("foodimg", {
                       required: "Restaurant's Food image is required",
@@ -247,10 +263,20 @@ function AddForm3() {
                     onChange={onChange}
                     autoComplete="false"
                   />
-                  <p className="text-sm text-red-500 absolute">
-                    {errors.foodimg?.message}
-                  </p>
+
+                  <label htmlFor="foodimg" className="food-warrper">
+                    <div className="text-center sub-food-img">
+                      <div className="mb-2">
+                        <i className="fa fa-camera fa-2x"></i>
+                      </div>
+                      <div className="text-uppercase">Add Photos</div>
+                    </div>
+                  </label>
                 </div>
+
+                <p className="text-sm text-red-500 absolute">
+                  {errors.foodimg?.message}
+                </p>
               </div>
 
               {/* footer */}
