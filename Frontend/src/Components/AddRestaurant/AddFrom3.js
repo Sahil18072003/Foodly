@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, fa3 } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import "./AddForm.css";
 
@@ -13,9 +14,9 @@ function AddForm3() {
   const restaurant = JSON.parse(localStorage.getItem("restaurant"));
 
   const [creditial, setCreditial] = useState({
-    menuimg: "",
-    resimg: "",
-    foodimg: "",
+    menuimg: [],
+    resimg: [],
+    foodimg: [],
   });
 
   useEffect(() => {
@@ -30,74 +31,171 @@ function AddForm3() {
 
   const navigate = useNavigate();
 
+  /* Upload Profile photo to cloudinary */
+  const uploadImageToCloudinary = async (file, preset) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", preset);
+
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/ddaat3aev/image/upload",
+        formData
+      );
+
+      const uploadedImgData = {
+        statusText: response.statusText,
+        profileImage: response.data.secure_url,
+        publicId: response.data.public_id,
+      };
+
+      return uploadedImgData.profileImage;
+    } catch (error) {
+      if (error.response.status === 400) {
+        toast.error("Image size too large", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else {
+        toast.error("Something went wrong. Try Again", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+      console.log("Error in uploading profile photo to cloudinary : ", error);
+      return null;
+    }
+  };
+
+  const nextFrom = () => {
+    toast.info("Please click on Next to go to the next page", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      rtl: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
+  const currFrom = () => {
+    toast.info("You are already on this page.", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      rtl: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
   const clickHandler = async (e) => {
-    // if (menuimg.length > 0 && resimg.length > 0 && foodimg.length > 0) {
-    //   // API call
-    //   const response = await fetch(
-    //     `${host}/api/res/addRestaurant/addFrom/3/${restaurant?._id}`,
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         _id: restaurant?._id,
-    //         menuimg: menuimg,
-    //         resimg: resimg,
-    //         foodimg: foodimg,
-    //       }),
-    //     }
-    //   );
-    //   const json = await response?.json();
-    //   if (json) {
-    //     toast.success(
-    //       "Restaurant, Menu & Food images Submitted Successfully.",
-    //       {
-    //         position: "top-right",
-    //         autoClose: 1500,
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         rtl: false,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "light",
-    //       }
-    //     );
-    //     setTimeout(() => {
-    //       localStorage.removeItem("restaurant");
-    //       navigate(`/dashboard`);
-    //     }, 2000);
-    //   } else {
-    //     toast.error("Error in Restaurant, Menu & Food images Submission", {
-    //       position: "top-right",
-    //       autoClose: 2000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       rtl: false,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "light",
-    //     });
-    //   }
-    // } else {
-    //   toast.error("Please fill all the required fields...", {
-    //     position: "top-right",
-    //     autoClose: 2000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     rtl: false,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    // }
+    const menuImageUrls = await Promise.all(
+      creditial.menuimg.map((file) =>
+        uploadImageToCloudinary(file, "menu_photo")
+      )
+    );
+    const resImageUrls = await Promise.all(
+      creditial.resimg.map((file) => uploadImageToCloudinary(file, "res_photo"))
+    );
+    const foodImageUrls = await Promise.all(
+      creditial.foodimg.map((file) =>
+        uploadImageToCloudinary(file, "food_photo")
+      )
+    );
+
+    if (menuImageUrls !== "" && resImageUrls !== "" && foodImageUrls !== "") {
+      // API call
+      const response = await fetch(
+        `${host}/api/res/addRestaurant/addFrom/3/${restaurant?._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            _id: restaurant?._id,
+            menuimg: menuImageUrls,
+            resimg: resImageUrls,
+            foodimg: foodImageUrls,
+          }),
+        }
+      );
+
+      const json = await response?.json();
+
+      if (json) {
+        toast.success(
+          "Restaurant, Menu & Food images Submitted Successfully.",
+          {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            rtl: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          }
+        );
+        setTimeout(() => {
+          localStorage.removeItem("restaurant");
+          navigate(`/dashboard`);
+        }, 2000);
+      } else {
+        toast.error("Error in Restaurant, Menu & Food images Submission", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    } else {
+      toast.error("Please fill all the required fields...", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   const onChange = (e) => {
-    setCreditial({ ...creditial, [e.target.name]: e.target.value });
+    setCreditial({
+      ...creditial,
+      [e.target.name]: [...creditial[e.target.name], e.target.files[0]],
+    });
   };
 
   return (
@@ -139,15 +237,18 @@ function AddForm3() {
               </div>
               {/* </Link> */}
             </button>
-            <button className="pt-2 pb-1 border-2 border-gray-900">
+            <button
+              className="pt-2 pb-1 border-2 border-gray-900"
+              onClick={currFrom}
+            >
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-1">
+                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
                   <FontAwesomeIcon icon={fa3} />
                 </div>
-                <div className="w-5/6">
+                <div className="w-5/6 p-1">
                   <div className="add-left-text">Upload Images</div>
                   <div className="add-left-sub-text">
-                    Menu, restaurant, food images
+                    Menu, Restaurant and Food <br /> images
                   </div>
                 </div>
               </div>
@@ -165,7 +266,7 @@ function AddForm3() {
           </div>
         </div>
         <div className="add-right">
-          <div className="add-third-part">
+          <div className="add-final-part">
             <div className="text-5xl font-bold text-center">Upload images</div>
             <form onSubmit={handleSubmit(clickHandler)}>
               {/* First part */}
@@ -181,16 +282,10 @@ function AddForm3() {
                     id="menuimg"
                     name="menuimg"
                     accept="image/*"
-                    value={creditial.menuimg}
                     {...register("menuimg", {
                       required: "Restaurant Menu is required",
                     })}
-                    onChange={(e) => {
-                      setCreditial({
-                        ...creditial,
-                        profileImage: e.target.files[0],
-                      });
-                    }}
+                    onChange={onChange}
                   />
 
                   <label htmlFor="menuimg" className="menu-warrper">
@@ -221,12 +316,11 @@ function AddForm3() {
                     type="file"
                     id="resimg"
                     name="resimg"
-                    value={creditial.resimg}
+                    accept="image/*"
                     {...register("resimg", {
                       required: "Restaurant image is required",
                     })}
                     onChange={onChange}
-                    autoComplete="false"
                   />
 
                   <label htmlFor="resimg" className="res-warrper">
@@ -256,12 +350,11 @@ function AddForm3() {
                     type="file"
                     id="foodimg"
                     name="foodimg"
-                    value={creditial.foodimg}
+                    accept="image/*"
                     {...register("foodimg", {
                       required: "Restaurant's Food image is required",
                     })}
                     onChange={onChange}
-                    autoComplete="false"
                   />
 
                   <label htmlFor="foodimg" className="food-warrper">

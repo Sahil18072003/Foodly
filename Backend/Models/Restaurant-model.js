@@ -34,18 +34,18 @@ const restaurantSchema = new mongoose.Schema(
       type: Number,
       require: true,
     },
-    ownercontact: {
-      type: Number,
+    ownerid: {
+      type: String,
       require: true,
     },
     ownername: {
       type: String,
       require: true,
     },
-    // ownerid: {
-    //   type: String,
-    //   require: true,
-    // },
+    ownercontact: {
+      type: Number,
+      require: true,
+    },
     owneremail: {
       type: String,
       require: true,

@@ -38,7 +38,6 @@ const Login = () => {
 
       // parses JSON response into native JavaScript objects
       const json = await response.json();
-      console.log(json);
 
       if (json.token) {
         localStorage.setItem("token", json.token);

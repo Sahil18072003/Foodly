@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Toast from "./../Functions/Toast";
 import axios from "axios";
 import "./UpdateProfile.css";
 
@@ -92,9 +91,29 @@ const UpdateProfile = () => {
       return uploadedImgData.profileImage;
     } catch (error) {
       if (error.response.status === 400) {
-        Toast(toast, "Image size too large", "error");
+        toast.error("Image size too large", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       } else {
-        Toast(toast, "Something went wrong. Try Again", "error");
+        toast.error("Something went wrong. Try Again", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
       console.log("Error in uploading profile photo to cloudinary : ", error);
       return null;

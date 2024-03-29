@@ -66,6 +66,20 @@ function AddForm2() {
     });
   };
 
+  const currFrom = () => {
+    toast.info("You are already on this page.", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      rtl: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
   const clickHandler = async (e) => {
     // Get all radio with name "rescategory"
     const rescategory = document.querySelector(
@@ -137,7 +151,6 @@ function AddForm2() {
       );
 
       const json = await response?.json();
-      console.log(json);
 
       if (json) {
         toast.success("Restaurant Type & Time Submitted Successfully.", {
@@ -211,7 +224,10 @@ function AddForm2() {
               </div>
               {/* </Link> */}
             </button>
-            <button className="py-2 border-2 border-gray-900">
+            <button
+              className="py-2 border-2 border-gray-900"
+              onClick={currFrom}
+            >
               <div className="flex flex-column">
                 <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
                   <FontAwesomeIcon icon={fa2} />
@@ -229,13 +245,13 @@ function AddForm2() {
               onClick={nextFrom}
             >
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-1">
+                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
                   <FontAwesomeIcon icon={fa3} />
                 </div>
-                <div className="w-5/6">
+                <div className="w-5/6 p-1">
                   <div className="add-left-text">Upload Images</div>
                   <div className="add-left-sub-text">
-                    Menu, restaurant, food images
+                    Menu, Restaurant and Food <br /> images
                   </div>
                 </div>
               </div>

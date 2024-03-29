@@ -11,7 +11,7 @@ import "./AddForm.css";
 function AddForm1() {
   const host = "http://localhost:5000";
 
-  const restaurant = JSON.parse(localStorage.getItem("restaurant"));
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const [creditial, setCreditial] = useState({
     resname: "",
@@ -21,9 +21,12 @@ function AddForm1() {
     rescity: "",
     rescontact: "",
     reslandline: "",
-    ownercontact: "",
-    ownername: "",
-    owneremail: "",
+    ownercontact: user?.phone ? user.phone : "",
+    ownername:
+      user?.lastname && user?.firstname
+        ? user.firstname + " " + user.lastname
+        : "",
+    owneremail: user?.email ? user?.email : "",
   });
 
   const [city, setCity] = useState([]);
@@ -71,7 +74,6 @@ function AddForm1() {
       );
 
       const json = await response.json(); // parses JSON response into native JavaScript objects
-      console.log(json);
 
       if (json.resContact) {
         localStorage.setItem("resContact", json.resContact);
@@ -179,6 +181,20 @@ function AddForm1() {
     });
   };
 
+  const currFrom = () => {
+    toast.info("You are already on this page.", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      rtl: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
   const clickHandler = async (e) => {
     let state = document.getElementById("resstate").value;
     let city = document.getElementById("rescity").value;
@@ -209,6 +225,7 @@ function AddForm1() {
           rescity: city,
           rescontact: creditial.rescontact,
           reslandline: creditial.reslandline,
+          ownerid: user._id,
           ownercontact: creditial.ownercontact,
           ownername: creditial.ownername,
           owneremail: creditial.owneremail,
@@ -223,7 +240,7 @@ function AddForm1() {
 
         toast.success("Restaurant Information Submmitted Successfully.", {
           position: "top-right",
-          autoClose: 1500,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           rtl: false,
@@ -277,7 +294,10 @@ function AddForm1() {
               1. Create your restaurant page
             </div>
             <hr />
-            <button className="py-2 border-2 border-gray-900">
+            <button
+              className="py-2 border-2 border-gray-900"
+              onClick={currFrom}
+            >
               <div className="flex flex-column">
                 <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
                   <FontAwesomeIcon icon={fa1} />
@@ -307,17 +327,17 @@ function AddForm1() {
               </div>
             </button>
             <button
-              className="pt-2 pb-1 border-2 border-gray-900"
+              className="pt-2 border-2 border-gray-900"
               onClick={nextFrom}
             >
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-1">
+                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
                   <FontAwesomeIcon icon={fa3} />
                 </div>
-                <div className="w-5/6">
+                <div className="w-5/6 p-1">
                   <div className="add-left-text">Upload Images</div>
                   <div className="add-left-sub-text">
-                    Menu, restaurant, food images
+                    Menu, Restaurant and Food <br /> images
                   </div>
                 </div>
               </div>
@@ -699,6 +719,7 @@ function AddForm1() {
                         message: "Restaurant Owner Email is not valid",
                       },
                     })}
+                    readOnly={user ? true : false}
                     onChange={onChange}
                     autoComplete="false"
                   />
