@@ -235,7 +235,7 @@ const Admin = () => {
                       <tbody className="text-center px-5 mx-10">
                         {userlist?.length > 0 ? (
                           userlist?.map((userdetail, index) =>
-                            userdetail?._id !== "65dacb990022155a26808a13" ? (
+                            userdetail?._id !== "6607c5e98d927d0ab775d102" ? (
                               <tr key={index}>
                                 <td className="border border-slate-300">
                                   {index}

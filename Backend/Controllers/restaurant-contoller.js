@@ -1,3 +1,4 @@
+const { Console } = require("console");
 const Restaurant = require("./../Models/Restaurant-model");
 // const accountSid = process.env.TWILIO_ACCOUNT_SID;
 // const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -45,6 +46,32 @@ const addRestaurant1 = async (req, res) => {
   } catch (error) {
     console.log("Error:", error);
     res.status(600).send({ error: "Internal server error" });
+  }
+};
+
+const updateRestaurant = async (req, res) => {
+  const { _id } = req.body;
+
+  try {
+    let existingRestaurant = await Restaurant.findOne({ _id });
+
+    if (!existingRestaurant) {
+      return res.status(400).json({ message: "Restaurent doesn't exist" });
+    }
+
+    // Update the Restaurent's information
+    let result = await Restaurant.updateOne({ _id }, { $set: req.body });
+
+    if (result.acknowledged) {
+      let updatedRestaurant = await Restaurant.findOne({ _id });
+      return res.status(202).json({ updatedRestaurant });
+    } else {
+      return res.status(500).json({ message: "Failed to update restaurent" });
+    }
+  } catch (error) {
+    // Handle any other errors
+    console.log(error);
+    res.status(500).send("Internal Server error occurred");
   }
 };
 
@@ -185,6 +212,7 @@ const addRestaurant3 = async (req, res) => {
 
 module.exports = {
   addRestaurant1,
+  updateRestaurant,
   sendOtp,
   checkOtp,
   addRestaurant2,

@@ -39,7 +39,7 @@ function AddForm2() {
   const navigate = useNavigate();
 
   const backFrom = () => {
-    toast.info("You can not go to the back page", {
+    toast.info("Please click on Back to go to the back page", {
       position: "top-right",
       autoClose: 2000,
       hideProgressBar: false,
@@ -201,7 +201,7 @@ function AddForm2() {
     <div className="add-res-page">
       <div className="add-res-content">
         <div className="add-left">
-          <div className="add-left-first py-4 px-4 rounded-lg">
+          <div className="add-left-first p-4 rounded-lg">
             <div className="font-bold text-lg">
               1. Create your restaurant page
             </div>
@@ -241,7 +241,7 @@ function AddForm2() {
               </div>
             </button>
             <button
-              className="pt-2 pb-1 border-2 border-gray-900"
+              className="pt-2 border-2 border-gray-900"
               onClick={nextFrom}
             >
               <div className="flex flex-column">

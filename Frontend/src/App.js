@@ -144,6 +144,16 @@ function App() {
           />
           <Route
             exact
+            path="/addRestaurant/addForm/1/:id"
+            element={
+              <>
+                <Navbar />
+                <AddForm1 />
+              </>
+            }
+          />
+          <Route
+            exact
             path="/addRestaurant/addForm/1"
             element={
               <>

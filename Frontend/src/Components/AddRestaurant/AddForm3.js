@@ -81,8 +81,8 @@ function AddForm3() {
     }
   };
 
-  const nextFrom = () => {
-    toast.info("Please click on Next to go to the next page", {
+  const backFrom = () => {
+    toast.info("Please click on Back to go to the back page", {
       position: "top-right",
       autoClose: 2000,
       hideProgressBar: false,
@@ -202,13 +202,15 @@ function AddForm3() {
     <div className="add-res-page">
       <div className="add-res-content">
         <div className="add-left">
-          <div className="add-left-first py-4 px-4 rounded-lg">
+          <div className="add-left-first p-4 rounded-lg">
             <div className="font-bold text-lg">
               1. Create your restaurant page
             </div>
             <hr />
-            <button className="py-2 border-2 border-gray-900">
-              {/* <Link to="/addRestaurant/addForm/1"> */}
+            <button
+              className="py-2 border-2 border-gray-900"
+              onClick={backFrom}
+            >
               <div className="flex flex-column">
                 <div className="w-1/6 border-2 border-gray-900 rounded-full pt-2 pb-1 py-1 my-4">
                   <FontAwesomeIcon icon={faCircleCheck} className="w-6 h-6" />
@@ -220,10 +222,11 @@ function AddForm3() {
                   </div>
                 </div>
               </div>
-              {/* </Link> */}
             </button>
-            <button className="py-2 border-2 border-gray-900">
-              {/* <Link to="/addRestaurant/addForm/2"> */}
+            <button
+              className="py-2 border-2 border-gray-900"
+              onClick={backFrom}
+            >
               <div className="flex flex-column">
                 <div className="w-1/6 border-2 border-gray-900 rounded-full pt-2 pb-1 py-1 my-4">
                   <FontAwesomeIcon icon={faCircleCheck} className="w-6 h-6" />
@@ -235,10 +238,9 @@ function AddForm3() {
                   </div>
                 </div>
               </div>
-              {/* </Link> */}
             </button>
             <button
-              className="pt-2 pb-1 border-2 border-gray-900"
+              className="pt-2 border-2 border-gray-900"
               onClick={currFrom}
             >
               <div className="flex flex-column">

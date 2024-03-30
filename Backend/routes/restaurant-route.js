@@ -6,6 +6,9 @@ router
   .route("/addRestaurant/addFrom/1")
   .post(restaurantController.addRestaurant1);
 router
+  .route("/addRestaurant/addFrom/1/:id")
+  .put(restaurantController.updateRestaurant);
+router
   .route("/addRestaurant/addFrom/sendOtp")
   .post(restaurantController.sendOtp);
 router

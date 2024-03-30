@@ -86,8 +86,6 @@ const UpdateProfile = () => {
         publicId: response.data.public_id,
       };
 
-      console.log(uploadedImgData);
-
       return uploadedImgData.profileImage;
     } catch (error) {
       if (error.response.status === 400) {
@@ -121,60 +119,78 @@ const UpdateProfile = () => {
   };
 
   const clickHandler = async (e) => {
-    const profileImageUrl = await uploadImageToCloudinary(
-      creditial.profileImage,
-      "user_profile_photo"
-    );
-    if (
-      profileImageUrl !== "" &&
-      creditial.firstname !== "" &&
-      creditial.lastname !== "" &&
-      creditial.email !== "" &&
-      creditial.phone !== "" &&
-      creditial.address !== ""
-    ) {
-      // Api call
-      const response = await fetch(
-        `${host}/api/auth/dashboard/updateProfile/${user}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            profileImage: profileImageUrl,
-            firstname: creditial.firstname,
-            lastname: creditial.lastname,
-            email: creditial.email,
-            phone: creditial.phone,
-            address: creditial.address,
-          }),
-        }
+    if (creditial.profileImage !== user.profileImage) {
+      const profileImageUrl = await uploadImageToCloudinary(
+        creditial.profileImage,
+        "user_profile_photo"
       );
+      if (
+        profileImageUrl !== "" &&
+        creditial.firstname !== "" &&
+        creditial.lastname !== "" &&
+        creditial.email !== "" &&
+        creditial.phone !== "" &&
+        creditial.address !== ""
+      ) {
+        // Api call
+        const response = await fetch(
+          `${host}/api/auth/dashboard/updateProfile/${user}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              profileImage: profileImageUrl,
+              firstname: creditial.firstname,
+              lastname: creditial.lastname,
+              email: creditial.email,
+              phone: creditial.phone,
+              address: creditial.address,
+            }),
+          }
+        );
 
-      // parses JSON response into native JavaScript objects
-      const json = await response.json();
+        // parses JSON response into native JavaScript objects
+        const json = await response.json();
 
-      if (json.message === "Token expired") {
-        toast.error("Your Token has expired... Login again", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          rtl: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        if (json.message === "Token expired") {
+          toast.error("Your Token has expired... Login again", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            rtl: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
 
-        setTimeout(() => {
-          localStorage.clear();
-          navigate(`/login`);
-        }, 2000);
+          setTimeout(() => {
+            localStorage.clear();
+            navigate(`/login`);
+          }, 2000);
+        } else {
+          localStorage.setItem("user", JSON.stringify(json.updatedUser));
+          toast.success("Your Profile Updated successfully!!", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            rtl: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          setTimeout(() => {
+            navigate(`/dashboard`);
+          }, 2000);
+        }
       } else {
-        toast.success("Your Profile Updated successfully!!", {
+        toast.error("Please fill all the required field..", {
           position: "top-right",
           autoClose: 2000,
           hideProgressBar: false,
@@ -185,22 +201,84 @@ const UpdateProfile = () => {
           progress: undefined,
           theme: "light",
         });
-        setTimeout(() => {
-          navigate(`/dashboard`);
-        }, 2000);
       }
     } else {
-      toast.error("Please fill all the required field..", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        rtl: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      if (
+        creditial.firstname !== "" &&
+        creditial.lastname !== "" &&
+        creditial.email !== "" &&
+        creditial.phone !== "" &&
+        creditial.address !== ""
+      ) {
+        // Api call
+        const response = await fetch(
+          `${host}/api/auth/dashboard/updateProfile/${user}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              firstname: creditial.firstname,
+              lastname: creditial.lastname,
+              email: creditial.email,
+              phone: creditial.phone,
+              address: creditial.address,
+            }),
+          }
+        );
+
+        // parses JSON response into native JavaScript objects
+        const json = await response.json();
+
+        if (json.message === "Token expired") {
+          toast.error("Your Token has expired... Login again", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            rtl: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+
+          setTimeout(() => {
+            localStorage.clear();
+            navigate(`/login`);
+          }, 2000);
+        } else {
+          localStorage.setItem("user", JSON.stringify(json.updatedUser));
+          toast.success("Your Profile Updated successfully!!", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            rtl: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          setTimeout(() => {
+            navigate(`/dashboard`);
+          }, 2000);
+        }
+      } else {
+        toast.error("Please fill all the required field..", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     }
   };
 
@@ -228,7 +306,10 @@ const UpdateProfile = () => {
                   name="profileImage"
                   accept="image/*"
                   {...register("profileImage", {
-                    required: "Profile Image is required",
+                    required:
+                      creditial.profileImage === ""
+                        ? "Profile Image is required"
+                        : false,
                   })}
                   onChange={(e) => {
                     displayProfilePhoto(e.target.files[0]);
@@ -239,7 +320,7 @@ const UpdateProfile = () => {
                   }}
                 />
 
-                <img
+                <label
                   htmlFor="profile-photo"
                   className="profile-photo-wrapper"
                   ref={profilePhotoWrapper}
@@ -256,7 +337,7 @@ const UpdateProfile = () => {
                       Profile Photo
                     </div>
                   </div>
-                </img>
+                </label>
 
                 <p className="text-sm text-red-500 absolute mt-48">
                   {errors.profileImage?.message}

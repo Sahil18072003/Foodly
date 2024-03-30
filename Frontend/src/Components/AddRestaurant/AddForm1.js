@@ -12,21 +12,34 @@ function AddForm1() {
   const host = "http://localhost:5000";
 
   const user = JSON.parse(localStorage.getItem("user"));
+  const restaurant = JSON.parse(localStorage.getItem("restaurant"))
+    ? JSON.parse(localStorage.getItem("restaurant"))
+    : "";
 
   const [creditial, setCreditial] = useState({
-    resname: "",
-    resadd: "",
-    respincode: "",
+    resname: restaurant?.resname ? restaurant?.resname : "",
+    resadd: restaurant?.resadd ? restaurant?.resadd : "",
+    respincode: restaurant?.respincode ? restaurant.respincode : "",
     resstate: "",
     rescity: "",
-    rescontact: "",
-    reslandline: "",
-    ownercontact: user?.phone ? user.phone : "",
+    rescontact: restaurant?.rescontact ? restaurant.rescontact : "",
+    reslandline: restaurant?.reslandline ? restaurant.reslandline : "",
+    ownercontact: user?.phone
+      ? user.phone
+      : "" || restaurant?.ownercontact
+      ? restaurant.ownercontact
+      : "",
     ownername:
       user?.lastname && user?.firstname
         ? user.firstname + " " + user.lastname
+        : "" || restaurant?.ownername
+        ? restaurant.ownername
         : "",
-    owneremail: user?.email ? user?.email : "",
+    owneremail: user?.email
+      ? user?.email
+      : "" || restaurant?.owneremail
+      ? restaurant.owneremail
+      : "",
   });
 
   const [city, setCity] = useState([]);
@@ -196,9 +209,11 @@ function AddForm1() {
   };
 
   const clickHandler = async (e) => {
+    // Retrieve state and city values
     let state = document.getElementById("resstate").value;
     let city = document.getElementById("rescity").value;
 
+    // Check if all required fields are filled
     if (
       creditial.resname !== "" &&
       creditial.resadd !== "" &&
@@ -211,63 +226,131 @@ function AddForm1() {
       creditial.ownername !== "" &&
       creditial.owneremail !== ""
     ) {
-      // Api call
-      const response = await fetch(`${host}/api/res/addRestaurant/addFrom/1`, {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          resname: creditial.resname,
-          resadd: creditial.resadd,
-          respincode: creditial.respincode,
-          resstate: state,
-          rescity: city,
-          rescontact: creditial.rescontact,
-          reslandline: creditial.reslandline,
-          ownerid: user._id,
-          ownercontact: creditial.ownercontact,
-          ownername: creditial.ownername,
-          owneremail: creditial.owneremail,
-        }), // body data type must match "Content-Type" header
-      });
+      // Check if the restaurant already exists
+      if (restaurant) {
+        // If restaurant exists, update its values
+        const response = await fetch(
+          `${host}/api/res/addRestaurant/addFrom/1/${restaurant._id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              _id: restaurant?._id,
+              resname: creditial.resname,
+              resadd: creditial.resadd,
+              respincode: creditial.respincode,
+              resstate: state,
+              rescity: city,
+              rescontact: creditial.rescontact,
+              reslandline: creditial.reslandline,
+              ownercontact: creditial.ownercontact,
+              ownername: creditial.ownername,
+              owneremail: creditial.owneremail,
+            }),
+          }
+        );
 
-      // parses JSON response into native JavaScript objects
-      const json = await response?.json();
+        const json = await response.json();
 
-      if (json) {
-        localStorage.setItem("restaurant", JSON.stringify(json.restaurant));
+        if (json) {
+          localStorage.setItem(
+            "restaurant",
+            JSON.stringify(json.updatedRestaurant)
+          );
 
-        toast.success("Restaurant Information Submmitted Successfully.", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          rtl: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+          toast.success("Restaurant Information Updated Successfully.", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            rtl: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
 
-        setTimeout(() => {
-          navigate(`/addRestaurant/addForm/2?resId=${json.restaurant._id}`);
-        }, 2000);
+          setTimeout(() => {
+            navigate(
+              `/addRestaurant/addForm/2?resId=${json.updatedRestaurant._id}`
+            );
+          }, 2000);
+        } else {
+          toast.error("Failed to update restaurant information.", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            rtl: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
       } else {
-        toast.error("Your email has been already used...", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          rtl: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        // If restaurant does not exist, create a new entry
+        const response = await fetch(
+          `${host}/api/res/addRestaurant/addFrom/1`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              resname: creditial.resname,
+              resadd: creditial.resadd,
+              respincode: creditial.respincode,
+              resstate: state,
+              rescity: city,
+              rescontact: creditial.rescontact,
+              reslandline: creditial.reslandline,
+              ownerid: user._id,
+              ownercontact: creditial.ownercontact,
+              ownername: creditial.ownername,
+              owneremail: creditial.owneremail,
+            }),
+          }
+        );
+
+        const json = await response.json();
+
+        if (json) {
+          localStorage.setItem("restaurant", JSON.stringify(json.restaurant));
+
+          toast.success("New Restaurant Created Successfully.", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            rtl: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+
+          setTimeout(() => {
+            navigate(`/addRestaurant/addForm/2?resId=${json.restaurant._id}`);
+          }, 2000);
+        } else {
+          toast.error("Failed to create new restaurant.", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            rtl: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
       }
     } else {
-      toast.error("Please fill all the required field...", {
+      toast.error("Please fill all the required fields...", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -289,7 +372,7 @@ function AddForm1() {
     <div className="add-res-page">
       <div className="add-res-content">
         <div className="add-left">
-          <div className="add-left-first py-4 px-4 rounded-lg">
+          <div className="add-left-first p-4 rounded-lg">
             <div className="font-bold text-lg">
               1. Create your restaurant page
             </div>

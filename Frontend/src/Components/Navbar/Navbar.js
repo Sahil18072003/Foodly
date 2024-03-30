@@ -96,7 +96,7 @@ const Navbar = () => {
             <>
               <span>
                 {(() => {
-                  if (user?._id === "65dacb990022155a26808a13") {
+                  if (user?._id === "6607c5e98d927d0ab775d102") {
                     return (
                       <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
                         <Link
@@ -117,13 +117,16 @@ const Navbar = () => {
                 onMouseLeave={handleMouseLeave}
               >
                 {user && user.profileImage ? (
-                  <img
-                    src={user.profileImage}
-                    alt="Profile"
-                    width={44}
-                    height={44}
-                    className="rounded-full"
-                  />
+                  <>
+                    <img
+                      src={user.profileImage}
+                      alt="Profile"
+                      width={44}
+                      height={44}
+                      className="rounded-full"
+                    />
+                    <p>{user.fristname}</p>
+                  </>
                 ) : (
                   <img
                     src={require(`./../../assets/Devlopers/User.png`)}

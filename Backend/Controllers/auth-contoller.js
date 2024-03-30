@@ -153,7 +153,7 @@ const forgotPassword = async (req, res) => {
   }
 };
 
-// OTP verification
+// OTP verification for forget password
 const otpVerification = (req, res) => {
   try {
     const userotp = req.body.otp;
