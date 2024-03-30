@@ -168,6 +168,7 @@ const UpdateProfile = () => {
           progress: undefined,
           theme: "light",
         });
+
         setTimeout(() => {
           localStorage.clear();
           navigate(`/login`);
@@ -238,7 +239,7 @@ const UpdateProfile = () => {
                   }}
                 />
 
-                <label
+                <img
                   htmlFor="profile-photo"
                   className="profile-photo-wrapper"
                   ref={profilePhotoWrapper}
@@ -255,7 +256,7 @@ const UpdateProfile = () => {
                       Profile Photo
                     </div>
                   </div>
-                </label>
+                </img>
 
                 <p className="text-sm text-red-500 absolute mt-48">
                   {errors.profileImage?.message}

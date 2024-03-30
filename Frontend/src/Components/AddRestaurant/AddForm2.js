@@ -257,11 +257,6 @@ function AddForm2() {
               </div>
             </button>
           </div>
-          <div className="add-left-mid py-4 px-4 rounded-lg">
-            <div className="font-semibold text-base">
-              Your Restaurant Id : {restaurant?._id}
-            </div>
-          </div>
           <div className="add-left-second p-4 rounded-lg">
             <span className="font-bold text-lg">
               2. Register for Online ordering

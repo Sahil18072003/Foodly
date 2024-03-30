@@ -16,10 +16,12 @@ const Admin = () => {
 
   const [userlist, setUserlist] = useState([]);
 
+  console.log(userlist);
+
   // const [database, setdatabase] = useState([]);
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  
+
   const [userToDelete, setUserToDelete] = useState(null);
 
   const navigate = useNavigate();
@@ -239,14 +241,16 @@ const Admin = () => {
                                   {index}
                                 </td>
                                 <td className="border border-slate-300 px-5">
-                                  {userdetail?.username}
+                                  {userdetail.firstname +
+                                    " " +
+                                    userdetail.lastname}
                                 </td>
                                 <td className="border border-slate-300 ">
                                   <img
-                                    // src={require(`../Images/${userdetail?.image}`)}
-                                    //   onerror="fallbackImage()"
+                                    src={userdetail.profileImage}
+                                    onerror="fallbackImage()"
                                     alt=""
-                                    className="w-20 h-20"
+                                    className="w-32 h-24"
                                   />
                                 </td>
                                 <td className="border border-slate-300 px-5">

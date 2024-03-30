@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fa1, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
-import stateData from "./../../json/State_City.json";
+import stateData from "../../json/State_City.json";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

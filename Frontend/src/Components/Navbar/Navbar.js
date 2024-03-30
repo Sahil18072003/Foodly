@@ -95,9 +95,8 @@ const Navbar = () => {
           {user ? (
             <>
               <span>
-                {" "}
                 {(() => {
-                  if (user?.userId === "65dacb990022155a26808a13") {
+                  if (user?._id === "65dacb990022155a26808a13") {
                     return (
                       <li className="md:ml-8 text-xl font-semibold md:my-0 my-7">
                         <Link

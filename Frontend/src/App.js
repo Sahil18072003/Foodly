@@ -13,9 +13,13 @@ import Navbar from "./Components/Navbar/Navbar";
 import Dashborad from "./Components/Dashboard/Dashboard";
 import UpdateProfile from "./Components/UpdateProfile/UpdateProfile";
 import AddRestaurant from "./Components/AddRestaurant/AddRestaurant";
-import AddForm1 from "./Components/AddRestaurant/AddFrom1";
-import AddForm2 from "./Components/AddRestaurant/AddFrom2";
-import AddForm3 from "./Components/AddRestaurant/AddFrom3";
+import AddForm1 from "./Components/AddRestaurant/AddForm1";
+import AddForm2 from "./Components/AddRestaurant/AddForm2";
+import AddForm3 from "./Components/AddRestaurant/AddForm3";
+import AddForm4 from "./Components/AddRestaurant/AddForm4";
+import AddForm5 from "./Components/AddRestaurant/AddForm5";
+import AddForm6 from "./Components/AddRestaurant/AddForm6";
+import AddForm7 from "./Components/AddRestaurant/AddForm7";
 import UpdateRestaurant from "./Components/UpdateRestaurant/UpdateRestaurant";
 import FindRestaurant from "./Components/FindRestaurant/FindRestaurant";
 import Admin from "./Components/Admin/Admin";
@@ -165,6 +169,46 @@ function App() {
               <>
                 <Navbar />
                 <AddForm3 />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/addRestaurant/addForm/4"
+            element={
+              <>
+                <Navbar />
+                <AddForm4 />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/addRestaurant/addForm/5"
+            element={
+              <>
+                <Navbar />
+                <AddForm5 />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/addRestaurant/addForm/6"
+            element={
+              <>
+                <Navbar />
+                <AddForm6 />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/addRestaurant/addForm/7"
+            element={
+              <>
+                <Navbar />
+                <AddForm7 />
               </>
             }
           />
