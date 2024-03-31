@@ -11,6 +11,8 @@ import "./AddForm.css";
 function AddForm1() {
   const host = "http://localhost:5000";
 
+  const [state, setState] = useState();
+
   const user = JSON.parse(localStorage.getItem("user"));
   const restaurant = JSON.parse(localStorage.getItem("restaurant"))
     ? JSON.parse(localStorage.getItem("restaurant"))
@@ -19,26 +21,26 @@ function AddForm1() {
   const [creditial, setCreditial] = useState({
     resname: restaurant?.resname ? restaurant?.resname : "",
     resadd: restaurant?.resadd ? restaurant?.resadd : "",
-    respincode: restaurant?.respincode ? restaurant.respincode : "",
+    respincode: restaurant?.respincode ? restaurant?.respincode : "",
     resstate: "",
     rescity: "",
-    rescontact: restaurant?.rescontact ? restaurant.rescontact : "",
-    reslandline: restaurant?.reslandline ? restaurant.reslandline : "",
+    rescontact: restaurant?.rescontact ? restaurant?.rescontact : "",
+    reslandline: restaurant?.reslandline ? restaurant?.reslandline : "",
     ownercontact: user?.phone
-      ? user.phone
+      ? user?.phone
       : "" || restaurant?.ownercontact
-      ? restaurant.ownercontact
+      ? restaurant?.ownercontact
       : "",
     ownername:
       user?.lastname && user?.firstname
-        ? user.firstname + " " + user.lastname
+        ? user?.firstname + " " + user?.lastname
         : "" || restaurant?.ownername
-        ? restaurant.ownername
+        ? restaurant?.ownername
         : "",
     owneremail: user?.email
       ? user?.email
       : "" || restaurant?.owneremail
-      ? restaurant.owneremail
+      ? restaurant?.owneremail
       : "",
   });
 
@@ -460,7 +462,7 @@ function AddForm1() {
                     {...register("resname", {
                       required: "Restaurant Name is required",
                       pattern: {
-                        value: /^[A-Za-z]+(?: [A-Za-z]+)?$/,
+                        value: /^[A-Za-z]+(?: [A-Za-z]+)*$/,
                         message:
                           "Only alphabetic characters are allowed in Name",
                       },
@@ -548,6 +550,7 @@ function AddForm1() {
                     <select
                       id="resstate"
                       name="resstate"
+                      value={state}
                       className="p-2 border-2 border-gray-300 rounded w-full"
                       {...register("resstate", {
                         required: "State is required",
@@ -562,7 +565,7 @@ function AddForm1() {
                           </option>
                         ))}
                     </select>
-                    <p className="text-sm text-red-500">
+                    <p className="text-sm text-red-500 absolute">
                       {errors.resstate?.message}
                     </p>
                   </div>
@@ -581,7 +584,7 @@ function AddForm1() {
                           <option value={getcity}>{getcity}</option>
                         ))}
                     </select>
-                    <p className="text-sm text-red-500">
+                    <p className="text-sm text-red-500 absolute">
                       {errors.rescity?.message}
                     </p>
                   </div>

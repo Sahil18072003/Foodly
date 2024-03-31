@@ -19,6 +19,20 @@ function AddForm3() {
     foodimg: [],
   });
 
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal1 = () => {
+    setShowModal(false);
+  };
+
+  const goAddFrom4 = () => {
+    navigate(`/addRestaurant/addForm/4/resId=${restaurant?._id}`);
+  };
+
   useEffect(() => {
     document.title = "Add Form | Foodly";
   }, []);
@@ -115,9 +129,11 @@ function AddForm3() {
         uploadImageToCloudinary(file, "menu_photo")
       )
     );
+
     const resImageUrls = await Promise.all(
       creditial.resimg.map((file) => uploadImageToCloudinary(file, "res_photo"))
     );
+
     const foodImageUrls = await Promise.all(
       creditial.foodimg.map((file) =>
         uploadImageToCloudinary(file, "food_photo")
@@ -145,6 +161,11 @@ function AddForm3() {
       const json = await response?.json();
 
       if (json) {
+        localStorage.setItem(
+          "restaurant",
+          JSON.stringify(json.updatedRestaurant)
+        );
+        
         toast.success(
           "Restaurant, Menu & Food images Submitted Successfully.",
           {
@@ -159,9 +180,9 @@ function AddForm3() {
             theme: "light",
           }
         );
+
         setTimeout(() => {
-          localStorage.removeItem("restaurant");
-          navigate(`/dashboard`);
+          openModal();
         }, 2000);
       } else {
         toast.error("Error in Restaurant, Menu & Food images Submission", {
@@ -189,6 +210,13 @@ function AddForm3() {
         theme: "light",
       });
     }
+  };
+
+  const removeImage = (name, index) => {
+    setCreditial((prevState) => ({
+      ...prevState,
+      [name]: prevState[name].filter((_, i) => i !== index),
+    }));
   };
 
   const onChange = (e) => {
@@ -273,7 +301,7 @@ function AddForm3() {
                   Your menu will be directly visible to customers on Foodly
                 </div>
 
-                <div className="menu-img">
+                <div className="menu-img border-2 border-gray-900">
                   <input
                     type="file"
                     id="menuimg"
@@ -286,13 +314,29 @@ function AddForm3() {
                   />
 
                   <label htmlFor="menuimg" className="menu-warrper">
-                    <div className="text-center sub-menu-img">
+                    <div className="text-center sub-menu-img ">
                       <div className="mb-2">
                         <i className="fa fa-camera fa-2x"></i>
                       </div>
                       <div className="text-uppercase">Add Photos</div>
                     </div>
                   </label>
+
+                  {creditial.menuimg.map((image, index) => (
+                    <div key={index} className="uploaded-div">
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt={`Image ${index}`}
+                        className="uploaded-image"
+                      />
+                      <button
+                        className="uploaded-btn"
+                        onClick={() => removeImage("menuimg", index)}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
                 </div>
 
                 <p className="text-sm text-red-500 absolute">
@@ -328,6 +372,22 @@ function AddForm3() {
                       <div className="text-uppercase">Add Photos</div>
                     </div>
                   </label>
+
+                  {creditial.resimg.map((image, index) => (
+                    <div key={index} className="uploaded-div">
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt={`Image ${index}`}
+                        className="uploaded-image"
+                      />
+                      <button
+                        className="uploaded-btn"
+                        onClick={() => removeImage("resimg", index)}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
                 </div>
 
                 <p className="text-sm text-red-500 absolute">
@@ -362,6 +422,22 @@ function AddForm3() {
                       <div className="text-uppercase">Add Photos</div>
                     </div>
                   </label>
+
+                  {creditial.foodimg.map((image, index) => (
+                    <div key={index} className="uploaded-div">
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt={`Image ${index}`}
+                        className="uploaded-image"
+                      />
+                      <button
+                        className="uploaded-btn"
+                        onClick={() => removeImage("foodimg", index)}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
                 </div>
 
                 <p className="text-sm text-red-500 absolute">
@@ -390,6 +466,36 @@ function AddForm3() {
           </div>
         </div>
       </div>
+      {showModal && (
+        <div className="fixed rounded-lg w-auto inset-0 flex items-center justify-center z-50 bg-black bg-opacity-70">
+          <div className="p-8 bg-white rounded align-center justify-center items-center">
+            <div>STEP - 1</div>
+            <div className="p-2 text-2xl text-black flex px-12 justify-center font-medium">
+              Restaurant listing details submitted
+            </div>
+            <div>
+              Our team will verify the details and updat once your page is live
+              on Foodly!
+            </div>
+            <div class="justify-between mt-4">
+              <button
+                onClick={goAddFrom4}
+                className="text-white bg-orange-400 font-bold rounded-md text-xl p-3"
+              >
+                Step 2 - Register for online ordering
+              </button>
+            </div>
+            <div class="justify-between mt-4">
+              <button
+                onClick={closeModal1}
+                className="text-black font-bold text-xl p-3"
+              >
+                Done for now
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
