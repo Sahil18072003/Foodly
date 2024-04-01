@@ -86,6 +86,26 @@ const restaurantSchema = new mongoose.Schema(
       type: Array,
       require: true,
     },
+    deliveryrefer: {
+      type: String,
+      require: true,
+    },
+    deliverytime: {
+      type: String,
+      require: true,
+    },
+    deliverymenuimg: {
+      type: Array,
+      require: true,
+    },
+    deliverycontact: {
+      type: String,
+      require: true,
+    },
+    deliverylandline: {
+      type: String,
+      require: true,
+    },
   },
   {
     timestamps: true,

@@ -40,40 +40,38 @@
 
 .add-left {
     position: sticky;
-    top: 85px;
+    top: 80px;
     z-index: 10;
     width: 30%;
     padding: 8px;
     height: fit-content;
 }
 
-.add-left-first {
-    height: auto;
-    background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(78, 78, 78, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+.add-left-2 {
+    position: sticky;
+    top: 80px;
+    z-index: 10;
+    width: 30%;
+    padding: 5px;
+    height: fit-content;
 }
 
-.add-left-mid {
+.add-left-first {
     height: auto;
+    color: #a31e1e;
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(78, 78, 78, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .add-left-first,
-.add-left-mid,
 .add-left-second {
     display: flex;
     flex-direction: column;
 }
 
 .add-left-first .flex,
-.add-left-mid .flex,
 .add-left-second .flex {
     margin-bottom: 0.5rem;
-}
-
-.add-left-mid {
-    margin-top: 5%;
 }
 
 .add-left-second {
@@ -158,7 +156,11 @@
 
 #menuimg,
 #resimg,
-#foodimg {
+#foodimg,
+#deliverymenuimg,
+#panimg,
+#gstimg,
+#fssaiimg {
     display: none;
 }
 
@@ -188,13 +190,32 @@
     flex-wrap: wrap;
 }
 
+.pan-img {
+    display: flex;
+    justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+}
+
 .uploaded-div {
     position: relative;
     margin: 10px;
     width: 120px;
     height: 120px;
     border-radius: 10px;
-    border: medium dotted orange;
+    border: small dotted orange;
+}
+
+.uploaded-div-pan {
+    position: absolute;
+    width: full;
+    height: full;
+    margin-top: 80px;
+    border-radius: 10px;
+    border: small dotted orange;
 }
 
 .uploaded-image {
@@ -210,6 +231,17 @@
     top: 4px;
     right: 8px;
     color: red;
+    font-weight: bold;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.uploaded-btn-pan {
+    position: absolute;
+    color: red;
+    margin-left: 10px;
+    margin-top: 2px;
     font-weight: bold;
     background: transparent;
     border: none;
@@ -232,6 +264,21 @@
     margin-right: 6px;
 }
 
+.pan-warrper {
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: medium dotted orange;
+    cursor: pointer;
+    overflow: hidden;
+    background-color: rgb(249, 231, 199);
+    padding: 4px;
+    margin-top: 10px;
+    margin-right: 6px;
+}
+
 .sub-menu-img,
 .sub-res-img,
 .sub-food-img {
@@ -239,3 +286,8 @@
     justify-content: center;
 }
 
+.sub-pan-img {
+    text-align: center;
+    justify-content: center;
+    display: flex;
+}

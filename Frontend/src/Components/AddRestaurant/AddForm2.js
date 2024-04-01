@@ -16,36 +16,36 @@ function AddForm2() {
   const [selectedResType, setSelectedResType] = useState([]);
   const [selectedResCuisineType, setSelectedResCuisineType] = useState([]);
   const [selectedResDays, setSelectedResDays] = useState([]);
-  const [openingTime, setOpeningTime] = useState("");
-  const [closingTime, setClosingTime] = useState("");
+  const [openingTime, setOpeningTime] = useState(restaurant?.openingTime);
+  const [closingTime, setClosingTime] = useState();
 
   useEffect(() => {
-    const storedCategory = restaurant.rescategory;
+    const storedCategory = restaurant?.rescategory;
     if (storedCategory) {
       setSelectedCategory(storedCategory);
     }
 
-    const storedResType = restaurant.restypes;
+    const storedResType = restaurant?.restypes;
     if (storedResType) {
       setSelectedResType(storedResType);
     }
 
-    const storedResCuisineType = restaurant.rescuisinetype;
+    const storedResCuisineType = restaurant?.rescuisinetype;
     if (storedResCuisineType) {
       setSelectedResCuisineType(storedResCuisineType);
     }
 
-    const storedResDays = restaurant.resdays;
+    const storedResDays = restaurant?.resdays;
     if (storedResDays) {
       setSelectedResDays(storedResDays);
     }
 
-    const storedOpeningTime = restaurant.openingtime;
+    const storedOpeningTime = restaurant?.openingtime;
     if (storedOpeningTime) {
       setOpeningTime(storedOpeningTime);
     }
 
-    const storedClosingTime = restaurant.closingtime;
+    const storedClosingTime = restaurant?.closingtime;
     if (storedClosingTime) {
       setClosingTime(storedClosingTime);
     }
@@ -77,7 +77,6 @@ function AddForm2() {
 
   const handleResDaysChange = (e) => {
     const value = e.target.value;
-    console.log(value);
     if (e.target.checked) {
       setSelectedResDays([...selectedResDays, value]);
     } else {
@@ -257,32 +256,8 @@ function AddForm2() {
           theme: "light",
         });
       }
-    } else if (selectedResCuisineType === 0) {
-      toast.error("Please select at least one cuisine type", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        rtl: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    } else if (selectedResType === 0) {
-      toast.error("Please select at least one restaurent type", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        rtl: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
     } else {
-      toast.error("Please select at least on day", {
+      toast.error("Please fill all the required fields...", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -305,13 +280,9 @@ function AddForm2() {
               1. Create your restaurant page
             </div>
             <hr />
-            <button
-              className="py-2 border-2 border-gray-900"
-              onClick={backFrom}
-            >
-              {/* <Link to="/addRestaurant/addForm/1"> */}
+            <button className="py-2" onClick={backFrom}>
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 bg-green-00 rounded-full pt-2 pb-1 py-1 my-4">
+                <div className="w-1/6 bg-green-400 rounded-full px-2 pt-2 pb-1 my-4">
                   <FontAwesomeIcon icon={faCircleCheck} className="w-6 h-6" />
                 </div>
                 <div className="w-5/6 p-1">
@@ -321,14 +292,10 @@ function AddForm2() {
                   </div>
                 </div>
               </div>
-              {/* </Link> */}
             </button>
-            <button
-              className="py-2 border-2 border-gray-900"
-              onClick={currFrom}
-            >
+            <button className="py-2" onClick={currFrom}>
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
+                <div className="w-1/6 bg-orange-400 rounded-full p-2 my-4">
                   <FontAwesomeIcon icon={fa2} />
                 </div>
                 <div className="w-5/6 p-1">
@@ -339,12 +306,9 @@ function AddForm2() {
                 </div>
               </div>
             </button>
-            <button
-              className="pt-2 border-2 border-gray-900"
-              onClick={nextFrom}
-            >
+            <button className="pt-2" onClick={nextFrom}>
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
+                <div className="w-1/6 bg-gray-300 rounded-full p-2 my-4">
                   <FontAwesomeIcon icon={fa3} />
                 </div>
                 <div className="w-5/6 p-1">
@@ -357,7 +321,7 @@ function AddForm2() {
             </button>
           </div>
           <div className="add-left-second p-4 rounded-lg">
-            <span className="font-bold text-lg">
+            <span className="font-normal text-lg">
               2. Register for Online ordering
             </span>
           </div>
@@ -392,7 +356,6 @@ function AddForm2() {
                             message: "Restaurant type is required",
                           },
                         })}
-                        defaultChecked
                         checked={
                           selectedCategory ===
                           "Both, delivery and dine-in available"
@@ -458,7 +421,7 @@ function AddForm2() {
                       dine-in (like delivery kitchens)
                     </div>
                   </div>
-                  <p className="text-sm text-red-500">
+                  <p className="text-sm text-red-500 absolute">
                     {errors.rescategory?.message}
                   </p>
                 </div>
@@ -1146,18 +1109,19 @@ function AddForm2() {
                       <input
                         type="time"
                         id="openingtime"
-                        name="openingtime"
+                        name="openingTime"
+                        value={openingTime}
                         className="border-2 border-gray-300 rounded py-2 px-4"
-                        {...register("openingtime", {
+                        {...register("openingTime", {
                           required: {
+                            value: true,
                             message: "Restaurant opening time is required",
                           },
                         })}
-                        value={openingTime}
                         onChange={handleOpeningTimeChange}
                       />
                       <p className="text-sm text-red-500">
-                        {errors.openingtime?.message}
+                        {errors.openingTime?.message}
                       </p>
                     </div>
                   </div>
@@ -1172,18 +1136,19 @@ function AddForm2() {
                       <input
                         type="time"
                         id="closingtime"
-                        name="closingtime"
+                        name="closingTime"
+                        value={closingTime}
                         className="border-2 border-gray-300 rounded py-2 px-4"
-                        {...register("closingtime", {
+                        {...register("closingTime", {
                           required: {
+                            value: true,
                             message: "Restaurant closing time is required",
                           },
                         })}
-                        value={closingTime}
                         onChange={handleClosingTimeChange}
                       />
                       <p className="text-sm text-red-500">
-                        {errors.closingtime?.message}
+                        {errors.closingTime?.message}
                       </p>
                     </div>
                   </div>

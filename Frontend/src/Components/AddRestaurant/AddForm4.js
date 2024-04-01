@@ -1,66 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fa1, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
-import stateData from "../../json/State_City.json";
+import { fa1, fa2, fa3, fa4 } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import "./AddForm.css";
 
 function AddForm4() {
   const host = "http://localhost:5000";
 
-  const [state, setState] = useState();
-
   const user = JSON.parse(localStorage.getItem("user"));
+
   const restaurant = JSON.parse(localStorage.getItem("restaurant"))
     ? JSON.parse(localStorage.getItem("restaurant"))
     : "";
 
   const [creditial, setCreditial] = useState({
-    resname: restaurant?.resname ? restaurant?.resname : "",
-    resadd: restaurant?.resadd ? restaurant?.resadd : "",
-    respincode: restaurant?.respincode ? restaurant?.respincode : "",
-    resstate: "",
-    rescity: "",
-    rescontact: restaurant?.rescontact ? restaurant?.rescontact : "",
-    reslandline: restaurant?.reslandline ? restaurant?.reslandline : "",
-    ownercontact: user?.phone
-      ? user?.phone
-      : "" || restaurant?.ownercontact
-      ? restaurant?.ownercontact
+    deliverymenuimg: restaurant?.deliverymenuimg
+      ? restaurant?.deliverymenuimg
+      : [],
+    ownercontact: restaurant?.ownercontact ? restaurant?.ownercontact : "",
+    ownername: restaurant?.ownername ? restaurant?.ownername : "",
+    owneremail: restaurant?.owneremail ? restaurant?.owneremail : "",
+    deliverycontact: restaurant?.deliverycontact
+      ? restaurant?.deliverycontact
       : "",
-    ownername:
-      user?.lastname && user?.firstname
-        ? user?.firstname + " " + user?.lastname
-        : "" || restaurant?.ownername
-        ? restaurant?.ownername
-        : "",
-    owneremail: user?.email
-      ? user?.email
-      : "" || restaurant?.owneremail
-      ? restaurant?.owneremail
+    deliverylandline: restaurant?.deliverylandline
+      ? restaurant?.deliverylandline
       : "",
   });
-
-  const [city, setCity] = useState([]);
-
-  const handleState = (e) => {
-    const getState = e.target.value;
-
-    const getCities = stateData.find(
-      (stateData) => stateData.name === getState
-    );
-
-    setCity(getCities);
-  };
-
-  const [showOtpModal, setShowOtpModal] = useState(false);
-
-  const [otpCode, setOtpCode] = useState("");
-
-  const [otpError, setOtpError] = useState("");
 
   const navigate = useNavigate();
 
@@ -73,114 +43,6 @@ function AddForm4() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const openOtpModal = async () => {
-    if (creditial.rescontact !== "") {
-      // Api call
-      const response = await fetch(
-        `${host}/api/res/addRestaurant/addFrom/sendOtp`,
-        {
-          method: "POST", // *GET, POST, PUT, DELETE, etc.
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ rescontact: creditial.rescontact }), // body data type must match "Content-Type" header
-        }
-      );
-
-      const json = await response.json(); // parses JSON response into native JavaScript objects
-
-      if (json.resContact) {
-        localStorage.setItem("resContact", json.resContact);
-
-        toast.success("OTP has been sent to your phone number.", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          rtl: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        setTimeout(() => {
-          setShowOtpModal(true);
-        }, 2000);
-      } else {
-        toast.warning("Attention! Please provide correct contact number...", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          rtl: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
-    } else {
-      console.log("Incorrect contact number");
-    }
-  };
-
-  const closeOtpModal = () => {
-    setShowOtpModal(false);
-    setOtpCode("");
-    setOtpError("");
-  };
-
-  const otpSubmit = async () => {
-    if (creditial.otpCode === "") {
-      const response = await fetch(
-        `${host}/api/res/addRestaurant/addFrom/checkOtp`,
-        {
-          method: "POST", // *GET, POST, PUT, DELETE, etc.
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ rescontact: creditial.rescontact }), // body data type must match "Content-Type" header
-        }
-      );
-
-      const json = await response.json();
-
-      if (json.genotp) {
-        localStorage.removeItem("resContact");
-        closeOtpModal();
-      } else {
-        toast.warning("Attention! Please provide correct OTP...", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          rtl: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
-    } else {
-      toast.error("Oops! OTP is no more valid...", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        rtl: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  };
-
-  const handleOtpChange = (e) => {
-    setOtpCode(e.target.value);
-    setOtpError("");
-  };
 
   const nextFrom = () => {
     toast.info("Please click on Next to go to the next page", {
@@ -210,146 +72,144 @@ function AddForm4() {
     });
   };
 
+  /* Upload Profile photo to cloudinary */
+  const uploadImageToCloudinary = async (file, preset) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", preset);
+
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/ddaat3aev/image/upload",
+        formData
+      );
+
+      const uploadedImgData = {
+        statusText: response.statusText,
+        profileImage: response.data.secure_url,
+        publicId: response.data.public_id,
+      };
+
+      return uploadedImgData.profileImage;
+    } catch (error) {
+      if (error.response.status === 400) {
+        toast.error("Image size too large", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else {
+        toast.error("Something went wrong. Try Again", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+      console.log("Error in uploading profile photo to cloudinary : ", error);
+      return null;
+    }
+  };
+
   const clickHandler = async (e) => {
-    // Retrieve state and city values
-    let state = document.getElementById("resstate").value;
-    let city = document.getElementById("rescity").value;
+    // Get all radio with name "deliveryrefer"
+    const deliveryrefer = document.querySelector(
+      'input[name="deliveryrefer"]:checked'
+    )?.value;
+
+    // Get all radio with name "deliverytime"
+    const deliverytime = document.querySelector(
+      'input[name="deliverytime"]:checked'
+    )?.value;
+
+    const deliverymenuImageUrls = await Promise.all(
+      creditial.deliverymenuimg.map((file) =>
+        uploadImageToCloudinary(file, "delivery_menu_img")
+      )
+    );
 
     // Check if all required fields are filled
     if (
-      creditial.resname !== "" &&
-      creditial.resadd !== "" &&
-      creditial.respincode !== "" &&
-      state !== "" &&
-      city !== "" &&
-      creditial.rescontact !== "" &&
-      creditial.reslandline !== "" &&
+      deliveryrefer !== "" &&
+      deliverytime !== "" &&
+      deliverymenuImageUrls !== "" &&
       creditial.ownercontact !== "" &&
       creditial.ownername !== "" &&
-      creditial.owneremail !== ""
+      creditial.owneremail !== "" &&
+      creditial.deliverycontact !== "" &&
+      creditial.deliverylandline !== ""
     ) {
-      // Check if the restaurant already exists
-      if (restaurant) {
-        // If restaurant exists, update its values
-        const response = await fetch(
-          `${host}/api/res/addRestaurant/addFrom/1/${restaurant._id}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              _id: restaurant?._id,
-              resname: creditial.resname,
-              resadd: creditial.resadd,
-              respincode: creditial.respincode,
-              resstate: state,
-              rescity: city,
-              rescontact: creditial.rescontact,
-              reslandline: creditial.reslandline,
-              ownercontact: creditial.ownercontact,
-              ownername: creditial.ownername,
-              owneremail: creditial.owneremail,
-            }),
-          }
+      // If restaurant exists, update its values
+      const response = await fetch(
+        `${host}/api/res/addRestaurant/addFrom/4/${restaurant?._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            _id: restaurant?._id,
+            deliveryrefer: deliveryrefer,
+            deliverytime: deliverytime,
+            deliverymenuimg: deliverymenuImageUrls,
+            ownercontact: creditial.ownercontact,
+            ownername: creditial.ownername,
+            owneremail: creditial.owneremail,
+            deliverycontact: creditial.deliverycontact,
+            deliverylandline: creditial.deliverylandline,
+          }),
+        }
+      );
+
+      const json = await response.json();
+      console.log(json);
+
+      if (json) {
+        localStorage.setItem(
+          "restaurant",
+          JSON.stringify(json.updatedRestaurant)
         );
 
-        const json = await response.json();
+        toast.success("Restaurant Information Updated Successfully.", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
 
-        if (json) {
-          localStorage.setItem(
-            "restaurant",
-            JSON.stringify(json.updatedRestaurant)
+        setTimeout(() => {
+          navigate(
+            `/addRestaurant/addForm/5?resId=${json.updatedRestaurant._id}`
           );
-
-          toast.success("Restaurant Information Updated Successfully.", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            rtl: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-
-          setTimeout(() => {
-            navigate(
-              `/addRestaurant/addForm/2?resId=${json.updatedRestaurant._id}`
-            );
-          }, 2000);
-        } else {
-          toast.error("Failed to update restaurant information.", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            rtl: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
+        }, 2000);
       } else {
-        // If restaurant does not exist, create a new entry
-        const response = await fetch(
-          `${host}/api/res/addRestaurant/addFrom/1`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              resname: creditial.resname,
-              resadd: creditial.resadd,
-              respincode: creditial.respincode,
-              resstate: state,
-              rescity: city,
-              rescontact: creditial.rescontact,
-              reslandline: creditial.reslandline,
-              ownerid: user._id,
-              ownercontact: creditial.ownercontact,
-              ownername: creditial.ownername,
-              owneremail: creditial.owneremail,
-            }),
-          }
-        );
-
-        const json = await response.json();
-
-        if (json) {
-          localStorage.setItem("restaurant", JSON.stringify(json.restaurant));
-
-          toast.success("New Restaurant Created Successfully.", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            rtl: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-
-          setTimeout(() => {
-            navigate(`/addRestaurant/addForm/2?resId=${json.restaurant._id}`);
-          }, 2000);
-        } else {
-          toast.error("Failed to create new restaurant.", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            rtl: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
+        toast.error("Failed to update restaurant information.", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     } else {
       toast.error("Please fill all the required fields...", {
@@ -366,48 +226,76 @@ function AddForm4() {
     }
   };
 
+  const removeImage = (name, index) => {
+    setCreditial((prevState) => ({
+      ...prevState,
+      [name]: prevState[name].filter((_, i) => i !== index),
+    }));
+  };
+
   const onChange = (e) => {
-    setCreditial({ ...creditial, [e.target.name]: e.target.value });
+    const { name, value, files } = e.target;
+    if (files) {
+      // File input
+      const fileList = Array.from(files);
+      setCreditial((prevState) => ({
+        ...prevState,
+        [name]: [...(prevState[name] || []), ...fileList],
+      }));
+    } else {
+      // Non-file input
+      setCreditial({ ...creditial, [name]: value });
+    }
   };
 
   return (
     <div className="add-res-page">
       <div className="add-res-content">
-        <div className="add-left">
+        <div className="add-left-2">
           <div className="add-left-first p-4 rounded-lg">
-            <div className="font-bold text-lg">
+            <div className="font-normal text-lg">
               1. Create your restaurant page
             </div>
+          </div>
+          <div className="add-left-second p-4 rounded-lg">
+            <div className="font-bold text-lg">
+              2. Register for Online ordering
+            </div>
             <hr />
-            <button
-              className="py-2 border-2 border-gray-900"
-              onClick={currFrom}
-            >
+            <button className="pt-2" onClick={currFrom}>
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
+                <div className="w-1/6 bg-orange-400 rounded-full p-2 my-4">
                   <FontAwesomeIcon icon={fa1} />
                 </div>
                 <div className="w-5/6 p-1">
                   <div className="add-left-text">Restaurant Information</div>
                   <div className="add-left-sub-text">
-                    Restaurant name, address, contact no., owner details
+                    Delivery timings, menu & contact information
                   </div>
                 </div>
               </div>
             </button>
-            <button
-              className="py-2 border-2 border-gray-900"
-              onClick={nextFrom}
-            >
+            <button className="pt-2" onClick={nextFrom}>
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
+                <div className="w-1/6 bg-gray-300 rounded-full p-2 my-4">
                   <FontAwesomeIcon icon={fa2} />
                 </div>
                 <div className="w-5/6 p-1">
-                  <div className="add-left-text">Restaurant Type & Time</div>
+                  <div className="add-left-text">Upload Documents</div>
                   <div className="add-left-sub-text">
-                    Establishment & cuisine type, opening hours
+                    PAN, GST, FSSAI and bank account details
                   </div>
+                </div>
+              </div>
+            </button>
+            <button className="pt-2" onClick={nextFrom}>
+              <div className="flex flex-column">
+                <div className="w-1/6 bg-gray-300 rounded-full p-2 my-4">
+                  <FontAwesomeIcon icon={fa3} />
+                </div>
+                <div className="w-5/6 p-2">
+                  <div className="add-left-text">Partnership Plans</div>
+                  <div className="add-left-sub-text">Select your plan</div>
                 </div>
               </div>
             </button>
@@ -416,297 +304,177 @@ function AddForm4() {
               onClick={nextFrom}
             >
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
-                  <FontAwesomeIcon icon={fa3} />
+                <div className="w-1/6 bg-gray-300 rounded-full p-2 my-4">
+                  <FontAwesomeIcon icon={fa4} />
                 </div>
                 <div className="w-5/6 p-1">
-                  <div className="add-left-text">Upload Images</div>
+                  <div className="add-left-text">Partner Contract</div>
                   <div className="add-left-sub-text">
-                    Menu, Restaurant and Food <br /> images
+                    Service fee details, other charges and T&Cs
                   </div>
                 </div>
               </div>
             </button>
           </div>
-          <div className="add-left-second p-4 rounded-lg">
-            <span className="font-bold text-lg">
-              2. Register for Online ordering
-            </span>
-          </div>
         </div>
         <div className="add-right">
           <div className="add-first-part">
             <div className="text-5xl font-bold text-center">
-              Restaurant Information
+              Restaurant information
             </div>
             <form onSubmit={handleSubmit(clickHandler)}>
               {/* first part */}
               <div className="add-right-first p-4 rounded-lg">
                 <div className="p-3">
                   <div className="text-2xl font-semibold">
-                    Restaurant Details
-                  </div>
-                  <div className="text-sm">Name, Address and Location</div>
-                </div>
-                <div className="px-3 pb-4">
-                  <label htmlFor="resname" className="res-label-text">
-                    Restaurant Name
-                    <span className="text-red-600 text-lg"> *</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="resname"
-                    name="resname"
-                    className="res-input-field"
-                    value={creditial.resname}
-                    {...register("resname", {
-                      required: "Restaurant Name is required",
-                      pattern: {
-                        value: /^[A-Za-z]+(?: [A-Za-z]+)?$/,
-                        message:
-                          "Only alphabetic characters are allowed in Name",
-                      },
-                    })}
-                    onChange={onChange}
-                    autoComplete="false"
-                  />
-                  <p className="text-sm text-red-500 absolute">
-                    {errors.resname?.message}
-                  </p>
-                </div>
-                <div className="px-3 pt-2 pb-4">
-                  <label htmlFor="resadd" className="res-label-text">
-                    Restaurant Address :
-                    <span className="text-red-600 text-lg"> *</span>
-                  </label>
-                  <textarea
-                    rows="2"
-                    type="textarea"
-                    id="resadd"
-                    name="resadd"
-                    className="res-input-field"
-                    value={creditial.resadd}
-                    {...register("resadd", {
-                      required: "Restaurant Address is required",
-                    })}
-                    onChange={onChange}
-                    autoComplete="false"
-                  />
-                  <p className="text-sm text-red-500 absolute">
-                    {errors.resadd?.message}
-                  </p>
-                </div>
-                <div className="px-3 pt-6">
-                  <div className="text-2xl font-semibold">
-                    Restaurant address details
+                    General restaurant information
                   </div>
                   <div className="text-sm">
-                    Address details are basis the restaurant location mentioned
-                    above
+                    Update delivery timings and menu for online ordering
                   </div>
                 </div>
-                <div className="flex flex-column px-3 gap-6">
-                  <div className="w-1/2 pb-2 pt-9">
-                    <select
-                      name="country"
-                      id="country"
-                      className="p-2 border-2 border-gray-300 rounded w-full"
-                      disabled
-                    >
-                      <option className="p-3">India</option>
-                    </select>
+                <div className="p-3">
+                  <div className="text-lg font-medium">
+                    Did a Foodly representative refer you to this platform?
                   </div>
-                  <div className="w-1/2 py-2">
-                    <label
-                      htmlFor="respincode"
-                      className="res-pincode-label-text"
-                    >
-                      Pincode :<span className="text-red-600 text-lg"> *</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="respincode"
-                      name="respincode"
-                      className="res-input-field"
-                      value={creditial.respincode}
-                      {...register("respincode", {
-                        required: "Pincode is required",
-                        pattern: {
-                          value: /^(^\d{6}$)|(^[1-9][0-9]{2}\s?[0-9]{3}$)/,
-                          message:
-                            "Pincode must be 6 digits (Ex: 123456 or 123 456).",
-                        },
-                      })}
-                      onChange={onChange}
-                      autoComplete="false"
-                    />
-                    <p className="text-sm text-red-500 absolute">
-                      {errors.respincode?.message}
-                    </p>
+                  <div className="flex flex-column py-2 gap-9">
+                    <div className="flex flex-column gap-3">
+                      <input
+                        type="radio"
+                        name="deliveryrefer"
+                        id="yes"
+                        value="Yes"
+                        {...register("deliveryrefer", {
+                          required: {
+                            value: true,
+                            message: "This field is required",
+                          },
+                        })}
+                        checked
+                      />
+                      <label htmlFor="yes" className="text-lg">
+                        Yes
+                      </label>
+                    </div>
+                    <div className="flex flex-column gap-3">
+                      <input
+                        type="radio"
+                        name="deliveryrefer"
+                        id="no"
+                        value="No"
+                        {...register("deliveryrefer", {
+                          required: {
+                            value: true,
+                            message: "This field is required",
+                          },
+                        })}
+                      />
+                      <label htmlFor="no" className="text-lg">
+                        No
+                      </label>
+                    </div>
                   </div>
                 </div>
-                <div className="flex flex-column px-3 pb-3 pt-6 gap-6">
-                  <div className="w-1/2 py-2">
-                    <select
-                      id="resstate"
-                      name="resstate"
-                      value={state}
-                      className="p-2 border-2 border-gray-300 rounded w-full"
-                      {...register("resstate", {
-                        required: "State is required",
-                      })}
-                      onChange={(e) => handleState(e)}
-                    >
-                      <option value="">Select State</option>
-                      {stateData &&
-                        stateData.map((getstate) => (
-                          <option value={getstate.name} className="p-3">
-                            <div>{getstate.name}</div>
-                          </option>
-                        ))}
-                    </select>
-                    <p className="text-sm text-red-500 absolute">
-                      {errors.resstate?.message}
-                    </p>
+                <hr />
+                <div className="p-3">
+                  <div className="text-lg font-medium inline-block">
+                    What are the timings during which customers can place online
+                    orders?
                   </div>
-                  <div className="w-1/2 py-2">
-                    <select
-                      id="rescity"
-                      name="rescity"
-                      className="p-2 border-2 border-gray-300 rounded w-full"
-                      {...register("rescity", {
-                        required: "City is required",
-                      })}
-                    >
-                      <option value="">Select City</option>
-                      {city.cities &&
-                        city.cities.map((getcity) => (
-                          <option value={getcity}>{getcity}</option>
-                        ))}
-                    </select>
-                    <p className="text-sm text-red-500 absolute">
-                      {errors.rescity?.message}
-                    </p>
+                  <div className="py-2">
+                    <div className="flex flex-row gap-3">
+                      <input
+                        type="radio"
+                        name="deliverytime"
+                        id="same"
+                        value="Same"
+                        {...register("deliverytime", {
+                          required: {
+                            value: true,
+                            message: "This field is required",
+                          },
+                        })}
+                        checked
+                      />
+                      <label htmlFor="same" className="text-lg">
+                        Delivery and restaurant timings are same
+                      </label>
+                    </div>
+                  </div>
+                  <div className="py-2">
+                    <div className="flex flex-cloumn gap-3">
+                      <input
+                        type="radio"
+                        name="deliverytime"
+                        id="different"
+                        value="Different"
+                        {...register("deliverytime", {
+                          required: {
+                            value: true,
+                            message: "This field is required",
+                          },
+                        })}
+                      />
+                      <label htmlFor="different" className="text-lg">
+                        Delivery timings are different from restaurant timings
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* second part */}
-              <div className="add-right-second p-4 rounded-lg">
-                <div className="p-3">
-                  <div className="text-2xl font-semibold">
-                    Contact Number at Restaurant
-                  </div>
-                  <div className="text-sm">
-                    Your customers will call on this number for general
-                    enquiries
-                  </div>
+              <div className="add-menu-first rounded-lg">
+                <div className="text-2xl font-semibold">
+                  Upload online ordering menu photos
                 </div>
-                {/* Restaurant Contact: */}
-                <div className="flex flex-column px-3 py-1">
-                  <div className="w-4/5 pb-4">
-                    <label htmlFor="rescontact" className="res-label-text">
-                      Restaurant Contact :
-                      <span className="text-red-600 text-lg"> *</span>
-                    </label>
-                    <input
-                      type="contact"
-                      id="rescontact"
-                      name="rescontact"
-                      className="res-input-field"
-                      value={creditial.rescontact}
-                      {...register("rescontact", {
-                        required: "Restaurant Contact Number is required",
-                        pattern: {
-                          value: /^[6-9]{1}[0-9]{9}$/,
-                          message: "Restaurant Contact Number is not valid",
-                        },
-                        maxLength: {
-                          value: 10,
-                          message:
-                            "Max 10 characters for Restaurant Contact Number",
-                        },
-                      })}
-                      onChange={onChange}
-                      autoComplete="false"
-                    />
-                    <p className="text-sm text-red-500 absolute">
-                      {errors.rescontact?.message}
-                    </p>
-                  </div>
-                  <div className="w-1/5 text-md font-semibold ml-6 mt-7 mb-4 bg-orange-400 hover:bg-orange-500 border-2 border-orange-400 rounded shadow-md hover:shadow-lg">
-                    <button
-                      className="text-white-800 duration-500 text-middle"
-                      onClick={openOtpModal}
-                    >
-                      <div className="px-8 pt-2 pb-1">Verify</div>
-                    </button>
-                    {showOtpModal && (
-                      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                        <div className="bg-white rounded-lg lg:w-1/4 md:w-1/2 sm:w-1/2">
-                          <div className="py-7 px-6">
-                            <input
-                              type="text"
-                              placeholder="Enter OTP"
-                              value={otpCode}
-                              onChange={handleOtpChange}
-                              className="input-field mb-2"
-                            />
-                            <p className="text-red-500 text-sm mb-4">
-                              {otpError}
-                            </p>
-                            <div className="flex justify-end">
-                              <button
-                                onClick={otpSubmit}
-                                className="text-black font-semibold mx-2 px-4 py-2 rounded bg-orange-400 hover:bg-orange-500"
-                              >
-                                Submit
-                              </button>
-                              <button
-                                onClick={closeOtpModal}
-                                className="text-gray-700 font-semibold mx-2 px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                <div className="text-sm">
+                  Customers will choose items from this menu while placing
+                  online orders
                 </div>
 
-                {/* Restaurant Landline: */}
-                <div className="px-3 pt-3 pb-6">
-                  <label htmlFor="reslandline" className="res-label-text">
-                    Restaurant Landline :
-                    <span className="text-red-600 text-lg"> *</span>
-                  </label>
+                <div className="menu-img border-2 border-gray-900">
                   <input
-                    type="contact"
-                    id="reslandline"
-                    name="reslandline"
-                    className="res-input-field"
-                    value={creditial.reslandline}
-                    {...register("reslandline", {
-                      required: "Restaurant Landline Number is required",
-                      pattern: {
-                        value: /^[0-9]{12}$/,
-                        message: "Restaurant Landline Number is not valid",
-                      },
-                      maxLength: {
-                        value: 12,
-                        message:
-                          "Max 12 characters for Restaurant Landline Number",
-                      },
+                    type="file"
+                    id="deliverymenuimg"
+                    name="deliverymenuimg"
+                    accept="image/*"
+                    {...register("deliverymenuimg", {
+                      required: "Delivery Menu is required",
                     })}
                     onChange={onChange}
-                    autoComplete="false"
                   />
-                  <p className="text-sm text-red-500 absolute">
-                    {errors.reslandline?.message}
-                  </p>
+
+                  <label htmlFor="deliverymenuimg" className="menu-warrper">
+                    <div className="text-center sub-menu-img">
+                      <div className="mb-2">
+                        <i className="fa fa-camera fa-2x"></i>
+                      </div>
+                      <div className="text-uppercase">Add Photos</div>
+                    </div>
+                  </label>
+
+                  {creditial.deliverymenuimg &&
+                    creditial.deliverymenuimg.map((image, index) => (
+                      <div key={index} className="uploaded-div">
+                        <img
+                          src={URL.createObjectURL(image)}
+                          alt={`Image ${index}`}
+                          className="uploaded-image"
+                        />
+                        <button
+                          className="uploaded-btn"
+                          onClick={() => removeImage("deliverymenuimg", index)}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
                 </div>
+
+                <p className="text-sm text-red-500 absolute">
+                  {errors.deliverymenuimg?.message}
+                </p>
               </div>
 
               {/* third part */}
@@ -744,6 +512,7 @@ function AddForm4() {
                             "Max 10 characters for Restaurant Owner Contact Number",
                         },
                       })}
+                      readOnly={user ? true : false}
                       onChange={onChange}
                       autoComplete="false"
                     />
@@ -815,13 +584,98 @@ function AddForm4() {
                 </div>
               </div>
 
+              {/* forth part */}
+              <div className="add-right-second p-4 rounded-lg">
+                <div className="p-3">
+                  <div className="text-2xl font-semibold">
+                    Priority contact numbers
+                  </div>
+                  <div className="text-sm">
+                    These will be used for resolving order specific issues
+                  </div>
+                </div>
+                {/* Delivery Contact: */}
+                <div className="flex flex-column px-3 py-1">
+                  <div className="w-4/5 pb-4">
+                    <label htmlFor="deliverycontact" className="res-label-text">
+                      Mobile Number :
+                      <span className="text-red-600 text-lg"> *</span>
+                    </label>
+                    <input
+                      type="contact"
+                      id="deliverycontact"
+                      name="deliverycontact"
+                      className="res-input-field"
+                      value={creditial.deliverycontact}
+                      {...register("deliverycontact", {
+                        required: "Delivery mobile number is required",
+                        pattern: {
+                          value: /^[6-9]{1}[0-9]{9}$/,
+                          message: "Delivery mobile number is not valid",
+                        },
+                        maxLength: {
+                          value: 10,
+                          message:
+                            "Max 10 characters for Restaurant Contact Number",
+                        },
+                      })}
+                      onChange={onChange}
+                      autoComplete="false"
+                    />
+                    <p className="text-sm text-red-500 absolute">
+                      {errors.deliverycontact?.message}
+                    </p>
+                  </div>
+                  <div className="w-1/5 text-md font-semibold ml-6 mt-7 mb-4 bg-orange-400 border-2 border-orange-400 rounded shadow-md hover:shadow-lg">
+                    <Link
+                      className="text-white-800 duration-500 text-middle"
+                      to="/login"
+                    >
+                      <div className="px-8 pt-2 pb-1">Verify</div>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Delivery Landline: */}
+                <div className="px-3 pb-6">
+                  <label htmlFor="deliverylandline" className="res-label-text">
+                    Landline Number :
+                    <span className="text-red-600 text-lg"> *</span>
+                  </label>
+                  <input
+                    type="contact"
+                    id="deliverylandline"
+                    name="deliverylandline"
+                    className="res-input-field"
+                    value={creditial.deliverylandline}
+                    {...register("deliverylandline", {
+                      required: "Delivery landline number is required",
+                      pattern: {
+                        value: /^[0-9]{12}$/,
+                        message: "Delivery landline number is not valid",
+                      },
+                      maxLength: {
+                        value: 12,
+                        message:
+                          "Max 12 characters for Restaurant Landline Number",
+                      },
+                    })}
+                    onChange={onChange}
+                    autoComplete="false"
+                  />
+                  <p className="text-sm text-red-500 absolute">
+                    {errors.deliverylandline?.message}
+                  </p>
+                </div>
+              </div>
+
               {/* footer */}
               <div className="add-footer">
                 <div className="md:flex md:p-0 absolute md:static w-full md:w-auto transition-all duration-500 ease-in align-middle justify-center items-center gap-20">
                   <button className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 hover:bg-orange-500 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
                     <Link
                       className="text-white-900 duration-500"
-                      to="/addRestaurant"
+                      to="/dashboard"
                     >
                       Back
                     </Link>

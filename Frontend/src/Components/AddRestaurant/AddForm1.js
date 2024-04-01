@@ -11,7 +11,7 @@ import "./AddForm.css";
 function AddForm1() {
   const host = "http://localhost:5000";
 
-  const [state, setState] = useState();
+  const [city, setCity] = useState([]);
 
   const user = JSON.parse(localStorage.getItem("user"));
   const restaurant = JSON.parse(localStorage.getItem("restaurant"))
@@ -43,8 +43,6 @@ function AddForm1() {
       ? restaurant?.owneremail
       : "",
   });
-
-  const [city, setCity] = useState([]);
 
   const handleState = (e) => {
     const getState = e.target.value;
@@ -379,13 +377,10 @@ function AddForm1() {
               1. Create your restaurant page
             </div>
             <hr />
-            <button
-              className="py-2 border-2 border-gray-900"
-              onClick={currFrom}
-            >
+            <button className="py-2" onClick={currFrom}>
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
-                  <FontAwesomeIcon icon={fa1} />
+                <div className="w-1/6 bg-orange-400 rounded-full p-2 my-4">
+                  <FontAwesomeIcon icon={fa1} className="text-white" />
                 </div>
                 <div className="w-5/6 p-1">
                   <div className="add-left-text">Restaurant Information</div>
@@ -395,12 +390,9 @@ function AddForm1() {
                 </div>
               </div>
             </button>
-            <button
-              className="py-2 border-2 border-gray-900"
-              onClick={nextFrom}
-            >
+            <button className="py-2" onClick={nextFrom}>
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
+                <div className="w-1/6 bg-gray-300 rounded-full p-2 my-4">
                   <FontAwesomeIcon icon={fa2} />
                 </div>
                 <div className="w-5/6 p-1">
@@ -411,12 +403,9 @@ function AddForm1() {
                 </div>
               </div>
             </button>
-            <button
-              className="pt-2 border-2 border-gray-900"
-              onClick={nextFrom}
-            >
+            <button className="pt-2" onClick={nextFrom}>
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
+                <div className="w-1/6 bg-gray-300 rounded-full p-2 my-4">
                   <FontAwesomeIcon icon={fa3} />
                 </div>
                 <div className="w-5/6 p-1">
@@ -429,7 +418,7 @@ function AddForm1() {
             </button>
           </div>
           <div className="add-left-second p-4 rounded-lg">
-            <span className="font-bold text-lg">
+            <span className="font-normal text-lg">
               2. Register for Online ordering
             </span>
           </div>
@@ -550,7 +539,6 @@ function AddForm1() {
                     <select
                       id="resstate"
                       name="resstate"
-                      value={state}
                       className="p-2 border-2 border-gray-300 rounded w-full"
                       {...register("resstate", {
                         required: "State is required",

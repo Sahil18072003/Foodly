@@ -14,9 +14,9 @@ function AddForm3() {
   const restaurant = JSON.parse(localStorage.getItem("restaurant"));
 
   const [creditial, setCreditial] = useState({
-    menuimg: [],
-    resimg: [],
-    foodimg: [],
+    menuimg: restaurant?.menuimg ? restaurant?.menuimg : [],
+    resimg: restaurant?.resimg ? restaurant?.resimg : [],
+    foodimg: restaurant?.foodimg ? restaurant?.foodimg : [],
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -25,12 +25,14 @@ function AddForm3() {
     setShowModal(true);
   };
 
-  const closeModal1 = () => {
-    setShowModal(false);
-  };
+  // const closeModal1 = () => {
+  //   setShowModal(false);
+  // };
+
+  const showStep2 = restaurant?.categorytype !== "Dine-in only";
 
   const goAddFrom4 = () => {
-    navigate(`/addRestaurant/addForm/4/resId=${restaurant?._id}`);
+    navigate(`/addRestaurant/addForm/4?resId=${restaurant?._id}`);
   };
 
   useEffect(() => {
@@ -165,7 +167,7 @@ function AddForm3() {
           "restaurant",
           JSON.stringify(json.updatedRestaurant)
         );
-        
+
         toast.success(
           "Restaurant, Menu & Food images Submitted Successfully.",
           {
@@ -220,10 +222,12 @@ function AddForm3() {
   };
 
   const onChange = (e) => {
-    setCreditial({
-      ...creditial,
-      [e.target.name]: [...creditial[e.target.name], e.target.files[0]],
-    });
+    const name = e.target.name;
+    const files = e.target.files;
+    setCreditial((prevState) => ({
+      ...prevState,
+      [name]: [...prevState[name], ...files],
+    }));
   };
 
   return (
@@ -235,12 +239,9 @@ function AddForm3() {
               1. Create your restaurant page
             </div>
             <hr />
-            <button
-              className="py-2 border-2 border-gray-900"
-              onClick={backFrom}
-            >
+            <button className="py-2" onClick={backFrom}>
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full pt-2 pb-1 py-1 my-4">
+                <div className="w-1/6 bg-green-400 rounded-full px-2 pt-2 pb-1 my-4">
                   <FontAwesomeIcon icon={faCircleCheck} className="w-6 h-6" />
                 </div>
                 <div className="w-5/6 p-1">
@@ -251,12 +252,9 @@ function AddForm3() {
                 </div>
               </div>
             </button>
-            <button
-              className="py-2 border-2 border-gray-900"
-              onClick={backFrom}
-            >
+            <button className="py-2" onClick={backFrom}>
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full pt-2 pb-1 py-1 my-4">
+                <div className="w-1/6 bg-green-400 rounded-full px-2 pt-2 pb-1 my-4">
                   <FontAwesomeIcon icon={faCircleCheck} className="w-6 h-6" />
                 </div>
                 <div className="w-5/6 p-1">
@@ -267,12 +265,9 @@ function AddForm3() {
                 </div>
               </div>
             </button>
-            <button
-              className="pt-2 border-2 border-gray-900"
-              onClick={currFrom}
-            >
+            <button className="pt-2" onClick={currFrom}>
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
+                <div className="w-1/6 bg-orange-400 rounded-full p-2 my-4">
                   <FontAwesomeIcon icon={fa3} />
                 </div>
                 <div className="w-5/6 p-1">
@@ -285,7 +280,7 @@ function AddForm3() {
             </button>
           </div>
           <div className="add-left-second p-4 rounded-lg">
-            <span className="font-bold text-lg">
+            <span className="font-normal text-lg">
               2. Register for Online ordering
             </span>
           </div>
@@ -322,21 +317,22 @@ function AddForm3() {
                     </div>
                   </label>
 
-                  {creditial.menuimg.map((image, index) => (
-                    <div key={index} className="uploaded-div">
-                      <img
-                        src={URL.createObjectURL(image)}
-                        alt={`Image ${index}`}
-                        className="uploaded-image"
-                      />
-                      <button
-                        className="uploaded-btn"
-                        onClick={() => removeImage("menuimg", index)}
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  ))}
+                  {creditial.menuimg &&
+                    creditial.menuimg.map((image, index) => (
+                      <div key={index} className="uploaded-div">
+                        <img
+                          src={URL.createObjectURL(image)}
+                          alt={`Image ${index}`}
+                          className="uploaded-image"
+                        />
+                        <button
+                          className="uploaded-btn"
+                          onClick={() => removeImage("menuimg", index)}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
                 </div>
 
                 <p className="text-sm text-red-500 absolute">
@@ -373,21 +369,22 @@ function AddForm3() {
                     </div>
                   </label>
 
-                  {creditial.resimg.map((image, index) => (
-                    <div key={index} className="uploaded-div">
-                      <img
-                        src={URL.createObjectURL(image)}
-                        alt={`Image ${index}`}
-                        className="uploaded-image"
-                      />
-                      <button
-                        className="uploaded-btn"
-                        onClick={() => removeImage("resimg", index)}
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  ))}
+                  {creditial.resimg &&
+                    creditial.resimg.map((image, index) => (
+                      <div key={index} className="uploaded-div">
+                        <img
+                          src={URL.createObjectURL(image)}
+                          alt={`Image ${index}`}
+                          className="uploaded-image"
+                        />
+                        <button
+                          className="uploaded-btn"
+                          onClick={() => removeImage("resimg", index)}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
                 </div>
 
                 <p className="text-sm text-red-500 absolute">
@@ -423,21 +420,22 @@ function AddForm3() {
                     </div>
                   </label>
 
-                  {creditial.foodimg.map((image, index) => (
-                    <div key={index} className="uploaded-div">
-                      <img
-                        src={URL.createObjectURL(image)}
-                        alt={`Image ${index}`}
-                        className="uploaded-image"
-                      />
-                      <button
-                        className="uploaded-btn"
-                        onClick={() => removeImage("foodimg", index)}
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  ))}
+                  {creditial.foodimg &&
+                    creditial.foodimg.map((image, index) => (
+                      <div key={index} className="uploaded-div">
+                        <img
+                          src={URL.createObjectURL(image)}
+                          alt={`Image ${index}`}
+                          className="uploaded-image"
+                        />
+                        <button
+                          className="uploaded-btn"
+                          onClick={() => removeImage("foodimg", index)}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
                 </div>
 
                 <p className="text-sm text-red-500 absolute">
@@ -468,30 +466,30 @@ function AddForm3() {
       </div>
       {showModal && (
         <div className="fixed rounded-lg w-auto inset-0 flex items-center justify-center z-50 bg-black bg-opacity-70">
-          <div className="p-8 bg-white rounded align-center justify-center items-center">
-            <div>STEP - 1</div>
-            <div className="p-2 text-2xl text-black flex px-12 justify-center font-medium">
+          <div className="w-auto h-auto py-5 px-16 bg-white rounded text-center flex flex-col items-center justify-center align-center">
+            <img
+              src={require(`./../../assets/Success.webp`)}
+              className="h-32 w-32"
+              alt="Success Icon"
+            />
+            <div className="my-2">STEP - 1</div>
+            <div className="text-2xl font-bold my-2">
               Restaurant listing details submitted
             </div>
-            <div>
-              Our team will verify the details and updat once your page is live
-              on Foodly!
+            <div className="text-xl font-md my-2">
+              Our team will verify the details and update once <br /> your page
+              is live on Foodly!
             </div>
-            <div class="justify-between mt-4">
+            {showStep2 && (
               <button
                 onClick={goAddFrom4}
-                className="text-white bg-orange-400 font-bold rounded-md text-xl p-3"
+                className="text-white font-bold bg-orange-400 hover:bg-orange-500 py-3 px-4 my-2 rounded-md shadow-md hover:shadow-lg"
               >
                 Step 2 - Register for online ordering
               </button>
-            </div>
-            <div class="justify-between mt-4">
-              <button
-                onClick={closeModal1}
-                className="text-black font-bold text-xl p-3"
-              >
-                Done for now
-              </button>
+            )}
+            <div className="bg-gray-100 hover:bg-gray-200 py-3 px-4 my-2 rounded-md shadow-md hover:shadow-lg">
+              Done for now
             </div>
           </div>
         </div>
