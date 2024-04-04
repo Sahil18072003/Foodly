@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import "./Dashboard.css";
 
 function Dashboard() {
@@ -7,13 +8,13 @@ function Dashboard() {
 
   const navigate = useNavigate();
 
-  const userUpdate = () => {
-    navigate(`/dashboard/updateProfile/${user?._id}`);
-  };
-
   useEffect(() => {
     document.title = "Dashboard | Foodly";
   }, []);
+
+  const userUpdate = () => {
+    navigate(`/dashboard/updateProfile/${user?._id}`);
+  };
 
   return (
     <div className="dashboard-page">

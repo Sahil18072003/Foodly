@@ -5,36 +5,36 @@ const verifyToken = require("../Middlewares/authMiddleware");
 
 router
   .route("/addRestaurant/addFrom/1")
-  .post(verifyToken, restaurantController.addRestaurant1);
+  .post(restaurantController.addRestaurant1);
 router
   .route("/addRestaurant/addFrom/1/:id")
-  .put(verifyToken, restaurantController.updateRestaurant);
+  .put(restaurantController.updateRestaurant);
 router
   .route("/addRestaurant/addFrom/sendOtp")
-  .post(verifyToken, restaurantController.sendOtp);
+  .post(restaurantController.sendOtp);
 router
   .route("/addRestaurant/addFrom/checkOtp")
-  .post(verifyToken, restaurantController.checkOtp);
+  .post(restaurantController.checkOtp);
 router
   .route("/addRestaurant/addFrom/2/:id")
-  .post(verifyToken, restaurantController.addRestaurant2);
+  .post(restaurantController.addRestaurant2);
 router
   .route("/addRestaurant/addFrom/3/:id")
-  .post(verifyToken, restaurantController.addRestaurant3);
+  .post(restaurantController.addRestaurant3);
 router
   .route("/addRestaurant/addFrom/4/:id")
-  .post(verifyToken, restaurantController.addRestaurant4);
+  .post(restaurantController.addRestaurant4);
 router
   .route("/addRestaurant/addFrom/5/:id")
-  .post(verifyToken, restaurantController.addRestaurant5);
+  .post(restaurantController.addRestaurant5);
 router
   .route("/addRestaurant/addFrom/6/:id")
-  .post(verifyToken, restaurantController.addRestaurant6);
+  .post(restaurantController.addRestaurant6);
 router
   .route("/addRestaurant/addFrom/7/:id")
-  .post(verifyToken, restaurantController.addRestaurant7);
+  .post(restaurantController.addRestaurant7);
 router
-  .route("/addRestaurant/addFrom/1/")
+  .route("/addRestaurant/addFrom/1")
   .post(verifyToken, restaurantController.getRestaurantDetail);
 // router.route("/findRestaurant").post(restaurantController.findRestaurant);
 

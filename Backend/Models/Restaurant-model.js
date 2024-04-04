@@ -158,6 +158,10 @@ const restaurantSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    partnershipplan: {
+      type: String,
+      require: true,
+    },
   },
   {
     timestamps: true,

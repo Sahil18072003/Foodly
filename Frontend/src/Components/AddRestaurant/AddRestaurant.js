@@ -7,9 +7,13 @@ import "react-toastify/dist/ReactToastify.css";
 import "./AddRestaurant.css";
 
 function AddRestaurant() {
+  useEffect(() => {
+    document.title = "Add Restaurant | Foodly";
+  }, []);
+
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const onClickAddRestaurant = () => {
     const auth = localStorage.getItem("user");
     if (!auth) {
       toast.warn("Login Required", {
@@ -23,13 +27,41 @@ function AddRestaurant() {
         progress: undefined,
         theme: "light",
       });
+
       setTimeout(() => {
         navigate(`/login`);
-      }, 1000);
+      }, 2000);
     } else {
-      document.title = "Add Restaurant | Foodly";
+      setTimeout(() => {
+        navigate(`/addRestaurant/addForm/1`);
+      });
     }
-  }, []);
+  };
+
+  const onClickExitingRestaurant = () => {
+    const auth = localStorage.getItem("user");
+    if (!auth) {
+      toast.warn("Login Required", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      setTimeout(() => {
+        navigate(`/login`);
+      }, 2000);
+    } else {
+      setTimeout(() => {
+        navigate(`/dashboard`);
+      });
+    }
+  };
 
   return (
     <div className="add-res-page">
@@ -45,23 +77,19 @@ function AddRestaurant() {
                 select cities.
               </div>
               <div className="md:flex mt-2 md:p-0 p-5 absolute md:static w-full md:w-auto transition-all duration-500 ease-in">
-                <div className="w-1/2 p-2 text-md text-center font-semibold md:my-0 rounded-md shadow-md hover:shadow-lg">
-                  <Link
-                    className="w-1/2 text-md text-center font-semibold md:my-0 px-10 py-2 bg-orange-400 hover:bg-orange-500 rounded-md shadow-md hover:shadow-lg"
-                    to="/addRestaurant/addForm/1"
-                  >
-                    Register your Restaurant
-                  </Link>
-                </div>
+                <button
+                  className="w-1/2 p-2 m-2 text-md text-center font-semibold md:my-0 rounded-md bg-orange-400 hover:bg-orange-500 shadow-md hover:shadow-lg"
+                  onClick={onClickAddRestaurant}
+                >
+                  Register your Restaurant
+                </button>
 
-                <div className="w-1/2 p-2 text-md text-center font-semibold md:my-0 rounded-md shadow-md hover:shadow-lg">
-                  <Link
-                    className="w-1/2 text-md text-center font-semibold md:my-0 px-10 py-2 bg-orange-400 hover:bg-orange-500 rounded-md shadow-md hover:shadow-lg"
-                    to="/dashboard"
-                  >
-                    View your existing Restaurant
-                  </Link>
-                </div>
+                <button
+                  className="w-1/2 p-2 m-2 text-md text-center font-semibold md:my-0 rounded-md bg-orange-400 hover:bg-orange-500 shadow-md hover:shadow-lg"
+                  onClick={onClickExitingRestaurant}
+                >
+                  View your existing Restaurant
+                </button>
               </div>
               <div className="res-sub-textt">
                 Need help? Contact +91 63535 49828

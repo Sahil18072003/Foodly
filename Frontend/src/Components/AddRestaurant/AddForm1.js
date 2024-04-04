@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fa1, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
 import stateData from "../../json/State_City.json";
@@ -11,15 +11,22 @@ import "./AddForm.css";
 function AddForm1() {
   const host = "http://localhost:5000";
 
-  const [city, setCity] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Add Form | Foodly";
+  }, []);
 
   const user = JSON.parse(localStorage.getItem("user"));
+
   const restaurant = JSON.parse(localStorage.getItem("restaurant"))
     ? JSON.parse(localStorage.getItem("restaurant"))
     : "";
 
   console.log(restaurant?.resstate);
   console.log(restaurant?.rescity);
+
+  const [city, setCity] = useState([]);
 
   const handleState = (e) => {
     const getState = e.target.value;
@@ -64,12 +71,6 @@ function AddForm1() {
   const [otpCode, setOtpCode] = useState("");
 
   const [otpError, setOtpError] = useState("");
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    document.title = "Add Form | Foodly";
-  }, []);
 
   const {
     register,
@@ -241,10 +242,6 @@ function AddForm1() {
             headers: {
               "Content-Type": "application/json",
             },
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
             body: JSON.stringify({
               _id: restaurant?._id,
               resname: creditial.resname,
@@ -325,6 +322,7 @@ function AddForm1() {
         );
 
         const json = await response.json();
+        console.log(json);
 
         if (json) {
           localStorage.setItem("restaurant", JSON.stringify(json.restaurant));

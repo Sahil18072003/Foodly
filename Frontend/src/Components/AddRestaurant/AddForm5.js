@@ -140,8 +140,6 @@ function AddForm5() {
       'input[name="isgst5"]:checked'
     )?.value;
 
-    console.log(isgst, isgst5);
-
     const panImageUrls = await Promise.all(
       creditial.panimg.map((file) => uploadImageToCloudinary(file, "pan_photo"))
     );
@@ -198,7 +196,6 @@ function AddForm5() {
       );
 
       const json = await response.json();
-      console.log(json);
 
       if (json) {
         localStorage.setItem(
@@ -206,7 +203,7 @@ function AddForm5() {
           JSON.stringify(json.updatedRestaurant)
         );
 
-        toast.success("Restaurant Information Updated Successfully.", {
+        toast.success("Legal Updated Successfully.", {
           position: "top-right",
           autoClose: 2000,
           hideProgressBar: false,
@@ -354,6 +351,8 @@ function AddForm5() {
                     We will verify the legal entity with this information
                   </div>
                 </div>
+
+                {/* PAN Number */}
                 <div className="px-3 pb-4">
                   <label htmlFor="pannumber" className="res-label-text">
                     PAN Number :<span className="text-red-600 text-lg"> *</span>
@@ -382,6 +381,8 @@ function AddForm5() {
                     {errors.pannumber?.message}
                   </p>
                 </div>
+
+                {/* Name on PAN Card */}
                 <div className="px-3 pb-4">
                   <label htmlFor="panname" className="res-label-text">
                     Name on PAN card
@@ -408,6 +409,8 @@ function AddForm5() {
                     {errors.panname?.message}
                   </p>
                 </div>
+
+                {/* PAN Img */}
                 <div className="px-3 pb-4">
                   <div className="pan-img">
                     <input
@@ -464,6 +467,8 @@ function AddForm5() {
                   <div className="text-lg font-medium">
                     Is your restaurant GST registered?
                   </div>
+
+                  {/* GST Avilable */}
                   <div className="flex flex-column py-2 gap-9">
                     <div className="flex flex-column gap-3">
                       <input
@@ -505,6 +510,8 @@ function AddForm5() {
                     </p>
                   </div>
                 </div>
+
+                {/* GST number */}
                 <div className="px-3 pb-4">
                   <label htmlFor="gstnumber" className="res-label-text">
                     GSTIN Number :
@@ -535,6 +542,8 @@ function AddForm5() {
                     {errors.gstnumber?.message}
                   </p>
                 </div>
+
+                {/* GST Img */}
                 <div className="px-3 pb-6">
                   <div className="gst-img">
                     <input
@@ -574,6 +583,8 @@ function AddForm5() {
                     {errors.gstimg?.message}
                   </p>
                 </div>
+
+                {/* IS 5% GST  */}
                 <div className="p-3">
                   <div className="text-lg font-medium">
                     Do you charge 5% GST as restaurant services on all your menu
@@ -632,6 +643,8 @@ function AddForm5() {
                     This is required to comply regulations on food safety
                   </div>
                 </div>
+
+                {/* FSSAI Certificate Number */}
                 <div className="px-3 pb-4">
                   <label htmlFor="fssainumber" className="res-label-text">
                     FSSAI Certificate Number :
@@ -662,6 +675,8 @@ function AddForm5() {
                     {errors.fssainumber?.message}
                   </p>
                 </div>
+
+                {/* FSSAI Img */}
                 <div className="px-3 pb-4">
                   <div className="fssai-img">
                     <input
@@ -713,7 +728,9 @@ function AddForm5() {
                     Let us know where to deposit your money
                   </div>
                 </div>
+
                 <div className="flex flex-column">
+                  {/* Bank Account Number */}
                   <div className="w-1/2 px-3 pb-4">
                     <label htmlFor="bankaccnumber" className="res-label-text">
                       Bank Account Number:
@@ -748,6 +765,8 @@ function AddForm5() {
                       {errors.bankaccnumber?.message}
                     </p>
                   </div>
+
+                  {/* Re-enter Bank Account Number */}
                   <div className="w-1/2 px-3 pb-4">
                     <label
                       htmlFor="reenterbankaccnumber"
@@ -773,7 +792,9 @@ function AddForm5() {
                     </p>
                   </div>
                 </div>
+
                 <div className="flex flex-column">
+                  {/* Bank Account Type */}
                   <div className="w-1/2 px-3 py-3">
                     <select
                       id="bankacctype"
@@ -798,6 +819,7 @@ function AddForm5() {
                     </p>
                   </div>
 
+                  {/* Bank IFSC Code */}
                   <div className="w-1/2 px-3 pb-4">
                     <label htmlFor="bankifsccode" className="res-label-text">
                       Bank IFSC Code :

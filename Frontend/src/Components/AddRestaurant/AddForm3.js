@@ -313,7 +313,7 @@ function AddForm3() {
                   />
 
                   <label htmlFor="menuimg" className="menu-warrper">
-                    <div className="text-center sub-menu-img ">
+                    <div className="text-center sub-menu-img">
                       <div className="mb-2">
                         <i className="fa fa-camera fa-2x"></i>
                       </div>

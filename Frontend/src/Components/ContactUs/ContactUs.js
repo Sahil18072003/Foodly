@@ -155,7 +155,7 @@ const ContactUs = () => {
           <div className="relative">
             <div className="absolute z-0 w-40 h-40 bg-orange-400 rounded-full -right-28 -top-28"></div>
             <div className="absolute z-0 w-40 h-40 bg-orange-400 rounded-full -left-28 -bottom-16"></div>
-            <div className="relative z-10 bg-white rounded-xl shadow-lg p-8 text-gray-600 md:w-70">
+            <div className="relative bg-white rounded-xl shadow-lg p-8 text-gray-600 md:w-70">
               <form
                 onSubmit={handleSubmit(clickHandler)}
                 className="flex flex-col space-y-4"

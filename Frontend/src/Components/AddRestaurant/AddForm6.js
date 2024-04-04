@@ -1,8 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck, fa3, fa4 } from "@fortawesome/free-solid-svg-icons";
-import stateData from "../../json/State_City.json";
+import {
+  faCircleCheck,
+  faGem,
+  fa3,
+  fa4,
+  faCircleArrowUp,
+  faHouseCircleXmark,
+} from "@fortawesome/free-solid-svg-icons";
+import { BsShop } from "react-icons/bs";
+import { MdDeliveryDining } from "react-icons/md";
+import { GiAlliedStar } from "react-icons/gi";
+import { TbCoinRupee } from "react-icons/tb";
+import { AiOutlineCamera } from "react-icons/ai";
+import { LiaUserSolid } from "react-icons/lia";
+import { FaRegMoneyBillAlt } from "react-icons/fa";
+import { RxCrossCircled } from "react-icons/rx";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,56 +25,12 @@ import "./AddForm.css";
 function AddForm6() {
   const host = "http://localhost:5000";
 
-  const [state, setState] = useState();
-
   const user = JSON.parse(localStorage.getItem("user"));
   const restaurant = JSON.parse(localStorage.getItem("restaurant"))
     ? JSON.parse(localStorage.getItem("restaurant"))
     : "";
 
-  const [creditial, setCreditial] = useState({
-    resname: restaurant?.resname ? restaurant?.resname : "",
-    resadd: restaurant?.resadd ? restaurant?.resadd : "",
-    respincode: restaurant?.respincode ? restaurant?.respincode : "",
-    resstate: "",
-    rescity: "",
-    rescontact: restaurant?.rescontact ? restaurant?.rescontact : "",
-    reslandline: restaurant?.reslandline ? restaurant?.reslandline : "",
-    ownercontact: user?.phone
-      ? user?.phone
-      : "" || restaurant?.ownercontact
-      ? restaurant?.ownercontact
-      : "",
-    ownername:
-      user?.lastname && user?.firstname
-        ? user?.firstname + " " + user?.lastname
-        : "" || restaurant?.ownername
-        ? restaurant?.ownername
-        : "",
-    owneremail: user?.email
-      ? user?.email
-      : "" || restaurant?.owneremail
-      ? restaurant?.owneremail
-      : "",
-  });
-
-  const [city, setCity] = useState([]);
-
-  const handleState = (e) => {
-    const getState = e.target.value;
-
-    const getCities = stateData.find(
-      (stateData) => stateData.name === getState
-    );
-
-    setCity(getCities);
-  };
-
-  const [showOtpModal, setShowOtpModal] = useState(false);
-
-  const [otpCode, setOtpCode] = useState("");
-
-  const [otpError, setOtpError] = useState("");
+  const [creditial, setCreditial] = useState("");
 
   const navigate = useNavigate();
 
@@ -73,114 +43,6 @@ function AddForm6() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const openOtpModal = async () => {
-    if (creditial.rescontact !== "") {
-      // Api call
-      const response = await fetch(
-        `${host}/api/res/addRestaurant/addFrom/sendOtp`,
-        {
-          method: "POST", // *GET, POST, PUT, DELETE, etc.
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ rescontact: creditial.rescontact }), // body data type must match "Content-Type" header
-        }
-      );
-
-      const json = await response.json(); // parses JSON response into native JavaScript objects
-
-      if (json.resContact) {
-        localStorage.setItem("resContact", json.resContact);
-
-        toast.success("OTP has been sent to your phone number.", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          rtl: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        setTimeout(() => {
-          setShowOtpModal(true);
-        }, 2000);
-      } else {
-        toast.warning("Attention! Please provide correct contact number...", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          rtl: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
-    } else {
-      console.log("Incorrect contact number");
-    }
-  };
-
-  const closeOtpModal = () => {
-    setShowOtpModal(false);
-    setOtpCode("");
-    setOtpError("");
-  };
-
-  const otpSubmit = async () => {
-    if (creditial.otpCode === "") {
-      const response = await fetch(
-        `${host}/api/res/addRestaurant/addFrom/checkOtp`,
-        {
-          method: "POST", // *GET, POST, PUT, DELETE, etc.
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ rescontact: creditial.rescontact }), // body data type must match "Content-Type" header
-        }
-      );
-
-      const json = await response.json();
-
-      if (json.genotp) {
-        localStorage.removeItem("resContact");
-        closeOtpModal();
-      } else {
-        toast.warning("Attention! Please provide correct OTP...", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          rtl: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
-    } else {
-      toast.error("Oops! OTP is no more valid...", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        rtl: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  };
-
-  const handleOtpChange = (e) => {
-    setOtpCode(e.target.value);
-    setOtpError("");
-  };
 
   const backFrom = () => {
     toast.info("Please click on Back to go to the back page", {
@@ -225,148 +87,68 @@ function AddForm6() {
   };
 
   const clickHandler = async (e) => {
-    // Retrieve state and city values
-    let state = document.getElementById("resstate").value;
-    let city = document.getElementById("rescity").value;
+    const partnershipplan = document.querySelector(
+      'input[name="partnershipplan"]:checked'
+    )?.value;
 
     // Check if all required fields are filled
-    if (
-      creditial.resname !== "" &&
-      creditial.resadd !== "" &&
-      creditial.respincode !== "" &&
-      state !== "" &&
-      city !== "" &&
-      creditial.rescontact !== "" &&
-      creditial.reslandline !== "" &&
-      creditial.ownercontact !== "" &&
-      creditial.ownername !== "" &&
-      creditial.owneremail !== ""
-    ) {
-      // Check if the restaurant already exists
-      if (restaurant) {
-        // If restaurant exists, update its values
-        const response = await fetch(
-          `${host}/api/res/addRestaurant/addFrom/1/${restaurant._id}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              _id: restaurant?._id,
-              resname: creditial.resname,
-              resadd: creditial.resadd,
-              respincode: creditial.respincode,
-              resstate: state,
-              rescity: city,
-              rescontact: creditial.rescontact,
-              reslandline: creditial.reslandline,
-              ownercontact: creditial.ownercontact,
-              ownername: creditial.ownername,
-              owneremail: creditial.owneremail,
-            }),
-          }
+    if (partnershipplan !== "") {
+      // If restaurant exists, update its values
+      const response = await fetch(
+        `${host}/api/res/addRestaurant/addFrom/6/${restaurant?._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            _id: restaurant?._id,
+            partnershipplan: partnershipplan,
+          }),
+        }
+      );
+
+      const json = await response.json();
+      console.log(json);
+
+      if (json) {
+        localStorage.setItem(
+          "restaurant",
+          JSON.stringify(json.updatedRestaurant)
         );
 
-        const json = await response.json();
+        toast.success("Partnership plan Updated Successfully.", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
 
-        if (json) {
-          localStorage.setItem(
-            "restaurant",
-            JSON.stringify(json.updatedRestaurant)
+        setTimeout(() => {
+          navigate(
+            `/addRestaurant/addForm/7?resId=${json.updatedRestaurant._id}`
           );
-
-          toast.success("Restaurant Information Updated Successfully.", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            rtl: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-
-          setTimeout(() => {
-            navigate(
-              `/addRestaurant/addForm/2?resId=${json.updatedRestaurant._id}`
-            );
-          }, 2000);
-        } else {
-          toast.error("Failed to update restaurant information.", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            rtl: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
+        }, 2000);
       } else {
-        // If restaurant does not exist, create a new entry
-        const response = await fetch(
-          `${host}/api/res/addRestaurant/addFrom/1`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              resname: creditial.resname,
-              resadd: creditial.resadd,
-              respincode: creditial.respincode,
-              resstate: state,
-              rescity: city,
-              rescontact: creditial.rescontact,
-              reslandline: creditial.reslandline,
-              ownerid: user._id,
-              ownercontact: creditial.ownercontact,
-              ownername: creditial.ownername,
-              owneremail: creditial.owneremail,
-            }),
-          }
-        );
-
-        const json = await response.json();
-
-        if (json) {
-          localStorage.setItem("restaurant", JSON.stringify(json.restaurant));
-
-          toast.success("New Restaurant Created Successfully.", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            rtl: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-
-          setTimeout(() => {
-            navigate(`/addRestaurant/addForm/2?resId=${json.restaurant._id}`);
-          }, 2000);
-        } else {
-          toast.error("Failed to create new restaurant.", {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            rtl: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
+        toast.error("Failed to update partnership plan", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     } else {
-      toast.error("Please fill all the required fields...", {
+      toast.error("Please select partnership plan...", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -378,10 +160,6 @@ function AddForm6() {
         theme: "light",
       });
     }
-  };
-
-  const onChange = (e) => {
-    setCreditial({ ...creditial, [e.target.name]: e.target.value });
   };
 
   return (
@@ -454,383 +232,225 @@ function AddForm6() {
           </div>
         </div>
         <div className="add-right">
-          <div className="add-first-part">
+          <div className="add-first-part-6">
             <div className="text-5xl font-bold text-center">
-              Restaurant Information
+              Grow with Foodly's Partnership plans
             </div>
             <form onSubmit={handleSubmit(clickHandler)}>
               {/* first part */}
-              <div className="add-right-first p-4 rounded-lg">
-                <div className="p-3">
-                  <div className="text-2xl font-semibold">
-                    Restaurant Details
-                  </div>
-                  <div className="text-sm">Name, Address and Location</div>
-                </div>
-                <div className="px-3 pb-4">
-                  <label htmlFor="resname" className="res-label-text">
-                    Restaurant Name
-                    <span className="text-red-600 text-lg"> *</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="resname"
-                    name="resname"
-                    className="res-input-field"
-                    value={creditial.resname}
-                    {...register("resname", {
-                      required: "Restaurant Name is required",
-                      pattern: {
-                        value: /^[A-Za-z]+(?: [A-Za-z]+)?$/,
-                        message:
-                          "Only alphabetic characters are allowed in Name",
-                      },
-                    })}
-                    onChange={onChange}
-                    autoComplete="false"
-                  />
-                  <p className="text-sm text-red-500 absolute">
-                    {errors.resname?.message}
-                  </p>
-                </div>
-                <div className="px-3 pt-2 pb-4">
-                  <label htmlFor="resadd" className="res-label-text">
-                    Restaurant Address :
-                    <span className="text-red-600 text-lg"> *</span>
-                  </label>
-                  <textarea
-                    rows="2"
-                    type="textarea"
-                    id="resadd"
-                    name="resadd"
-                    className="res-input-field"
-                    value={creditial.resadd}
-                    {...register("resadd", {
-                      required: "Restaurant Address is required",
-                    })}
-                    onChange={onChange}
-                    autoComplete="false"
-                  />
-                  <p className="text-sm text-red-500 absolute">
-                    {errors.resadd?.message}
-                  </p>
-                </div>
-                <div className="px-3 pt-6">
-                  <div className="text-2xl font-semibold">
-                    Restaurant address details
-                  </div>
-                  <div className="text-sm">
-                    Address details are basis the restaurant location mentioned
-                    above
-                  </div>
-                </div>
-                <div className="flex flex-column px-3 gap-6">
-                  <div className="w-1/2 pb-2 pt-9">
-                    <select
-                      name="country"
-                      id="country"
-                      className="p-2 border-2 border-gray-300 rounded w-full"
-                      disabled
-                    >
-                      <option className="p-3">India</option>
-                    </select>
-                  </div>
-                  <div className="w-1/2 py-2">
-                    <label
-                      htmlFor="respincode"
-                      className="res-pincode-label-text"
-                    >
-                      Pincode :<span className="text-red-600 text-lg"> *</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="respincode"
-                      name="respincode"
-                      className="res-input-field"
-                      value={creditial.respincode}
-                      {...register("respincode", {
-                        required: "Pincode is required",
-                        pattern: {
-                          value: /^(^\d{6}$)|(^[1-9][0-9]{2}\s?[0-9]{3}$)/,
-                          message:
-                            "Pincode must be 6 digits (Ex: 123456 or 123 456).",
-                        },
-                      })}
-                      onChange={onChange}
-                      autoComplete="false"
-                    />
-                    <p className="text-sm text-red-500 absolute">
-                      {errors.respincode?.message}
+              <div className="plan-main-div">
+                <div className="plan-sub-div h-full rounded-lg hover:border-orange-400 flex flex-col relative overflow-hidden">
+                  <div className="bg-orange-100 p-3 font-sans">
+                    <span className="bg-orange-400 text-white px-4 py-2 tracking-widest text-xs absolute right-0 top-0 rounded-bl">
+                      POPULAR
+                    </span>
+                    <div className="flex flex-column">
+                      <FontAwesomeIcon icon={faGem} className="mt-2 mr-2" />
+                      <p className="text-2xl tracking-widest title-font mb-1 font-medium">
+                        Premium
+                      </p>
+                    </div>
+                    <p className="text-sm font-sans">
+                      Maximum your sales with highest visibility. dedicated
+                      account manager, marketing assistance from Foodly and
+                      more!
                     </p>
                   </div>
-                </div>
-                <div className="flex flex-column px-3 pb-3 pt-6 gap-6">
-                  <div className="w-1/2 py-2">
-                    <select
-                      id="resstate"
-                      name="resstate"
-                      value={state}
-                      className="p-2 border-2 border-gray-300 rounded w-full"
-                      {...register("resstate", {
-                        required: "State is required",
-                      })}
-                      onChange={(e) => handleState(e)}
-                    >
-                      <option value="">Select State</option>
-                      {stateData &&
-                        stateData.map((getstate) => (
-                          <option value={getstate.name} className="p-3">
-                            <div>{getstate.name}</div>
-                          </option>
-                        ))}
-                    </select>
-                    <p className="text-sm text-red-500 absolute">
-                      {errors.resstate?.message}
-                    </p>
-                  </div>
-                  <div className="w-1/2 py-2">
-                    <select
-                      id="rescity"
-                      name="rescity"
-                      className="p-2 border-2 border-gray-300 rounded w-full"
-                      {...register("rescity", {
-                        required: "City is required",
-                      })}
-                    >
-                      <option value="">Select City</option>
-                      {city.cities &&
-                        city.cities.map((getcity) => (
-                          <option value={getcity}>{getcity}</option>
-                        ))}
-                    </select>
-                    <p className="text-sm text-red-500 absolute">
-                      {errors.rescity?.message}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* second part */}
-              <div className="add-right-second p-4 rounded-lg">
-                <div className="p-3">
-                  <div className="text-2xl font-semibold">
-                    Contact Number at Restaurant
-                  </div>
-                  <div className="text-sm">
-                    Your customers will call on this number for general
-                    enquiries
-                  </div>
-                </div>
-                {/* Restaurant Contact: */}
-                <div className="flex flex-column px-3 py-1">
-                  <div className="w-4/5 pb-4">
-                    <label htmlFor="rescontact" className="res-label-text">
-                      Restaurant Contact :
-                      <span className="text-red-600 text-lg"> *</span>
-                    </label>
-                    <input
-                      type="contact"
-                      id="rescontact"
-                      name="rescontact"
-                      className="res-input-field"
-                      value={creditial.rescontact}
-                      {...register("rescontact", {
-                        required: "Restaurant Contact Number is required",
-                        pattern: {
-                          value: /^[6-9]{1}[0-9]{9}$/,
-                          message: "Restaurant Contact Number is not valid",
-                        },
-                        maxLength: {
-                          value: 10,
-                          message:
-                            "Max 10 characters for Restaurant Contact Number",
-                        },
-                      })}
-                      onChange={onChange}
-                      autoComplete="false"
-                    />
-                    <p className="text-sm text-red-500 absolute">
-                      {errors.rescontact?.message}
-                    </p>
-                  </div>
-                  <div className="w-1/5 text-md font-semibold ml-6 mt-7 mb-4 bg-orange-400 hover:bg-orange-500 border-2 border-orange-400 rounded shadow-md hover:shadow-lg">
-                    <button
-                      className="text-white-800 duration-500 text-middle"
-                      onClick={openOtpModal}
-                    >
-                      <div className="px-8 pt-2 pb-1">Verify</div>
-                    </button>
-                    {showOtpModal && (
-                      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                        <div className="bg-white rounded-lg lg:w-1/4 md:w-1/2 sm:w-1/2">
-                          <div className="py-7 px-6">
-                            <input
-                              type="text"
-                              placeholder="Enter OTP"
-                              value={otpCode}
-                              onChange={handleOtpChange}
-                              className="input-field mb-2"
-                            />
-                            <p className="text-red-500 text-sm mb-4">
-                              {otpError}
-                            </p>
-                            <div className="flex justify-end">
-                              <button
-                                onClick={otpSubmit}
-                                className="text-black font-semibold mx-2 px-4 py-2 rounded bg-orange-400 hover:bg-orange-500"
-                              >
-                                Submit
-                              </button>
-                              <button
-                                onClick={closeOtpModal}
-                                className="text-gray-700 font-semibold mx-2 px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          </div>
-                        </div>
+                  <div className="bg-white-900 p-3">
+                    <div className="text-2xl font-bold text-gray-900 border-b border-orange-200 pb-3">
+                      <p className="flex text-base font-bold ml-1 font-normal text-gray-500">
+                        Service fee from 2nd month
+                      </p>
+                      <div className="flex flex-inline">
+                        <p>10%</p>
+                        <p className="text-base font-normal text-gray-500 px-2 py-1">
+                          +
+                        </p>
+                        <p>2%</p>
+                        <p className="text-base font-normal text-gray-500 px-2 pt-2">
+                          for Premium benefits
+                        </p>
                       </div>
-                    )}
-                  </div>
-                </div>
+                    </div>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <BsShop />
+                      <span className="text-sm text-gray-600">
+                        Onboarding services
+                      </span>
+                    </p>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <MdDeliveryDining />
+                      <span className="text-sm text-gray-600">
+                        Visibility to customers up to 12 km
+                      </span>
+                    </p>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <GiAlliedStar />
+                      <span className="text-sm text-gray-600">
+                        Access to Foodly Gold program
+                      </span>
+                    </p>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <TbCoinRupee />
+                      <span className="text-sm text-gray-600">
+                        Get ads worth Rs.50,000 (one-time)
+                      </span>
+                    </p>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <AiOutlineCamera />
+                      <span className="text-sm text-gray-600">
+                        Get professional dish photoshoot
+                      </span>
+                    </p>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <LiaUserSolid />
+                      <span className="text-sm text-gray-600">
+                        Dedicated account manager
+                      </span>
+                    </p>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <FaRegMoneyBillAlt />
+                      <span className="text-sm text-start text-gray-600">
+                        Get marketing worth 3% of your monthly revene
+                      </span>
+                    </p>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <RxCrossCircled />
+                      <span className="text-sm text-gray-600">
+                        20% discount on ads
+                      </span>
+                    </p>
+                    <div className="bg-purple-300 rounded-xl text-center text-sm py-1 m-3 text-violet-900">
+                      <FontAwesomeIcon
+                        icon={faCircleArrowUp}
+                        className="mr-2"
+                      />
+                      <span>Estimated 0X sales of Basic</span>
+                    </div>
 
-                {/* Restaurant Landline: */}
-                <div className="px-3 pt-3 pb-6">
-                  <label htmlFor="reslandline" className="res-label-text">
-                    Restaurant Landline :
-                    <span className="text-red-600 text-lg"> *</span>
-                  </label>
-                  <input
-                    type="contact"
-                    id="reslandline"
-                    name="reslandline"
-                    className="res-input-field"
-                    value={creditial.reslandline}
-                    {...register("reslandline", {
-                      required: "Restaurant Landline Number is required",
-                      pattern: {
-                        value: /^[0-9]{12}$/,
-                        message: "Restaurant Landline Number is not valid",
-                      },
-                      maxLength: {
-                        value: 12,
-                        message:
-                          "Max 12 characters for Restaurant Landline Number",
-                      },
-                    })}
-                    onChange={onChange}
-                    autoComplete="false"
-                  />
-                  <p className="text-sm text-red-500 absolute">
-                    {errors.reslandline?.message}
-                  </p>
-                </div>
-              </div>
-
-              {/* third part */}
-              <div className="add-right-third p-4 rounded-lg">
-                <div className="p-3">
-                  <div className="text-2xl font-semibold">
-                    Restaurant owner details
-                  </div>
-                  <div className="text-sm">
-                    These will be used to share revenue related communications
+                    <div className="text-center bg-orange-400 mx-24 py-1 rounded-lg">
+                      <input
+                        type="radio"
+                        name="partnershipplan"
+                        id="Premium"
+                        value="Premium"
+                        {...register("partnershipplan", {
+                          required: {
+                            value: true,
+                            message: "Please select plan is required",
+                          },
+                        })}
+                      />
+                      <label htmlFor="Premium" className="text-lg pl-2">
+                        Select
+                      </label>
+                    </div>
                   </div>
                 </div>
-                <div className="flex flex-column px-3 py-1">
-                  <div className="w-4/5">
-                    <label htmlFor="ownercontact" className="res-label-text">
-                      Restaurant Owner Contact :
-                      <span className="text-red-600 text-lg"> *</span>
-                    </label>
-                    <input
-                      type="contact"
-                      id="ownercontact"
-                      name="ownercontact"
-                      className="res-input-field"
-                      value={creditial.ownercontact}
-                      {...register("ownercontact", {
-                        required: "Restaurant Owner Contact Number is required",
-                        pattern: {
-                          value: /^[6-9]{1}[0-9]{9}$/,
-                          message:
-                            "Restaurant Owner Contact Number is not valid",
-                        },
-                        maxLength: {
-                          value: 10,
-                          message:
-                            "Max 10 characters for Restaurant Owner Contact Number",
-                        },
-                      })}
-                      onChange={onChange}
-                      autoComplete="false"
-                    />
-                    <p className="text-sm text-red-500 absolute">
-                      {errors.ownercontact?.message}
+                <div className="plan-sub-div h-full rounded-lg hover:border-orange-400 flex flex-col relative overflow-hidden">
+                  <div className="bg-orange-100 p-3 font-sans">
+                    <div className="flex flex-column">
+                      <FontAwesomeIcon icon={faGem} className="mt-2 mr-2" />
+                      <p className="text-2xl tracking-widest title-font mb-1 font-medium">
+                        Basic
+                      </p>
+                    </div>
+                    <p className="text-sm font-sans">
+                      Maximum your sales with highest visibility. dedicated
+                      account manager, marketing assistance from Foodly and
+                      more!
                     </p>
                   </div>
-                  <div className="w-1/5 text-md font-semibold ml-6 mt-7 mb-4 bg-orange-400 border-2 border-orange-400 rounded shadow-md hover:shadow-lg">
-                    <Link
-                      className="text-white-800 duration-500 text-middle"
-                      to="/login"
-                    >
-                      <div className="px-8 pt-2 pb-1">Verify</div>
-                    </Link>
+                  <div className="bg-white-900 p-3">
+                    <div className="text-2xl font-bold text-gray-900 border-b border-orange-200 pb-3">
+                      <p className="flex text-base font-bold ml-1 font-normal text-gray-500">
+                        Service fee from 2nd month
+                      </p>
+                      <div className="flex flex-inline">
+                        <p>10%</p>
+                        <p className="text-base font-normal text-gray-500 px-2 py-1">
+                          +
+                        </p>
+                        <p>0%</p>
+                        <p className="text-base font-normal text-gray-500 px-2 pt-2">
+                          for Premium benefits
+                        </p>
+                      </div>
+                    </div>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <BsShop />
+                      <span className="text-sm text-gray-600">
+                        Onboarding services
+                      </span>
+                    </p>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <MdDeliveryDining />
+                      <span className="text-sm text-gray-600">
+                        Visibility to customers up to 8 km
+                      </span>
+                    </p>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <GiAlliedStar />
+                      <span className="text-sm text-gray-600">
+                        Access to Foodly Gold program
+                      </span>
+                    </p>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <TbCoinRupee />
+                      <span className="text-sm text-gray-600">
+                        Get ads worth Rs.20,000 (one-time)
+                      </span>
+                    </p>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <AiOutlineCamera />
+                      <span className="text-sm text-gray-600">
+                        Get professional dish photoshoot
+                      </span>
+                    </p>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <LiaUserSolid />
+                      <span className="text-sm text-gray-400">
+                        Dedicated account manager
+                      </span>
+                    </p>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <FaRegMoneyBillAlt />
+                      <span className="text-sm text-start text-gray-400">
+                        Get marketing worth 3% of your monthly revene
+                      </span>
+                    </p>
+                    <p className="flex items-center text-gray-600 my-2 gap-2">
+                      <RxCrossCircled />
+                      <span className="text-sm text-gray-400">
+                        20% discount on ads
+                      </span>
+                    </p>
+                    <div className="bg-purple-300 rounded-xl text-center text-sm py-1 m-3 text-violet-900">
+                      <FontAwesomeIcon
+                        icon={faCircleArrowUp}
+                        className="mr-2"
+                      />
+                      <span>Estimated 0X sales of Basic</span>
+                    </div>
+
+                    <div className="text-center bg-orange-400 mx-24 py-1 rounded-lg">
+                      <input
+                        type="radio"
+                        name="partnershipplan"
+                        id="Basic"
+                        value="Basic"
+                        {...register("partnershipplan", {
+                          required: {
+                            value: true,
+                            message: "Please select plan is required",
+                          },
+                        })}
+                      />
+                      <label htmlFor="Basic" className="text-lg pl-2">
+                        Select
+                      </label>
+                    </div>
                   </div>
-                </div>
-                <div className="px-3 py-1">
-                  <label htmlFor="ownername" className="label-text">
-                    Restaurant Owner Full Name :
-                    <span className="text-red-600 text-lg"> *</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="ownername"
-                    name="ownername"
-                    className="input-field"
-                    value={creditial.ownername}
-                    {...register("ownername", {
-                      required: "Restaurant Owner Name is required",
-                      pattern: {
-                        value: /^[A-Za-z]+(?: [A-Za-z]+)?$/,
-                        message:
-                          "Only alphabetic characters are allowed in Name",
-                      },
-                    })}
-                    onChange={onChange}
-                    autoComplete="false"
-                  />
-                  <p className="text-sm text-red-500 absolute">
-                    {errors.ownername?.message}
-                  </p>
-                </div>
-                <div className="px-3 pt-4 pb-6">
-                  <label htmlFor="owneremail" className="label-text">
-                    Restaurant Owner Email Address :
-                    <span className="text-red-600 text-lg"> *</span>
-                  </label>
-                  <input
-                    type="email"
-                    id="owneremail"
-                    name="owneremail"
-                    className="input-field"
-                    value={creditial.owneremail}
-                    {...register("owneremail", {
-                      required: "Restaurant Owner Email is required",
-                      pattern: {
-                        value:
-                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g,
-                        message: "Restaurant Owner Email is not valid",
-                      },
-                    })}
-                    readOnly={user ? true : false}
-                    onChange={onChange}
-                    autoComplete="false"
-                  />
-                  <p className="text-sm text-red-500 absolute">
-                    {errors.owneremail?.message}
-                  </p>
                 </div>
               </div>
 
