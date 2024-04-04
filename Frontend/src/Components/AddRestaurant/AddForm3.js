@@ -35,6 +35,10 @@ function AddForm3() {
     navigate(`/addRestaurant/addForm/4?resId=${restaurant?._id}`);
   };
 
+  const goDashboard = () => {
+    navigate(`/dashboard?resId=${restaurant?._id}`);
+  };
+
   useEffect(() => {
     document.title = "Add Form | Foodly";
   }, []);
@@ -480,17 +484,18 @@ function AddForm3() {
               Our team will verify the details and update once <br /> your page
               is live on Foodly!
             </div>
-            {showStep2 && (
-              <button
-                onClick={goAddFrom4}
-                className="text-white font-bold bg-orange-400 hover:bg-orange-500 py-3 px-4 my-2 rounded-md shadow-md hover:shadow-lg"
-              >
-                Step 2 - Register for online ordering
-              </button>
-            )}
-            <div className="bg-gray-100 hover:bg-gray-200 py-3 px-4 my-2 rounded-md shadow-md hover:shadow-lg">
+            <button
+              onClick={goAddFrom4}
+              className="text-white font-bold bg-orange-400 hover:bg-orange-500 py-3 px-4 my-2 rounded-md shadow-md hover:shadow-lg"
+            >
+              Step 2 - Register for online ordering
+            </button>
+            <button
+              onClick={goDashboard}
+              className="bg-gray-100 hover:bg-gray-200 py-3 px-4 my-2 rounded-md shadow-md hover:shadow-lg"
+            >
               Done for now
-            </div>
+            </button>
           </div>
         </div>
       )}

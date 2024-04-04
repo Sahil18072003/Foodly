@@ -217,6 +217,7 @@ const getUserDetails = async (req, res) => {
       }
       return res;
     });
+
     // Attempt to find a user record
     const data = await User.find(req.body);
 

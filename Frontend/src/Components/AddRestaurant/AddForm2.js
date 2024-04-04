@@ -12,12 +12,14 @@ function AddForm2() {
 
   const restaurant = JSON.parse(localStorage.getItem("restaurant"));
 
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(
+    "Both, delivery and dine-in available"
+  );
   const [selectedResType, setSelectedResType] = useState([]);
   const [selectedResCuisineType, setSelectedResCuisineType] = useState([]);
   const [selectedResDays, setSelectedResDays] = useState([]);
-  const [openingTime, setOpeningTime] = useState(restaurant?.openingTime);
-  const [closingTime, setClosingTime] = useState();
+  const [openingTime, setOpeningTime] = useState(restaurant?.openingtime);
+  const [closingTime, setClosingTime] = useState(restaurant?.closingtime);
 
   useEffect(() => {
     const storedCategory = restaurant?.rescategory;
@@ -101,6 +103,7 @@ function AddForm2() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 

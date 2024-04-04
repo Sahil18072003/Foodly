@@ -18,11 +18,26 @@ function AddForm1() {
     ? JSON.parse(localStorage.getItem("restaurant"))
     : "";
 
+  console.log(restaurant?.resstate);
+  console.log(restaurant?.rescity);
+
+  const handleState = (e) => {
+    const getState = e.target.value;
+
+    console.log(getState);
+
+    const getCities = stateData.find(
+      (stateData) => stateData.name === getState
+    );
+
+    setCity(getCities);
+  };
+
   const [creditial, setCreditial] = useState({
     resname: restaurant?.resname ? restaurant?.resname : "",
     resadd: restaurant?.resadd ? restaurant?.resadd : "",
     respincode: restaurant?.respincode ? restaurant?.respincode : "",
-    resstate: "",
+    resstate: restaurant?.resstate ? restaurant?.resstate : "",
     rescity: "",
     rescontact: restaurant?.rescontact ? restaurant?.rescontact : "",
     reslandline: restaurant?.reslandline ? restaurant?.reslandline : "",
@@ -43,16 +58,6 @@ function AddForm1() {
       ? restaurant?.owneremail
       : "",
   });
-
-  const handleState = (e) => {
-    const getState = e.target.value;
-
-    const getCities = stateData.find(
-      (stateData) => stateData.name === getState
-    );
-
-    setCity(getCities);
-  };
 
   const [showOtpModal, setShowOtpModal] = useState(false);
 
@@ -235,6 +240,10 @@ function AddForm1() {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
+            },
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               _id: restaurant?._id,

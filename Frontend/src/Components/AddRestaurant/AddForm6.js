@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fa1, fa2, fa3 } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, fa3, fa4 } from "@fortawesome/free-solid-svg-icons";
 import stateData from "../../json/State_City.json";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -180,6 +180,20 @@ function AddForm6() {
   const handleOtpChange = (e) => {
     setOtpCode(e.target.value);
     setOtpError("");
+  };
+
+  const backFrom = () => {
+    toast.info("Please click on Back to go to the back page", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      rtl: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
 
   const nextFrom = () => {
@@ -373,41 +387,51 @@ function AddForm6() {
   return (
     <div className="add-res-page">
       <div className="add-res-content">
-        <div className="add-left">
+        <div className="add-left-2">
           <div className="add-left-first p-4 rounded-lg">
-            <div className="font-bold text-lg">
+            <div className="font-normal text-lg">
               1. Create your restaurant page
             </div>
+          </div>
+          <div className="add-left-second p-4 rounded-lg">
+            <div className="font-bold text-lg">
+              2. Register for Online ordering
+            </div>
             <hr />
-            <button
-              className="py-2 border-2 border-gray-900"
-              onClick={currFrom}
-            >
+            <button className="pt-2" onClick={backFrom}>
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
-                  <FontAwesomeIcon icon={fa1} />
+                <div className="w-1/6 bg-green-400 rounded-full px-2 pt-2 pb-1 my-4">
+                  <FontAwesomeIcon icon={faCircleCheck} className="w-6 h-6" />
                 </div>
                 <div className="w-5/6 p-1">
                   <div className="add-left-text">Restaurant Information</div>
                   <div className="add-left-sub-text">
-                    Restaurant name, address, contact no., owner details
+                    Delivery timings, menu & contact information
                   </div>
                 </div>
               </div>
             </button>
-            <button
-              className="py-2 border-2 border-gray-900"
-              onClick={nextFrom}
-            >
+            <button className="pt-2" onClick={backFrom}>
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
-                  <FontAwesomeIcon icon={fa2} />
+                <div className="w-1/6 bg-green-400 rounded-full px-2 pt-2 pb-1 my-4">
+                  <FontAwesomeIcon icon={faCircleCheck} className="w-6 h-6" />
                 </div>
                 <div className="w-5/6 p-1">
-                  <div className="add-left-text">Restaurant Type & Time</div>
+                  <div className="add-left-text">Upload Documents</div>
                   <div className="add-left-sub-text">
-                    Establishment & cuisine type, opening hours
+                    PAN, GST, FSSAI and bank account details
                   </div>
+                </div>
+              </div>
+            </button>
+            <button className="pt-2" onClick={currFrom}>
+              <div className="flex flex-column">
+                <div className="w-1/6 bg-orange-400 rounded-full p-2 my-4">
+                  <FontAwesomeIcon icon={fa3} />
+                </div>
+                <div className="w-5/6 p-2">
+                  <div className="add-left-text">Partnership Plans</div>
+                  <div className="add-left-sub-text">Select your plan</div>
                 </div>
               </div>
             </button>
@@ -416,22 +440,17 @@ function AddForm6() {
               onClick={nextFrom}
             >
               <div className="flex flex-column">
-                <div className="w-1/6 border-2 border-gray-900 rounded-full p-1 my-4">
-                  <FontAwesomeIcon icon={fa3} />
+                <div className="w-1/6 bg-gray-300 rounded-full p-2 my-4">
+                  <FontAwesomeIcon icon={fa4} />
                 </div>
                 <div className="w-5/6 p-1">
-                  <div className="add-left-text">Upload Images</div>
+                  <div className="add-left-text">Partner Contract</div>
                   <div className="add-left-sub-text">
-                    Menu, Restaurant and Food <br /> images
+                    Service fee details, other charges and T&Cs
                   </div>
                 </div>
               </div>
             </button>
-          </div>
-          <div className="add-left-second p-4 rounded-lg">
-            <span className="font-bold text-lg">
-              2. Register for Online ordering
-            </span>
           </div>
         </div>
         <div className="add-right">

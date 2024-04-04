@@ -25,17 +25,19 @@ function AddForm5() {
   const [creditial, setCreditial] = useState({
     pannumber: restaurant?.pannumber ? restaurant?.pannumber : "",
     panname: restaurant?.panname ? restaurant?.panname : "",
-    panimg: restaurant?.panimg ? restaurant?.panimg : "",
-    isgst: restaurant?.isgst ? restaurant?.isgst : "",
+    panimg: [],
     gstnumber: restaurant?.gstnumber ? restaurant?.gstnumber : "",
-    is5gst: restaurant?.is5gst ? restaurant?.is5gst : "",
-    gstimg: restaurant?.gstimg ? restaurant?.gstimg : "",
+    gstimg: [],
     fssainumber: restaurant?.fssainumber ? restaurant?.fssainumber : "",
-    fssaiimg: restaurant?.fssaiimg ? restaurant?.fssaiimg : "",
+    fssaiimg: [],
     bankaccnumber: restaurant?.bankaccnumber ? restaurant?.bankaccnumber : "",
+    reenterbankaccnumber: restaurant?.bankaccnumber
+      ? restaurant?.bankaccnumber
+      : "",
     bankholdername: restaurant?.bankholdername
       ? restaurant?.bankholdername
       : "",
+    bankacctype: restaurant?.bankacctype ? restaurant?.bankacctype : "",
     bankifsccode: restaurant?.bankaccnumber ? restaurant?.bankaccnumber : "",
   });
 
@@ -48,6 +50,7 @@ function AddForm5() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -130,36 +133,47 @@ function AddForm5() {
   };
 
   const clickHandler = async (e) => {
-    // Get all radio with name "deliveryrefer"
-    const deliveryrefer = document.querySelector(
-      'input[name="deliveryrefer"]:checked'
+    // Get all radio with name "rescategory"
+    const isgst = document.querySelector('input[name="isgst"]:checked')?.value;
+
+    const isgst5 = document.querySelector(
+      'input[name="isgst5"]:checked'
     )?.value;
 
-    // Get all radio with name "deliverytime"
-    const deliverytime = document.querySelector(
-      'input[name="deliverytime"]:checked'
-    )?.value;
+    console.log(isgst, isgst5);
 
-    const deliverymenuImageUrls = await Promise.all(
-      creditial.deliverymenuimg.map((file) =>
-        uploadImageToCloudinary(file, "delivery_menu_img")
+    const panImageUrls = await Promise.all(
+      creditial.panimg.map((file) => uploadImageToCloudinary(file, "pan_photo"))
+    );
+
+    const gstImageUrls = await Promise.all(
+      creditial.gstimg.map((file) => uploadImageToCloudinary(file, "gst_photo"))
+    );
+
+    const fssaiImageUrls = await Promise.all(
+      creditial.fssaiimg.map((file) =>
+        uploadImageToCloudinary(file, "fssai_photo")
       )
     );
 
     // Check if all required fields are filled
     if (
-      deliveryrefer !== "" &&
-      deliverytime !== "" &&
-      deliverymenuImageUrls !== "" &&
-      creditial.ownercontact !== "" &&
-      creditial.ownername !== "" &&
-      creditial.owneremail !== "" &&
-      creditial.deliverycontact !== "" &&
-      creditial.deliverylandline !== ""
+      creditial.pannumber !== "" &&
+      creditial.panname !== "" &&
+      panImageUrls !== "" &&
+      isgst !== "" &&
+      creditial.gstnumber !== "" &&
+      gstImageUrls !== "" &&
+      isgst5 !== "" &&
+      creditial.fssainumber !== "" &&
+      fssaiImageUrls !== "" &&
+      creditial.bankaccnumber !== "" &&
+      creditial.bankacctype !== "" &&
+      creditial.bankifsccode !== ""
     ) {
       // If restaurant exists, update its values
       const response = await fetch(
-        `${host}/api/res/addRestaurant/addFrom/4/${restaurant?._id}`,
+        `${host}/api/res/addRestaurant/addFrom/5/${restaurant?._id}`,
         {
           method: "POST",
           headers: {
@@ -167,14 +181,18 @@ function AddForm5() {
           },
           body: JSON.stringify({
             _id: restaurant?._id,
-            deliveryrefer: deliveryrefer,
-            deliverytime: deliverytime,
-            deliverymenuimg: deliverymenuImageUrls,
-            ownercontact: creditial.ownercontact,
-            ownername: creditial.ownername,
-            owneremail: creditial.owneremail,
-            deliverycontact: creditial.deliverycontact,
-            deliverylandline: creditial.deliverylandline,
+            pannumber: creditial.pannumber,
+            panname: creditial.panname,
+            panimg: panImageUrls,
+            isgst: isgst,
+            gstnumber: creditial.gstnumber,
+            gstimg: gstImageUrls,
+            isgst5: isgst5,
+            fssainumber: creditial.fssainumber,
+            fssaiimg: fssaiImageUrls,
+            bankaccnumber: creditial.bankaccnumber,
+            bankacctype: creditial.bankacctype,
+            bankifsccode: creditial.bankifsccode,
           }),
         }
       );
@@ -202,7 +220,7 @@ function AddForm5() {
 
         setTimeout(() => {
           navigate(
-            `/addRestaurant/addForm/5?resId=${json.updatedRestaurant._id}`
+            `/addRestaurant/addForm/6?resId=${json.updatedRestaurant._id}`
           );
         }, 2000);
       } else {
@@ -243,14 +261,12 @@ function AddForm5() {
   const onChange = (e) => {
     const { name, value, files } = e.target;
     if (files) {
-      // File input
       const fileList = Array.from(files);
       setCreditial((prevState) => ({
         ...prevState,
         [name]: [...(prevState[name] || []), ...fileList],
       }));
     } else {
-      // Non-file input
       setCreditial({ ...creditial, [name]: value });
     }
   };
@@ -349,14 +365,14 @@ function AddForm5() {
                     className="res-input-field"
                     value={creditial.pannumber}
                     {...register("pannumber", {
-                      required: "PAN Number is required",
+                      required: "PAN number is required",
                       pattern: {
-                        value: /^[0-9A-Z]{10}$/,
-                        message: "PAN Number is not valid",
+                        value: /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/,
+                        message: "PAN number is not valid",
                       },
                       maxLength: {
                         value: 10,
-                        message: "Max 10 characters for PAN Number",
+                        message: "Max 10 characters for PAN number",
                       },
                     })}
                     onChange={onChange}
@@ -380,9 +396,9 @@ function AddForm5() {
                     {...register("panname", {
                       required: "Name on PAN card is required",
                       pattern: {
-                        value: /^[A-Za-z]+(?: [A-Za-z]+)*$/,
+                        value: /^[A-Za-z]+(\s[A-Za-z]+){0,2}$/,
                         message:
-                          "Only alphabetic characters are allowed in Name on PAN card",
+                          "Name on PAN card should contain only alphabetic characters and maximum of two spaces",
                       },
                     })}
                     onChange={onChange}
@@ -398,9 +414,9 @@ function AddForm5() {
                       type="file"
                       id="panimg"
                       name="panimg"
-                      accept=".jpg, .png, .pdf"
+                      accept=".jpg, .png"
                       {...register("panimg", {
-                        required: "PAN Image is required",
+                        required: "PAN image is required",
                       })}
                       onChange={onChange}
                     />
@@ -484,22 +500,54 @@ function AddForm5() {
                         No
                       </label>
                     </div>
+                    <p className="text-sm text-red-500 absolute">
+                      {errors.isgst?.message}
+                    </p>
                   </div>
                 </div>
+                <div className="px-3 pb-4">
+                  <label htmlFor="gstnumber" className="res-label-text">
+                    GSTIN Number :
+                    <span className="text-red-600 text-lg"> *</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="gstnumber"
+                    name="gstnumber"
+                    className="res-input-field"
+                    value={creditial.gstnumber}
+                    {...register("gstnumber", {
+                      required: "GSTIN number is required",
+                      pattern: {
+                        value:
+                          /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z][0-9A-Z]{1}$/,
+                        message: "GSTIN number is not valid",
+                      },
+                      maxLength: {
+                        value: 15,
+                        message: "Max 15 characters for GSTIN number",
+                      },
+                    })}
+                    onChange={onChange}
+                    autoComplete="false"
+                  />
+                  <p className="text-sm text-red-500 absolute">
+                    {errors.gstnumber?.message}
+                  </p>
+                </div>
                 <div className="px-3 pb-6">
-                  <div className="pan-img">
+                  <div className="gst-img">
                     <input
                       type="file"
                       id="gstimg"
                       name="gstimg"
-                      accept=".jpg, .png, .pdf"
+                      accept=".jpg, .png"
                       {...register("gstimg", {
-                        required: "GST Image is required",
+                        required: "GST image is required",
                       })}
                       onChange={onChange}
                     />
-
-                    <label htmlFor="gstimg" className="pan-warrper">
+                    <label htmlFor="gstimg" className="gst-warrper">
                       <div className="text-center sub-pan-img">
                         <div className="py-1">
                           <i className="fa fa-arrow-up-from-bracket fa-lg"></i>
@@ -509,14 +557,13 @@ function AddForm5() {
                         </div>
                       </div>
                     </label>
-
-                    {creditial.panimg &&
-                      creditial.panimg.map((image, index) => (
-                        <div key={index} className="uploaded-div-pan">
+                    {creditial.gstimg &&
+                      creditial.gstimg.map((image, index) => (
+                        <div key={index} className="uploaded-div-gst">
                           <span>{image.name}</span>{" "}
                           <button
-                            className="uploaded-btn-pan"
-                            onClick={() => removeImage("panimg", index)}
+                            className="uploaded-btn-gst"
+                            onClick={() => removeImage("gstimg", index)}
                           >
                             ✕
                           </button>
@@ -524,7 +571,7 @@ function AddForm5() {
                       ))}
                   </div>
                   <p className="text-sm text-red-500 absolute">
-                    {errors.panimg?.message}
+                    {errors.gstimg?.message}
                   </p>
                 </div>
                 <div className="p-3">
@@ -539,12 +586,13 @@ function AddForm5() {
                         name="isgst5"
                         id="yes"
                         value="Yes"
-                        {...register("isgst", {
+                        {...register("isgst5", {
                           required: {
                             value: true,
                             message: "This field is required",
                           },
                         })}
+                        checked
                       />
                       <label htmlFor="yes" className="text-lg">
                         Yes
@@ -556,7 +604,7 @@ function AddForm5() {
                         name="isgst5"
                         id="no"
                         value="No"
-                        {...register("isgst", {
+                        {...register("isgst5", {
                           required: {
                             value: true,
                             message: "This field is required",
@@ -567,66 +615,218 @@ function AddForm5() {
                         No
                       </label>
                     </div>
+                    <p className="text-sm text-red-500 absolute">
+                      {errors.isgst5?.message}
+                    </p>
                   </div>
                 </div>
               </div>
 
               {/* third part */}
               <div className="add-menu-first rounded-lg">
-                <div className="text-2xl font-semibold">FSSAI certificate</div>
-                <div className="text-sm">
-                  This is required to comply with regulations on food safety
+                <div className="px-3 pb-3">
+                  <div className="text-2xl font-semibold">
+                    FSSAI Certificate
+                  </div>
+                  <div className="text-sm">
+                    This is required to comply regulations on food safety
+                  </div>
                 </div>
-
-                <div className="menu-img border-2 border-gray-900">
+                <div className="px-3 pb-4">
+                  <label htmlFor="fssainumber" className="res-label-text">
+                    FSSAI Certificate Number :
+                    <span className="text-red-600 text-lg"> *</span>
+                  </label>
                   <input
-                    type="file"
-                    id="deliverymenuimg"
-                    name="deliverymenuimg"
-                    accept="image/*"
-                    {...register("deliverymenuimg", {
-                      required: "Delivery Menu is required",
+                    type="text"
+                    id="fssainumber"
+                    name="fssainumber"
+                    className="res-input-field"
+                    value={creditial.fssainumber}
+                    {...register("fssainumber", {
+                      required: "FSSAI certificate number is required",
+                      pattern: {
+                        value: /^[0-9A-Z]{14}$/,
+                        message: "FSSAI certificate number is not valid",
+                      },
+                      maxLength: {
+                        value: 14,
+                        message:
+                          "Max 14 characters for FSSAI certificate number",
+                      },
                     })}
                     onChange={onChange}
+                    autoComplete="false"
                   />
-
-                  <label htmlFor="deliverymenuimg" className="menu-warrper">
-                    <div className="text-center sub-menu-img">
-                      <div className="mb-2">
-                        <i className="fa fa-camera fa-2x"></i>
-                      </div>
-                      <div className="text-uppercase">Add Photos</div>
-                    </div>
-                  </label>
-
-                  {creditial.deliverymenuimg &&
-                    creditial.deliverymenuimg.map((image, index) => (
-                      <div key={index} className="uploaded-div">
-                        <img
-                          // src={URL.createObjectURL(image)}
-                          alt={`Image ${index}`}
-                          className="uploaded-image"
-                        />
-                        <button
-                          className="uploaded-btn"
-                          onClick={() => removeImage("deliverymenuimg", index)}
-                        >
-                          ✕
-                        </button>
-                      </div>
-                    ))}
+                  <p className="text-sm text-red-500 absolute">
+                    {errors.fssainumber?.message}
+                  </p>
                 </div>
+                <div className="px-3 pb-4">
+                  <div className="fssai-img">
+                    <input
+                      type="file"
+                      id="fssaiimg"
+                      name="fssaiimg"
+                      accept=".jpg, .png"
+                      {...register("fssaiimg", {
+                        required: "FSSAI certificate is required",
+                      })}
+                      onChange={onChange}
+                    />
 
-                <p className="text-sm text-red-500 absolute">
-                  {errors.deliverymenuimg?.message}
-                </p>
+                    <label htmlFor="fssaiimg" className="fssai-warrper">
+                      <div className="text-center sub-fssai-img">
+                        <div className="py-1">
+                          <i className="fa fa-arrow-up-from-bracket fa-lg"></i>
+                        </div>
+                        <div className="text-uppercase px-3 py-1">
+                          Upload FSSAI Certificate
+                        </div>
+                      </div>
+                    </label>
+
+                    {creditial.fssaiimg &&
+                      creditial.fssaiimg.map((image, index) => (
+                        <div key={index} className="uploaded-div-fssai">
+                          <span>{image.name}</span>
+                          <button
+                            className="uploaded-btn-fssai"
+                            onClick={() => removeImage("fssaiimg", index)}
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))}
+                  </div>
+                  <p className="text-sm text-red-500 absolute">
+                    {errors.fssaiimg?.message}
+                  </p>
+                </div>
               </div>
 
               {/* forth part */}
               <div className="add-menu-first rounded-lg">
-                <div className="text-2xl font-semibold">Bank details</div>
-                <div className="text-sm">
-                  Let us know where to deposit your money
+                <div className="px-3 pb-3">
+                  <div className="text-2xl font-semibold">Bank details</div>
+                  <div className="text-sm">
+                    Let us know where to deposit your money
+                  </div>
+                </div>
+                <div className="flex flex-column">
+                  <div className="w-1/2 px-3 pb-4">
+                    <label htmlFor="bankaccnumber" className="res-label-text">
+                      Bank Account Number:
+                      <span className="text-red-600 text-lg"> *</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="bankaccnumber"
+                      name="bankaccnumber"
+                      className="res-input-field"
+                      value={creditial.bankaccnumber}
+                      {...register("bankaccnumber", {
+                        required: "Bank account number is required",
+                        pattern: {
+                          value: /^[0-9]+$/,
+                          message:
+                            "Bank account number should only contain digits",
+                        },
+                        minLength: {
+                          value: 9,
+                          message: "Min 9 digits for Bank account number",
+                        },
+                        maxLength: {
+                          value: 18,
+                          message: "Max 18 digits for Bank account number",
+                        },
+                      })}
+                      onChange={onChange}
+                      autoComplete="off"
+                    />
+                    <p className="text-sm text-red-500 absolute">
+                      {errors.bankaccnumber?.message}
+                    </p>
+                  </div>
+                  <div className="w-1/2 px-3 pb-4">
+                    <label
+                      htmlFor="reenterbankaccnumber"
+                      className="res-label-text"
+                    >
+                      Re-enter Account Number:
+                      <span className="text-red-600 text-lg"> *</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="reenterbankaccnumber"
+                      name="reenterbankaccnumber"
+                      className="res-input-field"
+                      {...register("reenterbankaccnumber", {
+                        validate: (value) =>
+                          value === watch("bankaccnumber") ||
+                          "Account numbers do not match",
+                      })}
+                      autoComplete="off"
+                    />
+                    <p className="text-sm text-red-500 absolute">
+                      {errors.reenterbankaccnumber?.message}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-column">
+                  <div className="w-1/2 px-3 py-3">
+                    <select
+                      id="bankacctype"
+                      name="bankacctype"
+                      value={creditial.bankacctype}
+                      className="p-2 mt-4 border-2 border-gray-300 rounded w-full"
+                      {...register("bankacctype", {
+                        required: "Type of account is required",
+                      })}
+                      onChange={onChange}
+                    >
+                      <option value="">Select account type</option>
+                      <option className="m-4" value="Saving">
+                        Saving
+                      </option>
+                      <option className="m-4" value="Current">
+                        Current
+                      </option>
+                    </select>
+                    <p className="text-sm text-red-500 absolute">
+                      {errors.bankacctype?.message}
+                    </p>
+                  </div>
+
+                  <div className="w-1/2 px-3 pb-4">
+                    <label htmlFor="bankifsccode" className="res-label-text">
+                      Bank IFSC Code :
+                      <span className="text-red-600 text-lg"> *</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="bankifsccode"
+                      name="bankifsccode"
+                      className="res-input-field"
+                      value={creditial.bankifsccode}
+                      {...register("bankifsccode", {
+                        required: "Bank IFSC code is required",
+                        pattern: {
+                          value: /^[A-Z]{4}[0][A-Z0-9]{6}$/,
+                          message: "Bank IFSC code is not valid",
+                        },
+                        maxLength: {
+                          value: 11,
+                          message: "Max 11 characters for Bank IFSC code",
+                        },
+                      })}
+                      onChange={onChange}
+                      autoComplete="false"
+                    />
+                    <p className="text-sm text-red-500 absolute">
+                      {errors.bankifsccode?.message}
+                    </p>
+                  </div>
                 </div>
               </div>
 

@@ -261,37 +261,60 @@ const addRestaurant4 = async (req, res) => {
 };
 
 const addRestaurant5 = async (req, res) => {
-  // const { _id, menuimg, resimg, foodimg } = req.body;
-  // try {
-  //   let existingRestaurant = await Restaurant.findOne({ _id });
-  //   if (!existingRestaurant) {
-  //     return res
-  //       .status(400)
-  //       .json({ message: "Error: Restaurant doesn't exist." });
-  //   }
-  //   let result = await Restaurant.updateOne(
-  //     { _id },
-  //     {
-  //       $set: {
-  //         menuimg: menuimg,
-  //         resimg: resimg,
-  //         foodimg: foodimg,
-  //       },
-  //     }
-  //   );
-  //   if (result.acknowledged) {
-  //     let updatedRestaurant = await Restaurant.findOne({ _id });
-  //     return res.status(202).json({ updatedRestaurant });
-  //   } else {
-  //     return res
-  //       .status(500)
-  //       .json({ message: "Can't update the restaurant imgs" });
-  //   }
-  // } catch (error) {
-  //   // Handle any other errors
-  //   console.log(error);
-  //   res.status(500).send("Internal Server error occurred");
-  // }
+  const {
+    _id,
+    pannumber,
+    panname,
+    panimg,
+    isgst,
+    gstnumber,
+    isgst5,
+    gstimg,
+    fssainumber,
+    fssaiimg,
+    bankaccnumber,
+    bankacctype,
+    bankifsccode,
+  } = req.body;
+  try {
+    let existingRestaurant = await Restaurant.findOne({ _id });
+    if (!existingRestaurant) {
+      return res
+        .status(400)
+        .json({ message: "Error: Restaurant doesn't exist." });
+    }
+    let result = await Restaurant.updateOne(
+      { _id },
+      {
+        $set: {
+          pannumber: pannumber,
+          panname: panname,
+          panimg: panimg,
+          isgst: isgst,
+          gstnumber: gstnumber,
+          isgst5: isgst5,
+          gstimg: gstimg,
+          fssainumber: fssainumber,
+          fssaiimg: fssaiimg,
+          bankaccnumber: bankaccnumber,
+          bankacctype: bankacctype,
+          bankifsccode: bankifsccode,
+        },
+      }
+    );
+    if (result.acknowledged) {
+      let updatedRestaurant = await Restaurant.findOne({ _id });
+      return res.status(202).json({ updatedRestaurant });
+    } else {
+      return res
+        .status(500)
+        .json({ message: "Can't update the restaurant imgs" });
+    }
+  } catch (error) {
+    // Handle any other errors
+    console.log(error);
+    res.status(500).send("Internal Server error occurred");
+  }
 };
 
 const addRestaurant6 = async (req, res) => {
@@ -362,6 +385,37 @@ const addRestaurant7 = async (req, res) => {
   // }
 };
 
+// Get User data in update page
+const getRestaurantDetail = async (req, res) => {
+  const { token } = req.body;
+  try {
+    const restaurant = jwt.verify(
+      token,
+      process.env.JWT_SECRET_TOKEN,
+      (err, res) => {
+        if (err) {
+          return "token expired";
+        }
+        return res;
+      }
+    );
+    // Attempt to find a user record
+    const data = await Restaurant.find(req.body);
+
+    // Check if data exists
+    if (data) {
+      // Send the data as a response
+      res.send(data);
+    } else {
+      // If no data found, send a custom error response
+      res.status(404).send("User record not found");
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal Server error occured");
+  }
+};
+
 module.exports = {
   addRestaurant1,
   updateRestaurant,
@@ -373,4 +427,5 @@ module.exports = {
   addRestaurant5,
   addRestaurant6,
   addRestaurant7,
+  getRestaurantDetail,
 };

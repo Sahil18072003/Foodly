@@ -190,7 +190,9 @@
     flex-wrap: wrap;
 }
 
-.pan-img {
+.pan-img,
+.gst-img,
+.fssai-img {
     display: flex;
     justify-content: flex-start;
     justify-content: center;
@@ -200,16 +202,11 @@
     flex-wrap: wrap;
 }
 
-.uploaded-div {
-    position: relative;
-    margin: 10px;
-    width: 120px;
-    height: 120px;
-    border-radius: 10px;
-    border: small dotted orange;
-}
 
-.uploaded-div-pan {
+
+.uploaded-div-pan,
+.uploaded-div-gst,
+.uploaded-div-fssai {
     position: absolute;
     width: full;
     height: full;
@@ -237,7 +234,9 @@
     cursor: pointer;
 }
 
-.uploaded-btn-pan {
+.uploaded-btn-pan,
+.uploaded-btn-gst,
+.uploaded-btn-fssai {
     position: absolute;
     color: red;
     margin-left: 10px;
@@ -246,6 +245,15 @@
     background: transparent;
     border: none;
     cursor: pointer;
+}
+
+.uploaded-div {
+    position: relative;
+    margin: 10px;
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    border: small dotted orange;
 }
 
 .menu-warrper,
@@ -264,7 +272,9 @@
     margin-right: 6px;
 }
 
-.pan-warrper {
+.pan-warrper,
+.gst-warrper,
+.fssai-warrper {
     justify-content: center;
     align-content: center;
     width: 100%;
@@ -286,7 +296,9 @@
     justify-content: center;
 }
 
-.sub-pan-img {
+.sub-pan-img,
+.sub-gst-img,
+.sub-fssai-img {
     text-align: center;
     justify-content: center;
     display: flex;

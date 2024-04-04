@@ -1,37 +1,41 @@
 const express = require("express");
 const router = express.Router();
 const restaurantController = require("../Controllers/restaurant-contoller");
+const verifyToken = require("../Middlewares/authMiddleware");
 
 router
   .route("/addRestaurant/addFrom/1")
-  .post(restaurantController.addRestaurant1);
+  .post(verifyToken, restaurantController.addRestaurant1);
 router
   .route("/addRestaurant/addFrom/1/:id")
-  .put(restaurantController.updateRestaurant);
+  .put(verifyToken, restaurantController.updateRestaurant);
 router
   .route("/addRestaurant/addFrom/sendOtp")
-  .post(restaurantController.sendOtp);
+  .post(verifyToken, restaurantController.sendOtp);
 router
   .route("/addRestaurant/addFrom/checkOtp")
-  .post(restaurantController.checkOtp);
+  .post(verifyToken, restaurantController.checkOtp);
 router
   .route("/addRestaurant/addFrom/2/:id")
-  .post(restaurantController.addRestaurant2);
+  .post(verifyToken, restaurantController.addRestaurant2);
 router
   .route("/addRestaurant/addFrom/3/:id")
-  .post(restaurantController.addRestaurant3);
+  .post(verifyToken, restaurantController.addRestaurant3);
 router
   .route("/addRestaurant/addFrom/4/:id")
-  .post(restaurantController.addRestaurant4);
+  .post(verifyToken, restaurantController.addRestaurant4);
 router
   .route("/addRestaurant/addFrom/5/:id")
-  .post(restaurantController.addRestaurant5);
+  .post(verifyToken, restaurantController.addRestaurant5);
 router
   .route("/addRestaurant/addFrom/6/:id")
-  .post(restaurantController.addRestaurant6);
+  .post(verifyToken, restaurantController.addRestaurant6);
 router
   .route("/addRestaurant/addFrom/7/:id")
-  .post(restaurantController.addRestaurant7);
+  .post(verifyToken, restaurantController.addRestaurant7);
+router
+  .route("/addRestaurant/addFrom/1/")
+  .post(verifyToken, restaurantController.getRestaurantDetail);
 // router.route("/findRestaurant").post(restaurantController.findRestaurant);
 
 module.exports = router;

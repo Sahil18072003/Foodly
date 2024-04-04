@@ -173,7 +173,6 @@ function AddForm4() {
       );
 
       const json = await response.json();
-      console.log(json);
 
       if (json) {
         localStorage.setItem(

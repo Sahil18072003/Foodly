@@ -106,6 +106,58 @@ const restaurantSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    pannumber: {
+      type: String,
+      require: true,
+    },
+    panname: {
+      type: String,
+      require: true,
+    },
+    panimg: {
+      type: Array,
+      require: true,
+    },
+    isgst: {
+      type: String,
+      require: true,
+    },
+    gstnumber: {
+      type: String,
+      require: true,
+    },
+    isgst5: {
+      type: String,
+      require: true,
+    },
+    gstimg: {
+      type: Array,
+      require: true,
+    },
+    fssainumber: {
+      type: String,
+      require: true,
+    },
+    fssaiimg: {
+      type: Array,
+      require: true,
+    },
+    bankaccnumber: {
+      type: String,
+      require: true,
+    },
+    bankholdername: {
+      type: String,
+      require: true,
+    },
+    bankacctype: {
+      type: String,
+      require: true,
+    },
+    bankifsccode: {
+      type: String,
+      require: true,
+    },
   },
   {
     timestamps: true,
