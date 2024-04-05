@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const PopularProperty = () => {
+const PopularRestaurant = () => {
   const [database, setDatabase] = useState([]);
   var user = JSON.parse(localStorage.getItem("user"));
   const user_id = user?._id;
@@ -52,16 +52,14 @@ const PopularProperty = () => {
       <div className="container px-5 py-16 mx-auto ">
         <div className="lg:w-1/2 w-full mb-6">
           <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
-            Popular Properties
+            Popular Restaurants
           </h1>
           <div className="h-1 w-20 bg-indigo-500 rounded"></div>
         </div>
         <div className="flex flex-nowrap overflow-x-scroll overflow-y-hidden">
           {database ? (
             database.map((ArrayOfObjects, index) => {
-              // const imageNames = ArrayOfObjects.image[0];
               const keyId = `${ArrayOfObjects._id}`;
-
               return (
                 <Link
                   to="/sellPropInfo"
@@ -154,4 +152,4 @@ const PopularProperty = () => {
   );
 };
 
-export default PopularProperty;
+export default PopularRestaurant;

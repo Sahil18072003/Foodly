@@ -7,7 +7,7 @@ import Home from "./Components/Home/Home";
 import Carousel from "./Components/Home/Carousel";
 import Comment from "./Components/Home/Comment";
 import HowWork from "./Components/Home/HowWork";
-import PopularProperty from "./Components/Home/PopularProperty";
+import PopularRestaurant from "./Components/Home/PopularRestaurant";
 import SignUp from "./Components/User/SignUp";
 import Login from "./Components/User/Login";
 import ForgotPassword from "./Components/User/ForgotPassword";
@@ -56,7 +56,7 @@ function App() {
               <>
                 <Navbar />
                 <Carousel />
-                <PopularProperty />
+                <PopularRestaurant />
                 <HowWork />
                 <Comment />
                 <Footer />
@@ -70,7 +70,7 @@ function App() {
               <>
                 <Navbar />
                 <Carousel />
-                <PopularProperty />
+                <PopularRestaurant />
                 <HowWork />
                 <Comment />
                 <Footer />

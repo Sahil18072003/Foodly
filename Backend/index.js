@@ -3,9 +3,10 @@ const express = require("express");
 const connectDb = require("./Configuration/database");
 const { GOOGLE_AUTH_CONFIG } = require("./Configuration/authConfig.js");
 const CLODINARY_CONFIG = require("./Configuration/cloudinaryConfig.js");
-const authRoutes = require("./routes/auth-route");
-const userRoutes = require("./routes/user-route");
-const restaurantRoutes = require("./routes/restaurant-route");
+const authRoutes = require("./routes/auth-route.js");
+const userRoutes = require("./routes/user-route.js");
+const restaurantRoutes = require("./routes/restaurant-route.js");
+const adminRoutes = require("./routes/admin-route.js");
 const cors = require("cors");
 const passport = require("passport");
 
@@ -38,6 +39,8 @@ app.use("/auth", authRoutes);
 app.use("/api/auth", userRoutes);
 
 app.use("/api/res", restaurantRoutes);
+
+app.use("/api/admin", adminRoutes);
 
 connectDb().then(() => {
   app.listen(PORT, () => {

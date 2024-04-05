@@ -8,12 +8,21 @@ import "swiper/css/bundle";
 import "../Home/swiper.css";
 
 const Comment = () => {
+  const host = "http://localhost:5000";
+
+  const token = localStorage.getItem("token");
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const [creditial, setCreditial] = useState({
+    userComment: "",
+  });
+
   const [comment, setComment] = useState([]);
+
   const [modal1Open, setModal1Open] = useState(false);
-  let user = JSON.parse(localStorage.getItem("user"));
-  const [userName, setUserName] = useState(user?.username);
+
   const navigate = useNavigate();
-  const [userComment, setUserComment] = useState("");
 
   const {
     register,
@@ -31,32 +40,74 @@ const Comment = () => {
   };
 
   const getComments = async () => {
-    const result = await fetch("http://localhost:5000/show-comments", {
-      method: "get",
+    const response = await fetch(`${host}/api/auth/showComment`, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
-    var data = await result.json();
+
+    // parses JSON response into native JavaScript objects
+    const json = await response.json();
+
+    if (json.message === "Token expired") {
+      toast.error("Your Token has expired... Login again", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      setTimeout(() => {
+        localStorage.clear();
+        navigate(`/login`);
+      }, 2000);
+    }
+
     var myCommentData = [];
-    for (let i = 0; i < data.length; i++) {
-      const result1 = await fetch("http://localhost:5000/getUserDetail", {
-        method: "post",
-        body: JSON.stringify({ _id: data[i].uid }),
+
+    for (let i = 0; i < json.length; i++) {
+      const result = await fetch(`${host}/api/auth/getUserDetail`, {
+        method: "POST",
+        body: JSON.stringify({ id: json[i].uid }),
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
-      var data1 = await result1.json();
-      if (!data1) {
-        console.log("token expire");
+
+      const data = await result.json();
+
+      if (data.message === "Token expired") {
+        toast.error("Your Token has expired... Login again", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+
+        setTimeout(() => {
+          localStorage.clear();
+          navigate(`/login`);
+        }, 2000);
       } else {
         myCommentData.push([
-          data1?.image,
-          data1?.username,
-          data[i].comment,
-          data[i].uid,
-          data[i]._id,
+          data?.profileImage,
+          data?.firstname + " " + data?.lastname,
+          json[i].comment,
+          json[i].uid,
+          json[i]._id,
         ]);
       }
     }
@@ -93,28 +144,84 @@ const Comment = () => {
     };
   }, []);
 
-  const clickHandler = async () => {
-    const result = await fetch("http://localhost:5000/comment", {
-      method: "post",
-      body: JSON.stringify({ uid: user._id, comment: userComment }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const clickHandler = async (e) => {
+    if (creditial.userComment !== "") {
+      // Api call
+      const response = await fetch(`${host}/api/auth/comment`, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          uid: user?._id,
+          comment: creditial.userComment,
+        }), // body data type must match "Content-Type" header
+      });
 
-    toast.success("Your Comment is added...", {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      rtl: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-    getComments();
-    setModal1Open(false);
+      // parses JSON response into native JavaScript objects
+      const json = await response.json();
+
+      if (json.message === "Token expired") {
+        toast.error("Your Token has expired... Login again", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+
+        setTimeout(() => {
+          localStorage.clear();
+          navigate(`/login`);
+        }, 2000);
+      } else if (json) {
+        toast.success("Your Comment is added...", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+
+        setTimeout(() => {
+          getComments();
+          setModal1Open(false);
+        }, 1000);
+      } else {
+        toast.warning("Attention! Please provide correct information...", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    } else {
+      toast.warning("Please fill all the field...", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   const deleteComment = async (id) => {
@@ -129,13 +236,23 @@ const Comment = () => {
       progress: undefined,
       theme: "light",
     });
-    let data = await fetch(`http://localhost:5000/commentDelete/${id}`, {
-      method: "delete",
+
+    let data = await fetch(`${host}/api/auth/commentDelete/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
+
     data = await data.json();
+
     if (data) {
       getComments();
     }
+  };
+
+  const onChange = (e) => {
+    setCreditial({ ...creditial, [e.target.name]: e.target.value });
   };
 
   return (
@@ -158,9 +275,9 @@ const Comment = () => {
                     <div className="card__image">
                       <img
                         alt="testimonial"
-                        // src={require(`../../Images/${commentDetails[0]}`)}
+                        src={user?.profileImage}
                         key={commentDetails[0]}
-                        className=" border-4 p-3 border-indigo-500"
+                        className=" border-4 p-3 border-orange-400"
                       />
                     </div>
 
@@ -173,14 +290,14 @@ const Comment = () => {
                     {(() => {
                       if (
                         user?._id === commentDetails[3] ||
-                        user?._id === "650b0d9532d958c9727bea89"
+                        user?._id === "6607c5e98d927d0ab775d102"
                       ) {
                         return (
                           <button
                             onClick={() => {
                               deleteComment(commentDetails[4]);
                             }}
-                            className="bg-indigo-500 text-white font-semibold px-5 mr-6 py-2 rounded hover:bg-indigo-700"
+                            className="text-white font-semibold px-6 py-2 rounded bg-orange-400 hover:bg-orange-500 drop-shadow-lg hover:drop-shadow-xl"
                           >
                             Delete
                           </button>
@@ -203,7 +320,7 @@ const Comment = () => {
             onClick={() => {
               openModal("Sell");
             }}
-            className="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+            className="flex mx-auto my-8 text-white border-0 py-2 px-8 focus:outline-none text-lg rounded bg-orange-400 hover:bg-orange-500 drop-shadow-lg hover:drop-shadow-xl"
           >
             Add Comment
           </button>
@@ -213,70 +330,45 @@ const Comment = () => {
         {modal1Open && (
           <form onSubmit={handleSubmit(clickHandler)}>
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-              <div className="bg-white  rounded-lg w-1/3">
-                <div className="mb-4 py-2  flex bg-indigo-400 rounded">
+              <div className="bg-white rounded-lg w-1/3">
+                <div className="mb-4 py-2 flex bg-orange-400 rounded-t-lg">
                   <span className="text-2xl text-white flex px-12 justify-center font-medium flex-grow">
-                    Review
+                    Reviews :
                   </span>
                   <button
                     onClick={closeModal1}
-                    className="text-white font-bold text-xl px-3"
+                    className="text-white font-bold text-xl px-5"
                   >
                     ✕
                   </button>
                 </div>
-                <div className="justify-center px-20 py-6">
-                  <div className="mb-4">
+                <div className="justify-center px-16 py-5">
+                  <div className="pb-6">
                     <div className="sm:col-span-3">
                       <label
-                        for="name"
-                        className="leading-7 font-medium text-sm text-gray-900"
-                      >
-                        User Name : <span className="red">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={userName}
-                        {...register("username", {
-                          required: "Username is required",
-                        })}
-                        onChange={(e) => setUserName(e.target.value)}
-                        autoFocus
-                        className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                      />
-                      <p className="text-sm text-red-500">
-                        {errors.username?.message}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mb-4">
-                    <div className="sm:col-span-3">
-                      <label
-                        for="message"
-                        className="leading-7 font-medium text-sm text-gray-900"
+                        for="userComment"
+                        className="leading-7 font-medium text-md text-gray-900"
                       >
                         Comment : <span className="red">*</span>
                       </label>
                       <textarea
-                        id="message"
-                        name="message"
-                        value={userComment}
-                        {...register("message", {
+                        id="userComment"
+                        name="userComment"
+                        value={creditial.userComment}
+                        {...register("userComment", {
                           required: "Please enter your comment!",
                         })}
-                        onChange={(e) => setUserComment(e.target.value)}
+                        onChange={onChange}
                         className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
                       />
-                      <p className="text-sm text-red-500">
-                        {errors.message?.message}
+                      <p className="text-sm text-red-500 absolute">
+                        {errors.userComment?.message}
                       </p>
                     </div>
                   </div>
                 </div>
-                <div className="px-20 pb-6">
-                  <button className="bg-indigo-500 text-white font-semibold px-5 mr-6 py-2 rounded hover:bg-indigo-700">
+                <div className="pl-48 pb-8">
+                  <button className="text-white font-semibold px-5 mr-6 py-2 rounded bg-orange-400 hover:bg-orange-500 drop-shadow-lg hover:drop-shadow-xl">
                     Post Comment
                   </button>
                 </div>

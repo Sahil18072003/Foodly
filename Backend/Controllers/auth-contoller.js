@@ -3,6 +3,7 @@ var jwt = require("jsonwebtoken");
 const transporter = require("../Configuration/nodemailerConfig");
 const User = require("../Models/User-model");
 const UserContact = require("../Models/Contact-model");
+const Comment = require("../Models/Comment-Model");
 
 // Home Page
 const home = async (req, res) => {
@@ -177,7 +178,6 @@ const changePassword = async (req, res) => {
   try {
     const password = req.body.password;
     const conPassword = req.body.cpassword;
-    console.log(password);
 
     const userId = req.header("id");
 
@@ -207,34 +207,24 @@ const changePassword = async (req, res) => {
   }
 };
 
-// Get User data in admin page
-const getUserDetails = async (req, res) => {
+// Get User personal data
+const getUserDetail = async (req, res) => {
   try {
-    // Attempt to find a user record
-    const data = await User.find(req.body);
+    const { id } = req.body;
 
-    // Check if data exists
-    if (data) {
-      // Send the data as a response
-      res.send(data);
-    } else {
-      // If no data found, send a custom error response
-      res.status(404).send("User record not found");
+    // For example:
+    const userDetails = await User.findById(id); // Assuming you're using Mongoose or similar ORM
+
+    if (!userDetails) {
+      return res.status(404).json({ message: "User not found" });
     }
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send("Internal Server error occured");
-  }
-};
 
-// Delete User From Admin
-const deleteUser = async (req, res) => {
-  try {
-    const data = await User.deleteOne({ _id: req.params.id });
-    res.send(data);
+    // Send the user details in the response
+    return res.status(200).json(userDetails);
   } catch (error) {
-    console.log(error.message);
-    res.status(500).send("Internal Server error occured");
+    console.error("Error in getUserDetail:", error);
+    // Handle any errors that occur during the process
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -273,27 +263,6 @@ const userContant = async (req, res) => {
   }
 };
 
-// Get User Conatact data in admin page
-const getUserContact = async (req, res) => {
-  try {
-    // Attempt to find a user contact record
-    const data = await UserContact.find({});
-    // Check if data exists
-    if (data) {
-      // Send the data as a response
-      res.send(data);
-    } else {
-      // If no data found, send a custom error response
-      res.status(404).send("User contact record not found");
-    }
-  } catch (error) {
-    // Log the error for debugging
-    console.error("Error fetching user contact:", error);
-    // Send an error response
-    res.status(500).send("Internal Server error occurred");
-  }
-};
-
 // dashboard activity
 const dashboard = async (req, res) => {
   try {
@@ -326,6 +295,64 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
+// Save User's comments
+const saveComment = async (req, res) => {
+  try {
+    // Create new Comment
+    let result = await Comment(req.body);
+
+    result = await result.save();
+
+    if (result) {
+      return res.status(202).json({ result: "Comment saved" });
+    } else {
+      return res.status(500).json({ message: "Failed to create commet" });
+    }
+  } catch (error) {
+    // Handle any other errors
+    console.log(error);
+    res.status(500).send("Internal Server error occurred");
+  }
+};
+
+const showComment = async (req, res) => {
+  try {
+    // Retrieve comments
+    let result = await Comment.find({});
+
+    if (result.length > 0) {
+      // If comments are found, send them
+      res.status(200).json(result);
+    } else {
+      // If no comments are found, send a 404 status
+      res.status(404).json({ message: "No comments found" });
+    }
+  } catch (error) {
+    // Handle any errors
+    console.log(error);
+    res.status(500).send("Internal Server error occurred");
+  }
+};
+
+// Delete Comments by User
+const deleteOneComment = async (req, res) => {
+  try {
+    let result = await Comment.deleteOne({ _id: req.params.id });
+
+    res.send(result);
+
+    if (result.acknowledged) {
+      return res.status(202).json({ result: "Comment deleted" });
+    } else {
+      return res.status(500).json({ message: "Failed to create commet" });
+    }
+  } catch (error) {
+    // Handle any other errors
+    console.log(error);
+    res.status(500).send("Internal Server error occurred");
+  }
+};
+
 module.exports = {
   home,
   signup,
@@ -335,10 +362,11 @@ module.exports = {
   forgotPassword,
   otpVerification,
   changePassword,
+  getUserDetail,
   userContant,
-  getUserContact,
-  getUserDetails,
-  deleteUser,
   dashboard,
   updateUserProfile,
+  saveComment,
+  showComment,
+  deleteOneComment,
 };

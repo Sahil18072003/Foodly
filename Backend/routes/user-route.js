@@ -5,20 +5,26 @@ const verifyToken = require("../Middlewares/authMiddleware");
 
 router.route("/").get(authController.home);
 router.route("/home").get(authController.home);
+
+// User
 router.route("/signup").post(authController.signup);
 router.route("/login").post(authController.login);
 router.route("/forgotPassword").post(authController.forgotPassword);
 router.route("/otpVerification").post(authController.otpVerification);
 router.route("/changePassword").post(authController.changePassword);
 router.route("/contactUs").post(authController.userContant);
-
-// Routes protected by verifyToken middleware
-router.route("/adminPage").get(verifyToken, authController.getUserContact);
-router.route("/adminPage").post(verifyToken, authController.getUserDetails);
-router.route("/adminPage/:id").delete(authController.deleteUser);
 router.route("/dashboard").post(authController.dashboard);
 router
   .route("/dashboard/updateProfile/:id")
   .put(verifyToken, authController.updateUserProfile);
+
+router.route("/getUserDetail").post(authController.getUserDetail);
+
+// Comments
+router.route("/comment").post(verifyToken, authController.saveComment);
+router.route("/showComment").get(verifyToken, authController.showComment);
+router
+  .route("/commentDelete/:id")
+  .delete(verifyToken, authController.deleteOneComment);
 
 module.exports = router;

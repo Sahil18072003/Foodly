@@ -6,6 +6,8 @@ import { useNavigate, Link } from "react-router-dom";
 const Admin = () => {
   const host = "http://localhost:5000";
 
+  const token = localStorage.getItem("token");
+
   const [modalAdminUser, setModalAdminUser] = useState(false);
 
   const [userMessage, setUserMessage] = useState([]);
@@ -15,8 +17,6 @@ const Admin = () => {
   const [modalAdminContactUs, setModalAdminContactUs] = useState(false);
 
   const [userlist, setUserlist] = useState([]);
-
-  console.log(userlist);
 
   // const [database, setdatabase] = useState([]);
 
@@ -87,23 +87,44 @@ const Admin = () => {
 
   // for Admin Conatct Data
   const getMessages = async () => {
-    const result = await fetch(`${host}/api/auth/adminPage`, {
+    const result = await fetch(`${host}/api/admin/adminPage`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
+
     let data = await result.json();
-    setUserMessage(data);
+
+    if (!data) {
+      toast.error("Your Token has expired... login again", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setTimeout(() => {
+        localStorage.clear();
+        navigate("/login");
+      }, 2000);
+    } else {
+      setUserMessage(data);
+    }
   };
 
   // for Admin User Data
   const getAllUsers = async () => {
-    const result = await fetch(`${host}/api/auth/adminPage`, {
+    const result = await fetch(`${host}/api/admin/adminPage`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -124,17 +145,17 @@ const Admin = () => {
       setTimeout(() => {
         localStorage.clear();
         navigate("/login");
-      }, 5000);
+      }, 2000);
     } else {
       setUserlist(data);
     }
   };
 
   const DeleteUser = async (id) => {
-    let deluser = await fetch(`${host}/api/auth/adminPage/${id}`, {
+    let deluser = await fetch(`${host}/api/admin/adminPage/${id}`, {
       method: "DELETE", // Corrected spelling here
       headers: {
-        // authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -167,6 +188,7 @@ const Admin = () => {
         progress: undefined,
         theme: "light",
       });
+      
       setTimeout(() => {
         localStorage.clear();
         navigate("/login");
