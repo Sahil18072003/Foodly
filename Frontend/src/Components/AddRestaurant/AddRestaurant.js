@@ -196,10 +196,10 @@ function AddRestaurant() {
               <div className="forth-title">How it works?</div>
               <div className="flex flex-column mx-2 p-4 space-between gap-6">
                 <div className="w-1/3 p-4 drop-shadow-2xl rounded-lg bg-orange-200 gap-4">
-                  <div className="px-8 pt-8">
+                  <div className="px-8 pt-10">
                     <img
-                      className="w-full object-cover object-center"
-                      src={require(`../../assets/Restaurant/First.png`)}
+                      className="w-full object-cover object-center rounded-full"
+                      src={require(`../../assets/Restaurant/page.jpg`)}
                       alt="blog"
                     />
                   </div>
@@ -219,8 +219,8 @@ function AddRestaurant() {
                 <div className="w-1/3 p-4 drop-shadow-2xl rounded-lg bg-orange-200 gap-4">
                   <div className="px-8 pt-8">
                     <img
-                      className="w-full object-cover object-center"
-                      src={require(`../../assets/Restaurant/Second.png`)}
+                      className="w-full object-cover object-center rounded-full"
+                      src={require(`../../assets/Restaurant/boy.jpg`)}
                       alt="blog"
                     />
                   </div>
@@ -239,8 +239,8 @@ function AddRestaurant() {
                 <div className="w-1/3 p-4 drop-shadow-2xl rounded-lg bg-orange-200 gap-4">
                   <div className="px-8 pt-8">
                     <img
-                      className="w-full object-cover object-center"
-                      src={require(`../../assets/Restaurant/Third.png`)}
+                      className="w-full object-cover object-center rounded-full"
+                      src={require(`../../assets/Restaurant/order.jpg`)}
                       alt="blog"
                     />
                   </div>

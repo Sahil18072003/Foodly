@@ -209,15 +209,7 @@ const changePassword = async (req, res) => {
 
 // Get User data in admin page
 const getUserDetails = async (req, res) => {
-  const { token } = req.body;
   try {
-    const user = jwt.verify(token, process.env.JWT_SECRET_TOKEN, (err, res) => {
-      if (err) {
-        return "token expired";
-      }
-      return res;
-    });
-
     // Attempt to find a user record
     const data = await User.find(req.body);
 

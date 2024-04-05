@@ -384,21 +384,33 @@ const addRestaurant7 = async (req, res) => {
 };
 
 // Get User data in update page
-const getRestaurantDetail = async (req, res) => {
-  const { token } = req.body;
+const getRestaurant = async (req, res) => {
+  const { id } = req.body;
+
   try {
-    const restaurant = jwt.verify(
-      token,
-      process.env.JWT_SECRET_TOKEN,
-      (err, res) => {
-        if (err) {
-          return "token expired";
-        }
-        return res;
-      }
-    );
+    // Attempt to find a user record
+    const data = await Restaurant.find({ ownerId: id });
+
+    // Check if data exists
+    if (data) {
+      // Send the data as a response
+      res.send(data);
+    } else {
+      // If no data found, send a custom error response
+      res.status(404).send("User record not found");
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal Server error occured");
+  }
+};
+
+// Get User data in update page
+const getRestaurantDetails = async (req, res) => {
+  try {
     // Attempt to find a user record
     const data = await Restaurant.find(req.body);
+    console.log(data);
 
     // Check if data exists
     if (data) {
@@ -425,5 +437,6 @@ module.exports = {
   addRestaurant5,
   addRestaurant6,
   addRestaurant7,
-  getRestaurantDetail,
+  getRestaurant,
+  getRestaurantDetails,
 };

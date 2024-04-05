@@ -16,7 +16,9 @@ function AddForm7() {
     ? JSON.parse(localStorage.getItem("restaurant"))
     : "";
 
-  const [creditial, setCreditial] = useState("");
+  const [creditial, setCreditial] = useState({
+    contactnumber: restaurant?.ownercontact ? restaurant?.ownercontact : "",
+  });
 
   const [showModal, setShowModal] = useState(false);
 
@@ -85,6 +87,7 @@ function AddForm7() {
           },
           body: JSON.stringify({
             _id: restaurant?._id,
+            contactnumber: creditial.contactnumber,
           }),
         }
       );
@@ -281,7 +284,7 @@ function AddForm7() {
             </div>
             <form onSubmit={handleSubmit(clickHandler)}>
               {/* first part */}
-              <div className="add-right-first p-4 rounded-lg">
+              <div className="add-right-first px-4 pt-4 pb-8 rounded-lg">
                 <table className="border-2 border-gray-900 w-full rounded-lg">
                   <tr className="w-2/5">
                     <td className="border border-gray-900 px-4 py-2">
@@ -349,29 +352,34 @@ function AddForm7() {
                 <div className="w-full flex flex">
                   <input
                     type="contact"
-                    id="rescontact"
-                    name="rescontact"
+                    id="contactnumber"
+                    name="contactnumber"
                     className="w-2/3 p-2 mr-3 border-2 border-gray-300 rounded-md shadow-sm"
-                    value={creditial.rescontact}
-                    {...register("rescontact", {
-                      required: "Restaurant Contact Number is required",
+                    value={creditial.contactnumber}
+                    {...register("contactnumber", {
+                      required: "Contact Number is required",
                       pattern: {
                         value: /^[6-9]{1}[0-9]{9}$/,
-                        message: "Restaurant Contact Number is not valid",
+                        message: "Contact Number is not valid",
                       },
                       maxLength: {
                         value: 10,
-                        message:
-                          "Max 10 characters for Restaurant Contact Number",
+                        message: "Max 10 characters for Contact Number",
                       },
                     })}
                     onChange={onChange}
                     autoComplete="false"
                   />
-                  <button className="w-1/3 text-white-800 p-2 text-center text-md font-bold bg-orange-400 hover:bg-orange-500 rounded-md shadow-sm">
+                  <button
+                    className="w-1/3 text-white-800 p-2 text-center text-md font-bold bg-orange-400 hover:bg-orange-500 rounded-md shadow-sm"
+                    onClick={sendContract}
+                  >
                     Send
                   </button>
                 </div>
+                <p className="text-sm text-red-500 absolute">
+                  {errors.contactnumber?.message}
+                </p>
               </div>
 
               {/* footer */}

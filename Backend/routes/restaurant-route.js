@@ -34,8 +34,11 @@ router
   .route("/addRestaurant/addFrom/7/:id")
   .post(restaurantController.addRestaurant7);
 router
-  .route("/addRestaurant/addFrom/1")
-  .post(verifyToken, restaurantController.getRestaurantDetail);
+  .route("/dashboard/:id")
+  .post(verifyToken, restaurantController.getRestaurant);
+router
+  .route("/dashboard")
+  .get(verifyToken, restaurantController.getRestaurantDetails);
 // router.route("/findRestaurant").post(restaurantController.findRestaurant);
 
 module.exports = router;

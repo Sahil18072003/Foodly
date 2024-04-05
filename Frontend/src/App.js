@@ -4,6 +4,10 @@ import { useLocation } from "react-router-dom";
 import "./App.css";
 
 import Home from "./Components/Home/Home";
+import Carousel from "./Components/Home/Carousel";
+import Comment from "./Components/Home/Comment";
+import HowWork from "./Components/Home/HowWork";
+import PopularProperty from "./Components/Home/PopularProperty";
 import SignUp from "./Components/User/SignUp";
 import Login from "./Components/User/Login";
 import ForgotPassword from "./Components/User/ForgotPassword";
@@ -51,7 +55,10 @@ function App() {
             element={
               <>
                 <Navbar />
-                <Home />
+                <Carousel />
+                <PopularProperty />
+                <HowWork />
+                <Comment />
                 <Footer />
               </>
             }
@@ -62,14 +69,16 @@ function App() {
             element={
               <>
                 <Navbar />
-                <Home />
+                <Carousel />
+                <PopularProperty />
+                <HowWork />
+                <Comment />
                 <Footer />
               </>
             }
           />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<SignUp />} />
-
           <Route
             exact
             path="/forgotpassword"

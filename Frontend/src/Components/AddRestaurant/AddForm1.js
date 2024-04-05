@@ -11,6 +11,8 @@ import "./AddForm.css";
 function AddForm1() {
   const host = "http://localhost:5000";
 
+  const token = localStorage.getItem("token");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,19 +21,13 @@ function AddForm1() {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const restaurant = JSON.parse(localStorage.getItem("restaurant"))
-    ? JSON.parse(localStorage.getItem("restaurant"))
-    : "";
-
-  console.log(restaurant?.resstate);
-  console.log(restaurant?.rescity);
+  const [restaurant, setRestaurant] = useState([]);
+  console.log(restaurant);
 
   const [city, setCity] = useState([]);
 
   const handleState = (e) => {
     const getState = e.target.value;
-
-    console.log(getState);
 
     const getCities = stateData.find(
       (stateData) => stateData.name === getState
@@ -212,6 +208,43 @@ function AddForm1() {
       progress: undefined,
       theme: "light",
     });
+  };
+
+  useEffect(() => {
+    getRestaurnt();
+  }, []);
+
+  const getRestaurnt = async () => {
+    const result = await fetch(`${host}/api/res/dashboard/${user?._id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ ownerid: user?._id }),
+    });
+
+    var data = await result.json();
+
+    if (!data) {
+      toast.error("Your Token has expired... login again", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setTimeout(() => {
+        localStorage.clear();
+        navigate("/login");
+      }, 5000);
+    } else {
+      setRestaurant(data);
+    }
   };
 
   const clickHandler = async (e) => {

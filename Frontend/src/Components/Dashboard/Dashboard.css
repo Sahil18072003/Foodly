@@ -13,22 +13,51 @@
     align-items: center;
     margin-top: 10px;
     margin-bottom: 10px;
+    width: 100%;
 }
 
 .profile-part {
-    background: url("../../assets/Restaurant/Bf.png");
-    background-size: 50%;
-    width: 80%;
-    height: 150px;
+    background-color: #fff;
+    width: 50%;
+    height: 7rem;
+    box-shadow: 0px 4px 46px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+    cursor: pointer;
+    margin: 20px;
 }
 
-.profile-right {
-    align-content: center;
+.profile-part:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
+
+.profile-part img {
+    height: 6rem;
+    width: 6rem;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.dash-card-content {
+    display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.card-head {
+    font-size: 1.2rem;
+    font-family: sans-serif;
+}
+
+.card-para {
+    font-family: sans-serif;
+    font-size: 1rem;
 }
 
 .user-img {
@@ -69,4 +98,102 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+}
+
+.dashboard-title {
+    width: 100%;
+    font-size: 50px;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.track-request {
+    background-color: white;
+    width: 100%;
+    box-shadow: 0px 4px 46px 0px rgba(0, 0, 0, 0.25);
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(206, 202, 202);
+}
+
+.main-track-1 {
+    height: auto;
+    width: 70%;
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    border: 1px solid rgb(206, 202, 202);
+}
+
+.main-track {
+    height: auto;
+    width: 100%;
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    border: 1px solid rgb(206, 202, 202);
+}
+
+.track-part {
+    width: 16.6667%;
+    display: flex;
+    border: 1px solid rgb(206, 202, 202);
+}
+
+.track-content {
+    width: 1/6;
+    align-items: center;
+    border: 1px solid rgb(206, 202, 202);
+}
+
+.circle {
+    flex-direction: column;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    border: 3px solid gray;
+}
+
+.line {
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    width: 66px;
+    height: 0px;
+    border: 3px solid gray;
+}
+
+.line-white {
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    width: 66px;
+    height: 0px;
+    border: 3px solid #ffff;
+}
+
+.track-button {
+    padding: 8px;
+    text-align: center;
+    width: 90%;
+    background-color: #e88710;
+    box-shadow: 0px 4px 46px 0px rgba(0, 0, 0, 0.25);
+    color: white;
+    margin: 8px;
+    border-radius: 10px;
+}
+
+.track-img {
+    width: 100%;
+    height: 200px;
+}
+
+.img-first-content {
+    padding: 6px;
+    font-size: large;
+}
+
+.img-second-content {
+    padding: 6px;
 }

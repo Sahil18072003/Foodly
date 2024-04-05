@@ -106,7 +106,9 @@ const Admin = () => {
         // authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
       },
     });
+
     var data = await result.json();
+
     if (!data) {
       toast.error("Your Token has expired... login again", {
         position: "top-right",
