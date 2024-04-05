@@ -385,11 +385,11 @@ const addRestaurant7 = async (req, res) => {
 
 // Get User data in update page
 const getRestaurant = async (req, res) => {
-  const { id } = req.body;
+  const { ownerid } = req.body;
 
   try {
     // Attempt to find a user record
-    const data = await Restaurant.find({ ownerId: id });
+    const data = await Restaurant.find({ ownerid: ownerid });
 
     // Check if data exists
     if (data) {

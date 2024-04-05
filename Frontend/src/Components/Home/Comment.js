@@ -40,51 +40,19 @@ const Comment = () => {
   };
 
   const getComments = async () => {
-    const response = await fetch(`${host}/api/auth/showComment`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    // parses JSON response into native JavaScript objects
-    const json = await response.json();
-
-    if (json.message === "Token expired") {
-      toast.error("Your Token has expired... Login again", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        rtl: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-
-      setTimeout(() => {
-        localStorage.clear();
-        navigate(`/login`);
-      }, 2000);
-    }
-
-    var myCommentData = [];
-
-    for (let i = 0; i < json.length; i++) {
-      const result = await fetch(`${host}/api/auth/getUserDetail`, {
-        method: "POST",
-        body: JSON.stringify({ id: json[i].uid }),
+    try {
+      const response = await fetch(`${host}/api/auth/showComment`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
 
-      const data = await result.json();
+      // parses JSON response into native JavaScript objects
+      const json = await response.json();
 
-      if (data.message === "Token expired") {
+      if (json.message === "Token expired") {
         toast.error("Your Token has expired... Login again", {
           position: "top-right",
           autoClose: 2000,
@@ -101,17 +69,63 @@ const Comment = () => {
           localStorage.clear();
           navigate(`/login`);
         }, 2000);
-      } else {
-        myCommentData.push([
-          data?.profileImage,
-          data?.firstname + " " + data?.lastname,
-          json[i].comment,
-          json[i].uid,
-          json[i]._id,
-        ]);
       }
+
+      var myCommentData = [];
+
+      for (let i = 0; i < json.length; i++) {
+        const result = await fetch(`${host}/api/auth/getUserDetail`, {
+          method: "POST",
+          body: JSON.stringify({ id: json[i].uid }),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await result.json();
+
+        if (data.message === "Token expired") {
+          toast.error("Your Token has expired... Login again", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            rtl: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+
+          setTimeout(() => {
+            localStorage.clear();
+            navigate(`/login`);
+          }, 2000);
+        } else {
+          myCommentData.push([
+            data?.profileImage,
+            data?.firstname + " " + data?.lastname,
+            json[i].comment,
+            json[i].uid,
+            json[i]._id,
+          ]);
+        }
+      }
+      setComment(myCommentData);
+    } catch (error) {
+      toast.error("Error occur to fetch comments.", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
-    setComment(myCommentData);
   };
 
   useEffect(() => {
@@ -246,8 +260,38 @@ const Comment = () => {
 
     data = await data.json();
 
-    if (data) {
+    if (data.ok) {
+      // Update userlist state after successful deletion
+      toast.success("Successfully deleted User...", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
       getComments();
+    } else {
+      toast.error("Your Token has expired... Login again", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      setTimeout(() => {
+        localStorage.clear();
+        navigate("/login");
+      }, 2000);
     }
   };
 
@@ -346,7 +390,7 @@ const Comment = () => {
                   <div className="pb-6">
                     <div className="sm:col-span-3">
                       <label
-                        for="userComment"
+                        htmlFor="userComment"
                         className="leading-7 font-medium text-md text-gray-900"
                       >
                         Comment : <span className="red">*</span>

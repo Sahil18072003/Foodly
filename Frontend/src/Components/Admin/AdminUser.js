@@ -1,0 +1,263 @@
+import React, { useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+
+function AdminUser({ setModalAdminUser }) {
+  const host = "http://localhost:5000";
+
+  const token = localStorage.getItem("token");
+
+  const [userlist, setUserlist] = useState([]);
+
+  const [userToDelete, setUserToDelete] = useState(null);
+
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+
+  const closeModal1 = () => {
+    setModalAdminUser(false);
+  };
+
+  const openConfirmationModal = (userId) => {
+    setUserToDelete(userId);
+    setShowConfirmationModal(true);
+  };
+
+  const closeConfirmationModal = () => {
+    setShowConfirmationModal(false);
+    setUserToDelete(null);
+  };
+
+  const handleDeleteUser = (userId) => {
+    try {
+      // Code to delete user from the database
+      DeleteUser(userId);
+      // Close the confirmation modal
+      closeConfirmationModal();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
+  // for Admin User Data
+  const getAllUsers = async () => {
+    const result = await fetch(`${host}/api/admin/adminPage`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    var data = await result.json();
+
+    if (!data) {
+      toast.error("Your Token has expired... login again", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      setTimeout(() => {
+        localStorage.clear();
+        navigate("/login");
+      }, 2000);
+    } else {
+      setUserlist(data);
+    }
+  };
+
+  // for Admin User Delete API
+  const DeleteUser = async (id) => {
+    let deluser = await fetch(`${host}/api/admin/adminPage/${id}`, {
+      method: "DELETE", // Corrected spelling here
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    deluser = await deluser.json();
+
+    if (deluser.ok) {
+      // Update userlist state after successful deletion
+      toast.success("Successfully deleted User...", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      getAllUsers();
+    } else {
+      toast.error("Your Token has expired... Login again", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      setTimeout(() => {
+        localStorage.clear();
+        navigate("/login");
+      }, 2000);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+      <div className="bg-white rounded-lg lg:w-4/5 md:w-3/5 sm:w-3/5">
+        <div className="py-3 flex bg-orange-400 rounded-t-lg">
+          <span className="text-2xl text-white flex px-12 justify-center font-medium flex-grow">
+            User Details
+          </span>
+          <button
+            onClick={closeModal1}
+            className="text-white font-bold text-xl px-6"
+          >
+            ✕
+          </button>
+        </div>
+        <div className="justify-center px-20 py-6 mb-4 sm:col-span-3 rounded-2xl">
+          <table className="table-fixed justify-center shadow-xl overflow-y-scroll block h-[400px]">
+            <thead className="bg-teal-500 rounded text-white shadow-md text-md">
+              <tr>
+                <th className="border border-slate-300 p-2">Sr No.</th>
+                <th className="border border-slate-300 p-2">Username</th>
+                <th className="border border-slate-300 p-2">Image</th>
+                <th className="border border-slate-300 p-2">Email</th>
+                <th className="border border-slate-300 p-2">Phone</th>
+                <th className="border border-slate-300 p-2">Address</th>
+                <th className="border border-slate-300 p-2">Operation</th>
+              </tr>
+            </thead>
+            <tbody className="text-center px-5 mx-10">
+              {userlist?.length > 0 ? (
+                userlist?.map((userdetail, index) =>
+                  userdetail?._id !== "6607c5e98d927d0ab775d102" ? (
+                    <tr key={index}>
+                      <td className="border border-slate-300">{index}</td>
+                      <td className="border border-slate-300 px-5">
+                        {userdetail.firstname + " " + userdetail.lastname}
+                      </td>
+                      <td className="border border-slate-300 ">
+                        <img
+                          src={userdetail.profileImage}
+                          onerror="fallbackImage()"
+                          alt=""
+                          className="w-32 h-24"
+                        />
+                      </td>
+                      <td className="border border-slate-300 px-5">
+                        {userdetail?.email}
+                      </td>
+                      <td className="border border-slate-300 px-5">
+                        {userdetail?.phone}
+                      </td>
+                      <td className="border border-slate-300 px-5">
+                        {userdetail?.address}
+                      </td>
+                      <td className="border border-slate-300 justify-center text-center">
+                        <button
+                          onClick={() => openConfirmationModal(userdetail._id)}
+                          className="text-white font-semibold mx-5 mr-6 px-4 py-2 rounded bg-orange-400 hover:bg-orange-500 drop-shadow-lg hover:drop-shadow-xl"
+                        >
+                          Delete
+                        </button>
+                        {showConfirmationModal && (
+                          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                            <div className="bg-white rounded-lg lg:w-1/4 md:w-1/2 sm:w-1/2">
+                              <div className="py-3 flex bg-orange-400 rounded-t-lg">
+                                <span className="text-2xl text-white flex px-12 justify-center font-medium flex-grow">
+                                  Confirmation
+                                </span>
+                              </div>
+                              <div className="py-7 px-6">
+                                <p className="text-lg font-large">
+                                  Are you sure you want to delete this user?
+                                </p>
+                                <div className="flex justify-center mt-4">
+                                  <button
+                                    onClick={() =>
+                                      handleDeleteUser(userToDelete)
+                                    }
+                                    className="text-white font-semibold mx-2 px-4 py-2 rounded bg-orange-400 hover:bg-orange-500 drop-shadow-lg hover:drop-shadow-xl"
+                                  >
+                                    Delete
+                                  </button>
+                                  <button
+                                    onClick={closeConfirmationModal}
+                                    className="bg-gray-300 text-gray-700 font-semibold mx-2 px-4 py-2 rounded hover:bg-gray-400 drop-shadow-lg hover:drop-shadow-xl"
+                                  >
+                                    Cancel
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </td>
+                      <ToastContainer
+                        position="top-right"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                      />
+                    </tr>
+                  ) : null
+                )
+              ) : (
+                <tr>
+                  <td>
+                    <h1>No Users available</h1>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </div>
+  );
+}
+
+export default AdminUser;

@@ -338,7 +338,6 @@ const showComment = async (req, res) => {
 const deleteOneComment = async (req, res) => {
   try {
     let result = await Comment.deleteOne({ _id: req.params.id });
-
     res.send(result);
 
     if (result.acknowledged) {

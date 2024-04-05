@@ -13,7 +13,6 @@ function Dashboard() {
   const navigate = useNavigate();
 
   const [restaurant, setRestaurant] = useState([]);
-  console.log(restaurant);
 
   useEffect(() => {
     document.title = "Dashboard | Foodly";
@@ -38,7 +37,6 @@ function Dashboard() {
     });
 
     var data = await result.json();
-    console.log(data);
 
     if (!data) {
       toast.error("Your Token has expired... login again", {

@@ -2,6 +2,7 @@ var jwt = require("jsonwebtoken");
 const User = require("../Models/User-model");
 const UserContact = require("../Models/Contact-model");
 const Comment = require("../Models/Comment-Model");
+const Restaurant = require("../Models/Restaurant-model");
 
 // Get All User data in admin page
 const getUserDetails = async (req, res) => {
@@ -75,9 +76,48 @@ const deleteAllComments = async (req, res) => {
   }
 };
 
+// Get All Restaurant data in admin page
+const getAllRestaurantDetails = async (req, res) => {
+  try {
+    // Attempt to find a Restaurant record
+    const data = await Restaurant.find(req.body);
+
+    // Check if data exists
+    if (data) {
+      res.send(data);
+    } else {
+      // If no data found, send a custom error response
+      res.status(404).send("Restaurant record not found");
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal Server error occured");
+  }
+};
+
+// Delete Restaurant From Admin
+const deleteRestaurant = async (req, res) => {
+  try {
+    const data = await Restaurant.deleteOne({ _id: req.params.id });
+
+    // Check if data exists
+    if (data) {
+      res.send(data);
+    } else {
+      // If no data found, send a custom error response
+      res.status(404).send("Restaurant record not found");
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal Server error occured");
+  }
+};
+
 module.exports = {
   getUserContact,
   getUserDetails,
+  getAllRestaurantDetails,
   deleteUser,
   deleteAllComments,
+  deleteRestaurant,
 };
