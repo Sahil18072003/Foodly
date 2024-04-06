@@ -42,7 +42,6 @@ router.get(
   }),
 
   (req, res) => {
-    console.log(req.user);
     res.redirect(`${process.env.CLIENT_URL}?userId=${req.user.user._id}`);
   }
 );

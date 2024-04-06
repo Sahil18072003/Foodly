@@ -110,9 +110,16 @@
 .track-request {
     background-color: white;
     width: 100%;
+    border-radius: 10px;
+}
+
+.track-sub-request {
+    background-color: white;
+    width: 100%;
     box-shadow: 0px 4px 46px 0px rgba(0, 0, 0, 0.25);
     padding: 20px;
-    margin: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     border-radius: 10px;
     border: 1px solid rgb(206, 202, 202);
 }
@@ -123,14 +130,14 @@
     display: flex;
     padding: 10px;
     align-items: center;
-    border: 1px solid rgb(206, 202, 202);
+    /* border: 1px solid rgb(206, 202, 202); */
 }
 
 .main-track {
     height: auto;
     width: 100%;
     display: flex;
-    padding: 10px;
+    padding: 20px 10px 20px 10px;
     align-items: center;
     border: 1px solid rgb(206, 202, 202);
 }
@@ -149,39 +156,44 @@
 
 .circle {
     flex-direction: column;
-    height: 25px;
-    width: 25px;
+    height: 35px;
+    width: 35px;
     border-radius: 50%;
-    border: 3px solid gray;
+    border: 2px solid gray;
 }
 
 .line {
     flex-direction: column;
-    margin-top: 10px;
+    margin-top: 15px;
     margin-bottom: 5px;
-    width: 66px;
+    width: 65px;
     height: 0px;
-    border: 3px solid gray;
+    border: 2px solid gray;
 }
 
 .line-white {
     flex-direction: column;
-    margin-top: 10px;
+    margin-top: 15px;
     margin-bottom: 5px;
-    width: 66px;
+    width: 65px;
     height: 0px;
-    border: 3px solid #ffff;
+    border: 2px solid #ffff;
 }
 
 .track-button {
     padding: 8px;
     text-align: center;
     width: 90%;
-    background-color: #e88710;
-    box-shadow: 0px 4px 46px 0px rgba(0, 0, 0, 0.25);
+    background-color: #ff8c00;
+    box-shadow: 0 4px 46px 0 rgba(0, 0, 0, 0.25);
     color: white;
     margin: 8px;
     border-radius: 10px;
+}
+
+.track-button:hover {
+    background-color: #e88710;
+    box-shadow: 0 4px 46px 0 rgba(0, 0, 0, 0.4);
 }
 
 .track-img {

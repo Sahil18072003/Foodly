@@ -81,6 +81,91 @@ function AdminUser({ setModalAdminUser }) {
 
   // for Admin User Delete API
   const DeleteUser = async (id) => {
+    // 1. Delete Comments of that user
+    let delcomment = await fetch(`${host}/api/admin/deleteAllComments/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    delcomment = await delcomment.json();
+
+    if (delcomment) {
+      // Update userlist state after successful deletion
+      toast.success("Successfully deleted User's all comments...", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      toast.error("Your Token has expired... Login again", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      setTimeout(() => {
+        localStorage.clear();
+        navigate("/login");
+      }, 2000);
+    }
+
+    // 2. Delete Restaurants of that user
+    let delres = await fetch(`${host}/api/admin/deleteAllRestaurants/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    delres = await delres.json();
+
+    if (delres) {
+      // Update userlist state after successful deletion
+      toast.success("Successfully deleted User's restaurants...", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      toast.error("Your Token has expired... Login again", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      setTimeout(() => {
+        localStorage.clear();
+        navigate("/login");
+      }, 2000);
+    }
+
+    // 3. User Delete
     let deluser = await fetch(`${host}/api/admin/adminPage/${id}`, {
       method: "DELETE", // Corrected spelling here
       headers: {
@@ -90,7 +175,7 @@ function AdminUser({ setModalAdminUser }) {
 
     deluser = await deluser.json();
 
-    if (deluser.ok) {
+    if (deluser) {
       // Update userlist state after successful deletion
       toast.success("Successfully deleted User...", {
         position: "top-right",
@@ -139,7 +224,7 @@ function AdminUser({ setModalAdminUser }) {
             ✕
           </button>
         </div>
-        <div className="justify-center px-20 py-6 mb-4 sm:col-span-3 rounded-2xl">
+        <div className="justify-center p-10 sm:col-span-3 rounded-2xl">
           <table className="table-fixed justify-center shadow-xl overflow-y-scroll block h-[400px]">
             <thead className="bg-teal-500 rounded text-white shadow-md text-md">
               <tr>
@@ -159,11 +244,15 @@ function AdminUser({ setModalAdminUser }) {
                     <tr key={index}>
                       <td className="border border-slate-300">{index}</td>
                       <td className="border border-slate-300 px-5">
-                        {userdetail.firstname + " " + userdetail.lastname}
+                        {userdetail?.firstname
+                          ? userdetail?.firstname +
+                            " " +
+                            (userdetail?.lastname ? userdetail?.lastname : "")
+                          : ""}
                       </td>
                       <td className="border border-slate-300 ">
                         <img
-                          src={userdetail.profileImage}
+                          src={userdetail?.profileImage}
                           onerror="fallbackImage()"
                           alt=""
                           className="w-32 h-24"
@@ -180,7 +269,7 @@ function AdminUser({ setModalAdminUser }) {
                       </td>
                       <td className="border border-slate-300 justify-center text-center">
                         <button
-                          onClick={() => openConfirmationModal(userdetail._id)}
+                          onClick={() => openConfirmationModal(userdetail?._id)}
                           className="text-white font-semibold mx-5 mr-6 px-4 py-2 rounded bg-orange-400 hover:bg-orange-500 drop-shadow-lg hover:drop-shadow-xl"
                         >
                           Delete
@@ -246,7 +335,7 @@ function AdminUser({ setModalAdminUser }) {
       </div>
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

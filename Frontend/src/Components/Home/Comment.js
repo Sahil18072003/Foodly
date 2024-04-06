@@ -104,8 +104,10 @@ const Comment = () => {
           }, 2000);
         } else {
           myCommentData.push([
-            data?.profileImage,
-            data?.firstname + " " + data?.lastname,
+            data?.profileImage ? data?.profileImage : "",
+            data?.firstname
+              ? data?.firstname + " " + (data?.lastname ? data?.lastname : "")
+              : "",
             json[i].comment,
             json[i].uid,
             json[i]._id,
@@ -319,7 +321,11 @@ const Comment = () => {
                     <div className="card__image">
                       <img
                         alt="testimonial"
-                        src={user?.profileImage}
+                        src={
+                          commentDetails[0]
+                            ? commentDetails[0]
+                            : require(`./../../assets/Devlopers/User.png`)
+                        }
                         key={commentDetails[0]}
                         className=" border-4 p-3 border-orange-400"
                       />

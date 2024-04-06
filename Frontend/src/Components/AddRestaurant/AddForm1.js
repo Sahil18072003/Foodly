@@ -13,6 +13,8 @@ function AddForm1() {
 
   const token = localStorage.getItem("token");
 
+  const restaurant = localStorage.getItem("restaurant");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,8 +23,8 @@ function AddForm1() {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const [restaurant, setRestaurant] = useState([]);
-  console.log(restaurant);
+  // const [restaurant, setRestaurant] = useState([]);
+  // console.log(restaurant);
 
   const [city, setCity] = useState([]);
 
@@ -210,42 +212,42 @@ function AddForm1() {
     });
   };
 
-  useEffect(() => {
-    getRestaurnt();
-  }, []);
+  // useEffect(() => {
+  //   getRestaurnt();
+  // }, []);
 
-  const getRestaurnt = async () => {
-    const result = await fetch(`${host}/api/res/dashboard/${user?._id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ ownerid: user?._id }),
-    });
+  // const getRestaurnt = async () => {
+  //   const result = await fetch(`${host}/api/res/dashboard/${user?._id}`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //     body: JSON.stringify({ ownerid: user?._id }),
+  //   });
 
-    var data = await result.json();
+  //   var data = await result.json();
 
-    if (!data) {
-      toast.error("Your Token has expired... login again", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        rtl: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      setTimeout(() => {
-        localStorage.clear();
-        navigate("/login");
-      }, 5000);
-    } else {
-      setRestaurant(data);
-    }
-  };
+  //   if (!data) {
+  //     toast.error("Your Token has expired... login again", {
+  //       position: "top-right",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       rtl: false,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "light",
+  //     });
+  //     setTimeout(() => {
+  //       localStorage.clear();
+  //       navigate("/login");
+  //     }, 5000);
+  //   } else {
+  //     // setRestaurant(data);
+  //   }
+  // };
 
   const clickHandler = async (e) => {
     // Retrieve state and city values
@@ -355,7 +357,6 @@ function AddForm1() {
         );
 
         const json = await response.json();
-        console.log(json);
 
         if (json) {
           localStorage.setItem("restaurant", JSON.stringify(json.restaurant));

@@ -68,21 +68,20 @@ function Signup() {
           navigate("/login");
         }, 2000);
       } else {
-        toast.error("Your email has been already used...", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          rtl: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
+        toast.error(
+          "Your email has been already used...sign up with another email.",
+          {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            rtl: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          }
+        );
       }
     } else {
       toast.error("Please fill all the required field...", {

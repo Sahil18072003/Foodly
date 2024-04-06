@@ -22,6 +22,10 @@ function Dashboard() {
     navigate(`/dashboard/updateProfile/${user?._id}`);
   };
 
+  const userRestaurantPage = () => {
+    navigate(`/dashboard/restaurantPage/${user?._id}`);
+  };
+
   useEffect(() => {
     getRestaurnt();
   }, []);
@@ -74,7 +78,7 @@ function Dashboard() {
             <p className="card-para">Update details, Add Profile photo</p>
           </div>
         </div>
-        <div onClick={userUpdate} className="profile-part">
+        <div onClick={userRestaurantPage} className="profile-part">
           <img
             src={require(`../../assets/Dashboard/Respage.jpg`)}
             alt=""
@@ -92,14 +96,19 @@ function Dashboard() {
         {Array.isArray(restaurant) && restaurant.length > 0 ? (
           <div className="track-request">
             {restaurant.map((res, index) => (
-              <div key={res?._id}>
+              <div className="track-sub-request" key={res?._id}>
                 <div>{res?.isVerified}</div>
-                <div className="text-lg">Res ID : {res?._id}</div>
-                <div className="text-lg">{res?.resadd}</div>
+                <div className="text-xl font-bold p-2">Res ID : {res?._id}</div>
+                <div className="text-lg p-2">{res?.resadd}</div>
                 <div className="main-track">
                   <div className="track-part">
                     <div className="line-white"></div>
-                    <div className="circle"></div>
+                    <div className="circle">
+                      <img
+                        className="rounded-full"
+                        src={require(`./../../assets/Restaurant/right.webp`)}
+                      />
+                    </div>
                     <div className="line"></div>
                   </div>
                   <div className="track-part">
