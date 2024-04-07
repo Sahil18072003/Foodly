@@ -9,6 +9,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
   const token = localStorage.getItem("token");
 
   const [restaurant, setRestaurant] = useState([]);
+  console.log(restaurant);
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
@@ -150,9 +151,32 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
     }
   };
 
+  const isImageURL = (url) => {
+    if (Array.isArray(url)) {
+      return url.every((item) => {
+        return (
+          typeof item === "string" &&
+          (item.startsWith("http") ||
+            item.endsWith(".jpg") ||
+            item.endsWith(".jpeg") ||
+            item.endsWith(".png"))
+        );
+      });
+    } else if (typeof url === "string") {
+      return (
+        url.startsWith("http") ||
+        url.endsWith(".jpg") ||
+        url.endsWith(".jpeg") ||
+        url.endsWith(".png")
+      );
+    }
+    return false;
+  };
+
+  const arry = [];
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg lg:w-4/5 md:w-3/5 sm:w-3/5">
+      <div className="bg-white rounded-lg h-5/6 lg:w-5/6 md:w-4/5 sm:w-3/5">
         <div className="py-3 flex bg-orange-400 rounded-t-lg">
           <span className="text-2xl text-white flex px-12 justify-center font-medium flex-grow">
             Restaurant Details
@@ -164,17 +188,26 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
             ✕
           </button>
         </div>
-        <div className="justify-center px-8 py-6 sm:col-span-3 rounded-2xl flex flex-column bg-gray-200">
+        <div className="justify-center px-8 py-6 sm:col-span-3 flex flex-wrap overflow-y-scroll bg-gray-200 w-full">
           {restaurant?.length > 0 ? (
-            restaurant?.map((restaurant, index) => (
+            restaurant?.map((res, index) => (
               <div
-                key={restaurant._id}
-                className="p-5 bg-orange-100 m-3 rounded-lg bg-white hover:bg-teal-200 border-2 hover:border-orange-300 hover:shadow-xl"
+                key={res?._id}
+                className="p-3 bg-orange-100 m-3 w-1/2 rounded-lg bg-white hover:bg-teal-200 border-2 hover:border-orange-300 hover:shadow-xl"
               >
-                <div className="text-lg">Restaurant Id : {restaurant._id}</div>
-                <div className="">Status : {restaurant.isVerified}</div>
+                <div className="text-lg">
+                  <div className="font-bold">Restaurant Id : {res?._id}</div>
+                </div>
+                <div className="text-lg">
+                  <div className="font-bold">
+                    Restaurant Category : {res?.rescategory}
+                  </div>
+                </div>
+                <div className="text-lg">
+                  <div className="font-bold">Status : {res?.isVerified}</div>
+                </div>
                 <button
-                  onClick={() => openConfirmationModal(restaurant?._id)}
+                  onClick={() => openConfirmationModal(res?._id)}
                   className="text-white font-semibold mx-10 my-3 px-4 py-2 rounded bg-orange-400 hover:bg-orange-500 drop-shadow-lg hover:drop-shadow-xl"
                 >
                   Delete
@@ -212,7 +245,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                   </div>
                 )}
                 <button
-                  onClick={() => openModal(restaurant)}
+                  onClick={() => openModal(res)}
                   className="text-white font-semibold mx-5 mr-6 px-4 py-2 rounded bg-orange-400 hover:bg-orange-500 drop-shadow-lg hover:drop-shadow-xl"
                 >
                   Start Verification
@@ -226,25 +259,96 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
           )}
           {modalRestaurant && (
             <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-              <div className="bg-white rounded-lg w-auto">
+              <div className="bg-white rounded-lg w-5/6 h-5/6">
                 <div className="mb-4 py-4 flex bg-orange-400 rounded-t-lg">
                   <span className="text-2xl text-white flex px-12 justify-center font-medium flex-grow">
                     Restaurant Id :{" "}
-                    {selectedRestaurant && selectedRestaurant._id}
+                    {selectedRestaurant && selectedRestaurant?._id}
                   </span>
                   <button
                     onClick={closeModal1}
-                    className="text-white font-bold text-xl px-3"
+                    className="text-white font-bold text-xl px-6"
                   >
                     ✕
                   </button>
                 </div>
-                <div className="justify-center px-20 py-6">
-                  <div className="mb-4">
-                    <div className="sm:col-span-3 rounded-2xl">
-                      {selectedRestaurant && selectedRestaurant.resadd}
-                    </div>
-                  </div>
+                <div className="justify-center px-16 py-6">
+                  <table className="table-fixed justify-center shadow-xl overflow-y-scroll block h-[460px] w-full">
+                    <thead className="bg-orange-400 rounded-md text-white shadow-md text-lg font-medium">
+                      <tr>
+                        <th className="border border-slate-300 px-4 py-2 text-white">
+                          Sr No.
+                        </th>
+                        <th className="border border-slate-300 px-4 py-2 text-white">
+                          Properties
+                        </th>
+                        <th className="border border-slate-300 px-4 py-2 text-white">
+                          Value
+                        </th>
+                        <th className="border border-slate-300 px-4 py-2 text-white">
+                          Operations
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-center px-5 mx-10">
+                      {Object.entries(selectedRestaurant).map(
+                        ([key, value], index) => (
+                          <tr key={index}>
+                            <td className="border border-slate-300 p-4 text-lg">
+                              {index + 1}
+                            </td>
+                            <td className="border border-slate-300 p-4 text-lg">
+                              {key}
+                            </td>
+                            <td className="border border-slate-300 p-4 text-lg">
+                              {Array.isArray(value) ? (
+                                <div>
+                                  {value.map((item, i) => (
+                                    <div key={i}>
+                                      {isImageURL(item) ? (
+                                        <img
+                                          src={item}
+                                          alt={`${key}-${i}`}
+                                          style={{
+                                            Width: "80px",
+                                            Height: "80px",
+                                          }}
+                                        />
+                                      ) : (
+                                        <div>{item}</div>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              ) : isImageURL(value) ? (
+                                <img
+                                  src={value}
+                                  alt={key}
+                                  style={{
+                                    Width: "80px",
+                                    Height: "80px",
+                                  }}
+                                />
+                              ) : (
+                                <div>{value}</div>
+                              )}
+                            </td>
+                            <td className="border border-slate-300 p-4">
+                              <input
+                                id={key}
+                                value={key}
+                                type="checkbox"
+                                className="w-4 h-4"
+                              />
+                              <label htmlFor={key} className="ml-3">
+                                Verified
+                              </label>
+                            </td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>

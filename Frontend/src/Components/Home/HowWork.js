@@ -8,12 +8,12 @@ const HowWork = () => {
         <div className="container px-5 py-12 mx-auto">
           <div className="lg:w-1/2 w-full mb-6">
             <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
-              How It Work!
+              How It Works!
             </h1>
-            <div className="h-1 w-20 bg-indigo-500 rounded"></div>
+            <div className="h-1 w-20 bg-orange-400 rounded"></div>
           </div>
           <div className="flex items-center lg:w-3/5 mx-auto  pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
-            <div className="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0">
+            <div className="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-orange-100 text-indigo-500 flex-shrink-0">
               <svg
                 fill="none"
                 stroke="currentColor"
@@ -31,17 +31,16 @@ const HowWork = () => {
                 Step 1:{" "}
               </h2>
               <h2 className="text-gray-900 text-xl title-font font-medium mb-2">
-                Post your Property Ad
+                Browse and Select Your Dish
               </h2>
               <p className="leading-relaxed text-base">
-                {" "}
-                Enter all details like locality name, amenities etc. along with
-                uploading Photos
+                Explore various cuisines and dishes, select your favorite, and
+                customize your order as needed.
               </p>
             </div>
           </div>
           <div className="flex items-center lg:w-3/5 mx-auto  pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
-            <div className="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0">
+            <div className="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-orange-100 text-indigo-500 flex-shrink-0">
               <svg
                 fill="none"
                 stroke="currentColor"
@@ -59,15 +58,16 @@ const HowWork = () => {
                 Step 2:
               </h2>
               <h2 className="text-gray-900 text-xl title-font font-medium mb-2">
-                Check Responses on Dashboard
+                Place Your Order and Payment
               </h2>
               <p className="leading-relaxed text-base">
-                Get access to Buyer/Tenant contact details & connect easily
+                Proceed to checkout, make secure payment, and track your order
+                status in real-time.
               </p>
             </div>
           </div>
           <div className="flex items-center lg:w-3/5 mx-auto sm:flex-row flex-col">
-            <div className="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0">
+            <div className="sm:w-32 sm:h-32 h-20 w-20 sm:mr-10 inline-flex items-center justify-center rounded-full bg-orange-100 text-indigo-500 flex-shrink-0">
               <svg
                 fill="none"
                 stroke="currentColor"
@@ -86,12 +86,11 @@ const HowWork = () => {
                 Step 3:
               </h2>
               <h2 className="text-gray-900 text-xl title-font font-medium mb-2">
-                Sell/Rent faster with instant Connect
+                Enjoy Your Meal in 15-20 Minutes
               </h2>
-
               <p className="leading-relaxed text-base">
-                Negotiate with your prospective Buyer/Tenant & mutually close
-                the deal.(site-visit)
+                Sit back, relax, and await your delicious meal to arrive at your
+                doorstep within minutes.
               </p>
             </div>
           </div>

@@ -152,7 +152,7 @@ const Navbar = () => {
                         </Link>
                       </li>
                       <hr />
-                      <li className="dropdown-item px-5 py-2 text-xl font-semibold md:my-0">
+                      <li className="dropdown-item px-5 pt-2 pb-3 text-xl font-semibold md:my-0">
                         <Link
                           className={`text-gray-800 hover:text-orange-400 duration-500`}
                           onClick={handleLogout}

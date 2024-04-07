@@ -90,6 +90,19 @@ function AdminUser({ setModalAdminUser }) {
     });
 
     delcomment = await delcomment.json();
+    console.log(delcomment);
+
+    toast.success("Successfully deleted User's all comments...", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      rtl: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
     if (delcomment) {
       // Update userlist state after successful deletion
@@ -132,6 +145,7 @@ function AdminUser({ setModalAdminUser }) {
     });
 
     delres = await delres.json();
+    console.log(delres);
 
     if (delres) {
       // Update userlist state after successful deletion
@@ -174,6 +188,7 @@ function AdminUser({ setModalAdminUser }) {
     });
 
     deluser = await deluser.json();
+    console.log(deluser);
 
     if (deluser) {
       // Update userlist state after successful deletion
@@ -211,8 +226,8 @@ function AdminUser({ setModalAdminUser }) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg lg:w-4/5 md:w-3/5 sm:w-3/5">
+    <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-50">
+      <div className="bg-white rounded-lg lg:w-5/6 h-5/6 md:w-4/5 sm:w-3/5">
         <div className="py-3 flex bg-orange-400 rounded-t-lg">
           <span className="text-2xl text-white flex px-12 justify-center font-medium flex-grow">
             User Details
@@ -225,16 +240,30 @@ function AdminUser({ setModalAdminUser }) {
           </button>
         </div>
         <div className="justify-center p-10 sm:col-span-3 rounded-2xl">
-          <table className="table-fixed justify-center shadow-xl overflow-y-scroll block h-[400px]">
-            <thead className="bg-teal-500 rounded text-white shadow-md text-md">
-              <tr>
-                <th className="border border-slate-300 p-2">Sr No.</th>
-                <th className="border border-slate-300 p-2">Username</th>
-                <th className="border border-slate-300 p-2">Image</th>
-                <th className="border border-slate-300 p-2">Email</th>
-                <th className="border border-slate-300 p-2">Phone</th>
-                <th className="border border-slate-300 p-2">Address</th>
-                <th className="border border-slate-300 p-2">Operation</th>
+          <table className="table-fixed justify-center shadow-xl overflow-y-scroll block h-full">
+            <thead className="bg-orange-400 rounded-md text-white shadow-md text-md">
+              <tr className="text-white">
+                <th className="border border-slate-300 p-2 text-white">
+                  Sr No.
+                </th>
+                <th className="border border-slate-300 p-2 text-white">
+                  Username
+                </th>
+                <th className="border border-slate-300 p-2 text-white">
+                  Image
+                </th>
+                <th className="border border-slate-300 p-2 text-white">
+                  Email
+                </th>
+                <th className="border border-slate-300 p-2 text-white">
+                  Phone
+                </th>
+                <th className="border border-slate-300 p-2 text-white">
+                  Address
+                </th>
+                <th className="border border-slate-300 p-2 text-white">
+                  Operation
+                </th>
               </tr>
             </thead>
             <tbody className="text-center px-5 mx-10">
@@ -242,15 +271,17 @@ function AdminUser({ setModalAdminUser }) {
                 userlist?.map((userdetail, index) =>
                   userdetail?._id !== "6607c5e98d927d0ab775d102" ? (
                     <tr key={index}>
-                      <td className="border border-slate-300">{index}</td>
-                      <td className="border border-slate-300 px-5">
+                      <td className="border border-slate-300 text-lg">
+                        {index}
+                      </td>
+                      <td className="border border-slate-300 px-5 text-lg">
                         {userdetail?.firstname
                           ? userdetail?.firstname +
                             " " +
                             (userdetail?.lastname ? userdetail?.lastname : "")
                           : ""}
                       </td>
-                      <td className="border border-slate-300 ">
+                      <td className="border border-slate-300">
                         <img
                           src={userdetail?.profileImage}
                           onerror="fallbackImage()"
@@ -258,19 +289,19 @@ function AdminUser({ setModalAdminUser }) {
                           className="w-32 h-24"
                         />
                       </td>
-                      <td className="border border-slate-300 px-5">
+                      <td className="border border-slate-300 px-5 text-lg">
                         {userdetail?.email}
                       </td>
-                      <td className="border border-slate-300 px-5">
+                      <td className="border border-slate-300 px-5 text-lg">
                         {userdetail?.phone}
                       </td>
-                      <td className="border border-slate-300 px-5">
+                      <td className="border border-slate-300 px-5 text-lg">
                         {userdetail?.address}
                       </td>
                       <td className="border border-slate-300 justify-center text-center">
                         <button
                           onClick={() => openConfirmationModal(userdetail?._id)}
-                          className="text-white font-semibold mx-5 mr-6 px-4 py-2 rounded bg-orange-400 hover:bg-orange-500 drop-shadow-lg hover:drop-shadow-xl"
+                          className="text-white font-semibold mx-5 mr-6 px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl"
                         >
                           Delete
                         </button>
@@ -291,7 +322,7 @@ function AdminUser({ setModalAdminUser }) {
                                     onClick={() =>
                                       handleDeleteUser(userToDelete)
                                     }
-                                    className="text-white font-semibold mx-2 px-4 py-2 rounded bg-orange-400 hover:bg-orange-500 drop-shadow-lg hover:drop-shadow-xl"
+                                    className="text-white font-semibold mx-2 px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl"
                                   >
                                     Delete
                                   </button>
@@ -335,7 +366,7 @@ function AdminUser({ setModalAdminUser }) {
       </div>
       <ToastContainer
         position="top-right"
-        autoClose={2000}
+        autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

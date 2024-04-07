@@ -7,9 +7,9 @@ import {
   fa3,
   fa4,
   faCircleArrowUp,
-  faHouseCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { BsShop } from "react-icons/bs";
+import { FaStar } from "react-icons/fa6";
 import { MdDeliveryDining } from "react-icons/md";
 import { GiAlliedStar } from "react-icons/gi";
 import { TbCoinRupee } from "react-icons/tb";
@@ -341,7 +341,10 @@ function AddForm6() {
                           },
                         })}
                       />
-                      <label htmlFor="Premium" className="text-lg pl-2">
+                      <label
+                        htmlFor="Premium"
+                        className="text-lg text-white pl-2"
+                      >
                         Select
                       </label>
                     </div>
@@ -350,7 +353,7 @@ function AddForm6() {
                 <div className="plan-sub-div h-full rounded-lg hover:border-orange-400 flex flex-col relative overflow-hidden">
                   <div className="bg-orange-100 p-3 font-sans">
                     <div className="flex flex-column">
-                      <FontAwesomeIcon icon={faGem} className="mt-2 mr-2" />
+                      <FaStar className="mt-2 mr-2" />
                       <p className="text-2xl tracking-widest title-font mb-1 font-medium">
                         Basic
                       </p>
@@ -446,7 +449,10 @@ function AddForm6() {
                           },
                         })}
                       />
-                      <label htmlFor="Basic" className="text-lg pl-2">
+                      <label
+                        htmlFor="Basic"
+                        className="text-lg text-white pl-2"
+                      >
                         Select
                       </label>
                     </div>

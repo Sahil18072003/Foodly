@@ -203,7 +203,7 @@ function AddForm5() {
           JSON.stringify(json.updatedRestaurant)
         );
 
-        toast.success("Legal Updated Successfully.", {
+        toast.success("Legal documents updated successfully.", {
           position: "top-right",
           autoClose: 2000,
           hideProgressBar: false,

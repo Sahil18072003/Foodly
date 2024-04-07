@@ -42,7 +42,7 @@ const signup = async (req, res) => {
     };
 
     const authToken = jwt.sign(data, process.env.JWT_SECRET_TOKEN, {
-      expiresIn: "10m",
+      expiresIn: "1h",
     });
 
     // Sending the response first
@@ -99,7 +99,7 @@ const login = async (req, res) => {
       };
 
       const authToken = jwt.sign(data, process.env.JWT_SECRET_TOKEN, {
-        expiresIn: "10m",
+        expiresIn: "1h",
       });
 
       res.status(200).json({

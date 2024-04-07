@@ -130,7 +130,7 @@
     display: flex;
     padding: 10px;
     align-items: center;
-    /* border: 1px solid rgb(206, 202, 202); */
+    border: 1px solid rgb(206, 202, 202);
 }
 
 .main-track {
@@ -140,6 +140,7 @@
     padding: 20px 10px 20px 10px;
     align-items: center;
     border: 1px solid rgb(206, 202, 202);
+    border-radius: 20px;
 }
 
 .track-part {
