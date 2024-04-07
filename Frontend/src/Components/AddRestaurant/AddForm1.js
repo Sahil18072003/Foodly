@@ -13,7 +13,7 @@ function AddForm1() {
 
   const token = localStorage.getItem("token");
 
-  const restaurant = localStorage.getItem("restaurant");
+  const restaurant = JSON.parse(localStorage.getItem("restaurant"));
 
   const navigate = useNavigate();
 
@@ -357,6 +357,7 @@ function AddForm1() {
         );
 
         const json = await response.json();
+        console.log(json);
 
         if (json) {
           localStorage.setItem("restaurant", JSON.stringify(json.restaurant));

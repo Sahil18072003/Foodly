@@ -27,4 +27,21 @@ router
 
 router.route("/adminPage").get(verifyToken, adminController.getUserContact);
 
+// verfication Apis
+router
+  .route("/createResPage/:id")
+  .post(verifyToken, adminController.createResPage);
+router
+  .route("/documentVerification/:id")
+  .post(verifyToken, adminController.documentVerification);
+router
+  .route("/deliveryActivation/:id")
+  .post(verifyToken, adminController.deliveryActivation);
+router
+  .route("/menuDigitisation/:id")
+  .post(verifyToken, adminController.menuDigitisation);
+router
+  .route("/bankDetailsVerification/:id")
+  .post(verifyToken, adminController.bankDetailsVerification);
+
 module.exports = router;

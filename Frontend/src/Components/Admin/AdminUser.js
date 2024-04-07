@@ -80,18 +80,7 @@ function AdminUser({ setModalAdminUser }) {
   };
 
   // for Admin User Delete API
-  const DeleteUser = async (id) => {
-    // 1. Delete Comments of that user
-    let delcomment = await fetch(`${host}/api/admin/deleteAllComments/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    delcomment = await delcomment.json();
-    console.log(delcomment);
-
+  const DeleteUser = async (uid) => {
     toast.success("Successfully deleted User's all comments...", {
       position: "top-right",
       autoClose: 2000,
@@ -103,6 +92,16 @@ function AdminUser({ setModalAdminUser }) {
       progress: undefined,
       theme: "light",
     });
+    // 1. Delete Comments of that user
+    let delcomment = await fetch(`${host}/api/admin/deleteAllComments/${uid}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    delcomment = await delcomment.json();
+    console.log(delcomment);
 
     if (delcomment) {
       // Update userlist state after successful deletion
@@ -117,7 +116,7 @@ function AdminUser({ setModalAdminUser }) {
         progress: undefined,
         theme: "light",
       });
-    } else {
+    } else if (!delcomment) {
       toast.error("Your Token has expired... Login again", {
         position: "top-right",
         autoClose: 2000,
@@ -134,10 +133,22 @@ function AdminUser({ setModalAdminUser }) {
         localStorage.clear();
         navigate("/login");
       }, 2000);
+    } else {
+      toast.error("Sorry error occur in commets delete...", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
 
     // 2. Delete Restaurants of that user
-    let delres = await fetch(`${host}/api/admin/deleteAllRestaurants/${id}`, {
+    let delres = await fetch(`${host}/api/admin/deleteAllRestaurants/${uid}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -160,7 +171,7 @@ function AdminUser({ setModalAdminUser }) {
         progress: undefined,
         theme: "light",
       });
-    } else {
+    } else if (!delres) {
       toast.error("Your Token has expired... Login again", {
         position: "top-right",
         autoClose: 2000,
@@ -177,10 +188,22 @@ function AdminUser({ setModalAdminUser }) {
         localStorage.clear();
         navigate("/login");
       }, 2000);
+    } else {
+      toast.error("Sorry error occur in restaurant delete...", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
 
     // 3. User Delete
-    let deluser = await fetch(`${host}/api/admin/adminPage/${id}`, {
+    let deluser = await fetch(`${host}/api/admin/adminPage/${uid}`, {
       method: "DELETE", // Corrected spelling here
       headers: {
         Authorization: `Bearer ${token}`,
@@ -205,7 +228,7 @@ function AdminUser({ setModalAdminUser }) {
       });
 
       getAllUsers();
-    } else {
+    } else if (!deluser) {
       toast.error("Your Token has expired... Login again", {
         position: "top-right",
         autoClose: 2000,
@@ -222,11 +245,23 @@ function AdminUser({ setModalAdminUser }) {
         localStorage.clear();
         navigate("/login");
       }, 2000);
+    } else {
+      toast.error("Sorry error occur in user delete...", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-20 bg-black bg-opacity-50">
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white rounded-lg lg:w-5/6 h-5/6 md:w-4/5 sm:w-3/5">
         <div className="py-3 flex bg-orange-400 rounded-t-lg">
           <span className="text-2xl text-white flex px-12 justify-center font-medium flex-grow">
@@ -284,7 +319,7 @@ function AdminUser({ setModalAdminUser }) {
                       <td className="border border-slate-300">
                         <img
                           src={userdetail?.profileImage}
-                          onerror="fallbackImage()"
+                          onError="fallbackImage()"
                           alt=""
                           className="w-32 h-24"
                         />
@@ -340,7 +375,7 @@ function AdminUser({ setModalAdminUser }) {
                       </td>
                       <ToastContainer
                         position="top-right"
-                        autoClose={5000}
+                        autoClose={2000}
                         hideProgressBar={false}
                         newestOnTop={false}
                         closeOnClick

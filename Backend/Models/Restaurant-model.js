@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 
 const restaurantSchema = new mongoose.Schema(
   {
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
     resname: {
       type: String,
       require: true,
@@ -86,6 +82,10 @@ const restaurantSchema = new mongoose.Schema(
       type: Array,
       require: true,
     },
+    isrespagecreated: {
+      type: Boolean,
+      default: false,
+    },
     deliveryrefer: {
       type: String,
       require: true,
@@ -142,6 +142,10 @@ const restaurantSchema = new mongoose.Schema(
       type: Array,
       require: true,
     },
+    isdocverified: {
+      type: Boolean,
+      default: false,
+    },
     bankaccnumber: {
       type: String,
       require: true,
@@ -161,6 +165,22 @@ const restaurantSchema = new mongoose.Schema(
     partnershipplan: {
       type: String,
       require: true,
+    },
+    isactivedelivery: {
+      type: Boolean,
+      default: false,
+    },
+    ismenudigitisation: {
+      type: Boolean,
+      default: false,
+    },
+    isbankdetailsverified: {
+      type: Boolean,
+      default: false,
+    },
+    ispartnership: {
+      type: Boolean,
+      default: false,
     },
   },
   {

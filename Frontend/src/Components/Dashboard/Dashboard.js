@@ -30,6 +30,14 @@ function Dashboard() {
     getRestaurnt();
   }, []);
 
+  const updateDetails = () => {
+    navigate(`/addRestaurant/addForm/1/${restaurant?._id}`);
+  };
+
+  const registerDelivery = () => {
+    navigate(`/addRestaurant/addForm/4/${restaurant?._id}`);
+  };
+
   const getRestaurnt = async () => {
     const result = await fetch(`${host}/api/res/dashboard/${user?._id}`, {
       method: "POST",
@@ -153,9 +161,7 @@ function Dashboard() {
                     Bank details <br />
                     validation
                   </div>
-                  <div className="w-1/6">
-                    Restaurant Page <br /> ready
-                  </div>
+                  <div className="w-1/6">Partnership Done</div>
                 </div>
                 <div className="w-full border-2 border-orange-400 p-2 flex flex-column">
                   <div className="w-1/3 border-2 border-orange-400 m-2 rounded-md">
@@ -168,7 +174,9 @@ function Dashboard() {
                         Create your restaurant page
                       </div>
                       <div className="img-second-content">verifcation</div>
-                      <button className="track-button">Update Details</button>
+                      <button className="track-button" onClick={updateDetails}>
+                        Update Details
+                      </button>
                     </div>
                   </div>
                   <div className="w-1/3 border-2 border-orange-400 m-2 rounded-md">
@@ -183,7 +191,12 @@ function Dashboard() {
                       <div className="img-second-content">
                         Information Incomplete
                       </div>
-                      <button className="track-button">Complete now</button>
+                      <button
+                        className="track-button"
+                        onClick={registerDelivery}
+                      >
+                        Complete now
+                      </button>
                     </div>
                   </div>
                   <div className="w-1/3 border-2 border-orange-400 m-2 rounded-md">
