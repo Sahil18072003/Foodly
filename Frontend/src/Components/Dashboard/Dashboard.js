@@ -23,7 +23,7 @@ function Dashboard() {
   };
 
   const userRestaurantPage = () => {
-    navigate(`/dashboard/restaurantPage/${user?._id}`);
+    navigate(`/dashboard/resDashboard/${user?._id}`);
   };
 
   useEffect(() => {
@@ -240,7 +240,15 @@ function Dashboard() {
                       <div className="img-first-content">
                         Create your restaurant page
                       </div>
-                      <div className="img-second-content">verifcation</div>
+                      {res?.isdocverified ? (
+                        <div className="img-second-content text-green">
+                          verifcation done
+                        </div>
+                      ) : (
+                        <div className="img-second1-content text-red">
+                          verifcation pending
+                        </div>
+                      )}
                       <button className="track-button" onClick={updateDetails}>
                         Update Details
                       </button>

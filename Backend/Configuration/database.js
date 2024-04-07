@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 // const MongooseURI = "mongodb://0.0.0.0:27017/foodly"
+
 const URI = process.env.MONGOOSEURI;
 
 const connectDb = async () => {

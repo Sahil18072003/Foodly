@@ -17,6 +17,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import Dashborad from "./Components/Dashboard/Dashboard";
 import UpdateProfile from "./Components/UpdateProfile/UpdateProfile";
 import RestaurantPage from "./Components/RestaurantPage/RestaurantPage";
+import ResDashboard from "./Components/ResDashboard/ResDashboard";
 import AddRestaurant from "./Components/AddRestaurant/AddRestaurant";
 import AddForm1 from "./Components/AddRestaurant/AddForm1";
 import AddForm2 from "./Components/AddRestaurant/AddForm2";
@@ -127,6 +128,17 @@ function App() {
               <>
                 <Navbar />
                 <Dashborad />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/dashboard/resDashboard/:id"
+            element={
+              <>
+                <Navbar />
+                <ResDashboard />
                 <Footer />
               </>
             }

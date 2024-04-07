@@ -209,4 +209,10 @@
 
 .img-second-content {
     padding: 6px;
+    color: green;
+}
+
+.img-second1-content {
+    padding: 6px;
+    color: red;
 }
