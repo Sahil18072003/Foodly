@@ -398,6 +398,65 @@ const bankDetailsVerification = async (req, res) => {
   }
 };
 
+// Bank details verification api
+const partnershipDone = async (req, res) => {
+  try {
+    const { _id, ispartnership } = req.body;
+
+    // Validate request body
+    if (!_id || typeof ispartnership !== "boolean") {
+      return res.status(400).json({ message: "Invalid request body" });
+    }
+
+    const existingRestaurant = await Restaurant.findOne({ _id });
+
+    if (!existingRestaurant) {
+      return res.status(400).json({ message: "Restaurant not found" });
+    }
+
+    const result = await Restaurant.updateOne(
+      { _id },
+      { $set: { ispartnership: ispartnership } }
+    );
+
+    const userExists = await User.findOne({
+      _id: new ObjectId(existingRestaurant.ownerid),
+    });
+
+    const emailSubject = ispartnership
+      ? "FOODLY | Partnership Successfully Done"
+      : "FOODLY | Partnership Pending";
+    const emailText = ispartnership
+      ? `Dear User,
+      
+Congratulations! Your restaurant's partnership with FOODLY has been successfully completed. We're excited to have you on board and look forward to a fruitful partnership.
+
+Thank you for choosing FOODLY!
+
+Best regards,
+FOODLY Team`
+      : `We regret to inform you that the partnership with FOODLY for your restaurant is pending. Please complete the partnership process to enjoy the benefits of partnering with FOODLY.
+
+Best regards,
+FOODLY Team`;
+
+    // Send email
+    await sendEmail(userExists.email, emailSubject, emailText);
+
+    if (result.acknowledged) {
+      const updatedRestaurant = await Restaurant.findOne({ _id });
+      return res.status(202).json({ updatedRestaurant });
+    } else {
+      return res.status(500).json({ message: "Can't verified bank details." });
+    }
+  } catch (error) {
+    // Log the error for debugging
+    console.error("Error fetching restaurant:", error);
+    // Send an error response
+    res.status(500).send("Internal Server error occurred");
+  }
+};
+
 module.exports = {
   getUserContact,
   getUserDetails,
@@ -411,4 +470,5 @@ module.exports = {
   deliveryActivation,
   menuDigitisation,
   bankDetailsVerification,
+  partnershipDone,
 };

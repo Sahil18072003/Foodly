@@ -46,9 +46,9 @@ const Navbar = () => {
         text-gray-800"
         >
           <img
-            src={require(`../../assets/logo.png`)}
+            src={require(`../../assets/logo.jpg`)}
             alt=""
-            className="mx-4 w-10 h-10 text-indigo-900 bg-white-500"
+            className="mx-4 w-12 h-12 text-indigo-900 bg-white-500"
           />
           <Link to="/home">
             <span className="text-orange-400 title">FOODLY</span>

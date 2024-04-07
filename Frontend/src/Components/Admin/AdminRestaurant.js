@@ -370,6 +370,49 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
     }
   };
 
+  // Bank Details Verification API
+  const partnershipDone = async (id, isAllowed) => {
+    let response = await fetch(`${host}/api/admin/partnershipDone/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        _id: id,
+        ispartnership: isAllowed,
+      }),
+    });
+
+    response = await response.json();
+
+    if (response) {
+      toast.success("Partnership done successfully.", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      toast.error("Failed to partnership.", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
+
   const isImageURL = (url) => {
     if (Array.isArray(url)) {
       return url.every((item) => {
@@ -588,6 +631,27 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                             onClick={() =>
                               bankDetailsVerification(res?._id, false)
                             }
+                          >
+                            No
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="border border-slate-300 text-lg p-4">
+                          <div className="text-lg">Partnership done ?</div>
+                        </td>
+                        <td className="border border-slate-300 text-md">
+                          <button
+                            className="text-white font-semibold m-auto px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-lg hover:drop-shadow-xl block"
+                            onClick={() => partnershipDone(res?._id, true)}
+                          >
+                            Yes
+                          </button>
+                        </td>
+                        <td className="border border-slate-300 text-md">
+                          <button
+                            className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
+                            onClick={() => partnershipDone(res?._id, false)}
                           >
                             No
                           </button>

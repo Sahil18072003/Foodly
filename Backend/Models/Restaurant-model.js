@@ -84,7 +84,7 @@ const restaurantSchema = new mongoose.Schema(
     },
     isrespagecreated: {
       type: Boolean,
-      default: false,
+      // default: false,
     },
     deliveryrefer: {
       type: String,
@@ -144,7 +144,7 @@ const restaurantSchema = new mongoose.Schema(
     },
     isdocverified: {
       type: Boolean,
-      default: false,
+      // default: false,
     },
     bankaccnumber: {
       type: String,
@@ -168,19 +168,19 @@ const restaurantSchema = new mongoose.Schema(
     },
     isactivedelivery: {
       type: Boolean,
-      default: false,
+      // default: false,
     },
     ismenudigitisation: {
       type: Boolean,
-      default: false,
+      // default: false,
     },
     isbankdetailsverified: {
       type: Boolean,
-      default: false,
+      // default: false,
     },
     ispartnership: {
       type: Boolean,
-      default: false,
+      // default: false,
     },
   },
   {

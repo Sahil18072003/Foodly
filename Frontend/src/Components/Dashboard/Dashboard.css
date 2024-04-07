@@ -160,7 +160,7 @@
     height: 35px;
     width: 35px;
     border-radius: 50%;
-    border: 2px solid gray;
+    border: 3px solid rgb(189, 187, 187);
 }
 
 .line {
@@ -169,7 +169,7 @@
     margin-bottom: 5px;
     width: 65px;
     height: 0px;
-    border: 2px solid gray;
+    border: 3px solid rgb(189, 187, 187);
 }
 
 .line-white {
@@ -178,7 +178,7 @@
     margin-bottom: 5px;
     width: 65px;
     height: 0px;
-    border: 2px solid #ffff;
+    border: 3px solid #ffff;
 }
 
 .track-button {

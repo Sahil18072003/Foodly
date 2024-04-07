@@ -44,4 +44,8 @@ router
   .route("/bankDetailsVerification/:id")
   .post(verifyToken, adminController.bankDetailsVerification);
 
+  router
+  .route("/partnershipDone/:id")
+  .post(verifyToken, adminController.partnershipDone);
+
 module.exports = router;

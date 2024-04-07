@@ -112,36 +112,103 @@ function Dashboard() {
                   <div className="track-part">
                     <div className="line-white"></div>
                     <div className="circle">
-                      <img
-                        className="rounded-full"
-                        src={require(`./../../assets/Restaurant/right.webp`)}
-                      />
+                      {res?.isrespagecreated ? (
+                        <img
+                          className="rounded-full"
+                          src={require(`./../../assets/Restaurant/right.jpg`)}
+                        />
+                      ) : (
+                        <img
+                          className="rounded-full"
+                          src={require(`./../../assets/Restaurant/cross.png`)}
+                        />
+                      )}
                     </div>
                     <div className="line"></div>
                   </div>
                   <div className="track-part">
                     <div className="line"></div>
-                    <div className="circle"></div>
+                    <div className="circle">
+                      {res?.isdocverified ? (
+                        <img
+                          className="rounded-full"
+                          src={require(`./../../assets/Restaurant/right.jpg`)}
+                        />
+                      ) : (
+                        <img
+                          className="rounded-full"
+                          src={require(`./../../assets/Restaurant/cross.png`)}
+                        />
+                      )}
+                    </div>
                     <div className="line"></div>
                   </div>
                   <div className="track-part">
                     <div className="line"></div>
-                    <div className="circle"></div>
+                    <div className="circle">
+                      {res?.isactivedelivery ? (
+                        <img
+                          className="rounded-full"
+                          src={require(`./../../assets/Restaurant/right.jpg`)}
+                        />
+                      ) : (
+                        <img
+                          className="rounded-full"
+                          src={require(`./../../assets/Restaurant/cross.png`)}
+                        />
+                      )}
+                    </div>
                     <div className="line"></div>
                   </div>
                   <div className="track-part">
                     <div className="line"></div>
-                    <div className="circle"></div>
+                    <div className="circle">
+                      {res?.ismenudigitisation ? (
+                        <img
+                          className="rounded-full"
+                          src={require(`./../../assets/Restaurant/right.jpg`)}
+                        />
+                      ) : (
+                        <img
+                          className="rounded-full"
+                          src={require(`./../../assets/Restaurant/cross.png`)}
+                        />
+                      )}
+                    </div>
                     <div className="line"></div>
                   </div>
                   <div className="track-part">
                     <div className="line"></div>
-                    <div className="circle"></div>
+                    <div className="circle">
+                      {res?.isbankdetailsverified ? (
+                        <img
+                          className="rounded-full"
+                          src={require(`./../../assets/Restaurant/right.jpg`)}
+                        />
+                      ) : (
+                        <img
+                          className="rounded-full"
+                          src={require(`./../../assets/Restaurant/cross.png`)}
+                        />
+                      )}
+                    </div>
                     <div className="line"></div>
                   </div>
                   <div className="track-part">
                     <div className="line"></div>
-                    <div className="circle"></div>
+                    <div className="circle">
+                      {res?.ispartnership ? (
+                        <img
+                          className="rounded-full"
+                          src={require(`./../../assets/Restaurant/right.jpg`)}
+                        />
+                      ) : (
+                        <img
+                          className="rounded-full"
+                          src={require(`./../../assets/Restaurant/cross.png`)}
+                        />
+                      )}
+                    </div>
                     <div className="line-white"></div>
                   </div>
                 </div>
@@ -163,7 +230,7 @@ function Dashboard() {
                   </div>
                   <div className="w-1/6">Partnership Done</div>
                 </div>
-                <div className="w-full border-2 border-orange-400 p-2 flex flex-column">
+                <div className="w-full p-2 flex flex-column">
                   <div className="w-1/3 border-2 border-orange-400 m-2 rounded-md">
                     <img
                       src={require(`../../assets/Dashboard/page.jpg`)}
