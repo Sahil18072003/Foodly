@@ -46,7 +46,7 @@ const Admin = () => {
   // for Admin Contact Data
   const getMessages = async () => {
     try {
-      const result = await fetch(`${host}/api/admin/adminPage`, {
+      const result = await fetch(`${host}/api/admin/getUserContact`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

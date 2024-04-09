@@ -25,7 +25,11 @@ router
   .route("/deleteRestaurant/:id")
   .delete(verifyToken, adminController.deleteRestaurant);
 
-router.route("/adminPage").get(verifyToken, adminController.getUserContact);
+// Get Massages
+router.route("/getUserContact").get(verifyToken, adminController.getUserContact);
+
+// Delete Massages
+router.route("/deleteMassage/:id").delete(verifyToken, adminController.deleteMassage);
 
 // verfication Apis
 router
@@ -43,8 +47,7 @@ router
 router
   .route("/bankDetailsVerification/:id")
   .post(verifyToken, adminController.bankDetailsVerification);
-
-  router
+router
   .route("/partnershipDone/:id")
   .post(verifyToken, adminController.partnershipDone);
 

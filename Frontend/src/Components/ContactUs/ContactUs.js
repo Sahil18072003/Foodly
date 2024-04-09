@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./ContactUs.css";
@@ -17,7 +17,7 @@ const ContactUs = () => {
     message: "",
   });
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -65,7 +65,11 @@ const ContactUs = () => {
           progress: undefined,
           theme: "light",
         });
-        setCreditial("");
+
+        setTimeout(() => {
+          setCreditial("");
+          navigate("/home");
+        }, 2000);
       } else {
         toast.error("Error in sending message", {
           position: "top-right",

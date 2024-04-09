@@ -241,28 +241,19 @@ const Comment = () => {
   };
 
   const deleteComment = async (id) => {
-    toast.warning("You are Deleting Comment...", {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      rtl: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-
     let data = await fetch(`${host}/api/auth/commentDelete/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({
+        _id: id,
+      }),
     });
 
     data = await data.json();
 
-    if (data.ok) {
+    if (data) {
       // Update userlist state after successful deletion
       toast.success("Successfully deleted User...", {
         position: "top-right",
@@ -277,7 +268,7 @@ const Comment = () => {
       });
 
       getComments();
-    } else {
+    } else if (!data) {
       toast.error("Your Token has expired... Login again", {
         position: "top-right",
         autoClose: 2000,
@@ -294,6 +285,18 @@ const Comment = () => {
         localStorage.clear();
         navigate("/login");
       }, 2000);
+    } else {
+      toast.error("Sorry error occur in Massage delete...", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -313,7 +316,7 @@ const Comment = () => {
       </div>
       <div>
         {comment ? (
-          <div className="swiper mySwiper">
+          <div className="swiper mySwiper border-2 border-gray-100">
             <div className="swiper-wrapper">
               {comment.map((commentDetails) => {
                 return (

@@ -131,6 +131,23 @@ const getUserContact = async (req, res) => {
   }
 };
 
+// Delete User Massage
+const deleteMassage = async (req, res) => {
+  try {
+    const result = await UserContact.deleteOne({ _id: req.params.id });
+
+    // Check if data exists
+    if (result) {
+      res.status(200).json({ message: "Massage deleted successfully" });
+    } else {
+      res.status(404).json({ message: "No Massage found for deletion" });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal Server error occured");
+  }
+};
+
 // Send email function
 const sendEmail = async (to, subject, text) => {
   try {
@@ -154,11 +171,6 @@ const createResPage = async (req, res) => {
   try {
     const { _id, isrespagecreated } = req.body;
 
-    // Validate request body
-    if (!_id || typeof isrespagecreated !== "boolean") {
-      return res.status(400).json({ message: "Invalid request body" });
-    }
-
     const existingRestaurant = await Restaurant.findOne({ _id });
 
     if (!existingRestaurant) {
@@ -174,11 +186,13 @@ const createResPage = async (req, res) => {
       _id: new ObjectId(existingRestaurant.ownerid),
     });
 
+    const isPageCreated = isrespagecreated === "true";
+
     // Define email subject and text
-    const emailSubject = isrespagecreated
+    const emailSubject = isPageCreated
       ? "FOODLY | Foodly Page Creation Confirmation"
       : "FOODLY | Foodly Page Creation Request Status";
-    const emailText = isrespagecreated
+    const emailText = isPageCreated
       ? `Dear User, Your restaurant page with ID ${existingRestaurant._id} creation request on FOODLY has been processed. Thank you for choosing FOODLY for your online presence.`
       : `We regret to inform you that we couldn't process the request to create your restaurant's FOODLY page with ID ${existingRestaurant._id} at this time. Please try again later.`;
 
@@ -204,11 +218,6 @@ const documentVerification = async (req, res) => {
   try {
     const { _id, isdocverified } = req.body;
 
-    // Validate request body
-    if (!_id || typeof isdocverified !== "boolean") {
-      return res.status(400).json({ message: "Invalid request body" });
-    }
-
     const existingRestaurant = await Restaurant.findOne({ _id });
 
     if (!existingRestaurant) {
@@ -224,11 +233,13 @@ const documentVerification = async (req, res) => {
       _id: new ObjectId(existingRestaurant.ownerid),
     });
 
+    const isDocVerified = isdocverified === "true";
+
     // Define email subject and text
-    const emailSubject = isdocverified
+    const emailSubject = isDocVerified
       ? "FOODLY | Document Verification Completed"
       : "FOODLY | Document Verification Pending";
-    const emailText = isdocverified
+    const emailText = isDocVerified
       ? `Dear User, Your restaurant's documents with ID ${existingRestaurant._id} have been successfully verified on FOODLY. Thank you for ensuring compliance with our requirements.`
       : `We regret to inform you that we couldn't verify your restaurant's documents with ID ${existingRestaurant._id} on FOODLY at this time. Please try again later.`;
 
@@ -252,17 +263,10 @@ const deliveryActivation = async (req, res) => {
   try {
     const { _id, isactivedelivery } = req.body;
 
-    // Validate request body
-    if (!_id || typeof isactivedelivery !== "boolean") {
-      return res.status(400).json({ message: "Invalid request body" });
-    }
-
     const existingRestaurant = await Restaurant.findOne({ _id });
 
     if (!existingRestaurant) {
-      return res
-        .status(400)
-        .json({ message: "Error: Restaurant doesn't exist." });
+      return res.status(400).json({ message: "Restaurant not found" });
     }
 
     const result = await Restaurant.updateOne(
@@ -274,11 +278,13 @@ const deliveryActivation = async (req, res) => {
       _id: new ObjectId(existingRestaurant.ownerid),
     });
 
+    const isActiveDelivery = isactivedelivery === "true";
+
     // Define email subject and text
-    const emailSubject = isactivedelivery
+    const emailSubject = isActiveDelivery
       ? "FOODLY | Delivery Activation Completed"
       : "FOODLY | Delivery Activation Pending";
-    const emailText = isactivedelivery
+    const emailText = isActiveDelivery
       ? `Dear User, Delivery services for your restaurant with ID ${existingRestaurant._id} on FOODLY have been successfully activated. Thank you for choosing to expand your services with FOODLY.`
       : `We regret to inform you that we couldn't activate delivery services for your restaurant with ID ${existingRestaurant._id} on FOODLY at this time. Please try again later.`;
 
@@ -304,11 +310,6 @@ const menuDigitisation = async (req, res) => {
   try {
     const { _id, ismenudigitisation } = req.body;
 
-    // Validate request body
-    if (!_id || typeof ismenudigitisation !== "boolean") {
-      return res.status(400).json({ message: "Invalid request body" });
-    }
-
     const existingRestaurant = await Restaurant.findOne({ _id });
 
     if (!existingRestaurant) {
@@ -324,11 +325,13 @@ const menuDigitisation = async (req, res) => {
       _id: new ObjectId(existingRestaurant.ownerid),
     });
 
+    const isMenuDigitisation = ismenudigitisation === "true";
+
     // Define email subject and text
-    const emailSubject = ismenudigitisation
+    const emailSubject = isMenuDigitisation
       ? "FOODLY | Menu Digitisation Completed"
       : "FOODLY | Menu Digitisation Pending";
-    const emailText = ismenudigitisation
+    const emailText = isMenuDigitisation
       ? `Dear User, Your restaurant's menu with ID ${existingRestaurant._id} has been successfully digitized on FOODLY. Thank you for enhancing your customer experience with FOODLY.`
       : `We regret to inform you that we couldn't digitize your restaurant's menu with ID ${existingRestaurant._id} on FOODLY at this time. Please try again later.`;
 
@@ -354,11 +357,6 @@ const bankDetailsVerification = async (req, res) => {
   try {
     const { _id, isbankdetailsverified } = req.body;
 
-    // Validate request body
-    if (!_id || typeof isbankdetailsverified !== "boolean") {
-      return res.status(400).json({ message: "Invalid request body" });
-    }
-
     const existingRestaurant = await Restaurant.findOne({ _id });
 
     if (!existingRestaurant) {
@@ -374,10 +372,12 @@ const bankDetailsVerification = async (req, res) => {
       _id: new ObjectId(existingRestaurant.ownerid),
     });
 
-    const emailSubject = isbankdetailsverified
+    const isBankDetailsVerified = isbankdetailsverified === "true";
+
+    const emailSubject = isBankDetailsVerified
       ? "FOODLY | Bank Details Verification Completed"
       : "FOODLY | Bank Details Verification Pending";
-    const emailText = isbankdetailsverified
+    const emailText = isBankDetailsVerified
       ? `Dear User, Your restaurant's bank details with ID ${existingRestaurant._id} have been successfully verified on FOODLY. Thank you for ensuring smooth financial transactions with FOODLY.`
       : `We regret to inform you that we couldn't verify your restaurant's bank details with ID ${existingRestaurant._id} on FOODLY at this time. Please try again later.`;
 
@@ -403,11 +403,6 @@ const partnershipDone = async (req, res) => {
   try {
     const { _id, ispartnership } = req.body;
 
-    // Validate request body
-    if (!_id || typeof ispartnership !== "boolean") {
-      return res.status(400).json({ message: "Invalid request body" });
-    }
-
     const existingRestaurant = await Restaurant.findOne({ _id });
 
     if (!existingRestaurant) {
@@ -423,10 +418,12 @@ const partnershipDone = async (req, res) => {
       _id: new ObjectId(existingRestaurant.ownerid),
     });
 
-    const emailSubject = ispartnership
+    const isPartnership = ispartnership === "true";
+
+    const emailSubject = isPartnership
       ? "FOODLY | Partnership Successfully Done"
       : "FOODLY | Partnership Pending";
-    const emailText = ispartnership
+    const emailText = isPartnership
       ? `Dear User,
       
 Congratulations! Your restaurant's partnership with FOODLY has been successfully completed. We're excited to have you on board and look forward to a fruitful partnership.
@@ -459,6 +456,7 @@ FOODLY Team`;
 
 module.exports = {
   getUserContact,
+  deleteMassage,
   getUserDetails,
   deleteUser,
   deleteAllComments,

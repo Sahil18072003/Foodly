@@ -338,12 +338,12 @@ const showComment = async (req, res) => {
 const deleteOneComment = async (req, res) => {
   try {
     let result = await Comment.deleteOne({ _id: req.params.id });
-    res.send(result);
+    // res.send(result);
 
     if (result.acknowledged) {
-      return res.status(202).json({ result: "Comment deleted" });
+      return res.status(200).json({ message: "Comment deleted successfully." });
     } else {
-      return res.status(500).json({ message: "Failed to create commet" });
+      return res.status(500).json({ message: "Failed to delete comment." });
     }
   } catch (error) {
     // Handle any other errors

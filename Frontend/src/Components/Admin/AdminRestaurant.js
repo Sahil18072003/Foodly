@@ -38,6 +38,8 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
 
   const [restaurantToDelete, setRestaurantToDelete] = useState(null);
 
+  const [resPageCreated, setResPageCreated] = useState("");
+
   const openConfirmationModal = (resId) => {
     setShowConfirmationModal(true);
     setRestaurantToDelete(resId);
@@ -166,7 +168,6 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
     });
 
     response = await response.json();
-    console.log(response);
 
     if (response) {
       toast.success("Restaurant page creation allowed.", {
@@ -520,6 +521,9 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                             </div>
                           )}
                         </td>
+                        <td className="border border-slate-300 text-xl font-bold text-center">
+                          Status
+                        </td>
                       </tr>
                       <tr>
                         <td className="border border-slate-300 text-lg p-4">
@@ -530,18 +534,55 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() => createResPage(res?._id, true)}
+                            onClick={() => {
+                              createResPage(res?._id, "true");
+                              setResPageCreated("true");
+                            }}
                           >
                             Yes
                           </button>
                         </td>
                         <td className="border border-slate-300 text-md">
-                          <button
-                            className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() => createResPage(res?._id, false)}
-                          >
-                            No
-                          </button>
+                          {resPageCreated === "" ? (
+                            resPageCreated === "true" ? (
+                              ""
+                            ) : (
+                              <button
+                                className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
+                                onClick={() => {
+                                  createResPage(res?._id, "false");
+                                  setResPageCreated("true");
+                                }}
+                              >
+                                No
+                              </button>
+                            )
+                          ) : (
+                            <button
+                              className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
+                              onClick={() => {
+                                createResPage(res?._id, "false");
+                                setResPageCreated("true");
+                              }}
+                            >
+                              No
+                            </button>
+                          )}
+                        </td>
+                        <td className="border border-slate-300 text-md px-4">
+                          {restaurant?.isrespagecreated ? (
+                            restaurant?.isrespagecreated === "true" ? (
+                              <div className="text-lg text-green-500">
+                                Foodly Page Creation Successfully
+                              </div>
+                            ) : (
+                              <div className="text-lg text-red-500">
+                                Foodly Page Creation Pending
+                              </div>
+                            )
+                          ) : (
+                            ""
+                          )}
                         </td>
                       </tr>
                       <tr>
@@ -553,16 +594,21 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() => documentVerification(res?._id, true)}
+                            onClick={() =>
+                              documentVerification(res?._id, "true")
+                            }
                           >
                             Yes
                           </button>
                         </td>
                         <td className="border border-slate-300 text-md">
+                          {/* {res?.isdocverified ? (
+                            <div></div>
+                          ) : ( */}
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
                             onClick={() =>
-                              documentVerification(res?._id, false)
+                              documentVerification(res?._id, "false")
                             }
                           >
                             No
@@ -576,7 +622,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() => deliveryActivation(res?._id, true)}
+                            onClick={() => deliveryActivation(res?._id, "true")}
                           >
                             Yes
                           </button>
@@ -584,7 +630,9 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() => deliveryActivation(res?._id, false)}
+                            onClick={() =>
+                              deliveryActivation(res?._id, "false")
+                            }
                           >
                             No
                           </button>
@@ -597,7 +645,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() => menuDigitisation(res?._id, true)}
+                            onClick={() => menuDigitisation(res?._id, "true")}
                           >
                             Yes
                           </button>
@@ -605,7 +653,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() => menuDigitisation(res?._id, false)}
+                            onClick={() => menuDigitisation(res?._id, "false")}
                           >
                             No
                           </button>
@@ -619,7 +667,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-lg hover:drop-shadow-xl block"
                             onClick={() =>
-                              bankDetailsVerification(res?._id, true)
+                              bankDetailsVerification(res?._id, "true")
                             }
                           >
                             Yes
@@ -629,7 +677,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
                             onClick={() =>
-                              bankDetailsVerification(res?._id, false)
+                              bankDetailsVerification(res?._id, "false")
                             }
                           >
                             No
@@ -643,7 +691,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() => partnershipDone(res?._id, true)}
+                            onClick={() => partnershipDone(res?._id, "true")}
                           >
                             Yes
                           </button>
@@ -651,7 +699,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() => partnershipDone(res?._id, false)}
+                            onClick={() => partnershipDone(res?._id, "false")}
                           >
                             No
                           </button>
