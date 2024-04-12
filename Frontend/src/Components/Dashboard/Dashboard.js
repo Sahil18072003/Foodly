@@ -22,22 +22,22 @@ function Dashboard() {
     navigate(`/dashboard/updateProfile/${user?._id}`);
   };
 
-  const userRestaurantPage = (resId) => {
-    if (!restaurant) {
-      toast.error("You not registered for restaurant.", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        rtl: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    } else {
-      navigate(`/dashboard/resDashboard/${resId}`);
-    }
+  const userRestaurantPage = () => {
+    // if (restaurant) {
+    //   toast.error("You not registered for restaurant.", {
+    //     position: "top-right",
+    //     autoClose: 2000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     rtl: false,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //   });
+    // } else {
+    navigate(`/dashboard/resDashboard`);
+    // }
   };
 
   useEffect(() => {
@@ -102,24 +102,20 @@ function Dashboard() {
             </p>
           </div>
         </div>
-        {restaurant.map((res, index) => (
-          <div
-            onClick={() => userRestaurantPage(res?._id)}
-            className="profile-part"
-          >
-            <img
-              src={require(`../../assets/Dashboard/Respage.jpg`)}
-              alt=""
-              srcSet=""
-            />
-            <div className="dash-card-content">
-              <h6 className="card-head">Your Restaurant Page</h6>
-              <p className="card-para">
-                Restaurant details, Update details, Add food
-              </p>
-            </div>
+
+        <div onClick={() => userRestaurantPage} className="profile-part">
+          <img
+            src={require(`../../assets/Dashboard/Respage.jpg`)}
+            alt=""
+            srcSet=""
+          />
+          <div className="dash-card-content">
+            <h6 className="card-head">Your Restaurant Page</h6>
+            <p className="card-para">
+              Restaurant details, Update details, Add food
+            </p>
           </div>
-        ))}
+        </div>
       </div>
 
       <div className="dashboard-title"> Track Your Restaurant request</div>
@@ -145,7 +141,7 @@ function Dashboard() {
                         Verification Success
                       </span>
                     ) : (
-                      <span className="text-red-700 bg-red-100 m-2 p-2 font-bold rounded-md">
+                      <span className="text-red-500 bg-red-100 m-2 p-2 font-bold rounded-md">
                         Verification Failed
                       </span>
                     )

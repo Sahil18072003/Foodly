@@ -21,7 +21,7 @@ function ResDashboard() {
                 <div className="my-3 text-xl font-bold px-4">Dashbord</div>
                 <div
                   className={`${
-                    activeStep === 1 ? " text-teal-400 bg-gray-100" : " "
+                    activeStep === 1 ? "text-teal-400 bg-gray-100" : " "
                   } py-3 cursor-pointer hover:text-gray-400 font-bold px-4`}
                   onClick={() => setActiveStep(1)}
                 >
@@ -29,7 +29,7 @@ function ResDashboard() {
                 </div>
                 <div
                   className={`${
-                    activeStep === 2 ? " text-teal-400 bg-gray-100" : " "
+                    activeStep === 2 ? "text-teal-400 bg-gray-100" : " "
                   } py-3 cursor-pointer hover:text-gray-400 font-bold px-4`}
                   onClick={() => setActiveStep(2)}
                 >
@@ -37,7 +37,7 @@ function ResDashboard() {
                 </div>
                 <div
                   className={`${
-                    activeStep === 3 ? " text-teal-400 bg-gray-100" : " "
+                    activeStep === 3 ? "text-teal-400 bg-gray-100" : " "
                   } py-3 cursor-pointer hover:text-gray-400 font-bold px-4`}
                   onClick={() => setActiveStep(3)}
                 >
@@ -45,7 +45,7 @@ function ResDashboard() {
                 </div>
                 <div
                   className={`${
-                    activeStep === 4 ? " text-teal-500 bg-gray-100" : " "
+                    activeStep === 4 ? "text-teal-500 bg-gray-100" : " "
                   } py-3 cursor-pointer hover:text-gray-400 font-bold px-4`}
                   onClick={() => setActiveStep(4)}
                 >
@@ -53,7 +53,7 @@ function ResDashboard() {
                 </div>
                 <div
                   className={`${
-                    activeStep === 5 ? " text-teal-400 bg-gray-100" : " "
+                    activeStep === 5 ? "text-teal-400 bg-gray-100" : " "
                   } py-3 cursor-pointer hover:text-gray-400 font-bold px-4`}
                   onClick={() => {
                     setActiveStep(5);

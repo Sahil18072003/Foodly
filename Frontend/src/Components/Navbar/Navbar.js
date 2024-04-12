@@ -41,19 +41,17 @@ const Navbar = () => {
   return (
     <div className="shadow-md left-0 navbar sticky top-0">
       <div className="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
-        <div
-          className="font-bold text-3xl cursor-pointer flex items-center
-        text-gray-800"
+        <Link
+          to="/home"
+          className="font-bold text-3xl cursor-pointer flex items-center text-gray-800"
         >
           <img
             src={require(`../../assets/logo.jpg`)}
             alt=""
             className="mx-4 w-12 h-12 text-indigo-900 bg-white-500"
           />
-          <Link to="/home">
-            <span className="text-orange-400 title">FOODLY</span>
-          </Link>
-        </div>
+          <span className="text-orange-400 title">FOODLY</span>
+        </Link>
 
         <div
           onClick={() => setOpen(!open)}

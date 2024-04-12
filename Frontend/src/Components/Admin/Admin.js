@@ -158,7 +158,7 @@ const Admin = () => {
                 openModal();
               }}
             >
-              <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden hover:border-orange-400 hover:shadow-xl hover:scale-105">
+              <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden hover:border-orange-400 hover:bg-orange-100 hover:shadow-xl hover:scale-105">
                 <img
                   className="p-4 w-full object-cover object-center"
                   src={require(`../../assets/Admin/AdminUser_2.jpg`)}
@@ -185,7 +185,7 @@ const Admin = () => {
                 openModal2();
               }}
             >
-              <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden hover:border-orange-400 hover:shadow-xl hover:scale-105">
+              <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden hover:border-orange-400 hover:bg-orange-100 hover:shadow-xl hover:scale-105">
                 <img
                   className="p-4 w-full object-cover object-center"
                   src={require(`../../assets/Admin/Admin-4.jpg`)}
@@ -214,9 +214,9 @@ const Admin = () => {
                 openModal3();
               }}
             >
-              <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden hover:border-orange-400 hover:shadow-xl hover:scale-105">
+              <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden hover:border-orange-400 hover:bg-orange-100 hover:shadow-xl hover:scale-105">
                 <img
-                  className=" w-full object-cover object-center"
+                  className="p-4 w-full object-cover object-center"
                   src={require(`../../assets/Admin/AdminContactUs2.jpg`)}
                   alt="blog"
                 />
