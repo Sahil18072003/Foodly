@@ -22,20 +22,34 @@ function Dashboard() {
     navigate(`/dashboard/updateProfile/${user?._id}`);
   };
 
-  const userRestaurantPage = () => {
-    navigate(`/dashboard/resDashboard/${user?._id}`);
+  const userRestaurantPage = (resId) => {
+    if (!restaurant) {
+      toast.error("You not registered for restaurant.", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      navigate(`/dashboard/resDashboard/${resId}`);
+    }
   };
 
   useEffect(() => {
     getRestaurnt();
   }, []);
 
-  const updateDetails = () => {
-    navigate(`/addRestaurant/addForm/1/${restaurant?._id}`);
+  const updateDetails = (resId) => {
+    navigate(`/addRestaurant/addForm/1?resId=${resId}`);
   };
 
-  const registerDelivery = () => {
-    navigate(`/addRestaurant/addForm/4/${restaurant?._id}`);
+  const registerDelivery = (resId) => {
+    navigate(`/addRestaurant/addForm/4?resId=${resId}`);
   };
 
   const getRestaurnt = async () => {
@@ -53,7 +67,7 @@ function Dashboard() {
     if (!data) {
       toast.error("Your Token has expired... login again", {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,
@@ -65,7 +79,7 @@ function Dashboard() {
       setTimeout(() => {
         localStorage.clear();
         navigate("/login");
-      }, 5000);
+      }, 2000);
     } else {
       setRestaurant(data);
     }
@@ -83,20 +97,29 @@ function Dashboard() {
           />
           <div className="dash-card-content">
             <h6 className="card-head">Your Profile</h6>
-            <p className="card-para">Update details, Add Profile photo</p>
+            <p className="card-para">
+              Profile details, Update details, Add Profile photo
+            </p>
           </div>
         </div>
-        <div onClick={userRestaurantPage} className="profile-part">
-          <img
-            src={require(`../../assets/Dashboard/Respage.jpg`)}
-            alt=""
-            srcSet=""
-          />
-          <div className="dash-card-content">
-            <h6 className="card-head">Your Restaurant Page</h6>
-            <p className="card-para">Restaurant Details</p>
+        {restaurant.map((res, index) => (
+          <div
+            onClick={() => userRestaurantPage(res?._id)}
+            className="profile-part"
+          >
+            <img
+              src={require(`../../assets/Dashboard/Respage.jpg`)}
+              alt=""
+              srcSet=""
+            />
+            <div className="dash-card-content">
+              <h6 className="card-head">Your Restaurant Page</h6>
+              <p className="card-para">
+                Restaurant details, Update details, Add food
+              </p>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
 
       <div className="dashboard-title"> Track Your Restaurant request</div>
@@ -105,7 +128,31 @@ function Dashboard() {
           <div className="track-request">
             {restaurant.map((res, index) => (
               <div className="track-sub-request" key={res?._id}>
-                <div>{res?.isVerified}</div>
+                <div>
+                  {res?.isrespagecreated &&
+                  res?.isactivedelivery &&
+                  res?.isdocverified &&
+                  res?.ismenudigitisation &&
+                  res?.isbankdetailsverified &&
+                  res?.ispartnership ? (
+                    res?.isrespagecreated === "true" &&
+                    res?.isactivedelivery === "true" &&
+                    res?.isdocverified === "true" &&
+                    res?.ismenudigitisation === "true" &&
+                    res?.isbankdetailsverified === "true" &&
+                    res?.ispartnership === "true" ? (
+                      <span className="text-green-700 bg-green-100 m-2 p-2 font-bold rounded-md">
+                        Verification Success
+                      </span>
+                    ) : (
+                      <span className="text-red-700 bg-red-100 m-2 p-2 font-bold rounded-md">
+                        Verification Failed
+                      </span>
+                    )
+                  ) : (
+                    ""
+                  )}
+                </div>
                 <div className="text-xl font-bold p-2">Res ID : {res?._id}</div>
                 <div className="text-lg p-2">{res?.resadd}</div>
                 <div className="main-track">
@@ -286,7 +333,10 @@ function Dashboard() {
                           verifcation pending
                         </div>
                       )}
-                      <button className="track-button" onClick={updateDetails}>
+                      <button
+                        className="track-button"
+                        onClick={() => updateDetails(res._id)} // Change this line
+                      >
                         Update Details
                       </button>
                     </div>
@@ -305,7 +355,7 @@ function Dashboard() {
                       </div>
                       <button
                         className="track-button"
-                        onClick={registerDelivery}
+                        onClick={() => registerDelivery(res?._id)}
                       >
                         Complete now
                       </button>

@@ -38,8 +38,6 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
 
   const [restaurantToDelete, setRestaurantToDelete] = useState(null);
 
-  const [resPageCreated, setResPageCreated] = useState("");
-
   const openConfirmationModal = (resId) => {
     setShowConfirmationModal(true);
     setRestaurantToDelete(resId);
@@ -153,6 +151,22 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
     }
   };
 
+  const [pageCreationStatus, setPageCreationStatus] = useState("");
+  console.log(pageCreationStatus);
+
+  const [docVerificationStatus, setDocVerificationStatus] = useState("");
+  console.log(docVerificationStatus);
+
+  const [deliveryActivationStatus, setDeliveryActivationStatus] = useState("");
+  console.log(deliveryActivationStatus);
+
+  const [menuDigitisationStatus, setMenuDigitisationStatus] = useState("");
+
+  const [bankDetailsVerificationStatus, setBankDetailsVerificationStatus] =
+    useState("");
+
+  const [partnershipStatus, setPartnershipStatus] = useState("");
+
   // Create Restaurant Page API
   const createResPage = async (id, isAllowed) => {
     let response = await fetch(`${host}/api/admin/createResPage/${id}`, {
@@ -169,7 +183,8 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
 
     response = await response.json();
 
-    if (response) {
+    if (response.message === "true") {
+      // setPageCreationStatus(true);
       toast.success("Restaurant page creation allowed.", {
         position: "top-right",
         autoClose: 2000,
@@ -181,7 +196,21 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
         progress: undefined,
         theme: "light",
       });
+    } else if (response.message === "false") {
+      // setPageCreationStatus(false);
+      toast.warn("Restaurant page creation denied.", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } else {
+      // setPageCreationStatus(null);
       toast.error("Failed to allow restaurant page creation.", {
         position: "top-right",
         autoClose: 2000,
@@ -212,7 +241,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
 
     response = await response.json();
 
-    if (response) {
+    if (response.message === "true") {
       toast.success("Documents verified successfully.", {
         position: "top-right",
         autoClose: 2000,
@@ -224,7 +253,21 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
         progress: undefined,
         theme: "light",
       });
+    } else if (response.message === "false") {
+      // setDocVerificationStatus(false);
+      toast.warn("Document verification pending", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } else {
+      setDocVerificationStatus("");
       toast.error("Failed to verify documents.", {
         position: "top-right",
         autoClose: 2000,
@@ -255,7 +298,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
 
     response = await response.json();
 
-    if (response) {
+    if (response.message === "true") {
       toast.success("Delivery activated successfully.", {
         position: "top-right",
         autoClose: 2000,
@@ -267,7 +310,21 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
         progress: undefined,
         theme: "light",
       });
+    } else if (response.message === "false") {
+      // setDeliveryActivationStatus(false);
+      toast.warn("Delivery Activation Pending", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } else {
+      setDeliveryActivationStatus("");
       toast.error("Failed to activate delivery.", {
         position: "top-right",
         autoClose: 2000,
@@ -298,7 +355,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
 
     response = await response.json();
 
-    if (response) {
+    if (response.message === "true") {
       toast.success("Menu digitization allowed.", {
         position: "top-right",
         autoClose: 2000,
@@ -310,7 +367,21 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
         progress: undefined,
         theme: "light",
       });
+    } else if (response.message === "false") {
+      // setMenuDigitisationStatus(false);
+      toast.warn("Menu digitisation pending", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } else {
+      setMenuDigitisationStatus("");
       toast.error("Failed to allow menu digitization.", {
         position: "top-right",
         autoClose: 2000,
@@ -344,8 +415,21 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
 
     response = await response.json();
 
-    if (response) {
-      toast.success("Bank details validated successfully.", {
+    if (response.message === "true") {
+      toast.success("Bank details verification completed", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else if (response.message === "false") {
+      // setBankDetailsVerificationStatus(false);
+      toast.warn("Bank details verification pending", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -357,7 +441,8 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
         theme: "light",
       });
     } else {
-      toast.error("Failed to validate bank details.", {
+      setBankDetailsVerificationStatus("");
+      toast.error("Failed to verification of bank details.", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -371,7 +456,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
     }
   };
 
-  // Bank Details Verification API
+  // Partnership Verification API
   const partnershipDone = async (id, isAllowed) => {
     let response = await fetch(`${host}/api/admin/partnershipDone/${id}`, {
       method: "POST",
@@ -387,7 +472,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
 
     response = await response.json();
 
-    if (response) {
+    if (response.message === "true") {
       toast.success("Partnership done successfully.", {
         position: "top-right",
         autoClose: 2000,
@@ -399,8 +484,22 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
         progress: undefined,
         theme: "light",
       });
+    } else if (response.message === "false") {
+      // setPartnershipStatus(false);
+      toast.warn("Document verification is pending", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } else {
-      toast.error("Failed to partnership.", {
+      setPartnershipStatus("");
+      toast.error("Failed to do partnership.", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -536,52 +635,33 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-lg hover:drop-shadow-xl block"
                             onClick={() => {
                               createResPage(res?._id, "true");
-                              setResPageCreated("true");
+                              setPageCreationStatus(true);
                             }}
                           >
                             Yes
                           </button>
                         </td>
                         <td className="border border-slate-300 text-md">
-                          {resPageCreated === "" ? (
-                            resPageCreated === "true" ? (
-                              ""
-                            ) : (
-                              <button
-                                className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
-                                onClick={() => {
-                                  createResPage(res?._id, "false");
-                                  setResPageCreated("true");
-                                }}
-                              >
-                                No
-                              </button>
-                            )
-                          ) : (
-                            <button
-                              className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
-                              onClick={() => {
-                                createResPage(res?._id, "false");
-                                setResPageCreated("true");
-                              }}
-                            >
-                              No
-                            </button>
-                          )}
+                          <button
+                            className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
+                            onClick={() => {
+                              createResPage(res?._id, "false");
+                              setPageCreationStatus(false);
+                            }}
+                          >
+                            No
+                          </button>
                         </td>
                         <td className="border border-slate-300 text-md px-4">
-                          {restaurant?.isrespagecreated ? (
-                            restaurant?.isrespagecreated === "true" ? (
-                              <div className="text-lg text-green-500">
-                                Foodly Page Creation Successfully
-                              </div>
-                            ) : (
-                              <div className="text-lg text-red-500">
-                                Foodly Page Creation Pending
-                              </div>
-                            )
+                          {res?.isrespagecreated === "true" ||
+                          pageCreationStatus ? (
+                            <div className="text-lg text-green-500">
+                              Foodly page created successfully
+                            </div>
                           ) : (
-                            ""
+                            <div className="text-lg text-red-500">
+                              Foodly page creation pending
+                            </div>
                           )}
                         </td>
                       </tr>
@@ -594,25 +674,36 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() =>
-                              documentVerification(res?._id, "true")
-                            }
+                            onClick={() => {
+                              documentVerification(res?._id, "true");
+                              setDocVerificationStatus(true);
+                            }}
                           >
                             Yes
                           </button>
                         </td>
                         <td className="border border-slate-300 text-md">
-                          {/* {res?.isdocverified ? (
-                            <div></div>
-                          ) : ( */}
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() =>
-                              documentVerification(res?._id, "false")
-                            }
+                            onClick={() => {
+                              documentVerification(res?._id, "false");
+                              setDocVerificationStatus(false);
+                            }}
                           >
                             No
                           </button>
+                        </td>
+                        <td className="border border-slate-300 text-md px-4">
+                          {res?.isdocverified === "true" ||
+                          docVerificationStatus ? (
+                            <div className="text-lg text-green-500">
+                              Documents verified successfully
+                            </div>
+                          ) : (
+                            <div className="text-lg text-red-500">
+                              Documents verification pending
+                            </div>
+                          )}
                         </td>
                       </tr>
                       <tr>
@@ -622,7 +713,10 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() => deliveryActivation(res?._id, "true")}
+                            onClick={() => {
+                              deliveryActivation(res?._id, "true");
+                              setDeliveryActivationStatus(true);
+                            }}
                           >
                             Yes
                           </button>
@@ -630,12 +724,25 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() =>
-                              deliveryActivation(res?._id, "false")
-                            }
+                            onClick={() => {
+                              deliveryActivation(res?._id, "false");
+                              setDeliveryActivationStatus(false);
+                            }}
                           >
                             No
                           </button>
+                        </td>
+                        <td className="border border-slate-300 text-md px-4">
+                          {res?.isactivedelivery === "true" ||
+                          deliveryActivationStatus ? (
+                            <div className="text-lg text-green-500">
+                              Delivery activated successfully
+                            </div>
+                          ) : (
+                            <div className="text-lg text-red-500">
+                              Delivery activation pending
+                            </div>
+                          )}
                         </td>
                       </tr>
                       <tr>
@@ -645,7 +752,10 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() => menuDigitisation(res?._id, "true")}
+                            onClick={() => {
+                              menuDigitisation(res?._id, "true");
+                              setMenuDigitisationStatus(true);
+                            }}
                           >
                             Yes
                           </button>
@@ -653,10 +763,25 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() => menuDigitisation(res?._id, "false")}
+                            onClick={() => {
+                              menuDigitisation(res?._id, "false");
+                              setMenuDigitisationStatus(false);
+                            }}
                           >
                             No
                           </button>
+                        </td>
+                        <td className="border border-slate-300 text-md px-4">
+                          {res?.ismenudigitisation === "true" ||
+                          menuDigitisationStatus ? (
+                            <div className="text-lg text-green-500">
+                              Menu digitisation successfully
+                            </div>
+                          ) : (
+                            <div className="text-lg text-red-500">
+                              Menu digitisation pending
+                            </div>
+                          )}
                         </td>
                       </tr>
                       <tr>
@@ -666,9 +791,10 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() =>
-                              bankDetailsVerification(res?._id, "true")
-                            }
+                            onClick={() => {
+                              bankDetailsVerification(res?._id, "true");
+                              setBankDetailsVerificationStatus(true);
+                            }}
                           >
                             Yes
                           </button>
@@ -676,12 +802,25 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() =>
-                              bankDetailsVerification(res?._id, "false")
-                            }
+                            onClick={() => {
+                              bankDetailsVerification(res?._id, "false");
+                              setBankDetailsVerificationStatus(false);
+                            }}
                           >
                             No
                           </button>
+                        </td>
+                        <td className="border border-slate-300 text-md px-4">
+                          {res?.isbankdetailsverified === "true" ||
+                          bankDetailsVerificationStatus ? (
+                            <div className="text-lg text-green-500">
+                              Bank details verified successfully
+                            </div>
+                          ) : (
+                            <div className="text-lg text-red-500">
+                              Bank details verification pending
+                            </div>
+                          )}
                         </td>
                       </tr>
                       <tr>
@@ -691,7 +830,10 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-teal-500 hover:bg-teal-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() => partnershipDone(res?._id, "true")}
+                            onClick={() => {
+                              partnershipDone(res?._id, "true");
+                              setPartnershipStatus(true);
+                            }}
                           >
                             Yes
                           </button>
@@ -699,10 +841,25 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                         <td className="border border-slate-300 text-md">
                           <button
                             className="text-white font-semibold m-auto px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl block"
-                            onClick={() => partnershipDone(res?._id, "false")}
+                            onClick={() => {
+                              partnershipDone(res?._id, "false");
+                              setPartnershipStatus(false);
+                            }}
                           >
                             No
                           </button>
+                        </td>
+                        <td className="border border-slate-300 text-md px-4">
+                          {res?.ispartnership === "true" ||
+                          partnershipStatus ? (
+                            <div className="text-lg text-green-500">
+                              Partnership done successfully
+                            </div>
+                          ) : (
+                            <div className="text-lg text-red-500">
+                              Partnership pending
+                            </div>
+                          )}
                         </td>
                       </tr>
                     </tbody>

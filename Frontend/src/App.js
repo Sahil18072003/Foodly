@@ -139,7 +139,7 @@ function App() {
               <>
                 <Navbar />
                 <ResDashboard />
-                <Footer />
+                {/* <Footer /> */}
               </>
             }
           />

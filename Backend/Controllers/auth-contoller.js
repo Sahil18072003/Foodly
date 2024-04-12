@@ -136,13 +136,18 @@ const forgotPassword = async (req, res) => {
 
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-          res.status(500).send("Internal Server error occured");
+          // Handle email sending error
           console.log(error);
+          return res.status(500).send("Internal Server error occurred");
         } else {
-          res
-            .status(200)
-            .json({ msg: "Email Sent Succesfully", email, userid, otp: otp });
+          // Handle email sent successfully
           console.log("Email Sent Succesfully");
+          return res.status(200).json({
+            msg: "Email Sent Successfully",
+            email,
+            userid,
+            otp: otp,
+          });
         }
       });
     } else {
@@ -150,7 +155,7 @@ const forgotPassword = async (req, res) => {
     }
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Internal Server error occured");
+    return res.status(500).send("Internal Server error occurred");
   }
 };
 

@@ -9,20 +9,11 @@ const { ObjectId } = require("mongodb");
 // Get All User data in admin page
 const getUserDetails = async (req, res) => {
   try {
-    // Attempt to find a user record
-    const data = await User.find(req.body);
-
-    // Check if data exists
-    if (data) {
-      // Send the data as a response
-      res.send(data);
-    } else {
-      // If no data found, send a custom error response
-      res.status(404).send("User record not found");
-    }
+    const data = await User.find(req.body).lean();
+    res.send(data);
   } catch (error) {
-    console.log(error.message);
-    res.status(500).send("Internal Server error occured");
+    console.error(error.message);
+    res.status(500).send("Internal Server error occurred");
   }
 };
 
@@ -30,15 +21,14 @@ const getUserDetails = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const result = await User.deleteOne({ _id: req.params.id });
-
-    if (result) {
-      res.status(200).json({ message: "User deleted successfully" });
-    } else {
-      res.status(404).json({ message: "No user found for deletion" });
-    }
+    res.status(result.deletedCount ? 200 : 404).json({
+      message: result.deletedCount
+        ? "User deleted successfully"
+        : "No user found for deletion",
+    });
   } catch (error) {
-    console.log(error.message);
-    res.status(500).send("Internal Server error occured");
+    console.error(error.message);
+    res.status(500).send("Internal Server error occurred");
   }
 };
 
@@ -46,14 +36,13 @@ const deleteUser = async (req, res) => {
 const deleteAllComments = async (req, res) => {
   try {
     const result = await Comment.deleteMany({ uid: req.params.id });
-
-    if (result) {
-      res.status(200).json({ message: "All comments deleted successfully" });
-    } else {
-      res.status(404).json({ message: "No comments found for deletion" });
-    }
+    res.status(result.deletedCount ? 200 : 404).json({
+      message: result.deletedCount
+        ? "All comments deleted successfully"
+        : "No comments found for deletion",
+    });
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     res.status(500).send("Internal Server error occurred");
   }
 };
@@ -197,11 +186,16 @@ const createResPage = async (req, res) => {
       : `We regret to inform you that we couldn't process the request to create your restaurant's FOODLY page with ID ${existingRestaurant._id} at this time. Please try again later.`;
 
     // Send email
-    await sendEmail(userExists.email, emailSubject, emailText);
+    // await sendEmail(userExists.email, emailSubject, emailText);
 
     if (result.acknowledged) {
       const updatedRestaurant = await Restaurant.findOne({ _id });
-      return res.status(202).json({ updatedRestaurant });
+
+      if (updatedRestaurant.isrespagecreated === "true")
+        return res.status(202).json({ message: "true" });
+      else {
+        return res.status(202).json({ message: "false" });
+      }
     } else {
       return res
         .status(500)
@@ -244,11 +238,16 @@ const documentVerification = async (req, res) => {
       : `We regret to inform you that we couldn't verify your restaurant's documents with ID ${existingRestaurant._id} on FOODLY at this time. Please try again later.`;
 
     // Send email
-    await sendEmail(userExists.email, emailSubject, emailText);
+    // await sendEmail(userExists.email, emailSubject, emailText);
 
     if (result.acknowledged) {
       const updatedRestaurant = await Restaurant.findOne({ _id });
-      return res.status(202).json({ updatedRestaurant });
+
+      if (updatedRestaurant.isdocverified === "true")
+        return res.status(202).json({ message: "true" });
+      else {
+        return res.status(202).json({ message: "false" });
+      }
     }
   } catch (error) {
     // Log the error for debugging
@@ -258,7 +257,7 @@ const documentVerification = async (req, res) => {
   }
 };
 
-// Delivery activation api
+// Delivery+ activation api
 const deliveryActivation = async (req, res) => {
   try {
     const { _id, isactivedelivery } = req.body;
@@ -289,11 +288,15 @@ const deliveryActivation = async (req, res) => {
       : `We regret to inform you that we couldn't activate delivery services for your restaurant with ID ${existingRestaurant._id} on FOODLY at this time. Please try again later.`;
 
     // Send email
-    await sendEmail(userExists.email, emailSubject, emailText);
+    // await sendEmail(userExists.email, emailSubject, emailText);
 
     if (result.acknowledged) {
       const updatedRestaurant = await Restaurant.findOne({ _id });
-      return res.status(202).json({ updatedRestaurant });
+      if (updatedRestaurant.isactivedelivery === "true")
+        return res.status(202).json({ message: "true" });
+      else {
+        return res.status(202).json({ message: "false" });
+      }
     } else {
       return res.status(500).json({ message: "Can't active delivery." });
     }
@@ -336,11 +339,15 @@ const menuDigitisation = async (req, res) => {
       : `We regret to inform you that we couldn't digitize your restaurant's menu with ID ${existingRestaurant._id} on FOODLY at this time. Please try again later.`;
 
     // Send email
-    await sendEmail(userExists.email, emailSubject, emailText);
+    // await sendEmail(userExists.email, emailSubject, emailText);
 
     if (result.acknowledged) {
       const updatedRestaurant = await Restaurant.findOne({ _id });
-      return res.status(202).json({ updatedRestaurant });
+      if (updatedRestaurant.ismenudigitisation === "true")
+        return res.status(202).json({ message: "true" });
+      else {
+        return res.status(202).json({ message: "false" });
+      }
     } else {
       return res.status(500).json({ message: "Can't menu digitisation." });
     }
@@ -382,11 +389,15 @@ const bankDetailsVerification = async (req, res) => {
       : `We regret to inform you that we couldn't verify your restaurant's bank details with ID ${existingRestaurant._id} on FOODLY at this time. Please try again later.`;
 
     // Send email
-    await sendEmail(userExists.email, emailSubject, emailText);
+    // await sendEmail(userExists.email, emailSubject, emailText);
 
     if (result.acknowledged) {
       const updatedRestaurant = await Restaurant.findOne({ _id });
-      return res.status(202).json({ updatedRestaurant });
+      if (updatedRestaurant.isbankdetailsverified === "true")
+        return res.status(202).json({ message: "true" });
+      else {
+        return res.status(202).json({ message: "false" });
+      }
     } else {
       return res.status(500).json({ message: "Can't verified bank details." });
     }
@@ -438,11 +449,15 @@ Best regards,
 FOODLY Team`;
 
     // Send email
-    await sendEmail(userExists.email, emailSubject, emailText);
+    // await sendEmail(userExists.email, emailSubject, emailText);
 
     if (result.acknowledged) {
       const updatedRestaurant = await Restaurant.findOne({ _id });
-      return res.status(202).json({ updatedRestaurant });
+      if (updatedRestaurant.ispartnership === "true")
+        return res.status(202).json({ message: "true" });
+      else {
+        return res.status(202).json({ message: "false" });
+      }
     } else {
       return res.status(500).json({ message: "Can't verified bank details." });
     }
