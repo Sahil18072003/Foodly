@@ -57,7 +57,7 @@ function App() {
             element={
               <>
                 <Navbar />
-                <Carousel />
+                {/* <Carousel /> */}
                 <PopularRestaurant />
                 <HowWork />
                 <Comment />
@@ -71,7 +71,7 @@ function App() {
             element={
               <>
                 <Navbar />
-                <Carousel />
+                {/* <Carousel /> */}
                 <PopularRestaurant />
                 <HowWork />
                 <Comment />
@@ -155,7 +155,7 @@ function App() {
           />
           <Route
             exact
-            path="/dashboard/restaurantPage/:id"
+            path="/restaurantPage/:id"
             element={
               <>
                 <Navbar />

@@ -186,7 +186,7 @@ const createResPage = async (req, res) => {
       : `We regret to inform you that we couldn't process the request to create your restaurant's FOODLY page with ID ${existingRestaurant._id} at this time. Please try again later.`;
 
     // Send email
-    // await sendEmail(userExists.email, emailSubject, emailText);
+    await sendEmail(userExists.email, emailSubject, emailText);
 
     if (result.acknowledged) {
       const updatedRestaurant = await Restaurant.findOne({ _id });
@@ -238,7 +238,7 @@ const documentVerification = async (req, res) => {
       : `We regret to inform you that we couldn't verify your restaurant's documents with ID ${existingRestaurant._id} on FOODLY at this time. Please try again later.`;
 
     // Send email
-    // await sendEmail(userExists.email, emailSubject, emailText);
+    await sendEmail(userExists.email, emailSubject, emailText);
 
     if (result.acknowledged) {
       const updatedRestaurant = await Restaurant.findOne({ _id });
@@ -288,7 +288,7 @@ const deliveryActivation = async (req, res) => {
       : `We regret to inform you that we couldn't activate delivery services for your restaurant with ID ${existingRestaurant._id} on FOODLY at this time. Please try again later.`;
 
     // Send email
-    // await sendEmail(userExists.email, emailSubject, emailText);
+    await sendEmail(userExists.email, emailSubject, emailText);
 
     if (result.acknowledged) {
       const updatedRestaurant = await Restaurant.findOne({ _id });
@@ -339,7 +339,7 @@ const menuDigitisation = async (req, res) => {
       : `We regret to inform you that we couldn't digitize your restaurant's menu with ID ${existingRestaurant._id} on FOODLY at this time. Please try again later.`;
 
     // Send email
-    // await sendEmail(userExists.email, emailSubject, emailText);
+    await sendEmail(userExists.email, emailSubject, emailText);
 
     if (result.acknowledged) {
       const updatedRestaurant = await Restaurant.findOne({ _id });
@@ -389,7 +389,7 @@ const bankDetailsVerification = async (req, res) => {
       : `We regret to inform you that we couldn't verify your restaurant's bank details with ID ${existingRestaurant._id} on FOODLY at this time. Please try again later.`;
 
     // Send email
-    // await sendEmail(userExists.email, emailSubject, emailText);
+    await sendEmail(userExists.email, emailSubject, emailText);
 
     if (result.acknowledged) {
       const updatedRestaurant = await Restaurant.findOne({ _id });
@@ -449,7 +449,7 @@ Best regards,
 FOODLY Team`;
 
     // Send email
-    // await sendEmail(userExists.email, emailSubject, emailText);
+    await sendEmail(userExists.email, emailSubject, emailText);
 
     if (result.acknowledged) {
       const updatedRestaurant = await Restaurant.findOne({ _id });

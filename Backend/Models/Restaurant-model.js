@@ -58,11 +58,19 @@ const restaurantSchema = new mongoose.Schema(
       type: Array,
       require: true,
     },
-    openingtime: {
+    morningopeningtime: {
       type: String,
       require: true,
     },
-    closingtime: {
+    afternoonclosingtime: {
+      type: String,
+      require: true,
+    },
+    eveningopeningtime: {
+      type: String,
+      require: true,
+    },
+    nightclosingtime: {
       type: String,
       require: true,
     },

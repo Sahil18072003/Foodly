@@ -129,8 +129,10 @@ const addRestaurant2 = async (req, res) => {
     rescategory,
     restypes,
     rescuisinetype,
-    openingtime,
-    closingtime,
+    morningopeningtime,
+    afternoonclosingtime,
+    eveningopeningtime,
+    nightclosingtime,
     resdays,
   } = req.body;
 
@@ -150,8 +152,10 @@ const addRestaurant2 = async (req, res) => {
           rescategory: rescategory,
           restypes: restypes,
           rescuisinetype: rescuisinetype,
-          openingtime: openingtime,
-          closingtime: closingtime,
+          morningopeningtime: morningopeningtime,
+          afternoonclosingtime: afternoonclosingtime,
+          eveningopeningtime: eveningopeningtime,
+          nightclosingtime: nightclosingtime,
           resdays: resdays,
         },
       }

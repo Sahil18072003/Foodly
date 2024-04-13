@@ -18,8 +18,18 @@ function AddForm2() {
   const [selectedResType, setSelectedResType] = useState([]);
   const [selectedResCuisineType, setSelectedResCuisineType] = useState([]);
   const [selectedResDays, setSelectedResDays] = useState([]);
-  const [openingTime, setOpeningTime] = useState(restaurant?.openingtime);
-  const [closingTime, setClosingTime] = useState(restaurant?.closingtime);
+  const [morningOpeningTime, setMorningOpeningTime] = useState(
+    restaurant?.morningopeningtime
+  );
+  const [afternoonClosingTime, setAfternoonClosingTime] = useState(
+    restaurant?.afternoonclosingtime
+  );
+  const [eveningOpeningTime, setEveningOpeningTime] = useState(
+    restaurant?.eveningopeningtime
+  );
+  const [nightClosingTime, setNightClosingTime] = useState(
+    restaurant?.nightclosingtime
+  );
 
   useEffect(() => {
     const storedCategory = restaurant?.rescategory;
@@ -42,14 +52,24 @@ function AddForm2() {
       setSelectedResDays(storedResDays);
     }
 
-    const storedOpeningTime = restaurant?.openingtime;
-    if (storedOpeningTime) {
-      setOpeningTime(storedOpeningTime);
+    const storedMorningOpeningTime = restaurant?.morningopeningtime;
+    if (storedMorningOpeningTime) {
+      setMorningOpeningTime(storedMorningOpeningTime);
     }
 
-    const storedClosingTime = restaurant?.closingtime;
-    if (storedClosingTime) {
-      setClosingTime(storedClosingTime);
+    const storedAfternoonClosingTime = restaurant?.afternoonclosingtime;
+    if (storedAfternoonClosingTime) {
+      setAfternoonClosingTime(storedAfternoonClosingTime);
+    }
+
+    const storedEveningOpeningTime = restaurant?.eveningopeningtime;
+    if (storedEveningOpeningTime) {
+      setEveningOpeningTime(storedEveningOpeningTime);
+    }
+
+    const storedNightClosingTime = restaurant?.nightclosingtime;
+    if (storedNightClosingTime) {
+      setNightClosingTime(storedNightClosingTime);
     }
   }, []);
 
@@ -87,13 +107,22 @@ function AddForm2() {
   };
 
   // Function to handle changes in opening time input
-  const handleOpeningTimeChange = (e) => {
-    setOpeningTime(e.target.value);
+  const handleMorningOpeningTimeChange = (e) => {
+    setMorningOpeningTime(e.target.value);
   };
 
   // Function to handle changes in closing time input
-  const handleClosingTimeChange = (e) => {
-    setClosingTime(e.target.value);
+  const handleAfternoonClosingTimeChange = (e) => {
+    setAfternoonClosingTime(e.target.value);
+  };
+
+  const handleEveningOpeningTimeChange = (e) => {
+    setEveningOpeningTime(e.target.value);
+  };
+
+  // Function to handle changes in closing time input
+  const handleNightClosingTimeChange = (e) => {
+    setNightClosingTime(e.target.value);
   };
 
   useEffect(() => {
@@ -197,8 +226,10 @@ function AddForm2() {
       rescategory !== "" &&
       selectedTypes.length > 0 &&
       selectedCuisineTypes.length > 0 &&
-      openingTime !== "" &&
-      closingTime !== "" &&
+      morningOpeningTime !== "" &&
+      afternoonClosingTime !== "" &&
+      eveningOpeningTime !== "" &&
+      nightClosingTime !== "" &&
       selectedDays.length > 0
     ) {
       // API call
@@ -214,8 +245,10 @@ function AddForm2() {
             rescategory: rescategory,
             restypes: selectedTypes,
             rescuisinetype: selectedCuisineTypes,
-            openingtime: openingTime,
-            closingtime: closingTime,
+            morningopeningtime: morningOpeningTime,
+            afternoonclosingtime: afternoonClosingTime,
+            eveningopeningtime: eveningOpeningTime,
+            nightclosingtime: nightClosingTime,
             resdays: selectedDays,
           }),
         }
@@ -1105,54 +1138,116 @@ function AddForm2() {
                     Mark restaurant opening and closing hours
                   </div>
                 </div>
-                <div className="p-1 flex flex-column gap-2">
-                  <div className="p-2 flex flex-row justify-center items-center">
-                    <div className="justify-center items-center">
-                      <div className="p-2">Opens at</div>
-                      <input
-                        type="time"
-                        id="openingtime"
-                        name="openingTime"
-                        value={openingTime}
-                        className="border-2 border-gray-300 rounded py-2 px-4"
-                        {...register("openingTime", {
-                          required: {
-                            value: true,
-                            message: "Restaurant opening time is required",
-                          },
-                        })}
-                        onChange={handleOpeningTimeChange}
-                      />
-                      <p className="text-sm text-red-500">
-                        {errors.openingTime?.message}
-                      </p>
+                <div className="p-1 gap-2">
+                  <div className="px-2 text-lg font-semibold">Morning time</div>
+                  <div className="flex flex-column">
+                    <div className="p-2 flex flex-row justify-center items-center">
+                      <div className="justify-center items-center">
+                        <div className="p-2">Opens at</div>
+                        <input
+                          type="time"
+                          id="morningopeningtime"
+                          name="morningOpeningTime"
+                          value={morningOpeningTime}
+                          className="border-2 border-gray-300 rounded py-2 px-4"
+                          {...register("morningOpeningTime", {
+                            required: {
+                              value: true,
+                              message:
+                                "Restaurant morning opening time is required",
+                            },
+                          })}
+                          onChange={handleMorningOpeningTimeChange}
+                        />
+                        <p className="text-sm text-red-500">
+                          {errors.morningOpeningTime?.message}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="p-2 flex flex-column justify-center items-center">
+                      <div className="h-full pb-8 pt-12 px-8 justify-center items-center">
+                        to
+                      </div>
+                    </div>
+                    <div className="p-2 flex flex-column justify-center items-center">
+                      <div className="justify-center items-center">
+                        <div className="p-2">Closes at</div>
+                        <input
+                          type="time"
+                          id="afternoonclosingtime"
+                          name="afternoonClosingTime"
+                          value={afternoonClosingTime}
+                          className="border-2 border-gray-300 rounded py-2 px-4"
+                          {...register("afternoonClosingTime", {
+                            required: {
+                              value: true,
+                              message:
+                                "Restaurant afternoon closing time is required",
+                            },
+                          })}
+                          onChange={handleAfternoonClosingTimeChange}
+                        />
+                        <p className="text-sm text-red-500">
+                          {errors.afternoonClosingTime?.message}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                  <div className="p-2 flex flex-column justify-center items-center">
-                    <div className="h-full pb-8 pt-12 px-8 justify-center items-center">
-                      to
+                </div>
+
+                <div className="p-1 gap-2">
+                  <div className="px-2 text-lg font-semibold">Evening time</div>
+                  <div className="flex flex-column">
+                    <div className="p-2 flex flex-row justify-center items-center">
+                      <div className="justify-center items-center">
+                        <div className="p-2">Opens at</div>
+                        <input
+                          type="time"
+                          id="evenigopeningtime"
+                          name="eveningOpeningTime"
+                          value={eveningOpeningTime}
+                          className="border-2 border-gray-300 rounded py-2 px-4"
+                          {...register("eveningOpeningTime", {
+                            required: {
+                              value: true,
+                              message:
+                                "Restaurant evening opening time is required",
+                            },
+                          })}
+                          onChange={handleEveningOpeningTimeChange}
+                        />
+                        <p className="text-sm text-red-500">
+                          {errors.eveningOpeningTime?.message}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="p-2 flex flex-column justify-center items-center">
-                    <div className="justify-center items-center">
-                      <div className="p-2">Closes at</div>
-                      <input
-                        type="time"
-                        id="closingtime"
-                        name="closingTime"
-                        value={closingTime}
-                        className="border-2 border-gray-300 rounded py-2 px-4"
-                        {...register("closingTime", {
-                          required: {
-                            value: true,
-                            message: "Restaurant closing time is required",
-                          },
-                        })}
-                        onChange={handleClosingTimeChange}
-                      />
-                      <p className="text-sm text-red-500">
-                        {errors.closingTime?.message}
-                      </p>
+                    <div className="p-2 flex flex-column justify-center items-center">
+                      <div className="h-full pb-8 pt-12 px-8 justify-center items-center">
+                        to
+                      </div>
+                    </div>
+                    <div className="p-2 flex flex-column justify-center items-center">
+                      <div className="justify-center items-center">
+                        <div className="p-2">Closes at</div>
+                        <input
+                          type="time"
+                          id="nightclosingtime"
+                          name="nightClosingTime"
+                          value={nightClosingTime}
+                          className="border-2 border-gray-300 rounded py-2 px-4"
+                          {...register("nightClosingTime", {
+                            required: {
+                              value: true,
+                              message:
+                                "Restaurant night closing time is required",
+                            },
+                          })}
+                          onChange={handleNightClosingTimeChange}
+                        />
+                        <p className="text-sm text-red-500">
+                          {errors.nightClosingTime?.message}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>

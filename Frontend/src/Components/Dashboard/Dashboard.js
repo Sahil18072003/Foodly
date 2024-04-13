@@ -18,13 +18,15 @@ function Dashboard() {
     document.title = "Dashboard | Foodly";
   }, []);
 
-  const userUpdate = () => {
-    navigate(`/dashboard/updateProfile/${user?._id}`);
+  const userUpdate = (userId) => {
+    navigate(`/dashboard/updateProfile/${userId}`);
   };
 
-  const userRestaurantPage = () => {
-    // if (restaurant) {
-    //   toast.error("You not registered for restaurant.", {
+  const userRestaurantPage = (userId) => {
+    // if (restaurant && restaurant.ownerid === userId) {
+    navigate(`/dashboard/resDashboard/${userId}`);
+    // } else {
+    //   toast.error("You are not registered for a restaurant.", {
     //     position: "top-right",
     //     autoClose: 2000,
     //     hideProgressBar: false,
@@ -35,8 +37,6 @@ function Dashboard() {
     //     progress: undefined,
     //     theme: "light",
     //   });
-    // } else {
-    navigate(`/dashboard/resDashboard`);
     // }
   };
 
@@ -89,7 +89,7 @@ function Dashboard() {
     <div className="dashboard-page">
       <div className="dashboard-title">Your Account</div>
       <div className="flex flex-column w-4/5 py-8">
-        <div onClick={userUpdate} className="profile-part">
+        <div onClick={() => userUpdate(user?._id)} className="profile-part">
           <img
             src={require(`../../assets/Dashboard/profile.jpg`)}
             alt=""
@@ -103,7 +103,10 @@ function Dashboard() {
           </div>
         </div>
 
-        <div onClick={() => userRestaurantPage} className="profile-part">
+        <div
+          onClick={() => userRestaurantPage(user?._id)}
+          className="profile-part"
+        >
           <img
             src={require(`../../assets/Dashboard/Respage.jpg`)}
             alt=""
@@ -137,11 +140,11 @@ function Dashboard() {
                     res?.ismenudigitisation === "true" &&
                     res?.isbankdetailsverified === "true" &&
                     res?.ispartnership === "true" ? (
-                      <span className="text-green-700 bg-green-100 m-2 p-2 font-bold rounded-md">
+                      <span className="text-green-700 bg-green-100 m-2 py-2 px-4 font-bold rounded-md">
                         Verification Success
                       </span>
                     ) : (
-                      <span className="text-red-500 bg-red-100 m-2 p-2 font-bold rounded-md">
+                      <span className="text-red-500 bg-red-100 m-2 py-2 px-4 font-bold rounded-md">
                         Verification Failed
                       </span>
                     )
@@ -314,6 +317,7 @@ function Dashboard() {
                   <div className="w-1/3 border-2 border-orange-400 m-2 rounded-md">
                     <img
                       src={require(`../../assets/Dashboard/page.jpg`)}
+                      alt=""
                       className="track-img"
                     />
                     <div className="p-4">
@@ -340,6 +344,7 @@ function Dashboard() {
                   <div className="w-1/3 border-2 border-orange-400 m-2 rounded-md">
                     <img
                       src={require(`../../assets/Dashboard/boy.jpg`)}
+                      alt=""
                       className="track-img"
                     />
                     <div className="p-4">
@@ -360,6 +365,7 @@ function Dashboard() {
                   <div className="w-1/3 border-2 border-orange-400 m-2 rounded-md">
                     <img
                       src={require(`../../assets/Dashboard/dine.jpg`)}
+                      alt=""
                       className="track-img"
                     />
                     <div className="p-4">
@@ -380,6 +386,18 @@ function Dashboard() {
           <div>No restaurants available</div>
         )}
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

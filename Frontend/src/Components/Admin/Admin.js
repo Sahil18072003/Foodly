@@ -64,7 +64,7 @@ const Admin = () => {
     } catch (error) {
       toast.error("Failed to fetch messages", {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,
