@@ -6,7 +6,7 @@ const devloperInfo = [
     github: "https://github.com/",
     linkedIn: "https://www.linkedin.com/in/",
     instagram: "https://www.instagram.com/",
-    image: "client/src/assets/devlopers/",
+    image: require(`./../../assets/Aboutus/1.jpg`),
   },
 
   {
@@ -16,7 +16,7 @@ const devloperInfo = [
     github: "https://github.com/",
     linkedIn: "https://www.linkedin.com/in/",
     instagram: "https://instagram.com/",
-    image: "client/src/assets/devlopers/",
+    image: require(`./../../assets/Aboutus/2.jpg`),
   },
 
   {
@@ -26,7 +26,7 @@ const devloperInfo = [
     github: "https://github.com/",
     linkedIn: "https://www.linkedin.com/in/",
     instagram: "https://www.instagram.com/",
-    image: "client/src/assets/devlopers/",
+    image: require(`./../../assets/Aboutus/3.jpg`),
   },
 
   {
@@ -36,17 +36,17 @@ const devloperInfo = [
     github: "https://github.com/",
     linkedIn: "https://www.linkedin.com/in/",
     instagram: "https://www.instagram.com/",
-    image: "client/src/assets/devlopers/",
+    image: require(`./../../assets/Aboutus/4.jpg`),
   },
 
   {
     id: 5,
     name: "Pritesh Patel",
-    role: "Backend Web-developer",
+    role: "Frontend Web-developer",
     github: "https://github.com/",
     linkedIn: "https://www.linkedin.com/in/",
     instagram: "https://www.instagram.com/",
-    image: "client/src/assets/devlopers/",
+    image: require(`./../../assets/Aboutus/5.jpg`),
   },
 ];
 

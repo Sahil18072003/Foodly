@@ -14,8 +14,8 @@ function ResDashboard() {
   return (
     <div className="main-page">
       <div className="flex relative">
-        <div className="w-1/6  text-gray-200 body-font bg-orange-400 sticky z-20">
-          <div className="h-[40.5rem] flex flex-wrap ">
+        <div className="w-1/6 text-gray-200 body-font bg-orange-400">
+          <div className="h-[40.5rem] flex flex-wrap sticky top-20">
             <div className=" px-7  w-full overflow-hidden">
               <div className="py-5">
                 <div className="my-3 text-xl font-bold px-4">Dashbord</div>
@@ -75,7 +75,7 @@ function ResDashboard() {
             </div>
           </div>
         </div>
-        <div className=" w-4/5 bg-gray-100">
+        <div className="w-5/6 bg-gray-100">
           <div>
             <div className=" bg-gray-100">
               {activeStep === 1}

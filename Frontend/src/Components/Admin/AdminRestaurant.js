@@ -565,9 +565,10 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
                           <div className="text-lg">
                             <strong>Restaurant Id : {res?._id}</strong>
                           </div>
-                          <div className="text-lg font-bold">
-                            Restaurant Category : {res?.rescategory}
+                          <div className="text-lg font-semibold">
+                            Restaurant Category :
                           </div>
+                          <div>{res?.rescategory}</div>
                         </td>
                         <td className="border border-slate-300 text-md p-4">
                           <button

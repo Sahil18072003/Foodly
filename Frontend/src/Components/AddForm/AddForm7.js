@@ -12,6 +12,7 @@ function AddForm7() {
   const host = "http://localhost:5000";
 
   const user = JSON.parse(localStorage.getItem("user"));
+
   const restaurant = JSON.parse(localStorage.getItem("restaurant"))
     ? JSON.parse(localStorage.getItem("restaurant"))
     : "";
@@ -76,18 +77,17 @@ function AddForm7() {
 
   const sendContract = async (e) => {
     // Check if all required fields are filled
-    if (creditial.contactnumber !== "") {
+    if (creditial.owneremail !== "") {
       // If restaurant exists, update its values
       const response = await fetch(
-        `${host}/api/res/addRestaurant/addFrom/7/${restaurant?._id}`,
+        `${host}/api/res/addRestaurant/addFrom/7/sendContract`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            _id: restaurant?._id,
-            contactnumber: creditial.contactnumber,
+            owneremail: creditial.owneremail,
           }),
         }
       );
@@ -351,20 +351,17 @@ function AddForm7() {
                 </div>
                 <div className="w-full flex flex">
                   <input
-                    type="contact"
-                    id="contactnumber"
-                    name="contactnumber"
-                    className="w-2/3 p-2 mr-3 border-2 border-gray-300 rounded-md shadow-sm"
-                    value={creditial.contactnumber}
-                    {...register("contactnumber", {
-                      required: "Contact Number is required",
+                    type="email"
+                    id="owneremail"
+                    name="owneremail"
+                    className="input-field"
+                    value={user ? restaurant?.owneremail : creditial.owneremail}
+                    {...register("owneremail", {
+                      required: "Restaurant Owner Email is required",
                       pattern: {
-                        value: /^[6-9]{1}[0-9]{9}$/,
-                        message: "Contact Number is not valid",
-                      },
-                      maxLength: {
-                        value: 10,
-                        message: "Max 10 characters for Contact Number",
+                        value:
+                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/g,
+                        message: "Restaurant Owner Email is not valid",
                       },
                     })}
                     onChange={onChange}
@@ -378,7 +375,7 @@ function AddForm7() {
                   </button>
                 </div>
                 <p className="text-sm text-red-500 absolute">
-                  {errors.contactnumber?.message}
+                  {errors.owneremail?.message}
                 </p>
               </div>
 

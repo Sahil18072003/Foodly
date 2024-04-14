@@ -37,9 +37,6 @@ function Footer() {
                 <li>
                   <Link to="/terms">Terms</Link>
                 </li>
-                <li>
-                  <Link to="/sitemap">Sitemap</Link>
-                </li>
               </ul>
             </div>
           </div>
@@ -50,9 +47,6 @@ function Footer() {
               <ul>
                 <li>
                   <Link to="/aboutus">Who we are?</Link>
-                </li>
-                <li>
-                  <Link to="/blog">Blog</Link>
                 </li>
                 <li>
                   <Link to="/workwithus">Work With Us</Link>

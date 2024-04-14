@@ -353,7 +353,7 @@ const addRestaurant6 = async (req, res) => {
   }
 };
 
-const addRestaurant7 = async (req, res) => {
+const addRestaurant7 = async () => {
   // const { _id, menuimg, resimg, foodimg } = req.body;
   // try {
   //   let existingRestaurant = await Restaurant.findOne({ _id });

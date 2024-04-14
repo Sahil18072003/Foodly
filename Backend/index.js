@@ -6,6 +6,7 @@ const CLODINARY_CONFIG = require("./Configuration/cloudinaryConfig.js");
 const authRoutes = require("./routes/auth-route.js");
 const userRoutes = require("./routes/user-route.js");
 const restaurantRoutes = require("./routes/restaurant-route.js");
+const foodRoutes = require("./routes/food-route.js");
 const adminRoutes = require("./routes/admin-route.js");
 const cors = require("cors");
 const passport = require("passport");
@@ -39,6 +40,8 @@ app.use("/auth", authRoutes);
 app.use("/api/auth", userRoutes);
 
 app.use("/api/res", restaurantRoutes);
+
+app.use("/api/food", foodRoutes);
 
 app.use("/api/admin", adminRoutes);
 

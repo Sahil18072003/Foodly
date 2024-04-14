@@ -103,7 +103,7 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="antialiased bg-white-100 mx-5">
+    <div className="contact-us-page antialiased bg-white-100 mx-5">
       <div className="flex w-full min-h-screen justify-center items-center">
         <div
           className="mt-10 mb-20 flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0 bg-teal-500 w-full max-w-4xl p-8 
