@@ -152,13 +152,10 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
   };
 
   const [pageCreationStatus, setPageCreationStatus] = useState("");
-  console.log(pageCreationStatus);
 
   const [docVerificationStatus, setDocVerificationStatus] = useState("");
-  console.log(docVerificationStatus);
 
   const [deliveryActivationStatus, setDeliveryActivationStatus] = useState("");
-  console.log(deliveryActivationStatus);
 
   const [menuDigitisationStatus, setMenuDigitisationStatus] = useState("");
 
@@ -535,10 +532,9 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
     return false;
   };
 
-  const arry = [];
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-      <div className="bg-gray-200 rounded-lg h-5/6 lg:w-5/6 md:w-4/5 sm:w-3/5">
+      <div className="bg-gray-200 rounded-lg h-5/6 lg:fit-content md:w-4/5 sm:w-3/5">
         <div className="py-3 flex bg-orange-400 rounded-t-lg">
           <span className="text-2xl text-white flex px-12 justify-center font-medium flex-grow">
             Restaurant Details
@@ -556,19 +552,18 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
               restaurant?.map((res, index) => (
                 <div
                   key={res?._id}
-                  className="p-3 bg-orange-100 m-3 w-full rounded-lg bg-white hover:border-orange-300 hover:shadow-xl"
+                  className="p-2 bg-orange-100 m-2 w-full rounded-lg bg-white hover:border-orange-300 hover:shadow-xl"
                 >
-                  <table className="table-fixed justify-center shadow-xl overflow-y-scroll block w-full h-full">
-                    <tbody className="px-5 mx-10">
+                  <table className="table-fixed justify-center shadow-xl overflow-y-scroll block w-fit-content h-full">
+                    <tbody className="px-4 mx-10">
                       <tr>
                         <td className="border border-slate-300 text-lg p-4">
                           <div className="text-lg">
-                            <strong>Restaurant Id : {res?._id}</strong>
+                            <strong>ResId : {res?._id}</strong>
                           </div>
                           <div className="text-lg font-semibold">
-                            Restaurant Category :
+                            ResCategory : {res?.rescategory}
                           </div>
-                          <div>{res?.rescategory}</div>
                         </td>
                         <td className="border border-slate-300 text-md p-4">
                           <button

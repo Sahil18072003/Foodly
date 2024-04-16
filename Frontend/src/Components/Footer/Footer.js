@@ -57,7 +57,7 @@ function Footer() {
                   </a>
                 </li>
                 <li>
-                  <Link to="/contactus">Conatct Us</Link>
+                  <Link to="/contactus">Contact Us</Link>
                 </li>
               </ul>
             </div>

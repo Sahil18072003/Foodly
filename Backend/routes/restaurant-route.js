@@ -34,11 +34,10 @@ router
   .route("/addRestaurant/addFrom/7/:id")
   .post(restaurantController.addRestaurant7);
 router
-  .route("/dashboard/:id")
-  .post(verifyToken, restaurantController.getRestaurant);
+  .route("/getOwnerRestaurnts/:id")
+  .post(verifyToken, restaurantController.getRestaurants);
 router
-  .route("/dashboard")
-  .get(verifyToken, restaurantController.getRestaurantDetails);
-// router.route("/findRestaurant").post(restaurantController.findRestaurant);
+  .route("/getRestaurantDetails/:id")
+  .post(verifyToken, restaurantController.getRestaurantDetails);
 
 module.exports = router;

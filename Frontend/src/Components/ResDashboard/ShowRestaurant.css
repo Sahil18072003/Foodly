@@ -1,0 +1,47 @@
+/** @format */
+
+.adminDaskbordcontainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 50px;
+    height: fit-content;
+    min-height: 80vh;
+
+    background: #f6f9fc;
+}
+
+.adminDaskbordcontainer .box {
+    width: 400px;
+    padding: 20px;
+    height: 300px;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.adminDaskbordcontainer .box h1 {
+    color: #0f3460;
+}
+
+.adminDaskbordcontainer .box:hover {
+    transform: scale(1.05);
+}
+
+.adminDaskbordcontainer .box1 {
+    background: url(./../../assets/logo.jpg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #fff;
+}
+
+.adminDaskbordcontainer .box2 {
+    background: url(./../../assets/logo.jpg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #fff;
+}

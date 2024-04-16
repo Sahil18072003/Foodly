@@ -388,7 +388,7 @@ const addRestaurant7 = async () => {
 };
 
 // Get User data in update page
-const getRestaurant = async (req, res) => {
+const getRestaurants = async (req, res) => {
   const { ownerid } = req.body;
 
   try {
@@ -441,6 +441,6 @@ module.exports = {
   addRestaurant5,
   addRestaurant6,
   addRestaurant7,
-  getRestaurant,
+  getRestaurants,
   getRestaurantDetails,
 };

@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "./ResDashboard.css";
 import AddFood from "./../AddFood/AddFood.js";
+import ShowRestaurant from "./ShowRestaurant.js";
 
-function ResDashboard() {
+const ResDashboard = () => {
   const host = "http://localhost:5000";
 
   const token = localStorage.getItem("token");
@@ -78,7 +79,7 @@ function ResDashboard() {
         <div className="w-5/6 bg-gray-100">
           <div>
             <div className=" bg-gray-100">
-              {activeStep === 1}
+              {activeStep === 1 && <ShowRestaurant />}
 
               {activeStep === 2 && <AddFood />}
 
@@ -101,6 +102,6 @@ function ResDashboard() {
       />
     </div>
   );
-}
+};
 
 export default ResDashboard;

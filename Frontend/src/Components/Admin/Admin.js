@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AdminUser from "./AdminUser";
 import AdminContact from "./AdminContact";
 import AdminRestaurant from "./AdminRestaurant";
@@ -166,7 +166,7 @@ const Admin = () => {
                 />
                 <div className="p-6">
                   <h2 className="tracking-widest text-center text-lg title-font font-medium text-gray-400 mb-1">
-                    {userlist?.length}
+                    {userlist?.length - 1}
                   </h2>
                   <h1 className="title-font text-lg text-center font-semibold text-gray-900 mb-3 hover:text-orange-500 hover:text-xl">
                     The Catalyzer

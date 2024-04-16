@@ -275,7 +275,7 @@ function AdminUser({ setModalAdminUser }) {
           </button>
         </div>
         <div className="justify-center p-10 sm:col-span-3 rounded-2xl">
-          <table className="table-fixed justify-center shadow-xl overflow-y-scroll block h-full">
+          <table className="p-2 rounded-lg table-fixed justify-center shadow-xl overflow-y-scroll block h-full">
             <thead className="bg-orange-400 rounded-md text-white shadow-md text-md">
               <tr className="text-white">
                 <th className="border border-slate-300 p-2 text-white">

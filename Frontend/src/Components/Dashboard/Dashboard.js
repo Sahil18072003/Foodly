@@ -41,26 +41,62 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    getRestaurnt();
+    getOwnerRestaurnts();
   }, []);
 
-  const updateDetails = (resId) => {
-    navigate(`/addRestaurant/addForm/1?resId=${resId}`);
+  const updateRestaurantDetails = async (resId) => {
+    const result = await fetch(
+      `${host}/api/res/getRestaurantDetails/${resId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ _id: resId }),
+      }
+    );
+
+    const data = await result.json();
+
+    if (!data) {
+      toast.error("Your Token has expired... Login again", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      setTimeout(() => {
+        localStorage.clear();
+        navigate("/login");
+      }, 2000);
+    } else {
+      navigate(`/addRestaurant/addForm/1?resId=${resId}`);
+    }
   };
 
   const registerDelivery = (resId) => {
     navigate(`/addRestaurant/addForm/4?resId=${resId}`);
   };
 
-  const getRestaurnt = async () => {
-    const result = await fetch(`${host}/api/res/dashboard/${user?._id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ ownerid: user?._id }),
-    });
+  const getOwnerRestaurnts = async () => {
+    const result = await fetch(
+      `${host}/api/res/getOwnerRestaurnts/${user?._id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ ownerid: user?._id }),
+      }
+    );
 
     var data = await result.json();
 
@@ -335,7 +371,7 @@ function Dashboard() {
                       )}
                       <button
                         className="track-button"
-                        onClick={() => updateDetails(res._id)} // Change this line
+                        onClick={() => updateRestaurantDetails(res?._id)}
                       >
                         Update Details
                       </button>
