@@ -17,6 +17,7 @@ const ShowRestaurant = () => {
   const navigate = useNavigate();
 
   const [restaurant, setRestaurant] = useState([]);
+  console.log(restaurant);
 
   const addFood = (resId) => {
     navigate();
@@ -24,14 +25,17 @@ const ShowRestaurant = () => {
 
   useEffect(() => {
     const getRestaurant = async () => {
-      const result = await fetch(`${host}/api/res/dashboard/${user?._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ ownerid: user?._id }),
-      });
+      const result = await fetch(
+        `${host}/api/res/getOwnerRestaurnts/${user?._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ ownerid: user?._id }),
+        }
+      );
 
       var data = await result.json();
 
@@ -47,6 +51,7 @@ const ShowRestaurant = () => {
           progress: undefined,
           theme: "light",
         });
+
         setTimeout(() => {
           localStorage.clear();
           navigate("/login");
@@ -61,15 +66,24 @@ const ShowRestaurant = () => {
 
   return (
     <div className="adminDaskbordcontainer">
-      {restaurant
-        ? restaurant.map((res, index) => (
+      {restaurant &&
+        restaurant
+          .filter(
+            (res) =>
+              res.isrespagecreated === "true" &&
+              res.isdocverified === "true" &&
+              res.isactivedelivery === "true" &&
+              res.ismenudigitisation === "true" &&
+              res.isbankdetailsverified === "true" &&
+              res.ispartnership === "true"
+          )
+          .map((res, index) => (
             <div className="box box1" key={index}>
               <h1>{res?.resname}</h1>
               <p>{res?._id}</p>
-              <button onClick={addFood(res?._id)}>Add Food</button>
+              <button onClick={() => addFood(res?._id)}>Add Food</button>
             </div>
-          ))
-        : ""}
+          ))}
     </div>
   );
 };

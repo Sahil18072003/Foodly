@@ -24,7 +24,7 @@ function AddForm1() {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const [restaurant, setRestaurant] = useState({});
+  const restaurant = JSON.parse(localStorage.getItem("restaurant"));
 
   const [city, setCity] = useState([]);
 
@@ -212,72 +212,72 @@ function AddForm1() {
     });
   };
 
-  useEffect(() => {
-    updateRestaurantDetails();
-  }, []);
+  // useEffect(() => {
+  //   updateRestaurantDetails();
+  // }, []);
 
-  const updateRestaurantDetails = async () => {
-    const result = await fetch(
-      `${host}/api/res/getRestaurantDetails/${resId}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ _id: resId }),
-      }
-    );
+  // const updateRestaurantDetails = async () => {
+  //   const result = await fetch(
+  //     `${host}/api/res/getRestaurantDetails/${resId}`,
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify({ _id: resId }),
+  //     }
+  //   );
 
-    const data = await result.json();
+  //   const data = await result.json();
 
-    if (!data) {
-      toast.error("Your Token has expired... Login again", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        rtl: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+  //   if (!data) {
+  //     toast.error("Your Token has expired... Login again", {
+  //       position: "top-right",
+  //       autoClose: 2000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       rtl: false,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "light",
+  //     });
 
-      setTimeout(() => {
-        localStorage.clear();
-        navigate("/login");
-      }, 2000);
-    } else {
-      let restaurant = data[0];
-      setRestaurant(restaurant);
+  //     setTimeout(() => {
+  //       localStorage.clear();
+  //       navigate("/login");
+  //     }, 2000);
+  //   } else {
+  //     let restaurant = data[0];
+  //     setRestaurant(restaurant);
 
-      setCreditial({
-        resname: restaurant?.resname ? restaurant?.resname : "",
-        resadd: restaurant?.resadd ? restaurant?.resadd : "",
-        respincode: restaurant?.respincode ? restaurant?.respincode : "",
-        resstate: restaurant?.resstate ? restaurant?.resstate : "",
-        rescity: "",
-        rescontact: restaurant?.rescontact ? restaurant?.rescontact : "",
-        reslandline: restaurant?.reslandline ? restaurant?.reslandline : "",
-        ownercontact: restaurant?.ownercontact
-          ? restaurant?.ownercontact
-          : user?.phone
-          ? user?.phone
-          : "",
-        ownername: restaurant?.ownername
-          ? restaurant?.ownername
-          : user?.lastname && user?.firstname
-          ? user?.firstname + " " + user?.lastname
-          : "",
-        owneremail: restaurant?.owneremail
-          ? restaurant?.owneremail
-          : user?.email
-          ? user?.email
-          : "",
-      });
-    }
-  };
+  //     // setCreditial({
+  //     //   resname: restaurant?.resname ? restaurant?.resname : "",
+  //     //   resadd: restaurant?.resadd ? restaurant?.resadd : "",
+  //     //   respincode: restaurant?.respincode ? restaurant?.respincode : "",
+  //     //   resstate: restaurant?.resstate ? restaurant?.resstate : "",
+  //     //   rescity: "",
+  //     //   rescontact: restaurant?.rescontact ? restaurant?.rescontact : "",
+  //     //   reslandline: restaurant?.reslandline ? restaurant?.reslandline : "",
+  //     //   ownercontact: restaurant?.ownercontact
+  //     //     ? restaurant?.ownercontact
+  //     //     : user?.phone
+  //     //     ? user?.phone
+  //     //     : "",
+  //     //   ownername: restaurant?.ownername
+  //     //     ? restaurant?.ownername
+  //     //     : user?.lastname && user?.firstname
+  //     //     ? user?.firstname + " " + user?.lastname
+  //     //     : "",
+  //     //   owneremail: restaurant?.owneremail
+  //     //     ? restaurant?.owneremail
+  //     //     : user?.email
+  //     //     ? user?.email
+  //     //     : "",
+  //     // });
+  //   }
+  // };
 
   const clickHandler = async (e) => {
     // Retrieve state and city values
@@ -306,6 +306,7 @@ function AddForm1() {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               _id: restaurant?._id,
@@ -369,6 +370,7 @@ function AddForm1() {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               resname: creditial.resname,

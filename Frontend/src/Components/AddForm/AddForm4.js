@@ -11,6 +11,8 @@ import "./AddForm.css";
 function AddForm4() {
   const host = "http://localhost:5000";
 
+  const token = localStorage.getItem("token");
+
   const user = JSON.parse(localStorage.getItem("user"));
 
   const restaurant = JSON.parse(localStorage.getItem("restaurant"))
@@ -157,6 +159,7 @@ function AddForm4() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             _id: restaurant?._id,

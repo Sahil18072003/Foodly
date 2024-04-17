@@ -14,34 +14,31 @@ const Policy = () => {
       <div className="mycard">
         <h6>Last updated: 23/02/2023</h6>
         <h6>
-          Welcome to Foodly! At Foodly, we are committed to protecting your
-          privacy and ensuring the security of your personal information. This
-          Privacy Policy outlines how we collect, use, and safeguard your data
-          when you use our website and services. By accessing or using our
-          website, you consent to the practices described in this Privacy
-          Policy.
+          Welcome to Foodly! We are dedicated to safeguarding your privacy and
+          ensuring the security of your personal information. This Privacy
+          Policy explains how we collect, use, and protect your data when you
+          use our online food delivery and dining platform. By accessing or
+          using our platform, you agree to the terms of this Privacy Policy.
         </h6>
 
         <h6 className="head-point">1. Information We Collect</h6>
         <p>
-          a. Personal Information: When you create an account or use our
-          services, we may collect personal information such as your name, email
-          address, contact information, and other details you provide.
+          a. Personal Information: When you create an account or place an order,
+          we may collect personal information such as your name, email address,
+          contact details, and payment information.
         </p>
         <p>
-          b. Pet Information: We may collect information about your pets,
-          including their names, breeds, and photos, as it relates to the
-          services we provide.
+          b. Order Details: We collect information about your orders, including
+          food preferences, delivery addresses, and order history.
         </p>
         <p>
           c. User Communication: We collect information from your communications
-          with us, including emails, chat messages, and customer support
-          interactions.
+          with us, such as customer support interactions and feedback.
         </p>
         <p>
           d. Usage Data: We automatically collect data on how you interact with
-          our website, such as your IP address, browser type, operating system,
-          and usage patterns.
+          our platform, including your IP address, browser type, and usage
+          patterns.
         </p>
 
         <h6 className="head-point">2. How We Use Your Information</h6>
@@ -50,23 +47,23 @@ const Policy = () => {
           not limited to:
         </p>
         <p>
-          a. Providing Services: To facilitate buying, selling, and breeding
-          pets, and to enhance your overall experience on our platform.
+          a. Order Processing: To process and deliver your orders and provide
+          customer support.
         </p>
         <p>
-          b. Personalization: To personalize your experience, provide tailored
-          recommendations, and display relevant content and advertisements.
+          b. Personalization: To personalize your experience, provide
+          recommendations, and display relevant content and promotions.
         </p>
         <p>
-          c. Communication: To communicate with you about your account,
-          transactions, and updates related to our services.
+          c. Communication: To communicate with you about your orders,
+          promotions, and updates related to our services.
         </p>
         <p>
-          d. Security: To protect the security and integrity of our platform and
-          user accounts.
+          d. Security: To protect the security and integrity of our platform,
+          transactions, and user accounts.
         </p>
         <p>
-          e. Analytics: To analyze and improve our website's performance,
+          e. Analytics: To analyze and improve our platform's performance,
           functionality, and user experience.
         </p>
 
@@ -78,8 +75,8 @@ const Policy = () => {
         </p>
         <p>
           a. Service Providers: We may share information with trusted
-          third-party service providers who assist us in operating our website
-          and delivering services to you.
+          third-party service providers who assist us in delivering our
+          services.
         </p>
         <p>
           b. Legal Compliance: We may disclose your information when required by
@@ -115,7 +112,7 @@ const Policy = () => {
         <p>
           We may update this Privacy Policy from time to time to reflect changes
           in our practices or for legal and regulatory reasons. We will notify
-          you of any material changes through our website or other means.
+          you of any material changes through our platform or other means.
         </p>
 
         <h6 className="head-point">8. Contact Us</h6>
@@ -125,15 +122,14 @@ const Policy = () => {
         </p>
 
         <h6>
-          Thank you for choosing Foodly. We are dedicated to providing you with
-          a safe and enjoyable pet ownership experience.
+          Thank you for choosing Foodly. We are committed to providing you with
+          a safe and convenient online food ordering and dining experience.
         </h6>
         <h6>
-          Please note that this is a sample privacy policy, and you should
-          customize it to align with your platform's specific practices, legal
-          requirements, and any applicable laws and regulations. It's advisable
-          to seek legal counsel when creating or updating your privacy policy to
-          ensure compliance with relevant privacy laws.
+          Please note that this is a sample privacy policy. Customize it to
+          align with your platform's specific practices, legal requirements, and
+          applicable laws and regulations. It's advisable to seek legal counsel
+          when creating or updating your privacy policy to ensure compliance.
         </h6>
         <Link to="/" id="back">
           Back to Home

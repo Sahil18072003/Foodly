@@ -10,6 +10,8 @@ import "./AddForm.css";
 function AddForm2() {
   const host = "http://localhost:5000";
 
+  const token = localStorage.getItem("token");
+
   const restaurant = JSON.parse(localStorage.getItem("restaurant"));
 
   const [selectedCategory, setSelectedCategory] = useState(
@@ -239,6 +241,7 @@ function AddForm2() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             _id: restaurant?._id,

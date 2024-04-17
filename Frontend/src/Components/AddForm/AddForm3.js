@@ -11,6 +11,8 @@ import "./AddForm.css";
 function AddForm3() {
   const host = "http://localhost:5000";
 
+  const token = localStorage.getItem("token");
+
   const restaurant = JSON.parse(localStorage.getItem("restaurant"));
 
   const [creditial, setCreditial] = useState({
@@ -154,6 +156,7 @@ function AddForm3() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             _id: restaurant?._id,

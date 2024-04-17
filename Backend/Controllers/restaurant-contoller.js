@@ -414,7 +414,6 @@ const getRestaurantDetails = async (req, res) => {
   try {
     // Attempt to find a user record
     const data = await Restaurant.find(req.body);
-    console.log(data);
 
     // Check if data exists
     if (data) {

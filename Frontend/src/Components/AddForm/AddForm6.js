@@ -25,6 +25,8 @@ import "./AddForm.css";
 function AddForm6() {
   const host = "http://localhost:5000";
 
+  const token = localStorage.getItem("token");
+
   const user = JSON.parse(localStorage.getItem("user"));
   const restaurant = JSON.parse(localStorage.getItem("restaurant"))
     ? JSON.parse(localStorage.getItem("restaurant"))
@@ -100,6 +102,7 @@ function AddForm6() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             _id: restaurant?._id,
@@ -109,7 +112,6 @@ function AddForm6() {
       );
 
       const json = await response.json();
-      console.log(json);
 
       if (json) {
         localStorage.setItem(

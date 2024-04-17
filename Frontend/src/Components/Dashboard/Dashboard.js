@@ -14,6 +14,16 @@ function Dashboard() {
 
   const [restaurant, setRestaurant] = useState([]);
 
+  const [modalRestaurant, setModelRestaurant] = useState(false);
+
+  const openModal = () => {
+    setModelRestaurant(true);
+  };
+
+  const closeModal1 = () => {
+    setModelRestaurant(false);
+  };
+
   useEffect(() => {
     document.title = "Dashboard | Foodly";
   }, []);
@@ -140,7 +150,9 @@ function Dashboard() {
         </div>
 
         <div
-          onClick={() => userRestaurantPage(user?._id)}
+          onClick={() => {
+            openModal();
+          }}
           className="profile-part"
         >
           <img
@@ -155,6 +167,73 @@ function Dashboard() {
             </p>
           </div>
         </div>
+        {modalRestaurant && (
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+            <div className="bg-white rounded-lg lg:w-5/6 h-5/6 md:w-4/5 sm:w-3/5">
+              <div className="py-4 flex bg-orange-400 rounded-t-lg">
+                <span className="text-2xl text-white flex px-12 justify-center font-medium flex-grow">
+                  Your Restaurants Details
+                </span>
+                <button
+                  onClick={closeModal1}
+                  className="text-white font-bold text-xl pr-6"
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="sm:col-span-3 rounded-lg justify-center p-6">
+                <div className="text-gray-600 body-font overflow-y-scroll block">
+                  <div className="flex flex-wrap container">
+                    {restaurant &&
+                      restaurant
+                        .filter(
+                          (res) =>
+                            res.isrespagecreated === "true" &&
+                            res.isdocverified === "true" &&
+                            res.isactivedelivery === "true" &&
+                            res.ismenudigitisation === "true" &&
+                            res.isbankdetailsverified === "true" &&
+                            res.ispartnership === "true"
+                        )
+                        .map((res, index) => (
+                          <div
+                            key={index}
+                            className="px-8 py-3 w-full md:w-1/2 lg:w-1/2"
+                          >
+                            <div className="bg-gray-100 border-2 border-orange-400 hover:border-orange-400 hover:scale-105 border shadow-xl bg-opacity-75 rounded-lg overflow-hidden text-center relative">
+                              <div className="img-container">
+                                <img
+                                  src={res?.resimg}
+                                  alt="Hold"
+                                  className="rounded-t-lg"
+                                />
+                              </div>
+                              <div className="p-3">
+                                <h1 className="text-2xl font-medium text-gray-900 mb-2">
+                                  ResId : {res?._id}
+                                </h1>
+                                <h2 className="text-md font-medium text-orange-400">
+                                  Restaurant Name : {res?.resname}
+                                </h2>
+                                <h2 className="text-md font-medium text-gray-400 mb-2">
+                                  Restaurant Address : {res?.resadd}
+                                </h2>
+                                <p className="text-md leading-2 mb-4">
+                                  Restaurant Category : {res?.rescategory}
+                                </p>
+                                <p className="text-md leading-2 mb-4">
+                                  Restaurant Type : {res?.restype}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="dashboard-title"> Track Your Restaurant request</div>
