@@ -55,14 +55,14 @@ const Admin = () => {
       });
 
       if (!result.ok) {
-        throw new Error("Failed to fetch messages");
+        throw new Error("Failed to fetch messages fhdythjvm");
       }
 
       const data = await result.json();
 
       setUserMessage(data);
     } catch (error) {
-      toast.error("Failed to fetch messages", {
+      toast.error("Failed to fetch messages fdxgcvh", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -222,7 +222,7 @@ const Admin = () => {
                 />
                 <div className="p-6">
                   <h2 className="tracking-widest text-center text-lg title-font font-medium text-gray-400 mb-1">
-                    {userMessage.length}
+                    {userMessage?.length}
                   </h2>
                   <h1 className="title-font text-lg text-center font-semibold text-gray-900 mb-3 hover:text-orange-500 hover:text-xl">
                     Contact Us Queries
@@ -238,7 +238,7 @@ const Admin = () => {
       </div>
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

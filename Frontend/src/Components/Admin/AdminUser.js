@@ -60,7 +60,7 @@ function AdminUser({ setModalAdminUser }) {
     if (!data) {
       toast.error("Your Token has expired... login again", {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,
@@ -136,7 +136,7 @@ function AdminUser({ setModalAdminUser }) {
     } else {
       toast.error("Sorry error occur in commets delete...", {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,
@@ -191,7 +191,7 @@ function AdminUser({ setModalAdminUser }) {
     } else {
       toast.error("Sorry error occur in restaurant delete...", {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,
@@ -248,7 +248,7 @@ function AdminUser({ setModalAdminUser }) {
     } else {
       toast.error("Sorry error occur in user delete...", {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,
@@ -401,7 +401,7 @@ function AdminUser({ setModalAdminUser }) {
       </div>
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

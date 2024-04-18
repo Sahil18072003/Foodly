@@ -24,66 +24,131 @@ const ShowRestaurant = () => {
   };
 
   useEffect(() => {
-    const getRestaurant = async () => {
-      const result = await fetch(
-        `${host}/api/res/getOwnerRestaurnts/${user?._id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ ownerid: user?._id }),
-        }
-      );
-
-      var data = await result.json();
-
-      if (!data) {
-        toast.error("Your Token has expired... login again", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          rtl: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-
-        setTimeout(() => {
-          localStorage.clear();
-          navigate("/login");
-        }, 2000);
-      } else {
-        setRestaurant(data);
-      }
-    };
-
-    getRestaurant();
+    getRestaurantDetails();
   }, []);
+
+  const getRestaurantDetails = async (resId) => {
+    const result = await fetch(
+      `${host}/api/res/getRestaurantDetails/${resId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ _id: resId }),
+      }
+    );
+
+    const data = await result.json();
+
+    if (!data) {
+      toast.error("Your Token has expired... Login again", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      setTimeout(() => {
+        localStorage.clear();
+        navigate("/login");
+      }, 2000);
+    } else {
+      setRestaurant(data[0]);
+    }
+  };
+
+  const isImageURL = (url) => {
+    if (Array.isArray(url)) {
+      return url.every((item) => {
+        return (
+          typeof item === "string" &&
+          (item.startsWith("http") ||
+            item.endsWith(".jpg") ||
+            item.endsWith(".jpeg") ||
+            item.endsWith(".png"))
+        );
+      });
+    } else if (typeof url === "string") {
+      return (
+        url.startsWith("http") ||
+        url.endsWith(".jpg") ||
+        url.endsWith(".jpeg") ||
+        url.endsWith(".png")
+      );
+    }
+    return false;
+  };
 
   return (
     <div className="adminDaskbordcontainer">
-      {restaurant &&
-        restaurant
-          .filter(
-            (res) =>
-              res.isrespagecreated === "true" &&
-              res.isdocverified === "true" &&
-              res.isactivedelivery === "true" &&
-              res.ismenudigitisation === "true" &&
-              res.isbankdetailsverified === "true" &&
-              res.ispartnership === "true"
-          )
-          .map((res, index) => (
-            <div className="box box1" key={index}>
-              <h1>{res?.resname}</h1>
-              <p>{res?._id}</p>
-              <button onClick={() => addFood(res?._id)}>Add Food</button>
-            </div>
+      <div className="text-orange-400 font-2xl">
+        Restaurant Id : {restaurant?._id}
+      </div>
+      <table className="table-fixed justify-center shadow-xl block h-auto w-full">
+        <thead className="bg-orange-400 rounded-md text-white shadow-md text-lg font-medium">
+          <tr>
+            <th className="border border-slate-300 px-4 py-2 text-white">
+              Sr No.
+            </th>
+            <th className="border border-slate-300 px-4 py-2 text-white">
+              Properties
+            </th>
+            <th className="border border-slate-300 px-4 py-2 text-white">
+              Value
+            </th>
+          </tr>
+        </thead>
+        <tbody className="text-center px-5 mx-10">
+          {Object.entries(restaurant).map(([key, value], index) => (
+            <tr key={index}>
+              <td className="border border-slate-300 p-4 text-lg">
+                {index + 1}
+              </td>
+              <td className="border border-slate-300 p-4 text-lg">{key}</td>
+              <td className="border border-slate-300 p-4 text-lg">
+                {Array.isArray(value) ? (
+                  <div>
+                    {value.map((item, i) => (
+                      <div key={i}>
+                        {isImageURL(item) ? (
+                          <img
+                            src={item}
+                            alt={`${key}-${i}`}
+                            style={{
+                              Width: "80px",
+                              Height: "80px",
+                            }}
+                          />
+                        ) : (
+                          <div>{item}</div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : isImageURL(value) ? (
+                  <img
+                    src={value}
+                    alt={key}
+                    style={{
+                      Width: "80px",
+                      Height: "80px",
+                    }}
+                  />
+                ) : (
+                  <div>{value}</div>
+                )}
+              </td>
+            </tr>
           ))}
+        </tbody>
+      </table>
     </div>
   );
 };

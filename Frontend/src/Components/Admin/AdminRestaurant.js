@@ -122,7 +122,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
     } else if (!delres) {
       toast.error("Your Token has expired... Login again", {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,
@@ -139,7 +139,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
     } else {
       toast.error("Sorry error occur in Restaurant delete...", {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         rtl: false,
@@ -968,7 +968,7 @@ function AdminRestaurant({ setModalAdminRestaurant }) {
       </div>
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

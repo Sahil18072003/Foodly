@@ -28,7 +28,7 @@ const ResDashboard = () => {
                   } py-3 cursor-pointer hover:text-white font-bold px-4`}
                   onClick={() => setActiveStep(1)}
                 >
-                  Show Restaurants
+                  Show Restaurant's details
                 </div>
                 <div
                   className={`${

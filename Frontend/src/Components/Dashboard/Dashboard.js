@@ -32,68 +32,21 @@ function Dashboard() {
     navigate(`/dashboard/updateProfile/${userId}`);
   };
 
-  const userRestaurantPage = (userId) => {
-    // if (restaurant && restaurant.ownerid === userId) {
-    navigate(`/dashboard/resDashboard/${userId}`);
-    // } else {
-    //   toast.error("You are not registered for a restaurant.", {
-    //     position: "top-right",
-    //     autoClose: 2000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     rtl: false,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    // }
+  const userRestaurantPage = (resId) => {
+    navigate(`/dashboard/resDashboard/resId=${resId}`);
   };
 
-  useEffect(() => {
-    getOwnerRestaurnts();
-  }, []);
-
-  const updateRestaurantDetails = async (resId) => {
-    const result = await fetch(
-      `${host}/api/res/getRestaurantDetails/${resId}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ _id: resId }),
-      }
-    );
-
-    const data = await result.json();
-
-    if (!data) {
-      toast.error("Your Token has expired... Login again", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        rtl: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-
-      setTimeout(() => {
-        localStorage.clear();
-        navigate("/login");
-      }, 2000);
-    } else {
-      navigate(`/addRestaurant/addForm/1?resId=${resId}`);
-    }
+  const updateRestaurantDetails = (resId) => {
+    navigate(`/addRestaurant/addForm/1?resId=${resId}`);
   };
 
   const registerDelivery = (resId) => {
     navigate(`/addRestaurant/addForm/4?resId=${resId}`);
   };
+
+  useEffect(() => {
+    getOwnerRestaurnts();
+  }, []);
 
   const getOwnerRestaurnts = async () => {
     const result = await fetch(
@@ -163,7 +116,7 @@ function Dashboard() {
           <div className="dash-card-content">
             <h6 className="card-head">Your Restaurant Page</h6>
             <p className="card-para">
-              Restaurant details, Update details, Add food
+              Your Restaurants details, Update details, Add food items
             </p>
           </div>
         </div>
@@ -199,8 +152,9 @@ function Dashboard() {
                           <div
                             key={index}
                             className="px-8 py-3 w-full md:w-1/2 lg:w-1/2"
+                            onClick={() => userRestaurantPage(res?._id)}
                           >
-                            <div className="bg-gray-100 border-2 border-orange-400 hover:border-orange-400 hover:scale-105 border shadow-xl bg-opacity-75 rounded-lg overflow-hidden text-center relative">
+                            <div className="bg-orange-100 border-2 border-orange-400 hover:border-orange-400 hover:scale-105 border shadow-xl bg-opacity-75 rounded-lg overflow-hidden text-center relative">
                               <div className="img-container">
                                 <img
                                   src={res?.resimg}
@@ -215,14 +169,17 @@ function Dashboard() {
                                 <h2 className="text-md font-medium text-orange-400">
                                   Restaurant Name : {res?.resname}
                                 </h2>
-                                <h2 className="text-md font-medium text-gray-400 mb-2">
+                                <h2 className="text-md font-medium text-gray-600 mb-2">
                                   Restaurant Address : {res?.resadd}
                                 </h2>
-                                <p className="text-md leading-2 mb-4">
+                                <p className="text-md font-medium text-gray-500 mb-2">
                                   Restaurant Category : {res?.rescategory}
                                 </p>
-                                <p className="text-md leading-2 mb-4">
-                                  Restaurant Type : {res?.restype}
+                                <p className="text-md font-medium text-gray-400 mb-2">
+                                  Restaurant Type :{" "}
+                                  {Array.isArray(res?.restypes)
+                                    ? res?.restypes.join(", ")
+                                    : res?.restypes}
                                 </p>
                               </div>
                             </div>
@@ -485,12 +442,12 @@ function Dashboard() {
                     />
                     <div className="p-4">
                       <div className="img-first-content">
-                        Get more dine-in customers
+                        Add food on your Reastaurant page
                       </div>
                       <div className="img-second-content">
-                        Registration not started
+                        
                       </div>
-                      <button className="track-button">Start now</button>
+                      <button className="track-button">Add Food</button>
                     </div>
                   </div>
                 </div>
