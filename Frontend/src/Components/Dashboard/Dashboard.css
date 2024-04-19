@@ -39,6 +39,19 @@
     transition: transform 0.2s ease;
 }
 
+.slider-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+}
+
+.slider-img {
+    flex: none;
+    width: 100%;
+    height: auto;
+    scroll-snap-align: start;
+}
+
 .profile-part img {
     height: 6rem;
     width: 6rem;

@@ -357,6 +357,38 @@ const deleteOneComment = async (req, res) => {
   }
 };
 
+const addToCart = async (req, res) => {
+  console.log("Received add-to-cart request");
+  try {
+    const { uid, itemToAdd, inCart } = req.body;
+
+    const userExists = await UserFirebass.exists({ uid });
+    if (!userExists) {
+      return res
+        .status(404)
+        .json({ isAddedInCart: false, message: "User not found" });
+    }
+
+    const updateOperation = inCart
+      ? { $pull: { cart: { _id: itemToAdd._id } } } // Remove item by matching _id
+      : { $push: { cart: itemToAdd } }; // Add item
+
+    const result = await UserFirebass.updateOne({ uid: uid }, updateOperation);
+
+    if (result.modifiedCount === 0) {
+      return res
+        .status(200)
+        .json({ isAddedInCart: false, message: "No modifications" });
+    }
+
+    // Successful addition or removal
+    res.status(200).json({ isAddedInCart: true });
+  } catch (error) {
+    console.error("Error processing add-to-cart request:", error);
+    res.status(500).json({ isAddedInCart: false, message: "Server error" });
+  }
+};
+
 module.exports = {
   home,
   signup,
@@ -373,4 +405,5 @@ module.exports = {
   saveComment,
   showComment,
   deleteOneComment,
+  addToCart,
 };

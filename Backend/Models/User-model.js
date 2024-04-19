@@ -34,6 +34,11 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    cart: [
+      {
+        foodId: String,
+      },
+    ],
   },
   {
     timestamps: true,

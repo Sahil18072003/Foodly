@@ -27,4 +27,6 @@ router
   .route("/commentDelete/:id")
   .delete(verifyToken, authController.deleteOneComment);
 
+router.route("/add-to-cart").post(verifyToken, authController.addToCart);
+
 module.exports = router;

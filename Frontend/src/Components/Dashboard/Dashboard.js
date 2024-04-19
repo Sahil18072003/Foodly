@@ -282,11 +282,24 @@ function Dashboard() {
                           >
                             <div className="bg-orange-100 border-2 border-orange-400 hover:border-orange-400 hover:scale-105 border shadow-xl bg-opacity-75 rounded-lg overflow-hidden text-center relative">
                               <div className="img-container">
-                                <img
-                                  src={res?.resimg}
-                                  alt="Hold"
-                                  className="rounded-t-lg"
-                                />
+                                {Array.isArray(res?.resimg) ? (
+                                  <div className="slider-container">
+                                    {res?.resimg.map((imgUrl, index) => (
+                                      <img
+                                        key={index}
+                                        src={imgUrl}
+                                        alt={`Restaurant ${index + 1}`}
+                                        className="slider-img rounded-t-lg"
+                                      />
+                                    ))}
+                                  </div>
+                                ) : (
+                                  <img
+                                    src={res?.resimg}
+                                    alt="Hold"
+                                    className="rounded-t-lg"
+                                  />
+                                )}
                               </div>
                               <div className="p-3">
                                 <h1 className="text-2xl font-medium text-gray-900 mb-2">

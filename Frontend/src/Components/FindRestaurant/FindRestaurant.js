@@ -21,25 +21,53 @@ function FindRestaurant() {
 
   useEffect(() => {
     document.title = "Dashboard | Find Restaurant";
+    getRestaurantData();
   }, []);
+
+  const restaurantPage = (resId) => {
+    navigate(`/restaurantPage/${resId}`);
+  };
+
+  const getCurrentTime = () => {
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+
+    if (currentHour < 12) {
+      return {
+        openingTimeKey: "morningopeningtime",
+        closingTimeKey: "morningclosingtime",
+      };
+    } else if (currentHour >= 12 && currentHour < 18) {
+      return {
+        openingTimeKey: "afternoonopeningtime",
+        closingTimeKey: "afternoonclosingtime",
+      };
+    } else {
+      return {
+        openingTimeKey: "eveningopeningtime",
+        closingTimeKey: "nightclosingtime",
+      };
+    }
+  };
+
+  const { openingTimeKey, closingTimeKey } = getCurrentTime();
 
   const [activeStep, setActiveStep] = useState(1);
 
-  useEffect(() => {
-    const getRestaurant = async () => {
-      const result = await fetch(`${host}/api/res/dashboard/${user?._id}`, {
-        method: "POST",
+  const getRestaurantData = async () => {
+    try {
+      const result = await fetch(`${host}/api/admin/getAllRestaurantDetails`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ ownerid: user?._id }),
       });
 
-      var data = await result.json();
+      const data = await result.json();
 
       if (!data) {
-        toast.error("Your Token has expired... login again", {
+        toast.error("Your Token has expired... Login again", {
           position: "top-right",
           autoClose: 2000,
           hideProgressBar: false,
@@ -50,17 +78,18 @@ function FindRestaurant() {
           progress: undefined,
           theme: "light",
         });
+
         setTimeout(() => {
           localStorage.clear();
           navigate("/login");
         }, 2000);
       } else {
-        setRestaurant(data);
+        setRestaurant(Array.isArray(data) ? data : []);
       }
-    };
-
-    getRestaurant();
-  }, []);
+    } catch (error) {
+      console.error("Error fetching restaurant data:", error);
+    }
+  };
 
   return (
     <div className="container-lg">
@@ -111,8 +140,8 @@ function FindRestaurant() {
             </Link>
           </div>
 
-          <div className="flex flex-col w-full border-2 border-gray-400">
-            <h1 className="text-2xl font-medium title-font mb-4 text-gray-900">
+          <div className="flex flex-col w-full">
+            <h1 className="text-2xl font-medium title-font my-4 text-gray-900">
               {activeStep === 1
                 ? "Trending dining restaurants"
                 : "Trending delivery restaurants"}
@@ -120,8 +149,8 @@ function FindRestaurant() {
 
             <div className="leading-relaxed text-base w-full">
               {activeStep === 1 ? (
-                <section className="text-gray-600 body-font border-2 border-gray-400">
-                  <div className="">
+                <section className="text-gray-600 body-font">
+                  <div className="flex flex-wrap container">
                     {restaurant
                       .filter(
                         (res) =>
@@ -129,52 +158,125 @@ function FindRestaurant() {
                             "Both, delivery and dine-in available" ||
                           res.rescategory === "Dine-in only"
                       )
-                      .map((res) => (
-                        <Link
-                          to="/restaurantPage/"
-                          onClick={() =>
-                            localStorage.setItem("pressCard", res?._id)
-                          }
-                          key={res._id}
+                      .map((res, index) => (
+                        <div
+                          key={index}
+                          onClick={() => restaurantPage(res?._id)}
+                          className="px-5 py-5 my-5 w-full md:w-1/3 lg:w-1/3 flex flex-col justify-between"
                         >
-                          <div className="flex items-center lg:w-3/4 border-b pb-10 mb-10 border-gray-200 sm:flex-row flex-col">
-                            {res?.resname}
+                          <div className="bg-orange-200 border-2 hover:border-orange-400 hover:scale-105 border shadow-xl bg-opacity-75 rounded-lg overflow-hidden relative">
+                            <div className="img-container">
+                              <img
+                                src={res?.resimg}
+                                alt="Hold"
+                                className="rounded-t-xl"
+                              />
+                            </div>
+                            <div className="p-3">
+                              <h2 className="text-lg font-medium text-gray-800">
+                                {res?.resname}
+                              </h2>
+                              <p className="text-md font-normal text-gray-600 mb-2">
+                                Restaurant Type :{" "}
+                                {Array.isArray(res?.restypes)
+                                  ? res?.restypes.join(", ")
+                                  : res?.restypes}
+                              </p>
+                              <p className="text-md font-normal text-gray-600 mb-2">
+                                {Array.isArray(res?.rescuisinetype)
+                                  ? res?.rescuisinetype.join(", ")
+                                  : res?.rescuisinetype}
+                              </p>
+                              <h2 className="text-md font-normal text-gray-600 mb-2">
+                                {res?.resadd}
+                              </h2>
+                              {new Date().getHours() >=
+                                res?.[openingTimeKey].split(":")[0] &&
+                              new Date().getHours() <
+                                res?.[closingTimeKey].split(":")[0] ? (
+                                <p className="text-md font-normal text-red-600 mb-2">
+                                  Closes at {res?.[closingTimeKey]}
+                                </p>
+                              ) : (
+                                <p className="text-md font-normal text-green-600 mb-2">
+                                  Opens at {res?.[openingTimeKey]}
+                                </p>
+                              )}
+                            </div>
                           </div>
-                        </Link>
+                        </div>
                       ))}
+                    {restaurant.length === 0 && (
+                      <p className="text-gray-500 text-center w-full mt-6">
+                        No restaurants available
+                      </p>
+                    )}
                   </div>
                 </section>
               ) : (
-                <section className="text-gray-600 body-font border-2 border-red-400">
-                  <div className="w-1/3 flex flex-wrap border-2 border-gray-400">
-                    <div className="border-2 border-gray-400">
-                      {restaurant
+                <section className="text-gray-600 body-font">
+                  <div className="flex flex-wrap container">
+                    {restaurant &&
+                      restaurant
                         .filter(
-                          (res, index) =>
+                          (res) =>
                             res.rescategory ===
                               "Both, delivery and dine-in available" ||
                             res.rescategory === "Delivery only"
                         )
                         .map((res, index) => (
-                          <Link
-                            to="/restaurantPage/"
-                            onClick={() =>
-                              localStorage.setItem("pressCard", res?._id)
-                            }
-                            key={res?._id}
+                          <div
+                            key={index}
+                            onClick={() => restaurantPage(res?._id)}
+                            className="px-5 py-5 my-5 w-full md:w-1/3 lg:w-1/3 flex flex-col justify-between"
                           >
-                            <div className="flex items-center lg:w-1/3 sm:flex-row flex-col">
-                              <div className="">
+                            <div className="bg-orange-200 border-2 hover:border-orange-400 hover:scale-105 border shadow-xl bg-opacity-75 rounded-lg overflow-hidden relative">
+                              <div className="img-container">
                                 <img
-                                  src={res?.foodimg}
-                                  alt=""
-                                  className="mx-4 w-12 h-12 text-indigo-900 bg-white-500"
-                                ></img>
+                                  src={res?.resimg}
+                                  alt="Hold"
+                                  className="rounded-t-xl"
+                                />
+                              </div>
+                              <div className="p-3">
+                                <h2 className="text-lg font-medium text-gray-800">
+                                  {res?.resname}
+                                </h2>
+                                <p className="text-md font-normal text-gray-600 mb-2">
+                                  Restaurant Type :{" "}
+                                  {Array.isArray(res?.restypes)
+                                    ? res?.restypes.join(", ")
+                                    : res?.restypes}
+                                </p>
+                                <p className="text-md font-normal text-gray-600 mb-2">
+                                  {Array.isArray(res?.rescuisinetype)
+                                    ? res?.rescuisinetype.join(", ")
+                                    : res?.rescuisinetype}
+                                </p>
+                                <h2 className="text-md font-normal text-gray-600 mb-2">
+                                  {res?.resadd}
+                                </h2>
+                                {new Date().getHours() >=
+                                  res?.[openingTimeKey].split(":")[0] &&
+                                new Date().getHours() <
+                                  res?.[closingTimeKey].split(":")[0] ? (
+                                  <p className="text-md font-normal text-red-600 mb-2">
+                                    Closes at {res?.[closingTimeKey]}
+                                  </p>
+                                ) : (
+                                  <p className="text-md font-normal text-green-600 mb-2">
+                                    Opens at {res?.[openingTimeKey]}
+                                  </p>
+                                )}
                               </div>
                             </div>
-                          </Link>
+                          </div>
                         ))}
-                    </div>
+                    {restaurant.length === 0 && (
+                      <p className="text-gray-500 text-center w-full mt-6">
+                        No restaurants available
+                      </p>
+                    )}
                   </div>
                 </section>
               )}

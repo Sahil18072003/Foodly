@@ -1,6 +1,5 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import "./App.css";
 
 import Home from "./Components/Home/Home";
@@ -49,7 +48,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <ScrollToTop />
+        {/* <ScrollToTop /> */}
         <Routes>
           <Route
             exact
@@ -57,7 +56,7 @@ function App() {
             element={
               <>
                 <Navbar />
-                {/* <Carousel /> */}
+                <Carousel />
                 <PopularRestaurant />
                 <HowWork />
                 <Comment />
@@ -71,7 +70,7 @@ function App() {
             element={
               <>
                 <Navbar />
-                {/* <Carousel /> */}
+                <Carousel />
                 <PopularRestaurant />
                 <HowWork />
                 <Comment />
@@ -160,6 +159,7 @@ function App() {
               <>
                 <Navbar />
                 <RestaurantPage />
+                <Footer />
               </>
             }
           />

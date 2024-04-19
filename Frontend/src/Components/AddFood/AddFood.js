@@ -252,7 +252,7 @@ function AddFood() {
           <div className="text-5xl font-bold text-center">Food Information</div>
           <form onSubmit={handleSubmit(clickHandler)}>
             {/* first part */}
-            <div className="add-food-first my-3 mx-2 p-4 rounded-lg">
+            <div className="add-menufood-first my-3 mx-2 p-4 rounded-lg">
               {/* Food name */}
               <div className="px-3 py-1">
                 <div className="mb-3">

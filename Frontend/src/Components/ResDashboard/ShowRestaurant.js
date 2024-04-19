@@ -15,15 +15,9 @@ const ShowRestaurant = () => {
 
   const token = localStorage.getItem("token");
 
-  const user = JSON.parse(localStorage.getItem("user"));
-
   const navigate = useNavigate();
 
   const [restaurant, setRestaurant] = useState([]);
-
-  const addFood = (resId) => {
-    navigate();
-  };
 
   useEffect(() => {
     getRestaurantDetails();

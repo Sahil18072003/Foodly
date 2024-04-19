@@ -39,8 +39,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className="shadow-md left-0 navbar sticky top-0">
-      <div className="md:flex items-center justify-between bg-gray-100 py-4 md:px-10 px-7">
+    <div className="shadow-md left-0 navbar sticky top-0 bg-gray-100">
+      <div className="md:flex main-navbar items-center justify-between bg-gray-100 py-4 md:px-10 px-7">
         <Link
           to="/home"
           className="font-bold text-3xl cursor-pointer flex items-center text-gray-800"
@@ -110,7 +110,7 @@ const Navbar = () => {
               </span>
 
               <div
-                className="dropdown relative ml-8 mr-16 hover:border-blue-500"
+                className="dropdown relative ml-8 hover:border-blue-500"
                 onClick={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
