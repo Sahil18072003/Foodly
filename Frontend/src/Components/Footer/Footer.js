@@ -12,13 +12,13 @@ function Footer() {
               <h4>Services</h4>
               <ul>
                 <li>
-                  <Link to="/find-pets">Find Restaurants</Link>
+                  <Link to="/findRestaurant">Find Restaurants</Link>
                 </li>
                 <li>
                   <Link to="/breeds">Knowledge About</Link>
                 </li>
                 <li>
-                  <Link to="/dashboard/your-posts">Manage Your Posts</Link>
+                  <Link to="/dashboard/resDashboard">Manage Your Posts</Link>
                 </li>
               </ul>
             </div>

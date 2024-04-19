@@ -258,7 +258,7 @@ button {
 }
 
 .container {
-    width: 80%;
+    width: 90%;
     margin: auto;
     display: flex;
     flex-wrap: wrap;
@@ -268,9 +268,9 @@ button {
 .row {
     display: flex;
     flex-wrap: wrap;
-    gap: 90px;
+    gap: 120px;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin: auto;
 }
 
 .copyright {

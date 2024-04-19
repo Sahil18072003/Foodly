@@ -40,7 +40,7 @@ const Navbar = () => {
 
   return (
     <div className="shadow-md left-0 navbar sticky top-0">
-      <div className="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
+      <div className="md:flex items-center justify-between bg-gray-100 py-4 md:px-10 px-7">
         <Link
           to="/home"
           className="font-bold text-3xl cursor-pointer flex items-center text-gray-800"
@@ -61,7 +61,7 @@ const Navbar = () => {
         </div>
 
         <ul
-          className={`md:flex md:items-center md:p-0 p-10 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto transition-all duration-500 ease-in ${
+          className={`md:flex md:items-center md:p-0 p-10 absolute md:static bg-gray-100 md:z-auto z-[-1] left-0 w-full md:w-auto transition-all duration-500 ease-in ${
             open ? "top-12 " : "top-[-490px]"
           }`}
         >

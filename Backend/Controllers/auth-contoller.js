@@ -99,7 +99,7 @@ const login = async (req, res) => {
       };
 
       const authToken = jwt.sign(data, process.env.JWT_SECRET_TOKEN, {
-        expiresIn: "1m",
+        expiresIn: "1h",
       });
 
       res.status(200).json({

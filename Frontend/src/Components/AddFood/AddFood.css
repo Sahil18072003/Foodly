@@ -7,27 +7,21 @@
 
 .add-food-page {
     display: flex;
-    min-height: 100vh;
     background: url("../../assets/Background/Bg_8.jpg");
     background-size: 100%;
+    min-height: 89vh;
 }
 
 .add-res-content {
     position: relative;
-    display: flex;
-    width: 100%;
-    height: auto;
-    margin-top: 20px;
-    display: relative;
+    width: 80%;
+    align-items: center;
+    justify-items: center;
 }
 
 .add-food-right {
     width: 100%;
-    height: auto;
-    margin: 2%;
-    margin-bottom: 100px;
-    align-items: center;
-    justify-content: center;
+    margin: 100px;
 }
 
 .add-right-first {

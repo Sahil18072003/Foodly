@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,19 +7,18 @@ import "./AddFood.css";
 import axios from "axios";
 
 function AddFood() {
+  const params = useParams();
+  var resId = params.id;
+
   const host = "http://localhost:5000";
 
   const token = localStorage.getItem("token");
-
-  const restaurant = JSON.parse(localStorage.getItem("restaurant"));
 
   const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Add Food | Foodly";
   }, []);
-
-  const user = JSON.parse(localStorage.getItem("user"));
 
   const [creditial, setCreditial] = useState({
     foodname: "",
@@ -198,7 +197,7 @@ function AddFood() {
         <div className="add-food-right border-2 border-gray-800">
           <div className="text-5xl font-bold text-center">Food Information</div>
           <form onSubmit={handleSubmit(clickHandler)}>
-            {/* first part */}
+            {/* first part
             <div className="add-right-first p-4 rounded-lg border-2 border-gray-800">
               <div className="p-3">
                 <div className="text-2xl font-semibold">Food Details</div>
@@ -228,7 +227,7 @@ function AddFood() {
               </div>
             </div>
 
-            {/* second */}
+            second
             <div className="add-food-first rounded-lg border-2 border-gray-800">
               <div className="text-2xl font-semibold">Food images</div>
               <div className="text-sm">
@@ -277,7 +276,7 @@ function AddFood() {
               <p className="text-sm text-red-500 absolute">
                 {errors.menufoodimg?.message}
               </p>
-            </div>
+            </div> */}
 
             <div className="m-8 text-md font-semibold md:my-0 bg-orange-400 hover:bg-orange-500 px-32 py-4 rounded-md shadow-md hover:shadow-lg">
               <button className="text-gray-800 duration-500 text-center">

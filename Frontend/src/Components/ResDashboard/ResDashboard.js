@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "./ResDashboard.css";
 import AddFood from "./../AddFood/AddFood.js";
 import ShowRestaurant from "./ShowRestaurant.js";
 
 const ResDashboard = () => {
+  const params = useParams();
+  var resId = params.id;
+
   const host = "http://localhost:5000";
 
   const token = localStorage.getItem("token");
@@ -15,9 +18,9 @@ const ResDashboard = () => {
   return (
     <div className="main-page">
       <div className="flex relative">
-        <div className="w-1/6 text-gray-200 body-font bg-orange-400">
+        <div className="w-1/5 text-gray-200 body-font bg-orange-400">
           <div className="h-[40.5rem] flex flex-wrap sticky top-20">
-            <div className=" px-7  w-full overflow-hidden">
+            <div className=" px-7 w-full overflow-hidden">
               <div className="py-5">
                 <div className="my-3 text-xl font-bold px-4">Dashbord</div>
                 <div
@@ -25,7 +28,7 @@ const ResDashboard = () => {
                     activeStep === 1
                       ? "text-teal-500 bg-gray-100 rounded-sm hover:text-teal-600"
                       : " "
-                  } py-3 cursor-pointer hover:text-white font-bold px-4`}
+                  } py-3 cursor-pointer hover:text-white font-bold px-4 hover:text-teal-600`}
                   onClick={() => setActiveStep(1)}
                 >
                   Show Restaurant's details

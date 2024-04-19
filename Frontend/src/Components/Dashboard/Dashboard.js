@@ -33,15 +33,129 @@ function Dashboard() {
   };
 
   const userRestaurantPage = (resId) => {
-    navigate(`/dashboard/resDashboard/resId=${resId}`);
+    navigate(`/dashboard/resDashboard/${resId}`);
   };
 
   const updateRestaurantDetails = (resId) => {
-    navigate(`/addRestaurant/addForm/1?resId=${resId}`);
+    const selectedRestaurant = restaurant.find((res) => res._id === resId);
+
+    if (
+      selectedRestaurant?.isrespagecreated === "false" &&
+      selectedRestaurant?.isrespagecreated === "" &&
+      selectedRestaurant?.isdocverified === "false" &&
+      selectedRestaurant?.isdocverified === "" &&
+      selectedRestaurant?.isbankdetailsverified === "false" &&
+      selectedRestaurant?.isbankdetailsverified === ""
+    ) {
+      toast.error("Your verification is pending.", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      setTimeout(() => {
+        navigate(`/addRestaurant/addForm/1?${resId}`);
+      }, 2000);
+    } else {
+      toast.success("Your verification already done.", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   const registerDelivery = (resId) => {
-    navigate(`/addRestaurant/addForm/4?resId=${resId}`);
+    const selectedRestaurant = restaurant.find((res) => res._id === resId);
+
+    if (
+      selectedRestaurant?.isrespagecreated === "true" &&
+      selectedRestaurant?.isdocverified === "true" &&
+      selectedRestaurant?.isbankdetailsverified === "false" &&
+      selectedRestaurant?.isactivedelivery === "false" &&
+      selectedRestaurant?.isactivedelivery === ""
+    ) {
+      toast.error("Your activation of delivery pending.", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      setTimeout(() => {
+        navigate(`/addRestaurant/addForm/4?${resId}`);
+      }, 2000);
+    } else {
+      toast.error("Your partnership is pending", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
+
+  const addFood = (resId) => {
+    const selectedRestaurant = restaurant.find((res) => res._id === resId);
+
+    if (
+      selectedRestaurant?.isrespagecreated === "true" &&
+      selectedRestaurant?.isdocverified === "true" &&
+      selectedRestaurant?.isactivedelivery === "true" &&
+      selectedRestaurant?.ismenudigitisation === "true" &&
+      selectedRestaurant?.isbankdetailsverified === "true" &&
+      selectedRestaurant?.ispartnership === "true"
+    ) {
+      toast.error("Your verification is pending.", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      setTimeout(() => {
+        navigate(`/dashboard/resDashboard/${resId}`);
+      }, 2000);
+    } else {
+      toast.error("Your partnership is pending", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   useEffect(() => {
@@ -120,6 +234,7 @@ function Dashboard() {
             </p>
           </div>
         </div>
+
         {modalRestaurant && (
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
             <div className="bg-white rounded-lg lg:w-5/6 h-5/6 md:w-4/5 sm:w-3/5">
@@ -396,7 +511,9 @@ function Dashboard() {
                       <div className="img-first-content">
                         Create your restaurant page
                       </div>
-                      {res?.isdocverified ? (
+                      {res?.isdocverified === "true" &&
+                      res?.isbankdetailsverified === "true" &&
+                      res?.isrespagecreated === "true" ? (
                         <div className="img-second-content text-green">
                           verifcation done
                         </div>
@@ -423,9 +540,17 @@ function Dashboard() {
                       <div className="img-first-content">
                         Register for online ordering
                       </div>
-                      <div className="img-second-content">
-                        Information Incomplete
-                      </div>
+                      {res?.isactivedelivery === "true" &&
+                      res?.ismenudigitisation === "true" &&
+                      res?.isbankdetailsverified === "true" ? (
+                        <div className="img-second-content text-green">
+                          Information complete
+                        </div>
+                      ) : (
+                        <div className="img-second1-content text-red">
+                          Information incomplete
+                        </div>
+                      )}
                       <button
                         className="track-button"
                         onClick={() => registerDelivery(res?._id)}
@@ -442,12 +567,28 @@ function Dashboard() {
                     />
                     <div className="p-4">
                       <div className="img-first-content">
-                        Add food on your Reastaurant page
+                        Add food on your page
                       </div>
-                      <div className="img-second-content">
-                        
-                      </div>
-                      <button className="track-button">Add Food</button>
+                      {res?.isdocverified === "true" &&
+                      res?.isdocverified === "true" &&
+                      res?.isactivedelivery === "true" &&
+                      res?.ismenudigitisation === "true" &&
+                      res?.isbankdetailsverified === "true" &&
+                      res?.ispartnership === "true" ? (
+                        <div className="img-second-content text-green">
+                          Partnership Done
+                        </div>
+                      ) : (
+                        <div className="img-second1-content text-red">
+                          Partnership Incomplete
+                        </div>
+                      )}
+                      <button
+                        className="track-button"
+                        onClick={() => addFood(res?._id)}
+                      >
+                        Add Food
+                      </button>
                     </div>
                   </div>
                 </div>

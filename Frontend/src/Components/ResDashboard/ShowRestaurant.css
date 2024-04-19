@@ -1,14 +1,27 @@
 /** @format */
+.main-show-page {
+    display: flex;
+    background: url("../../assets/Background/Bg_8.jpg");
+    background-size: 100%;
+    min-height: 89vh;
+    position: fixed;
+}
+
+.table-container {
+    height: 570px;
+    /* Set the height as per your requirement */
+    overflow-y: scroll;
+}
 
 .adminDaskbordcontainer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    padding: 50px;
+    padding: 40px;
     height: fit-content;
     min-height: 80vh;
-    background: #f6f9fc;
+    /* background: #f6f9fc; */
 }
 
 .adminDaskbordcontainer .box {
