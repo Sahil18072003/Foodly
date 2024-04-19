@@ -17,7 +17,19 @@ function Dashboard() {
   const [modalRestaurant, setModelRestaurant] = useState(false);
 
   const openModal = () => {
-    setModelRestaurant(true);
+    restaurant
+      ? setModelRestaurant(true)
+      : toast.error("You are not registered for the restaurant.", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
   };
 
   const closeModal1 = () => {
@@ -250,7 +262,7 @@ function Dashboard() {
                 </button>
               </div>
               <div className="sm:col-span-3 rounded-lg justify-center p-6">
-                <div className="text-gray-600 body-font overflow-y-scroll block">
+                <section className="text-gray-600 body-font overflow-y-scroll block max-h-[470px]">
                   <div className="flex flex-wrap container">
                     {restaurant &&
                       restaurant
@@ -266,8 +278,7 @@ function Dashboard() {
                         .map((res, index) => (
                           <div
                             key={index}
-                            className="px-8 py-3 w-full md:w-1/2 lg:w-1/2"
-                            onClick={() => userRestaurantPage(res?._id)}
+                            className="px-16 py-3 w-full md:w-1/2 lg:w-1/2 flex flex-col justify-between"
                           >
                             <div className="bg-orange-100 border-2 border-orange-400 hover:border-orange-400 hover:scale-105 border shadow-xl bg-opacity-75 rounded-lg overflow-hidden text-center relative">
                               <div className="img-container">
@@ -297,11 +308,24 @@ function Dashboard() {
                                     : res?.restypes}
                                 </p>
                               </div>
+                              <div className="flex justify-center items-end w-full">
+                                <button
+                                  className="flex text-black font-medium btn-txt bg-orange-400 border-0 mb-6 px-10 py-2 focus:outline-none hover:bg-orange-500 rounded text-lg drop-shadow-xl"
+                                  onClick={() => userRestaurantPage(res?._id)}
+                                >
+                                  Show and Add food
+                                </button>
+                              </div>
                             </div>
                           </div>
                         ))}
+                    {restaurant.length === 0 && (
+                      <p className="text-gray-500 text-center w-full mt-6">
+                        No restaurants available
+                      </p>
+                    )}
                   </div>
-                </div>
+                </section>
               </div>
             </div>
           </div>
@@ -596,7 +620,9 @@ function Dashboard() {
             ))}
           </div>
         ) : (
-          <div>No restaurants available</div>
+          <p className="text-gray-700 text-center w-full my-4">
+            No restaurants available
+          </p>
         )}
       </div>
       <ToastContainer

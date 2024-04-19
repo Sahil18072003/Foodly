@@ -389,7 +389,6 @@ function AddForm1() {
         );
 
         const json = await response.json();
-        console.log(json);
 
         if (json) {
           localStorage.setItem("restaurant", JSON.stringify(json.restaurant));

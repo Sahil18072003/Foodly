@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const food = new mongoose.Schema(
   {
+    resId: {
+      type: String,
+      require: true,
+    },
     foodname: {
       type: String,
       require: true,
@@ -11,11 +15,11 @@ const food = new mongoose.Schema(
       require: true,
     },
     foodtype: {
-      type: String,
+      type: Array,
       require: true,
     },
     servicetype: {
-      type: Number,
+      type: Array,
       require: true,
     },
     foodprice: {

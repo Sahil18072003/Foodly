@@ -3,7 +3,7 @@
     display: flex;
     background: url("../../assets/Background/Bg_8.jpg");
     background-size: 100%;
-    min-height: 89vh;
+    min-height: 70vh;
     position: fixed;
 }
 

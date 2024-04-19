@@ -4,6 +4,7 @@ const Food = require("./../Models/Food-model");
 const addFood = async (req, res) => {
   try {
     const {
+      resId,
       foodname,
       foodcategory,
       foodtype,
@@ -14,6 +15,7 @@ const addFood = async (req, res) => {
     } = req.body;
 
     const foodData = await Food.create({
+      resId,
       foodname,
       foodcategory,
       foodtype,

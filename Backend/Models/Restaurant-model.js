@@ -176,20 +176,20 @@ const restaurantSchema = new mongoose.Schema(
     },
     isactivedelivery: {
       type: String,
-      // default: false,
     },
     ismenudigitisation: {
       type: String,
-      // default: false,
     },
     isbankdetailsverified: {
       type: String,
-      // default: false,
     },
     ispartnership: {
       type: String,
-      // default: false,
     },
+    isformsubmitted: {
+      type: Boolean,
+      default: false,
+    }
   },
   {
     timestamps: true,

@@ -156,6 +156,7 @@ function AddForm7() {
           },
           body: JSON.stringify({
             _id: restaurant?._id,
+            isformsubmitted: true,
           }),
         }
       );
@@ -181,6 +182,7 @@ function AddForm7() {
         });
 
         setTimeout(() => {
+          localStorage.clearitem("restaurant");
           openModal();
         }, 2000);
       } else {
@@ -303,7 +305,15 @@ function AddForm7() {
                     <td className="border border-gray-900 px-4 py-2">
                       Commission charges Foodly logistics
                     </td>
-                    <td className="border border-gray-900 px-4 py-2">10%</td>
+                    {restaurant?.partnershipplan === "Premium" ? (
+                      <td className="border border-gray-900 px-4 py-2">
+                        10% + 2%
+                      </td>
+                    ) : (
+                      <td className="border border-gray-900 px-4 py-2">
+                        10% + 0%
+                      </td>
+                    )}
                   </tr>
                   <tr className="w-3/5">
                     <td className="border border-gray-900 px-4 py-2">
@@ -389,7 +399,7 @@ function AddForm7() {
                   <button className="md:ml-8 text-md font-semibold md:my-0 bg-orange-400 hover:bg-orange-500 px-10 py-2 rounded-md shadow-md hover:shadow-lg">
                     <Link
                       className="text-white-900 duration-500"
-                      to="/addRestaurant"
+                      to="/addRestaurant/addForm/6"
                     >
                       Back
                     </Link>

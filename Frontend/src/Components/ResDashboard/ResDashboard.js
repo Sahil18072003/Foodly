@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "./ResDashboard.css";
 import AddFood from "./../AddFood/AddFood.js";
 import ShowRestaurant from "./ShowRestaurant.js";
+import ShowFood from "./../ShowFood/ShowFood.js";
 
 const ResDashboard = () => {
   const params = useParams();
@@ -86,7 +87,7 @@ const ResDashboard = () => {
 
               {activeStep === 2 && <AddFood />}
 
-              {activeStep === 3}
+              {activeStep === 3 && <ShowFood />}
             </div>
           </div>
         </div>
