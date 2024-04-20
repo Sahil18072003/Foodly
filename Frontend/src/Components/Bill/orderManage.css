@@ -1,0 +1,83 @@
+/** @format */
+
+.orderManage {
+	display: flex;
+	width: 100%;
+	height: 100vh;
+	background: #f6f9fc;
+	padding: 50px 50px 0px 50px;
+	justify-content: center;
+}
+
+.ordersList {
+	display: flex;
+
+	width: 95%;
+	flex-wrap: wrap;
+	overflow-y: scroll;
+}
+
+.orderCard {
+	display: flex;
+	position: relative;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	padding: 30px;
+	background: #fff;
+	margin-bottom: 20px;
+	width: 100%;
+	height: fit-content;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+}
+
+.order-box {
+	width: 670px;
+	height: 200px;
+}
+
+.order-box-values {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-right: 100px;
+	margin: 5px 0;
+}
+
+.orderCard-address span {
+	margin-right: 10px;
+}
+
+.orderCard-address p {
+	width: 100%;
+	height: 50px;
+}
+
+.confirmationDialog {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	border: 1px solid #ccc;
+	padding: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	z-index: 9999;
+}
+
+.confirmButton {
+	border-radius: 10px;
+	background-color: #4caf50;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	margin-right: 10px;
+}
+
+.cancelButton {
+	border-radius: 10px;
+	background-color: #f44336;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+}

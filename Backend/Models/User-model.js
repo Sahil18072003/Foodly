@@ -23,10 +23,17 @@ const userSchema = new mongoose.Schema(
       type: String,
       // require: true,
     },
-    address: {
-      type: String,
-      // require: true,
-    },
+    address: [
+      {
+        city: String,
+        country: String,
+        fullAddress: String,
+        lendMarck: String,
+        phone: Number,
+        state: String,
+        zipcode: Number,
+      },
+    ],
     profileImage: {
       type: String,
     },

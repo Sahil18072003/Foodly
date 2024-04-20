@@ -13,6 +13,7 @@ import ForgotPassword from "./Components/User/ForgotPassword";
 import ConfirmOTP from "./Components/User/ConfirmOTP";
 import ChangePassword from "./Components/User/ChangePassword";
 import Navbar from "./Components/Navbar/Navbar";
+import Cart from "./Components/Cart/Cart";
 import Dashborad from "./Components/Dashboard/Dashboard";
 import UpdateProfile from "./Components/UpdateProfile/UpdateProfile";
 import RestaurantPage from "./Components/RestaurantPage/RestaurantPage";
@@ -28,6 +29,7 @@ import AddForm7 from "./Components/AddForm/AddForm7";
 import UpdateRestaurant from "./Components/UpdateRestaurant/UpdateRestaurant";
 import FindRestaurant from "./Components/FindRestaurant/FindRestaurant";
 import Admin from "./Components/Admin/Admin";
+import OrderManage from "./Components/Bill/OrderManage";
 import ContactUs from "./Components/ContactUs/ContactUs";
 import AboutUs from "./Components/AboutUs/AboutUs";
 import Policy from "./Components/Policy/Policy";
@@ -112,11 +114,31 @@ function App() {
           />
           <Route
             exact
+            path="/cart"
+            element={
+              <>
+                <Navbar />
+                <Cart />
+              </>
+            }
+          />
+          <Route
+            exact
             path="/changePassword"
             element={
               <>
                 <Navbar />
                 <ChangePassword />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/ordermanage"
+            element={
+              <>
+                <Navbar />
+                <OrderManage />
               </>
             }
           />

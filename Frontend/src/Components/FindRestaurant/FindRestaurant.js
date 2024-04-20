@@ -17,7 +17,6 @@ function FindRestaurant() {
   const navigate = useNavigate();
 
   const [restaurant, setRestaurant] = useState([]);
-  console.log(restaurant);
 
   useEffect(() => {
     document.title = "Dashboard | Find Restaurant";

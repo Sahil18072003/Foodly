@@ -109,6 +109,18 @@ const Navbar = () => {
                 })()}
               </span>
 
+              {/* <div className="dropdown relative ml-8 hover:border-blue-500">
+                <Link to="/cart">
+                  <img
+                    src={require(`./../../assets/Devlopers/User.png`)}
+                    alt="Default Profile"
+                    width={44}
+                    height={44}
+                    className="rounded-full"
+                  />
+                </Link>
+              </div> */}
+
               <div
                 className="dropdown relative ml-8 hover:border-blue-500"
                 onClick={handleMouseEnter}

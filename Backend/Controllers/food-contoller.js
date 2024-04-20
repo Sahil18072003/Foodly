@@ -35,6 +35,31 @@ const addFood = async (req, res) => {
   }
 };
 
+// Get Food data in update page
+const getOneFoodDetails = async (req, res) => {
+  const { foodId } = req.body;
+
+  try {
+    // Attempt to find a user record
+    const data = await Food.find({ _id: foodId });
+
+    // Check if data exists
+    if (data) {
+      // Send the data as a response
+      res.status(200).json({
+        status: "success",
+        data: { data} ,
+      });
+    } else {
+      // If no data found, send a custom error response
+      res.status(404).send("Food record not found");
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal Server error occured");
+  }
+};
+
 // Get User data in update page
 const getFoodDetails = async (req, res) => {
   const { resId } = req.body;
@@ -59,5 +84,6 @@ const getFoodDetails = async (req, res) => {
 
 module.exports = {
   addFood,
+  getOneFoodDetails,
   getFoodDetails,
 };

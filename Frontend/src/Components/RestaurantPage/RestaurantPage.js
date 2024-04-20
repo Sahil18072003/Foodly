@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Spinner from "./../Spinner/Spinner";
 import Slider from "react-slick";
 import "./RestaurantPage.css";
+import OderPage from "./../OrderPage/OderPage";
 
 function RestaurantPage() {
   const params = useParams();
@@ -28,14 +29,16 @@ function RestaurantPage() {
 
   const [itemsState, setItemsState] = useState({});
 
-  async function addToCart(_id) {
+  const [isPopupOpen, setPopupOpen] = useState(false);
+
+  const addToCart = async (_id) => {
     if (!user) {
       window.alert("Please Log in to your Account to Add This To Your Cart");
       return;
     }
     try {
       let itemToAdd = { _id };
-      let uid = user._id;
+      let uid = user?._id;
 
       const isProductInCart = itemsState[_id]?.inCart;
       console.log(isProductInCart);
@@ -54,7 +57,6 @@ function RestaurantPage() {
       });
 
       const responseData = await response.json();
-      console.log(responseData);
 
       setItemsState((prevState) => ({
         ...prevState,
@@ -68,7 +70,7 @@ function RestaurantPage() {
     } catch (error) {
       console.error("Error adding item to cart:", error);
     }
-  }
+  };
 
   useEffect(() => {
     getRestaurantDetails();
@@ -165,6 +167,14 @@ function RestaurantPage() {
   if (!restaurant) {
     return <Spinner />;
   }
+
+  const openPopup = () => {
+    setPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setPopupOpen(false);
+  };
 
   const getTitle = () => {
     switch (activeStep) {
@@ -327,20 +337,34 @@ function RestaurantPage() {
                                             </div>
                                           </div>
                                           <div className="flex flex-col gap-3">
-                                            <button
+                                            {/* <button
                                               onClick={() =>
                                                 addToCart(item?._id)
                                               }
                                               className="text-white font-semibold mx-5 px-4 py-2 rounded bg-green-500 hover:bg-green-600 drop-shadow-lg hover:drop-shadow-xl"
                                             >
                                               Add to Cart
-                                            </button>
+                                            </button> */}
+
                                             <button
-                                              // onClick={() => addToCart(item?._id)}
                                               className="text-white font-semibold mx-5 px-4 py-2 rounded bg-red-500 hover:bg-red-600 drop-shadow-lg hover:drop-shadow-xl"
+                                              onClick={openPopup}
                                             >
-                                              Remove from Cart
+                                              Order Now
                                             </button>
+                                            {isPopupOpen && (
+                                              <OderPage
+                                                onClose={closePopup}
+                                                cartItems={[
+                                                  {
+                                                    _id: item?._id,
+                                                    name: item?.foodname,
+                                                    price: item?.foodprice,
+                                                    quantity: 1,
+                                                  },
+                                                ]}
+                                              />
+                                            )}
                                           </div>
                                         </div>
                                       ))
@@ -355,7 +379,22 @@ function RestaurantPage() {
                           )}
                           {activeStep === 4 && (
                             <div className="putmap mb-5 ">
-                              <div></div>
+                              {Array.isArray(restaurant)
+                                ? restaurant.map((item, index) => (
+                                    <div
+                                      key={index}
+                                      className="flex flex-row items-center justify-between mb-4 bg-gray-100 hover:bg-orange-100 border-2 hover:border-orange-200 rounded-lg"
+                                    >
+                                      <div className="flex flex-row items-center">
+                                        <img
+                                          src={item?.menuimg}
+                                          className="w-36 h-36 rounded-lg m-5"
+                                          alt={`food-${index}`}
+                                        />
+                                      </div>
+                                    </div>
+                                  ))
+                                : ""}
                             </div>
                           )}
                           {activeStep === 5 && (

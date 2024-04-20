@@ -9,4 +9,6 @@ router
   .route("/getFoodDetails/:id")
   .post(verifyToken, foodController.getFoodDetails);
 
+router.route("/getOneFoodDetails/:id").post(foodController.getOneFoodDetails);
+
 module.exports = router;

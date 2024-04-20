@@ -362,7 +362,7 @@ const addToCart = async (req, res) => {
   try {
     const { uid, itemToAdd, inCart } = req.body;
 
-    const userExists = await UserFirebass.exists({ uid });
+    const userExists = await User.find({ _id: uid });
     if (!userExists) {
       return res
         .status(404)
@@ -373,7 +373,7 @@ const addToCart = async (req, res) => {
       ? { $pull: { cart: { _id: itemToAdd._id } } } // Remove item by matching _id
       : { $push: { cart: itemToAdd } }; // Add item
 
-    const result = await UserFirebass.updateOne({ uid: uid }, updateOperation);
+    const result = await User.updateOne({ _id: uid }, updateOperation);
 
     if (result.modifiedCount === 0) {
       return res
@@ -386,6 +386,32 @@ const addToCart = async (req, res) => {
   } catch (error) {
     console.error("Error processing add-to-cart request:", error);
     res.status(500).json({ isAddedInCart: false, message: "Server error" });
+  }
+};
+
+const getUserDataList = async (req, res, next) => {
+  const { uid, dataType } = req.query;
+
+  try {
+    const user = await User.findOne({ _id: uid });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    let arrayData;
+
+    if (dataType === "cart") {
+      arrayData = user.cart;
+    } else if (dataType === "favorites") {
+      arrayData = user.favorites;
+    }
+    // Add other data types as needed
+
+    res.status(200).json({ arrayData });
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -406,4 +432,5 @@ module.exports = {
   showComment,
   deleteOneComment,
   addToCart,
+  getUserDataList,
 };

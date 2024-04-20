@@ -29,4 +29,8 @@ router
 
 router.route("/add-to-cart").post(verifyToken, authController.addToCart);
 
+router
+  .route("/get-user-data-list")
+  .get(verifyToken, authController.getUserDataList);
+
 module.exports = router;
