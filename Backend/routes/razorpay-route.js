@@ -1,7 +1,7 @@
 /** @format */
 
 const express = require("express");
-const razorpayControll = require("./../Controllers/razorpayControll");
+const razorpayControll = require("../Controllers/razorpay-controller");
 
 const router = express.Router();
 

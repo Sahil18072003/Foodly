@@ -1,7 +1,7 @@
 /** @format */
 
-const Order = require("./../Models/Order-model");
-const APIFeatures = require("./../Controllers/apiFeatures");
+const Order = require("../Models/Order-model");
+const APIFeatures = require("./apiFeatures");
 // const catchAsync = require("./../utils/catchAsync");
 // const AppError = require("./../utils/appError");
 

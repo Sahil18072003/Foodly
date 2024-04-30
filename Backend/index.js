@@ -8,11 +8,10 @@ const userRoutes = require("./routes/user-route.js");
 const restaurantRoutes = require("./routes/restaurant-route.js");
 const foodRoutes = require("./routes/food-route.js");
 const adminRoutes = require("./routes/admin-route.js");
-const rozorpayRoute = require("./routes/razorpayRoutes.js");
-const orderRoutes = require("./routes/oderRoutes.js");
+const rozorpayRoute = require("./routes/razorpay-route.js");
+const orderRoutes = require("./routes/order-route.js");
 const cors = require("cors");
 const passport = require("passport");
-const { razorpayOder } = require("./Controllers/razorpayControll.js");
 
 const app = express();
 

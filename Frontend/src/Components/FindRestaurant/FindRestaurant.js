@@ -189,18 +189,20 @@ function FindRestaurant() {
                               <h2 className="text-md font-normal text-gray-600 mb-2">
                                 {res?.resadd}
                               </h2>
-                              {new Date().getHours() >=
-                                res?.[openingTimeKey].split(":")[0] &&
-                              new Date().getHours() <
-                                res?.[closingTimeKey].split(":")[0] ? (
-                                <p className="text-md font-normal text-red-600 mb-2">
-                                  Closes at {res?.[closingTimeKey]}
-                                </p>
-                              ) : (
-                                <p className="text-md font-normal text-green-600 mb-2">
-                                  Opens at {res?.[openingTimeKey]}
-                                </p>
-                              )}
+                              {res?.[openingTimeKey] &&
+                                res?.[closingTimeKey] &&
+                                (new Date().getHours() >=
+                                  res?.[openingTimeKey].split(":")[0] &&
+                                new Date().getHours() <
+                                  res?.[closingTimeKey].split(":")[0] ? (
+                                  <p className="text-md font-normal text-red-600 mb-2">
+                                    Closes at {res?.[closingTimeKey]}
+                                  </p>
+                                ) : (
+                                  <p className="text-md font-normal text-green-600 mb-2">
+                                    Opens at {res?.[openingTimeKey]}
+                                  </p>
+                                ))}
                             </div>
                           </div>
                         </div>
@@ -255,18 +257,20 @@ function FindRestaurant() {
                                 <h2 className="text-md font-normal text-gray-600 mb-2">
                                   {res?.resadd}
                                 </h2>
-                                {new Date().getHours() >=
-                                  res?.[openingTimeKey].split(":")[0] &&
-                                new Date().getHours() <
-                                  res?.[closingTimeKey].split(":")[0] ? (
-                                  <p className="text-md font-normal text-red-600 mb-2">
-                                    Closes at {res?.[closingTimeKey]}
-                                  </p>
-                                ) : (
-                                  <p className="text-md font-normal text-green-600 mb-2">
-                                    Opens at {res?.[openingTimeKey]}
-                                  </p>
-                                )}
+                                {res?.[openingTimeKey] &&
+                                  res?.[closingTimeKey] &&
+                                  (new Date().getHours() >=
+                                    res?.[openingTimeKey].split(":")[0] &&
+                                  new Date().getHours() <
+                                    res?.[closingTimeKey].split(":")[0] ? (
+                                    <p className="text-md font-normal text-red-600 mb-2">
+                                      Closes at {res?.[closingTimeKey]}
+                                    </p>
+                                  ) : (
+                                    <p className="text-md font-normal text-green-600 mb-2">
+                                      Opens at {res?.[openingTimeKey]}
+                                    </p>
+                                  ))}
                               </div>
                             </div>
                           </div>
